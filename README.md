@@ -1,13 +1,20 @@
-### TO RUN THE APP
+# COOKBOOK
+
+### View the real thing
+
+Want to see some delicious recipes? Navigate to **[the cookbook on Netlify](https://cookbook-keittokirja.netlify.app)**.
+
+### Run the app locally
 
 To run the app in development mode:
 `npm start`
 
 To run the app in production mode:
 `npm run build`
+&&
 `npx serve -s build`
 
-### ABOUT THE DESIGN
+### About the design
 
 - For styling the components **[@emotion/react](https://www.npmjs.com/package/@emotion/react)** was chosen. Styles are placed in the same files that they are used in.
 - Components have been made as small as possible / practical.
