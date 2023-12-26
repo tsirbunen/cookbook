@@ -1,6 +1,6 @@
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useCallback, useEffect, useState } from 'react'
 
-export const navBarWidth = 60
+export const navBarWidth = 70
 export const minPanelWidth = 250
 export const maxPanelWidth = 1000
 const appMinWidth = 375
@@ -22,38 +22,53 @@ export type WindowWidth = {
 
 export type ViewSize = {
   windowWidth: WindowWidth
+  windowHeight: number
   viewMode: ViewMode
   maxPanelsCount: number
+  isMobile: boolean
+  isTooSmallWindow: boolean
 }
 
 export const ViewSizeContext = createContext<ViewSize>({} as ViewSize)
 
 /**
  * Context provider holding data on window dimensions: the actual view width in pixels (plus
- * the previous view width), whether the window is narrow, medium or large in width, and
- * how many panels can be shown (with current window width) horizontally.
+ * the previous view width), window height, whether the window is mobile, narrow, medium or large,
+ * how many panels can be shown (with current window width) horizontally, or if the window is
+ * too small to viewed at all.
  */
 const ViewSizeContextProvider = ({ children }: { children: JSX.Element }) => {
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight)
   const [windowWidth, setWindowWidth] = useState<WindowWidth>(getInitialWidth(window))
   const [viewMode, setViewMode] = useState(getViewMode(window.innerWidth))
   const [maxPanelsCount, setMaxPanelsCount] = useState(getMaxPanelsCount(window.innerWidth))
 
-  useEffect(() => {
-    window.addEventListener('resize', onWindowResize)
-    return () => window.removeEventListener('resize', onWindowResize)
-  }, [])
-
-  const onWindowResize = () => {
+  const onWindowResize = useCallback(() => {
     const width = window.innerWidth
     setWindowWidth(({ previous, current }) => {
       return { previous: current, current: width }
     })
     setViewMode(getViewMode(width))
     setMaxPanelsCount(getMaxPanelsCount(width))
-  }
+
+    const height = window.innerHeight
+    if (height !== windowHeight) setWindowHeight(height)
+  }, [windowHeight])
+
+  useEffect(() => {
+    window.addEventListener('resize', onWindowResize)
+    return () => window.removeEventListener('resize', onWindowResize)
+    // Note: We only want to add the event listener once!
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const isMobile = viewMode === ViewMode.MOBILE
+  const isTooSmallWindow = maxPanelsCount === 0
 
   return (
-    <ViewSizeContext.Provider value={{ windowWidth, viewMode, maxPanelsCount }}>
+    <ViewSizeContext.Provider
+      value={{ windowWidth, viewMode, maxPanelsCount, windowHeight, isMobile, isTooSmallWindow }}
+    >
       {children}
     </ViewSizeContext.Provider>
   )

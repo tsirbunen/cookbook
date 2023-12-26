@@ -16,7 +16,13 @@ To run the app in production mode:
 
 ### About the design
 
-- For styling the components **[@emotion/react](https://www.npmjs.com/package/@emotion/react)** was chosen. Styles are placed in the same files that they are used in.
+- For styling the components, two different solutions were chosen: **[chakra ui](https://chakra-ui.com)** and **[@emotion/react](https://www.npmjs.com/package/@emotion/react)** (even though these did not seem to work too well together).
+- For icons, **[Tabler icons](https://react-icons.github.io/react-icons/icons/tb/)** wer chosen.
+- App colors were picked up from examples on **[Colors for designers](https://colorhunt.co/)**.
 - Components have been made as small as possible / practical.
 - Functions have been made as small as possible / practical.
 - Functions (that components use) have often been placed outside of the component so that it would be easier to see what the component actually does.
+- Styles are placed in the same files that they are used in (below component code, at the end of the file).
+
+![Alt text](image.png)
+![Alt text](image-1.png)

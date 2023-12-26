@@ -14,8 +14,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-    "jsxImportSource": "@emotion/react"
+    "jsx": "react-jsx"
+    // Below line is commented out to make a Chakra UI issue go away:
+    // https://github.com/chakra-ui/chakra-ui/issues/7526
+    // "jsxImportSource": "@emotion/react"
   },
   "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
