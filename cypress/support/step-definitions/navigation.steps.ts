@@ -5,9 +5,16 @@ import { ViewMode } from '../../../src/contexts/ViewSizeContext'
 
 const app = new App()
 
-Given('one has navigated to the COOKBOOK app url in {string} mode', (mode: string) => {
-  app.setViewMode(mode as ViewMode)
+Given('one has navigated to the COOKBOOK app', () => {
   app.navigateToCookbookApp()
+})
+
+Then('the welcome page is visible', () => {
+  app.verifyWelcomePageIsVisible()
+})
+
+Given('one has started using the app in {string} mode', (mode: string) => {
+  app.startUsingApp(mode as ViewMode)
 })
 
 When('one clicks the menu button to open the navigation drawer', (useMode: string) => {

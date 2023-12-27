@@ -4,23 +4,23 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
+    "noEmit": true,
+    "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    // "jsx": "react-jsx"
     "jsx": "preserve",
-    "incremental": true
-    // Below line is commented out to make a Chakra UI issue go away:
-    // https://github.com/chakra-ui/chakra-ui/issues/7526
-    // "jsxImportSource": "@emotion/react"
+    "incremental": true,
+    "typeRoots": ["node_modules/@types"],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

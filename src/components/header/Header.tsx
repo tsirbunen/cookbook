@@ -1,15 +1,15 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import NavigationDrawer from '../navigation/navigation-drawer/NavigationDrawer'
 import { ColorCodes } from '../../theme/theme'
 import MenuIconWithoutAction from './MenuIconWithoutAction'
+import NavigationDrawer from '../../navigation/navigation-drawer/NavigationDrawer'
+import { appTitle } from '../../../app/page'
 
 type HeaderProps = {
   isMobile: boolean
 }
 
-const appTitle = 'COOKBOOK'
 export const headerHeight = 50
 
 /**

@@ -37,7 +37,7 @@ export const ViewSizeContext = createContext<ViewSize>({} as ViewSize)
  * how many panels can be shown (with current window width) horizontally, or if the window is
  * too small to viewed at all.
  */
-const ViewSizeContextProvider = ({ children }: { children: JSX.Element }) => {
+const ViewSizeContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [windowHeight, setWindowHeight] = useState(window.innerHeight)
   const [windowWidth, setWindowWidth] = useState<WindowWidth>(getInitialWidth(window))
   const [viewMode, setViewMode] = useState(getViewMode(window.innerWidth))

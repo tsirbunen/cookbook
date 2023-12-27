@@ -4,9 +4,10 @@ import {
   drawerButtonDataCy,
   drawerDataCy,
   drawerTitle
-} from '../../src/components/navigation/navigation-drawer/NavigationDrawer'
-import { drawerItemDataCy } from '../../src/components/navigation/navigation-drawer/NavigationDrawerItem'
-import { navigationBarDataCy } from '../../src/components/navigation/navigation-bar/NavigationBarItem'
+} from '../../src/navigation/navigation-drawer/NavigationDrawer'
+import { drawerItemDataCy } from '../../src/navigation/navigation-drawer/NavigationDrawerItem'
+import { navigationBarDataCy } from '../../src/navigation/navigation-bar/NavigationBarItem'
+import { launchPageDataCy ,startButtonDataCy} from '../../app/page'
 
 const CLIENT = 'localhost'
 const CLIENT_BASE_URL = `http://${CLIENT}:3000`
@@ -22,6 +23,19 @@ export class App extends Base {
   navigateToCookbookApp() {
     cy.visit(CLIENT_BASE_URL)
   }
+
+  verifyWelcomePageIsVisible() {
+    this.verifyIsVisible(launchPageDataCy)
+  }
+
+  startUsingApp(mode: ViewMode) {
+    // cy.debug(mode)   
+    cy.getByDataCy(startButtonDataCy).click()
+    cy.wait(100)
+    this.setViewMode(mode)
+  }
+
+
 
   setViewMode(mode: ViewMode) {
     const [width, height] = viewPorts[mode]

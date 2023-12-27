@@ -2,9 +2,10 @@
 import { useContext } from 'react'
 import { css } from '@emotion/react'
 import Header from '../components/header/Header'
-import NavigationBar from '../components/navigation/navigation-bar/NavigationBar'
+
 import { ViewSizeContext } from '../contexts/ViewSizeContext'
-import ErrorPage from '../components/navigation/router/ErrorPage'
+import ErrorPage from '../navigation/router/ErrorPage'
+import NavigationBar from '../navigation/navigation-bar/NavigationBar'
 
 const tooSmallWIndowMessage = 'Too small window...'
 
