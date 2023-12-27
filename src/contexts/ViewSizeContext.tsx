@@ -46,7 +46,8 @@ const ViewSizeContextProvider = ({ children }: { children: React.ReactNode }) =>
 
   const onWindowResize = useCallback(() => {
     const width = window.innerWidth
-    setWindowWidth(({ previous, current }) => {
+
+    setWindowWidth(({ previous: _, current }) => {
       return { previous: current, current: width }
     })
     setViewMode(getViewMode(width))

@@ -1,12 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import Panel from './Panel'
-import {
-  ViewSizeContext,
-  navBarWidth,
-  minPanelWidth,
-  maxPanelWidth,
-  WindowWidth
-} from '../contexts/ViewSizeContext'
+import { ViewSizeContext, navBarWidth, minPanelWidth, maxPanelWidth, WindowWidth } from '../contexts/ViewSizeContext'
 
 type AppLayoutProps = {
   hasNavBar: boolean
@@ -31,7 +25,8 @@ const AppContent = (props: AppLayoutProps) => {
   const [middlePanelWidth, setMiddlePanelWidth] = useState(initialWidths.middle)
 
   useEffect(() => {
-    let newLeftWidth, newMiddleWidth
+    let newLeftWidth = undefined
+    let newMiddleWidth = undefined
     const panelsCountHasChanged = count !== panelsCount
 
     const newWidths = calculateNewPanelWidths({
@@ -79,13 +74,13 @@ const AppContent = (props: AppLayoutProps) => {
 
     const middleWidthIsNotExplicitlySet = !Boolean(rightContent)
     if (middleWidthIsNotExplicitlySet) {
-      let middleWouldBeWidth = windowWidth.current - navBarWidth - widthLeft
+      const middleWouldBeWidth = windowWidth.current - navBarWidth - widthLeft
       const middleIsOk = panelWidthIsInRange(middleWouldBeWidth)
       return leftIsOk && middleIsOk
     }
 
     const middleIsOk = panelWidthIsInRange(widthMiddle)
-    let rightWouldBeWidth = windowWidth.current - navBarWidth - widthLeft - widthMiddle
+    const rightWouldBeWidth = windowWidth.current - navBarWidth - widthLeft - widthMiddle
     const rightIsOk = panelWidthIsInRange(rightWouldBeWidth)
     return leftIsOk && middleIsOk && rightIsOk
   }
@@ -99,10 +94,7 @@ const AppContent = (props: AppLayoutProps) => {
 
   const getRightPanelWidth = (panels: number) => {
     if (panels < 3) return 0
-    return Math.min(
-      windowWidth.current - navBarWidth - leftPanelWidth - middlePanelWidth,
-      maxPanelWidth
-    )
+    return Math.min(windowWidth.current - navBarWidth - leftPanelWidth - middlePanelWidth, maxPanelWidth)
   }
 
   const showLeftResizeElement = Boolean(middleContent)
@@ -110,10 +102,7 @@ const AppContent = (props: AppLayoutProps) => {
 
   return (
     <>
-      <Panel
-        width={leftPanelWidth}
-        onResize={showLeftResizeElement ? onResizeLeftPanel : undefined}
-      >
+      <Panel width={leftPanelWidth} onResize={showLeftResizeElement ? onResizeLeftPanel : undefined}>
         {leftContent}
       </Panel>
 
@@ -138,9 +127,7 @@ const getPanelsCount = (panels: Array<JSX.Element | undefined>) => {
 }
 
 const getEvenPanelWidths = (windowWidth: number, panelsCount: number, hasNavBar: boolean) => {
-  const singlePanelWidth = hasNavBar
-    ? Math.min((windowWidth - navBarWidth) / panelsCount, maxPanelWidth)
-    : windowWidth
+  const singlePanelWidth = hasNavBar ? Math.min((windowWidth - navBarWidth) / panelsCount, maxPanelWidth) : windowWidth
 
   return {
     left: singlePanelWidth,
@@ -173,7 +160,7 @@ const calculateNewPanelWidths = (params: PanelCalculationParams) => {
 const calculateAdjustedNewPanelWidths = (params: CorePanelCalculationParams) => {
   const { windowWidth, newPanelsCount, currentWidths } = params
   let changeToAllocate = windowWidth.current - windowWidth.previous
-  let sign = changeToAllocate > 0 ? 1 : -1
+  const sign = changeToAllocate > 0 ? 1 : -1
   const widthsIncrease = changeToAllocate > 0
   let { left, middle, right } = currentWidths
 
@@ -187,9 +174,7 @@ const calculateAdjustedNewPanelWidths = (params: CorePanelCalculationParams) => 
 
     const leftChange = sign * getSmallerAbsoluteValue(leftMaxChange, changePerPanel)
     const middleChange = sign * getSmallerAbsoluteValue(middleMaxChange, changePerPanel)
-    const rightChange = includeRight
-      ? sign * getSmallerAbsoluteValue(rightMaxChange, changePerPanel)
-      : 0
+    const rightChange = includeRight ? sign * getSmallerAbsoluteValue(rightMaxChange, changePerPanel) : 0
 
     changeToAllocate -= leftChange + middleChange + rightChange
     left += leftChange

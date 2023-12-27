@@ -1,11 +1,12 @@
 import { Text, Flex, Divider } from '@chakra-ui/react'
 import { ColorCodes } from '../../theme/theme'
+import { IconType } from 'react-icons'
 
 export const drawerItemDataCy = 'drawer-menu-item'
 
 type DrawerNavigationMenuItemProps = {
   content: string
-  iconElement: any
+  iconElement: IconType
   showDividerBelow: boolean
   onClick: () => void
 }
