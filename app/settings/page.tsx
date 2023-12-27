@@ -1,8 +1,15 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import LoadingPage from '../../src/components/loading/LoadingPage'
-import ViewSizeContextProvider from '../../src/contexts/ViewSizeContext'
-import SettingsPage from '../../src/pages/SettingsPage'
+
+const SettingsPage = dynamic(() => import('../../src/app-pages/SettingsPage'), {
+  ssr: false
+})
+
+const ViewSizeContextProvider = dynamic(() => import('../../src/contexts/ViewSizeContext'), {
+  ssr: false
+})
 
 export default function Settings() {
   if (typeof window === undefined) {

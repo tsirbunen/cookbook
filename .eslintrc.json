@@ -4,6 +4,7 @@
 {
   "plugins": ["@typescript-eslint"],
   "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended", "prettier", "next"],
+  // "extends": ["prettier", "next"],
   "rules": {
     "prefer-const": "error",
     "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],

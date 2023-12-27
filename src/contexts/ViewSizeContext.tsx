@@ -1,3 +1,4 @@
+'use client'
 import { createContext, useCallback, useEffect, useState } from 'react'
 
 export const navBarWidth = 70

@@ -13,6 +13,8 @@ To run the app in development mode:
 
 `npm run cypress:open` or `npm run cypress:run`
 
+Note: If the tests fail, it might be that the waiting time is not long enough for the dynamic components to catch up (so increase that).
+
 ### About the design
 
 - For styling the components, two different solutions were chosen: **[chakra ui](https://chakra-ui.com)** and **[@emotion/react](https://www.npmjs.com/package/@emotion/react)** (even though these did not seem to work too well together).

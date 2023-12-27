@@ -1,13 +1,9 @@
 import { Base } from './base'
 import { ViewMode } from '../../src/contexts/ViewSizeContext'
-import {
-  drawerButtonDataCy,
-  drawerDataCy,
-  drawerTitle
-} from '../../src/navigation/navigation-drawer/NavigationDrawer'
+import { drawerButtonDataCy, drawerDataCy, drawerTitle } from '../../src/navigation/navigation-drawer/NavigationDrawer'
 import { drawerItemDataCy } from '../../src/navigation/navigation-drawer/NavigationDrawerItem'
 import { navigationBarDataCy } from '../../src/navigation/navigation-bar/NavigationBarItem'
-import { launchPageDataCy ,startButtonDataCy} from '../../app/page'
+import { launchPageDataCy, startButtonDataCy } from '../../app/page'
 
 const CLIENT = 'localhost'
 const CLIENT_BASE_URL = `http://${CLIENT}:3000`
@@ -29,13 +25,11 @@ export class App extends Base {
   }
 
   startUsingApp(mode: ViewMode) {
-    // cy.debug(mode)   
     cy.getByDataCy(startButtonDataCy).click()
-    cy.wait(100)
+    // Note: We must wait for the dynamically loaded items to catch up!
+    cy.wait(350)
     this.setViewMode(mode)
   }
-
-
 
   setViewMode(mode: ViewMode) {
     const [width, height] = viewPorts[mode]

@@ -1,8 +1,15 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import LoadingPage from '../../src/components/loading/LoadingPage'
-import ViewSizeContextProvider from '../../src/contexts/ViewSizeContext'
-import ShoppingPage from '../../src/pages/ShoppingPage'
+
+const ShoppingPage = dynamic(() => import('../../src/app-pages/ShoppingPage'), {
+  ssr: false
+})
+
+const ViewSizeContextProvider = dynamic(() => import('../../src/contexts/ViewSizeContext'), {
+  ssr: false
+})
 
 export default function Shopping() {
   if (typeof window === undefined) {

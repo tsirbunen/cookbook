@@ -1,8 +1,15 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import LoadingPage from '../../src/components/loading/LoadingPage'
-import ViewSizeContextProvider from '../../src/contexts/ViewSizeContext'
-import FavoritesPage from '../../src/pages/FavoritesPage'
+
+const FavoritesPage = dynamic(() => import('../../src/app-pages/FavoritesPage'), {
+  ssr: false
+})
+
+const ViewSizeContextProvider = dynamic(() => import('../../src/contexts/ViewSizeContext'), {
+  ssr: false
+})
 
 export default function Favorites() {
   if (typeof window === undefined) {

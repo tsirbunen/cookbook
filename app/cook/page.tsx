@@ -1,8 +1,15 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import LoadingPage from '../../src/components/loading/LoadingPage'
-import ViewSizeContextProvider from '../../src/contexts/ViewSizeContext'
-import CookPage from '../../src/pages/CookPage'
+
+const CookPage = dynamic(() => import('../../src/app-pages/CookPage'), {
+  ssr: false
+})
+
+const ViewSizeContextProvider = dynamic(() => import('../../src/contexts/ViewSizeContext'), {
+  ssr: false
+})
 
 export default function Cook() {
   if (typeof window === undefined) {

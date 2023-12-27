@@ -2,12 +2,12 @@ import React from 'react'
 import { IconType } from 'react-icons/lib'
 import { TbSettings, TbListDetails, TbBasket, TbWand, TbBook, TbHeart } from 'react-icons/tb'
 
-import RecipesPage from '../../pages/RecipesPage'
-import SettingsPage from '../../pages/SettingsPage'
-import ShoppingPage from '../../pages/ShoppingPage'
-import FavoritesPage from '../../pages/FavoritesPage'
-import WizardPage from '../../pages/WizardPage'
-import CookPage from '../../pages/CookPage'
+import RecipesPage from '../../app-pages/RecipesPage'
+import SettingsPage from '../../app-pages/SettingsPage'
+import ShoppingPage from '../../app-pages/ShoppingPage'
+import FavoritesPage from '../../app-pages/FavoritesPage'
+import WizardPage from '../../app-pages/WizardPage'
+import CookPage from '../../app-pages/CookPage'
 
 export enum Page {
   RECIPES = 'recipes',
