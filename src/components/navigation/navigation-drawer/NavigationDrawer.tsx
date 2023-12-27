@@ -14,7 +14,9 @@ import NavigationDrawerItem from './NavigationDrawerItem'
 import { useNavigate } from 'react-router-dom'
 import { navigationMenuItems } from '../router/router'
 
-const drawerTitle = 'CONTENTS'
+export const drawerTitle = 'CONTENTS'
+export const drawerButtonDataCy = 'drawer-menu-button'
+export const drawerDataCy = 'drawer-menu'
 
 /**
  * Menu icon button with onClick action to open a navigation drawer (from left).
@@ -33,10 +35,11 @@ const NavigationDrawer = () => {
         backgroundColor={ColorCodes.VERY_PALE}
         size="sm"
         margin="10px"
+        data-cy={drawerButtonDataCy}
       />
       <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
         <DrawerOverlay backgroundColor={ColorCodes.VERY_DARK} />
-        <DrawerContent style={{ backgroundColor: ColorCodes.BACKGROUND }}>
+        <DrawerContent style={{ backgroundColor: ColorCodes.BACKGROUND }} data-cy={drawerDataCy}>
           <DrawerCloseButton color={ColorCodes.DARK} />
           <DrawerHeader fontSize="1.2em" fontWeight="bold" color={ColorCodes.DARK}>
             {drawerTitle}

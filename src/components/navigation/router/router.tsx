@@ -1,3 +1,4 @@
+import React from 'react'
 import { IconType } from 'react-icons/lib'
 import { TbSettings, TbListDetails, TbBasket, TbWand, TbBook, TbHeart } from 'react-icons/tb'
 import { createBrowserRouter } from 'react-router-dom'

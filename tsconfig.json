@@ -14,7 +14,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    // "jsx": "react-jsx"
+    "jsx": "preserve",
+    "incremental": true
     // Below line is commented out to make a Chakra UI issue go away:
     // https://github.com/chakra-ui/chakra-ui/issues/7526
     // "jsxImportSource": "@emotion/react"

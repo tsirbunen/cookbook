@@ -1,11 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import AppLayout from '../../layout/AppLayout'
 import { css } from '@emotion/react'
+import { Page } from '../navigation/router/router'
 
 const CookPage = () => {
   return (
     <AppLayout>
-      <div css={container}>
+      <div css={container} data-cy={`${Page.COOK}-page`}>
         <div>COOKING</div>
         <p>Content coming later</p>
       </div>

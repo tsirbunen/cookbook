@@ -1,11 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import AppLayout from '../../layout/AppLayout'
 import { css } from '@emotion/react'
+import { Page } from '../navigation/router/router'
 
 const RecipesPage = () => {
   return (
     <AppLayout>
-      <div css={container}>
+      <div css={container} data-cy={`${Page.RECIPES}-page`}>
         <div>RECIPES</div>
         <p>Content coming later</p>
       </div>

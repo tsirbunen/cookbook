@@ -4,6 +4,8 @@ import { ColorCodes } from '../../../theme/theme'
 import { css } from '@emotion/react'
 import { NavigationMenuItem } from '../router/router'
 
+export const navigationBarDataCy = 'navigation-bar-item'
+
 type NavigationBarItemProps = {
   menuItem: NavigationMenuItem
   currentPath: string
@@ -19,6 +21,7 @@ const NavigationBarItem = ({ menuItem, currentPath, navigateTo }: NavigationBarI
       key={menuItem.page}
       css={itemContainer(isSelected)}
       onClick={() => navigateTo(menuItem.path)}
+      data-cy={navigationBarDataCy}
     >
       <div css={iconContainer}>
         <IconElement fontSize="1.75em" />

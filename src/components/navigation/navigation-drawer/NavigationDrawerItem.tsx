@@ -1,6 +1,8 @@
 import { Text, Flex, Divider } from '@chakra-ui/react'
 import { ColorCodes } from '../../../theme/theme'
 
+export const drawerItemDataCy = 'drawer-menu-item'
+
 type DrawerNavigationMenuItemProps = {
   content: string
   iconElement: any
@@ -19,10 +21,10 @@ const NavigationDrawerItem = ({
   const icon = <IconElement fontSize="1.75em" color={ColorCodes.DARK} />
 
   return (
-    <Flex flexDirection="column" marginBottom="10px">
+    <Flex flexDirection="column" marginBottom="10px" onClick={onClick} data-cy={drawerItemDataCy}>
       <Divider marginBottom="10px" borderColor={contentColor} borderWidth="1px" />
 
-      <Flex flexDirection="row" alignItems="center" onClick={onClick}>
+      <Flex flexDirection="row" alignItems="center">
         <Flex backgroundColor={ColorCodes.VERY_PALE} borderRadius="25px" padding="8px">
           {icon}
         </Flex>
