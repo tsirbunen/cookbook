@@ -5,3 +5,12 @@ export const pingQueryQuery = gql`
     pingQuery
   }
 `
+
+export const allRecipesQuery = gql`
+  query AllRecipes {
+    allRecipes {
+      id
+      title
+    }
+  }
+`

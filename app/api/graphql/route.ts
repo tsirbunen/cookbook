@@ -1,8 +1,8 @@
 import { createYoga } from 'graphql-yoga'
-import { makeSchema } from './graphql-server/make-schema'
+import { makeGraphQLSchema } from './graphql-server/graphql-schema/make-graphql-schema'
 
 const { handleRequest } = createYoga({
-  schema: makeSchema,
+  schema: makeGraphQLSchema,
   graphqlEndpoint: '/api/graphql',
   fetchAPI: { Response },
   cors: {

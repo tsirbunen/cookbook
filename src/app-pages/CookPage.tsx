@@ -4,6 +4,8 @@ import { css } from '@emotion/react'
 import { Page } from '../navigation/router/router'
 import { useContext } from 'react'
 import { RecipeServiceContext } from '../recipes-service/RecipeServiceProvider'
+import { useQuery } from '@apollo/client'
+import { allRecipesQuery } from '../recipes-service/graphql-queries'
 
 const CookPage = () => {
   const { pingStatus } = useContext(RecipeServiceContext)
@@ -13,6 +15,7 @@ const CookPage = () => {
       <div>COOKING</div>
       <p>Content coming later</p>
       <p>{`PING STATUS: ${pingStatus}`}</p>
+      <Testing />
     </div>
   )
 }
@@ -23,3 +26,14 @@ const container = css`
   margin-top: 30px;
   margin-left: 30px;
 `
+const Testing = () => {
+  const { loading, error, data } = useQuery(allRecipesQuery)
+
+  const allRecipesResult = loading ? 'loading...' : error ? 'ERROR' : data?.allRecipes?.length ?? 0
+
+  return (
+    <div>
+      <p>{allRecipesResult}</p>
+    </div>
+  )
+}
