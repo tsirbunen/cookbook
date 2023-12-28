@@ -6,7 +6,7 @@ const { handleRequest } = createYoga({
   graphqlEndpoint: '/api/graphql',
   fetchAPI: { Response },
   cors: {
-    origin: '*', // 'http://localhost:3000',
+    origin: process.env.NEXT_PUBLIC_ORIGIN,
     credentials: true,
     methods: ['POST', 'GET', 'OPTIONS']
   }
