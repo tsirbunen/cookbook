@@ -1,3 +1,5 @@
+'use client'
+
 import { ChakraProvider } from '@chakra-ui/provider'
 import { theme } from './theme'
 

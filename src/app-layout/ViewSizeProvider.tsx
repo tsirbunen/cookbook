@@ -5,6 +5,7 @@ export const navBarWidth = 70
 export const minPanelWidth = 250
 export const maxPanelWidth = 1000
 const appMinWidth = 375
+const appMinHeight = 650
 const mobileNarrowBreakpoint = 430
 const narrowMediumBreakpoint = navBarWidth + 2 * minPanelWidth
 const mediumLargeBreakpoint = narrowMediumBreakpoint + minPanelWidth
@@ -65,7 +66,7 @@ const ViewSizeContextProvider = ({ children }: { children: React.ReactNode }) =>
   }, [])
 
   const isMobile = viewMode === ViewMode.MOBILE
-  const isTooSmallWindow = maxPanelsCount === 0
+  const isTooSmallWindow = maxPanelsCount === 0 || windowHeight < appMinHeight
 
   return (
     <ViewSizeContext.Provider

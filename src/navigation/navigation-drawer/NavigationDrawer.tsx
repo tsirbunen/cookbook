@@ -56,7 +56,10 @@ const NavigationDrawer = () => {
                   iconElement={menuItem.iconElement}
                   content={menuItem.label}
                   showDividerBelow={index === navigationMenuItems.length - 1}
-                  onClick={() => router.push(menuItem.path)}
+                  onClick={() => {
+                    router.push(menuItem.path)
+                    onClose()
+                  }}
                   key={menuItem.page}
                 />
               )

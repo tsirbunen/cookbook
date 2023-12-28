@@ -1,5 +1,5 @@
 import { Base } from './base'
-import { ViewMode } from '../../src/contexts/ViewSizeContext'
+import { ViewMode } from '../../src/app-layout/ViewSizeProvider'
 import { drawerButtonDataCy, drawerDataCy, drawerTitle } from '../../src/navigation/navigation-drawer/NavigationDrawer'
 import { drawerItemDataCy } from '../../src/navigation/navigation-drawer/NavigationDrawerItem'
 import { navigationBarDataCy } from '../../src/navigation/navigation-bar/NavigationBarItem'

@@ -1,16 +1,19 @@
 /** @jsxImportSource @emotion/react */
+'use client'
 import { useContext } from 'react'
 import { css } from '@emotion/react'
 import Header from '../components/header/Header'
 
-import { ViewSizeContext } from '../contexts/ViewSizeContext'
+import { ViewSizeContext } from '../app-layout/ViewSizeProvider'
 import ErrorPage from '../navigation/router/ErrorPage'
 import NavigationBar from '../navigation/navigation-bar/NavigationBar'
+import { usePathname } from 'next/navigation'
 
 const tooSmallWIndowMessage = 'Too small window...'
+const root = '/'
 
 type AppLayoutProps = {
-  children: JSX.Element
+  children: JSX.Element | React.ReactNode
 }
 
 /**
@@ -21,9 +24,14 @@ type AppLayoutProps = {
  */
 const AppLayout = ({ children }: AppLayoutProps) => {
   const { isMobile, isTooSmallWindow } = useContext(ViewSizeContext)
+  const pathname = usePathname()
 
   if (isTooSmallWindow) {
     return <ErrorPage message={tooSmallWIndowMessage} />
+  }
+
+  if (pathname === root) {
+    return <div css={app}>{children}</div>
   }
 
   return (

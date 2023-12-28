@@ -3,7 +3,7 @@
 import { TbMenu2 } from 'react-icons/tb'
 import { ColorCodes } from '../../theme/theme'
 import { css } from '@emotion/react'
-import { navBarWidth } from '../../contexts/ViewSizeContext'
+import { navBarWidth } from '../../app-layout/ViewSizeProvider'
 
 const MenuIconWithoutAction = () => {
   return (

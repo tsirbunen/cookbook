@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import Panel from './Panel'
-import { ViewSizeContext, navBarWidth, minPanelWidth, maxPanelWidth, WindowWidth } from '../contexts/ViewSizeContext'
+import { ViewSizeContext, navBarWidth, minPanelWidth, maxPanelWidth, WindowWidth } from '../app-layout/ViewSizeProvider'
 
 type AppLayoutProps = {
   hasNavBar: boolean

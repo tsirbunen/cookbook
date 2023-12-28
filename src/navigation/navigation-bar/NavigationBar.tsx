@@ -6,7 +6,7 @@ import { useRouter, usePathname } from 'next/navigation'
 import { css } from '@emotion/react'
 import NavigationBarItem from './NavigationBarItem'
 import { navigationMenuItems } from '../router/router'
-import { navBarWidth, ViewSizeContext } from '../../contexts/ViewSizeContext'
+import { navBarWidth, ViewSizeContext } from '../../app-layout/ViewSizeProvider'
 import { ColorCodes } from '../../theme/theme'
 import { headerHeight } from '../../components/header/Header'
 

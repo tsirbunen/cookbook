@@ -2,16 +2,13 @@
 
 import { css } from '@emotion/react'
 import { Page } from '../navigation/router/router'
-import AppLayout from '../layout/AppLayout'
 
 const CookPage = () => {
   return (
-    <AppLayout>
-      <div css={container} data-cy={`${Page.COOK}-page`}>
-        <div>COOKING</div>
-        <p>Content coming later</p>
-      </div>
-    </AppLayout>
+    <div css={container} data-cy={`${Page.COOK}-page`}>
+      <div>COOKING</div>
+      <p>Content coming later</p>
+    </div>
   )
 }
 

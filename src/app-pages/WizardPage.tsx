@@ -1,16 +1,14 @@
 /** @jsxImportSource @emotion/react */
-import AppLayout from '../layout/AppLayout'
+
 import { css } from '@emotion/react'
 import { Page } from '../navigation/router/router'
 
 const WizardPage = () => {
   return (
-    <AppLayout>
-      <div css={container} data-cy={`${Page.WIZARD}-page`}>
-        <div>WIZARD</div>
-        <p>Content coming later</p>
-      </div>
-    </AppLayout>
+    <div css={container} data-cy={`${Page.WIZARD}-page`}>
+      <div>WIZARD</div>
+      <p>Content coming later</p>
+    </div>
   )
 }
 

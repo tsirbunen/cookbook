@@ -1,7 +1,7 @@
 import { When, Then, Given } from '@badeball/cypress-cucumber-preprocessor'
 
 import { App } from '../../components/app'
-import { ViewMode } from '../../../src/contexts/ViewSizeContext'
+import { ViewMode } from '../../../src/app-layout/ViewSizeProvider'
 
 const app = new App()
 
@@ -17,11 +17,11 @@ Given('one has started using the app in {string} mode', (mode: string) => {
   app.startUsingApp(mode as ViewMode)
 })
 
-When('one clicks the menu button to open the navigation drawer', (useMode: string) => {
+When('one clicks the menu button to open the navigation drawer', () => {
   app.openNavigationDrawer()
 })
 
-Then('the navigation drawer becomes visible', (targetPage: string) => {
+Then('the navigation drawer becomes visible', () => {
   app.navigationDrawerIsOpen()
 })
 

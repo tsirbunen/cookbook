@@ -1,5 +1,5 @@
 'use client'
-import { Flex, Text, Center, Button } from '@chakra-ui/react'
+import { Flex, Text, Button } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import { ColorCodes } from '../src/theme/theme'
 
@@ -18,7 +18,7 @@ export default function Home() {
   const router = useRouter()
 
   return (
-    <Center marginTop="50px" data-cy={launchPageDataCy}>
+    <Flex marginTop="50px" data-cy={launchPageDataCy} width="100%">
       <Flex flexDirection="column" justifyContent="center" alignItems="center" flex={1}>
         <Text fontSize="1.25em" color={ColorCodes.DARK} marginBottom="10px">
           {welcomeText}
@@ -31,7 +31,7 @@ export default function Home() {
           START
         </Button>
       </Flex>
-    </Center>
+    </Flex>
   )
 }
 

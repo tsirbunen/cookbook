@@ -2,7 +2,7 @@
 
 import { css } from '@emotion/react'
 import { NavigationMenuItem } from '../router/router'
-import { navBarWidth } from '../../contexts/ViewSizeContext'
+import { navBarWidth } from '../../app-layout/ViewSizeProvider'
 import { ColorCodes } from '../../theme/theme'
 
 export const navigationBarDataCy = 'navigation-bar-item'
