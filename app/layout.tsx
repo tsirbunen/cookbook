@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 import { Inter } from 'next/font/google'
 import LoadingPage from '../src/components/loading/LoadingPage'
+import { GraphQLClientProvider } from '../src/recipes-service/graphql-client'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,6 +23,10 @@ const AppLayout = dynamic(() => import('../src/app-layout/AppLayout'), {
   ssr: false
 })
 
+const RecipeServiceProvider = dynamic(() => import('../src/recipes-service/RecipeServiceProvider'), {
+  ssr: false
+})
+
 /**
  * This is a required top level element that enables modification of the initial HTML
  * returned from the server. The app components are wrapped with providers common to
@@ -37,7 +42,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={inter.className}>
         <ThemeProvider>
           <ViewSizeContextProvider>
-            <AppLayout>{children}</AppLayout>
+            <GraphQLClientProvider>
+              <RecipeServiceProvider>
+                <AppLayout>{children}</AppLayout>
+              </RecipeServiceProvider>
+            </GraphQLClientProvider>
           </ViewSizeContextProvider>
         </ThemeProvider>
       </body>
