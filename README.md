@@ -3,6 +3,7 @@
 ### View the real thing
 
 Want to see some delicious recipes? Navigate to the **[COOKBOOK on Vercel](https://cookbook-dusky.vercel.app)**.
+
 ![Vercel](https://vercelbadge.vercel.app/api/tsirbunen/cookbook?style=plastic)
 
 ### Run the app

@@ -7,7 +7,7 @@ import {
   NextSSRApolloClient
 } from '@apollo/experimental-nextjs-app-support/ssr'
 
-const URI = 'http://localhost:3000/api/graphql'
+const URI = process.env.NEXT_PUBLIC_API_URI
 
 // Note: This source was used to get the apollo client up and running:
 // https://github.com/apollographql/apollo-client-nextjs
