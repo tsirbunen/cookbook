@@ -4,6 +4,8 @@ COOKBOOK is a full-stack web application built with the **[ Next.js](https://nex
 
 ![Vercel](https://vercelbadge.vercel.app/api/tsirbunen/cookbook?style=plastic)
 
+![example workflow](https://github.com/github/docs/actions/workflows/running-tests.yml/badge.svg)
+
 #### DEMO
 
 Want to see some delicious recipes? Navigate to the **[COOKBOOK](https://cookbook-dusky.vercel.app)**.
