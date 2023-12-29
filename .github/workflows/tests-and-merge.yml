@@ -4,8 +4,8 @@ on:
     branches:
       - dev
 
-job: E2E Cypress testing
-  install:
+jobs:
+  e2e_cypress-testing:
     runs-on: ubuntu-latest
 
     services:
@@ -23,7 +23,7 @@ job: E2E Cypress testing
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-          
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -34,8 +34,8 @@ job: E2E Cypress testing
           browser: chrome
           build: npm build
           start: npm start
-          wait-on: "http://localhost:3000"
-        env: 
+          wait-on: 'http://localhost:3000'
+        env:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
           POSTGRES_USER: postgres
