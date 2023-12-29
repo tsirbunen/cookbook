@@ -26,11 +26,11 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Log progress
         run: echo STARTING THE CYPRESS TESTS
       - name: Run cypress tests
-        uses: cypress-io/github-action@v3
+        uses: cypress-io/github-action@v6
         with:
           project: ./site
           browser: chrome
