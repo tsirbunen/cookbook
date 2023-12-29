@@ -32,7 +32,7 @@ jobs:
       - name: Run cypress tests
         uses: cypress-io/github-action@v6
         with:
-          project: ./site
+          project: ./
           browser: chrome
           build: npm run build
           start: npm run start
