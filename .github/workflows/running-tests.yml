@@ -1,11 +1,8 @@
-name: Test and merge (if tests pass)
-on:
-  push:
-    branches:
-      - dev
+name: All tests
+on: push
 
 jobs:
-  e2e_cypress-testing:
+  e2e_cypress_testing:
     runs-on: ubuntu-latest
 
     services:
@@ -27,8 +24,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Log progress
-        run: echo STARTING THE CYPRESS TESTS
       - name: Run cypress tests
         uses: cypress-io/github-action@v6
         with:
