@@ -1,19 +1,35 @@
 # COOKBOOK
 
-### View the real thing
-
-Want to see some delicious recipes? Navigate to the **[COOKBOOK on Vercel](https://cookbook-dusky.vercel.app)**.
+COOKBOOK is a full-stack web application built with the **[ Next.js](https://nextjs.org/docs)** framework and hosted on **[Vercel](https://vercel.com/)**.
 
 ![Vercel](https://vercelbadge.vercel.app/api/tsirbunen/cookbook?style=plastic)
 
-### Run the app
+![example workflow](https://github.com/tsirbunen/cookbook/actions/workflows/running-tests.yml/badge.svg)
 
-To run the app in development mode:
+#### DEMO
+
+Want to see some delicious recipes? Navigate to the **[COOKBOOK](https://cookbook-dusky.vercel.app)**.
+
+#### RUN THE APP LOCALLY
+
+To run the app in development mode locally:
 **`npm run dev`**
 
-To lint, build and run the command:
+To lint, build and run locally:
 **`npm run lint && npm run build && npm run start`**
-and open **[http://localhost:3000](http://localhost:3000)** with your browser.
+
+In either case, open **[http://localhost:3000](http://localhost:3000)** with your browser.
+
+#### RUN TESTS
+
+**[Cucumber-like](https://www.npmjs.com/package/@badeball/cypress-cucumber-preprocessor)-experience [cypress testing](https://docs.cypress.io/guides/overview/why-cypress)** was selected as the main type of automated tests for the application. To trigger each feature file manually with live viewing, first start the application in one shell, then in another shell run
+
+**`npm run cypress:open`**
+
+To run all tests without viewing the progress, just run
+**`npm run cypress:run`**
+
+Note: If the tests fail, it might be that the waiting time is not long enough for the dynamic page components to catch up. In that case, increase the waiting time **[here](/cypress/components/app.ts)**.
 
 ### Server (local development)
 
@@ -25,16 +41,6 @@ The local development environment includes Supabase Studio, a graphical interfac
 `supabase migration up`
 
 To add a migration file, for example `supabase migration new create_table_RECIPES`
-
-### Run tests
-
-Trigger each feature file manually and view testing progress live
-**`npm run cypress:open`**
-
-or run tests only using command line
-**`npm run cypress:run`**
-
-Note: If the tests fail, it might be that the waiting time is not long enough for the dynamic page components to catch up. In that case, increase the waiting time **[here](/cypress/components/app.ts)**.
 
 ### About the design
 

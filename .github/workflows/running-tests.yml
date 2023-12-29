@@ -1,0 +1,43 @@
+name: All tests
+on: push
+
+jobs:
+  e2e_cypress_testing:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Run cypress tests
+        uses: cypress-io/github-action@v6
+        with:
+          project: ./
+          browser: chrome
+          build: npm run build
+          start: npm run start
+          wait-on: 'http://localhost:3000'
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+          NEXT_PUBLIC_API_URI: https://localhost:3000/api/graphql
+          NEXT_PUBLIC_ORIGIN: https://localhost:3000
+          DATABASE_CONNECTION_STRING: postgresql://postgres:postgres@localhost:5432/postgres
