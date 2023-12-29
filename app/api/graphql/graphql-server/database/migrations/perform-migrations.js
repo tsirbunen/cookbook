@@ -1,10 +1,10 @@
 import * as dotenv from 'dotenv'
 dotenv.config()
+
 import { drizzle } from 'drizzle-orm/postgres-js'
 import { migrate } from 'drizzle-orm/postgres-js/migrator'
 import postgres from 'postgres'
 
-console.log(process.env.NODE_ENV)
 const isProduction = process.env.NODE_ENV === 'production'
 
 const options = {
@@ -14,7 +14,6 @@ const options = {
   password: isProduction ? process.env.POSTGRES_PASSWORD : 'postgres',
   database: process.env.POSTGRES_DB ?? 'postgres'
 }
-console.log(options)
 
 const client = postgres('', { ...options, max: 1 })
 const database = drizzle(client)
