@@ -5,7 +5,7 @@ import { Page } from '../navigation/router/router'
 import { useContext } from 'react'
 import { RecipeServiceContext } from '../recipes-service/RecipeServiceProvider'
 import { useQuery } from '@apollo/client'
-import { allRecipesQuery } from '../recipes-service/graphql-queries'
+import { AllRecipesDocument, AllRecipesQuery, AllRecipesQueryVariables } from '../recipes-service/queries.generated'
 
 const CookPage = () => {
   const { pingStatus } = useContext(RecipeServiceContext)
@@ -27,9 +27,9 @@ const container = css`
   margin-left: 30px;
 `
 const Testing = () => {
-  const { loading, error, data } = useQuery(allRecipesQuery)
+  const { loading, error, data } = useQuery<AllRecipesQuery, AllRecipesQueryVariables>(AllRecipesDocument)
 
-  const allRecipesResult = loading ? 'loading...' : error ? 'ERROR' : data?.allRecipes?.length ?? 0
+  const allRecipesResult = loading ? 'loading...' : error ? 'ERROR' : data?.allRecipes.length ?? 0
 
   return (
     <div>

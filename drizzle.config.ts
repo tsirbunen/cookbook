@@ -6,7 +6,7 @@ import type { Config } from 'drizzle-kit'
 const isProduction = process.env.NODE_ENV === 'production'
 
 export default {
-  schema: './app/api/graphql/graphql-server/database/schemas/*',
+  schema: './app/api/graphql/graphql-server/database/database-schemas/*',
   out: './app/api/graphql/graphql-server/database/migrations',
   driver: 'pg',
   dbCredentials: {

@@ -10,6 +10,7 @@
     "start": "next start",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run  --reporter mochawesome",
+    "generate:types": "graphql-codegen --config graphql-codegen.yml",
     "lint": "next lint"
   },
   "dependencies": {
@@ -37,6 +38,11 @@
     "@badeball/cypress-cucumber-preprocessor": "^20.0.0",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
     "@cypress/browserify-preprocessor": "^3.0.2",
+    "@eddeee888/gcg-typescript-resolver-files": "^0.7.2",
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/typescript-operations": "^4.0.1",
+    "@graphql-codegen/near-operation-file-preset": "^3.0.0",
+    "@graphql-codegen/typescript-react-apollo": "^4.1.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

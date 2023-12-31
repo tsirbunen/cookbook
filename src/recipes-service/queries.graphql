@@ -1,0 +1,14 @@
+fragment RecipeEntity on Recipe {
+  id
+  title
+}
+
+query QueryPing {
+  pingQuery
+}
+
+query AllRecipes {
+  allRecipes {
+    ...RecipeEntity
+  }
+}

@@ -1,0 +1,25 @@
+# overwrite: true  #Would this overwrite resolvers? And what if it is not set to true?
+schema: ./app/api/graphql/graphql-server/modules/**/schema.graphql
+generates:
+  app/api/graphql/graphql-server/modules:
+    preset: '@eddeee888/gcg-typescript-resolver-files'
+    watchPattern: '**/*.mappers.ts'
+  src/types/graphql-schema-types.generated.ts:
+    plugins:
+      - typescript
+  ./src:
+    preset: near-operation-file
+    documents: ./src/**/*/queries.graphql
+    presetConfig:
+      extension: .generated.ts
+      baseTypesPath: types/graphql-schema-types.generated.ts
+    plugins:
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      maybeValue: T | null
+      withHOC: false
+      withHooks: false
+      withComponent: false
+      scalars:
+        Timestamp: number

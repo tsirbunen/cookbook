@@ -24,4 +24,4 @@ const performMigrations = async () => {
   await client.end()
 }
 
-performMigrations().then(() => console.log('Migrations complete!'))
+performMigrations().then(() => console.log('Migrations completed!'))
