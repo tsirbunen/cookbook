@@ -29,6 +29,9 @@ const NavigationBarItem = ({ menuItem, currentPath, navigateTo }: NavigationBarI
 
 export default NavigationBarItem
 
+const darkColor = ColorCodes.VERY_DARK
+const paleColor = ColorCodes.VERY_PALE
+
 const itemContainer = (isSelected: boolean) => css`
   margin-top: 5px;
   margin-bottom: 5px;
@@ -40,13 +43,13 @@ const itemContainer = (isSelected: boolean) => css`
   width: ${navBarWidth - 8}px;
   padding-top: 10px;
   padding-bottom: 10px;
-  background-color: ${isSelected ? ColorCodes.DARK : ColorCodes.VERY_PALE};
+  background-color: ${isSelected ? darkColor : paleColor};
   &:hover {
-    background-color: ${isSelected ? ColorCodes.DARK : ColorCodes.MEDIUM};
+    background-color: ${isSelected ? darkColor : ColorCodes.MEDIUM};
   }
-  color: ${isSelected ? ColorCodes.VERY_PALE : ColorCodes.DARK};
+  color: ${isSelected ? paleColor : darkColor};
   &:hover {
-    color: ${isSelected ? ColorCodes.VERY_PALE : ColorCodes.VERY_PALE};
+    color: ${isSelected ? paleColor : paleColor};
   }
 `
 

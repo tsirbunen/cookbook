@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 import { Inter } from 'next/font/google'
-import LoadingPage from '../src/components/loading/LoadingPage'
+import LoadingPage from '../src/components/loading-page/LoadingPage'
 import { GraphQLClientProvider } from '../src/graphql-client/graphql-client'
 
 const inter = Inter({ subsets: ['latin'] })

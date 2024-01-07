@@ -34,7 +34,7 @@ const NavigationDrawer = () => {
     <>
       <IconButton
         aria-label="Navigation-menu"
-        icon={<TbMenu2 fontSize="1.5em" color={ColorCodes.DARK} />}
+        icon={<TbMenu2 fontSize="1.5em" color={ColorCodes.VERY_DARK} strokeWidth="3" />}
         onClick={onOpen}
         backgroundColor={ColorCodes.VERY_PALE}
         size="sm"

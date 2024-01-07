@@ -1,5 +1,5 @@
-// import { extendBaseTheme } from '@chakra-ui/react'
 import { extendTheme } from '@chakra-ui/react'
+import { checkboxTheme } from './checkbox-theme'
 
 export enum ColorCodes {
   BACKGROUND = '#F3EEEA',
@@ -7,12 +7,11 @@ export enum ColorCodes {
   PALE = '#FAEED1',
   MEDIUM = '#B0A695',
   DARK = '#776B5D',
-  VERY_DARK = '#4F4A45', //'#191717
+  VERY_DARK = '#4F4A45',
   SUCCESS = '#65B741',
   ERROR = '#E36414'
 }
 
-// export const theme = extendBaseTheme({
 export const theme = extendTheme({
   styles: {
     global: {
@@ -39,6 +38,6 @@ export const theme = extendTheme({
     useSystemColorMode: false
   },
   components: {
-    // Divider: dividerTheme
+    Checkbox: checkboxTheme
   }
 })

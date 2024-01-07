@@ -45,7 +45,7 @@ const container = css`
   align-content: center;
   width: 100%;
   height: ${headerHeight}px;
-  background-color: ${ColorCodes.MEDIUM};
+  background-color: ${ColorCodes.VERY_DARK};
 `
 
 const titleContainer = css`

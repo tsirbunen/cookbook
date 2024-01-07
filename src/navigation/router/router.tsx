@@ -1,8 +1,8 @@
 import React from 'react'
 import { IconType } from 'react-icons/lib'
-import { TbSettings, TbListDetails, TbBasket, TbWand, TbBook, TbHeart } from 'react-icons/tb'
+import { TbSettings, TbListDetails, TbBasket, TbWand, TbBook, TbStar } from 'react-icons/tb'
 
-import RecipesPage from '../../app-pages/RecipesPage'
+import RecipesPage from '../../app-pages/recipes/RecipesPage'
 import SettingsPage from '../../app-pages/SettingsPage'
 import ShoppingPage from '../../app-pages/ShoppingPage'
 import FavoritesPage from '../../app-pages/FavoritesPage'
@@ -52,7 +52,7 @@ export const navigationMenuItems: NavigationMenuItem[] = [
   {
     page: Page.FAVORITES,
     label: 'favorites',
-    iconElement: TbHeart,
+    iconElement: TbStar,
     path: '/favorites',
     element: FavoritesPage
   },
