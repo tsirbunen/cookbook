@@ -2,6 +2,7 @@
 import { useContext } from 'react'
 import { ViewSizeContext } from '../app-layout/ViewSizeProvider'
 import AppContent from '../app-layout/AppContent'
+import { Page } from '../navigation/router/router'
 
 const FavoritesPage = () => {
   const { isMobile, maxPanelsCount } = useContext(ViewSizeContext)
@@ -12,7 +13,7 @@ const FavoritesPage = () => {
     <AppContent
       hasNavBar={!isMobile}
       leftContent={
-        <div style={{ backgroundColor: 'pink' }}>
+        <div style={{ backgroundColor: 'pink' }} data-cy={`${Page.FAVORITES}-page`}>
           <h1 style={{ fontSize: '24px', fontWeight: 'bold' }}>LEFT</h1> <div>content</div>
         </div>
       }
