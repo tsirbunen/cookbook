@@ -14,6 +14,37 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type Ingredient = {
+  __typename?: 'Ingredient';
+  amount?: Maybe<Scalars['Float']['output']>;
+  id: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  previousIngredientId?: Maybe<Scalars['Int']['output']>;
+  unit?: Maybe<Scalars['String']['output']>;
+};
+
+export type IngredientGroup = {
+  __typename?: 'IngredientGroup';
+  id: Scalars['Int']['output'];
+  ingredients: Array<Ingredient>;
+  title?: Maybe<Scalars['String']['output']>;
+};
+
+export type Instruction = {
+  __typename?: 'Instruction';
+  content: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  ingredientReferenceIds: Array<Maybe<Scalars['Int']['output']>>;
+  previousInstructionId?: Maybe<Scalars['Int']['output']>;
+};
+
+export type InstructionGroup = {
+  __typename?: 'InstructionGroup';
+  id: Scalars['Int']['output'];
+  instructions: Array<Instruction>;
+  title?: Maybe<Scalars['String']['output']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   pingMutation?: Maybe<Scalars['String']['output']>;
@@ -21,12 +52,21 @@ export type Mutation = {
 
 export type Query = {
   __typename?: 'Query';
-  allRecipes: Array<Maybe<Recipe>>;
+  allRecipes: Array<Recipe>;
   pingQuery?: Maybe<Scalars['String']['output']>;
 };
 
 export type Recipe = {
   __typename?: 'Recipe';
+  category?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  extraImageUrls: Array<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
+  ingredientGroups: Array<IngredientGroup>;
+  instructionGroups: Array<InstructionGroup>;
+  isFavorite: Scalars['Boolean']['output'];
+  mainImageUrl?: Maybe<Scalars['String']['output']>;
+  ovenNeeded: Scalars['Boolean']['output'];
+  tags: Array<Scalars['String']['output']>;
   title: Scalars['String']['output'];
 };

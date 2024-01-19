@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import { Page } from '../navigation/router/router'
+import { Page } from '../../navigation/router/router'
 
 const WizardPage = () => {
   return (

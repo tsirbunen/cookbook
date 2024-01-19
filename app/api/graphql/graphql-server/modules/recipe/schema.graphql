@@ -1,8 +1,44 @@
+type IngredientGroup {
+  id: Int!
+  title: String
+  ingredients: [Ingredient!]!
+}
+
+type Ingredient {
+  id: Int!
+  name: String!
+  amount: Float
+  unit: String
+  previousIngredientId: Int
+}
+
+type InstructionGroup {
+  id: Int!
+  title: String
+  instructions: [Instruction!]!
+}
+
+type Instruction {
+  id: Int!
+  content: String!
+  previousInstructionId: Int
+  ingredientReferenceIds: [Int]!
+}
+
 type Recipe {
   id: Int!
   title: String!
+  description: String
+  mainImageUrl: String
+  extraImageUrls: [String!]!
+  tags: [String!]!
+  isFavorite: Boolean!
+  category: String
+  ovenNeeded: Boolean!
+  ingredientGroups: [IngredientGroup!]!
+  instructionGroups: [InstructionGroup!]!
 }
 
 extend type Query {
-  allRecipes: [Recipe]!
+  allRecipes: [Recipe!]!
 }

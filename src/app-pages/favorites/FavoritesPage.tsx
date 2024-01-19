@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { useContext } from 'react'
-import { ViewSizeContext } from '../app-layout/ViewSizeProvider'
-import AppContent from '../app-layout/AppContent'
-import { Page } from '../navigation/router/router'
+import { ViewSizeContext } from '../../app-layout/ViewSizeProvider'
+import AppContent from '../../app-layout/AppContent'
+import { Page } from '../../navigation/router/router'
 
 const FavoritesPage = () => {
   const { isMobile, maxPanelsCount } = useContext(ViewSizeContext)

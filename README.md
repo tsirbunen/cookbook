@@ -7,6 +7,8 @@ COOKBOOK is a full-stack React Typescript web application built with the **[ Nex
 
 ### How to try it locally?
 
+First make sure you have Node version ^20.10.0.
+
 To run the application locally, first start a PostgreSQL database with Docker by running
 &nbsp;&nbsp;&nbsp;&nbsp; **`docker run --name postgres_for_cookbook \`**
 &nbsp;&nbsp;&nbsp;&nbsp; **`-p 5432:5432 -e POSTGRES_USER=postgres -e \`**
@@ -26,6 +28,8 @@ Then start the app in development mode with
 &nbsp;&nbsp;&nbsp;&nbsp; **`npm run dev`**
 
 And finally open **[http://localhost:3000](http://localhost:3000)** with your browser to start using the COOKBOOK locally.
+
+To run the app in **`DEBUG`** mode, select option "Full stack" in RUN AND DEBUG in Visual Studio Code.
 
 ### Tests
 

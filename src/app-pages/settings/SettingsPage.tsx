@@ -1,18 +1,17 @@
 /** @jsxImportSource @emotion/react */
-
 import { css } from '@emotion/react'
-import { Page } from '../navigation/router/router'
+import { Page } from '../../navigation/router/router'
 
-const ShoppingPage = () => {
+const SettingsPage = () => {
   return (
-    <div css={container} data-cy={`${Page.SHOPPING}-page`}>
-      <div>SHOPPING</div>
+    <div css={container} data-cy={`${Page.SETTINGS}-page`}>
+      <div>SETTINGS</div>
       <p>Content coming later</p>
     </div>
   )
 }
 
-export default ShoppingPage
+export default SettingsPage
 
 const container = css`
   margin-top: 30px;

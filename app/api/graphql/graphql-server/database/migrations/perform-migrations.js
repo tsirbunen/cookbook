@@ -19,9 +19,9 @@ const client = postgres('', { ...options, max: 1 })
 const database = drizzle(client)
 
 const performMigrations = async () => {
-  console.log('Start migrations...')
+  console.log(`\x1b[36mStart migrations...\x1b[0m`)
   await migrate(database, { migrationsFolder: 'app/api/graphql/graphql-server/database/migrations' })
   await client.end()
 }
 
-performMigrations().then(() => console.log('Migrations completed!'))
+performMigrations().then(() => console.log(`\x1b[36mMigrations completed!\x1b[0m`))

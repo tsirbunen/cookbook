@@ -1,9 +1,14 @@
 import { Checkbox } from '@chakra-ui/react'
 
-const CheckboxCustomized = () => {
+type CheckboxCustomizedProps = {
+  isChecked: boolean
+  onChange: () => void
+}
+
+const CheckboxCustomized = ({ isChecked, onChange }: CheckboxCustomizedProps) => {
   return (
     <div>
-      <Checkbox size="xl" onChange={() => console.log('changed')} />
+      <Checkbox isChecked={isChecked} onChange={onChange} size="xl" />
     </div>
   )
 }

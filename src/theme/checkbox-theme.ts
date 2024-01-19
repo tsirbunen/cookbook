@@ -8,13 +8,13 @@ const baseStyle = definePartsStyle({
     borderRadius: 25,
     width: '25px',
     height: '25px',
-    borderColor: '#B0A695',
-    backgroundColor: '#B0A695',
+    borderColor: '#4F4A45',
+    borderWidth: '3px',
     iconSize: 'xl',
     _checked: {
       color: '#EBE3D5',
-      backgroundColor: '#B0A695',
-      borderColor: '#B0A695',
+      backgroundColor: '#4F4A45',
+      borderColor: '#4F4A45',
       icon: CheckboxIcon
     },
     _focus: { outline: 'none' }

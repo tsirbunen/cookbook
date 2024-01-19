@@ -48,8 +48,8 @@ export default NavigationBar
 const outerContainer = (windowHeight: number) => css`
   width: ${navBarWidth}px;
   height: ${windowHeight - headerHeight}px;
-  background-color: ${ColorCodes.VERY_PALE};
-  border-right-color: ${ColorCodes.DARK};
+  background-color: ${ColorCodes.VERY_DARK};
+  border-right-color: ${ColorCodes.VERY_DARK};
 `
 
 const container = css`
@@ -57,7 +57,9 @@ const container = css`
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  width: ${navBarWidth - 1}px;
+  width: ${navBarWidth}px;
   height: 100%;
-  background-color: ${ColorCodes.VERY_PALE};
+  background-color: ${ColorCodes.VERY_DARK};
+  top: ${headerHeight}px;
+  position: fixed;
 `

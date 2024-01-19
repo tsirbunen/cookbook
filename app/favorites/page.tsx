@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic'
 
-const FavoritesPage = dynamic(() => import('../../src/app-pages/FavoritesPage'), {
+const FavoritesPage = dynamic(() => import('../../src/app-pages/favorites/FavoritesPage'), {
   ssr: false
 })
 

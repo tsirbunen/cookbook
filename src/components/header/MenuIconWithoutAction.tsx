@@ -23,7 +23,7 @@ const iconOuterContainer = css`
   align-content: center;
   justify-content: center;
   width: ${navBarWidth}px;
-  background-color: ${ColorCodes.VERY_PALE};
+  background-color: ${ColorCodes.VERY_DARK};
 `
 const iconInnerContainer = css`
   display: flex;
@@ -31,5 +31,5 @@ const iconInnerContainer = css`
   align-content: center;
   justify-content: center;
   font-size: 2.2em;
-  color: ${ColorCodes.DARK};
+  color: ${ColorCodes.VERY_PALE};
 `

@@ -3,11 +3,11 @@ import { IconType } from 'react-icons/lib'
 import { TbSettings, TbListDetails, TbBasket, TbWand, TbBook, TbStar } from 'react-icons/tb'
 
 import RecipesPage from '../../app-pages/recipes/RecipesPage'
-import SettingsPage from '../../app-pages/SettingsPage'
-import ShoppingPage from '../../app-pages/ShoppingPage'
-import FavoritesPage from '../../app-pages/FavoritesPage'
-import WizardPage from '../../app-pages/WizardPage'
-import CookPage from '../../app-pages/CookPage'
+import SettingsPage from '../../app-pages/settings/SettingsPage'
+import ShoppingPage from '../../app-pages/shopping/ShoppingPage'
+import FavoritesPage from '../../app-pages/favorites/FavoritesPage'
+import WizardPage from '../../app-pages/wizard/WizardPage'
+import CookPage from '../../app-pages/cook/CookPage'
 
 export enum Page {
   RECIPES = 'recipes',

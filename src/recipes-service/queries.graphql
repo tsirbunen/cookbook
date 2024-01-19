@@ -1,10 +1,50 @@
+fragment IngredientEntity on Ingredient {
+  id
+  name
+  amount
+  unit
+  previousIngredientId
+}
+
+fragment IngredientGroupEntity on IngredientGroup {
+  id
+  title
+  ingredients {
+    ...IngredientEntity
+  }
+}
+
+fragment InstructionEntity on Instruction {
+  id
+  content
+  previousInstructionId
+  ingredientReferenceIds
+}
+
+fragment InstructionGroupEntity on InstructionGroup {
+  id
+  title
+  instructions {
+    ...InstructionEntity
+  }
+}
+
 fragment RecipeEntity on Recipe {
   id
   title
-}
-
-query QueryPing {
-  pingQuery
+  description
+  mainImageUrl
+  extraImageUrls
+  tags
+  isFavorite
+  category
+  ovenNeeded
+  ingredientGroups {
+    ...IngredientGroupEntity
+  }
+  instructionGroups {
+    ...InstructionGroupEntity
+  }
 }
 
 query AllRecipes {

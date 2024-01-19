@@ -1,26 +1,26 @@
 /** @jsxImportSource @emotion/react */
 
-import { css } from '@emotion/react'
 import { ColorCodes } from '../../../theme/theme'
-import PickRecipe from '../../../components/checkbox/CheckboxCustomized'
+import CheckboxCustomized from '../../../components/checkbox/CheckboxCustomized'
+import { css } from '@emotion/react'
 
-const RecipeTitle = () => {
-  const isFavorite = Math.random() > 0.5
-  const title = isFavorite
-    ? 'Lemon pie with Swiss meringue topping'
-    : 'Really delicious Lemon pie with Swiss meringue topping'
+type PickedRecipeProps = {
+  title: string
+  onChange: () => void
+}
 
+const PickedRecipe = ({ title, onChange }: PickedRecipeProps) => {
   return (
     <div css={container}>
       <div css={pickerContainer}>
-        <PickRecipe />
+        <CheckboxCustomized isChecked={true} onChange={onChange} />
       </div>
       <div css={titleContainer}>{title}</div>
     </div>
   )
 }
 
-export default RecipeTitle
+export default PickedRecipe
 
 const container = css`
   display: flex;
@@ -28,7 +28,7 @@ const container = css`
   justify-content: start;
   align-items: center;
   margin-left: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 `
 
 const pickerContainer = css`

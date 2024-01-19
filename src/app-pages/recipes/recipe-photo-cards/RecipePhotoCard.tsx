@@ -4,25 +4,30 @@ import { css } from '@emotion/react'
 import Image from 'next/image'
 import { ColorCodes } from '../../../theme/theme'
 import falafel from '../../../assets/falafel.png'
-import CheckboxCustomized from '../../../components/checkbox/CheckboxCustomized'
 
-export const headerHeight = 50
-export const cardWidth = 175
 const cardHeight = 195
 const cardMargin = 10
 const borderRadius = 6
 const imageHeight = 150
-const badgeWidth = 30
+export const headerHeight = 50
+export const cardWidth = 175
 export const cardsViewMobileWidth = (cardWidth + cardMargin) * 2
 
-const RecipePhotoCard = () => {
-  const isFavorite = Math.random() > 0.5
-  const title = isFavorite
-    ? 'Lemon pie with Swiss meringue topping'
-    : 'Really delicious Lemon pie with Swiss meringue topping'
+export type RecipeForPhotoCardProps = {
+  id: number
+  title: string
+  onPickRecipeChanged: (recipeId: number, category: string) => void
+  isPicked: boolean
+  category: string
+  photoUrl?: string
+}
+
+const RecipePhotoCard = ({ id, title, onPickRecipeChanged, isPicked, photoUrl, category }: RecipeForPhotoCardProps) => {
+  console.log(photoUrl)
+
   return (
     <div css={outerContainer}>
-      <div css={container}>
+      <div css={container(isPicked)}>
         <Image
           src={falafel}
           alt={'Some image title'}
@@ -32,11 +37,9 @@ const RecipePhotoCard = () => {
             height: imageHeight,
             width: cardWidth
           }}
+          onClick={() => onPickRecipeChanged(id, category)}
         />
-        <div css={badge}>
-          <CheckboxCustomized />
-        </div>
-        <div css={titleContainer}>{title}</div>
+        <div css={titleContainer(isPicked)}>{title}</div>
       </div>
     </div>
   )
@@ -49,7 +52,7 @@ const outerContainer = css`
   height: ${cardHeight + cardMargin}px;
 `
 
-const container = css`
+const container = (isPicked: boolean) => css`
   width: ${cardWidth}px;
   height: ${cardHeight}px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -57,16 +60,17 @@ const container = css`
   margin-right: ${cardMargin / 2}px;
   margin-left: ${cardMargin / 2}px;
   margin-bottom: ${cardMargin}px;
-  background-color: white;
   position: relative;
+  background-color: ${isPicked ? ColorCodes.MEDIUM : 'transparent'};
 `
 
-const titleContainer = css`
-  color: ${ColorCodes.VERY_DARK};
+const titleContainer = (isPicked: boolean) => css`
+  color: ${isPicked ? ColorCodes.VERY_DARK : ColorCodes.VERY_DARK};
   font-weight: bold;
   font-size: 12px;
   height: ${cardHeight - imageHeight - 10}px;
-  margin-left: 10px;
+  margin-left: 8px;
+  margin-right: 8px;
   margin-top: 3px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -76,10 +80,4 @@ const titleContainer = css`
   &:hover {
     text-decoration: underline;
   }
-`
-
-const badge = css`
-  margin-top: ${-badgeWidth}px;
-  margin-left: ${cardWidth - badgeWidth - 2}px;
-  position: absolute;
 `

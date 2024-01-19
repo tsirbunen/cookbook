@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic'
 
-const SettingsPage = dynamic(() => import('../../src/app-pages/SettingsPage'), {
+const SettingsPage = dynamic(() => import('../../src/app-pages/settings/SettingsPage'), {
   ssr: false
 })
 
