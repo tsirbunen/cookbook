@@ -4,7 +4,7 @@ import { checkboxTheme } from './checkbox-theme'
 export enum ColorCodes {
   BACKGROUND = '#F3EEEA',
   VERY_PALE = '#EBE3D5',
-  PALE = '#FAEED1',
+  PALE = '#d6cbb8',
   MEDIUM = '#B0A695',
   DARK = '#776B5D',
   VERY_DARK = '#4F4A45',
@@ -21,7 +21,8 @@ export const theme = extendTheme({
         pale: ColorCodes.PALE,
         dark: ColorCodes.DARK,
         success: ColorCodes.SUCCESS,
-        error: ColorCodes.ERROR
+        error: ColorCodes.ERROR,
+        overscrollBehavior: 'none'
       }
     }
   },

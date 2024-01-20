@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic'
 
-const RecipesPage = dynamic(() => import('../../src/app-pages/recipes/RecipesPage'), {
+const RecipesPage = dynamic(() => import('../../src/app-pages/recipes/page/RecipesPage'), {
   ssr: false
 })
 

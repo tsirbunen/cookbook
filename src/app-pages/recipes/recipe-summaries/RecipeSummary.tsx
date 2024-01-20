@@ -74,6 +74,8 @@ const RecipeSummary = ({ recipe, onPickRecipeChanged, isPicked }: RecipeSummaryP
 
 export default RecipeSummary
 
+const border = `2px solid ${ColorCodes.DARK}`
+
 const container = (isPicked: boolean) => css`
   display: flex;
   flex: 1;
@@ -81,8 +83,9 @@ const container = (isPicked: boolean) => css`
   flex-direction: row;
   justify-content: start;
   margin-bottom: 15px;
-  background-color: ${isPicked ? ColorCodes.MEDIUM : 'transparent'};
+  background-color: ${isPicked ? ColorCodes.PALE : 'transparent'};
   border-radius: ${borderRadius}px;
+  /* border: ${isPicked ? border : 'none'}; */
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: ${borderRadius}px;
   position: relative;

@@ -5,6 +5,8 @@ import { ColorCodes } from '../../theme/theme'
 import MenuIconWithoutAction from './MenuIconWithoutAction'
 import NavigationDrawer from '../../navigation/navigation-drawer/NavigationDrawer'
 import { appTitle } from '../../../app/page'
+import { usePathname } from 'next/navigation'
+import { getRouteLabelByPath } from '../../navigation/router/router'
 
 type HeaderProps = {
   isMobile: boolean
@@ -13,16 +15,20 @@ type HeaderProps = {
 export const headerHeight = 50
 
 /**
- * The header is the topmost component of the app UI. It contains the app title and
- * a menu icon. If the use mode is mobile, then the menu icon can be clicked to open
- * a navigation drawer. Otherwise the menu icon is just an icon without action.
+ * The header is the topmost component of the app UI. It contains the app title,
+ * the current page label, and a menu icon. If the use mode is mobile, then
+ * the menu icon can be clicked to open a navigation drawer. Otherwise the menu icon
+ * is just an icon without action.
  */
 const Header = ({ isMobile }: HeaderProps) => {
+  const path = usePathname()
+  const label = getRouteLabelByPath(path)
+
   return (
     <div css={outerContainer}>
       <div css={container}>
         {isMobile ? <NavigationDrawer /> : <MenuIconWithoutAction />}
-        <div css={titleContainer}>{appTitle}</div>
+        <div css={titleContainer}>{`${appTitle} / ${label}`}</div>
       </div>
     </div>
   )

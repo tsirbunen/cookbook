@@ -1,6 +1,12 @@
-import { Button, Flex, Divider, Text } from '@chakra-ui/react'
-import { ViewRecipesMode } from '../RecipesPage'
+import { Flex, Divider, Text } from '@chakra-ui/react'
 import { ColorCodes } from '../../../theme/theme'
+import SelectModeButton from './SelectModeButton'
+
+export enum ViewRecipesMode {
+  PHOTOS = 'PHOTOS',
+  SUMMARIES = 'SUMMARIES',
+  TITLES = 'TITLES'
+}
 
 const viewModeLabels: Record<ViewRecipesMode, string> = {
   PHOTOS: 'PHOTOS',
@@ -11,18 +17,27 @@ const viewModeLabels: Record<ViewRecipesMode, string> = {
 type ViewModeManagerProps = {
   currentMode: ViewRecipesMode
   selectMode: (newMode: ViewRecipesMode) => void
+  isMobile: boolean
 }
 
 const title = 'View mode'
 
-const ViewModeManager = ({ currentMode, selectMode }: ViewModeManagerProps) => {
+const ViewModeManager = ({ currentMode, selectMode, isMobile }: ViewModeManagerProps) => {
+  const showTitle = !isMobile
+
   return (
-    <Flex flexDirection="column" alignItems="start" margin="10px 0px 0px 0px">
-      <Flex marginLeft="5px">
-        <Text fontWeight="bold" color={ColorCodes.VERY_DARK}>
-          {title}
-        </Text>
-      </Flex>
+    <Flex
+      flexDirection="column"
+      alignItems={isMobile ? 'center' : 'start'}
+      margin={`10px ${isMobile ? 0 : 20}px 0px 0px`}
+    >
+      {showTitle ? (
+        <Flex marginLeft="5px" marginBottom="8px">
+          <Text fontWeight="bold" color={ColorCodes.VERY_DARK}>
+            {title}
+          </Text>
+        </Flex>
+      ) : null}
 
       <Flex flexDirection="row" alignItems="center" margin="0px 10px 10px 5px">
         <SelectModeButton
@@ -51,43 +66,3 @@ const ViewModeManager = ({ currentMode, selectMode }: ViewModeManagerProps) => {
 }
 
 export default ViewModeManager
-
-type SelectButtonProps = {
-  label: string
-  isSelected: boolean
-  selectMode: () => void
-  roundBordersOnSide: 'left' | 'right' | 'none'
-}
-
-const borderRadius = '6px'
-
-const SelectModeButton = ({ label, isSelected, selectMode, roundBordersOnSide }: SelectButtonProps) => {
-  const backgroundColor = isSelected ? ColorCodes.VERY_DARK : ColorCodes.MEDIUM
-  const labelColor = isSelected ? ColorCodes.VERY_PALE : ColorCodes.DARK
-
-  const borderRadii = ['0px', '0px', '0px', '0px']
-  if (roundBordersOnSide === 'left') {
-    borderRadii[0] = borderRadius
-    borderRadii[3] = borderRadius
-  } else if (roundBordersOnSide === 'right') {
-    borderRadii[1] = borderRadius
-    borderRadii[2] = borderRadius
-  }
-
-  return (
-    <Button
-      onClick={() => selectMode()}
-      size="small"
-      backgroundColor={backgroundColor}
-      color={labelColor}
-      padding={'3px 8px 3px 8px'}
-      _hover={{
-        backgroundColor: isSelected ? backgroundColor : ColorCodes.DARK,
-        color: isSelected ? labelColor : ColorCodes.MEDIUM
-      }}
-      borderRadius={borderRadii.join(' ')}
-    >
-      {label}
-    </Button>
-  )
-}

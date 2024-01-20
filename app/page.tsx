@@ -8,6 +8,7 @@ export const startButtonDataCy = 'start-button'
 export const appTitle = 'COOKBOOK'
 const welcomeText = 'Welcome to'
 const startPage = '/recipes'
+const startText = 'START'
 
 /**
  * This is the content that will be shown when a user visits the app root.
@@ -28,7 +29,7 @@ export default function Home() {
         </Text>
 
         <Button {...buttonStyles} onClick={() => router.push(startPage)} data-cy={startButtonDataCy}>
-          START
+          {startText}
         </Button>
       </Flex>
     </Flex>

@@ -3,20 +3,10 @@
 import { css } from '@emotion/react'
 import RecipeSummary from './RecipeSummary'
 import { navBarWidth } from '../../../app-layout/ViewSizeProvider'
-import { Recipe } from '../../../types/graphql-schema-types.generated'
 import { noCategory } from '../../../recipes-service/useRecipeApi'
+import { RecipesViewElementProps } from '../page/RecipesContent'
 
-type RecipesSummariesViewProps = {
-  recipes: Recipe[]
-  onPickRecipeChanged: (recipeId: number, category: string) => void
-  pickedRecipeIdsByCategory: Record<string, number[]>
-}
-
-const RecipesSummariesView = ({
-  recipes,
-  onPickRecipeChanged,
-  pickedRecipeIdsByCategory
-}: RecipesSummariesViewProps) => {
+const RecipesSummariesView = ({ recipes, onPickRecipeChanged, pickedRecipeIdsByCategory }: RecipesViewElementProps) => {
   return (
     <div css={container}>
       {recipes.map((recipe) => {

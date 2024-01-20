@@ -2,7 +2,7 @@ import React from 'react'
 import { IconType } from 'react-icons/lib'
 import { TbSettings, TbListDetails, TbBasket, TbWand, TbBook, TbStar } from 'react-icons/tb'
 
-import RecipesPage from '../../app-pages/recipes/RecipesPage'
+import RecipesPage from '../../app-pages/recipes/page/RecipesPage'
 import SettingsPage from '../../app-pages/settings/SettingsPage'
 import ShoppingPage from '../../app-pages/shopping/ShoppingPage'
 import FavoritesPage from '../../app-pages/favorites/FavoritesPage'
@@ -16,6 +16,15 @@ export enum Page {
   FAVORITES = 'favorites',
   SETTINGS = 'settings',
   SHOPPING = 'shopping'
+}
+
+export const pagePaths: Record<Page, string> = {
+  [Page.RECIPES]: '/recipes',
+  [Page.COOK]: '/cook',
+  [Page.WIZARD]: '/wizard',
+  [Page.FAVORITES]: '/favorites',
+  [Page.SETTINGS]: '/settings',
+  [Page.SHOPPING]: '/shopping'
 }
 
 export type NavigationMenuItem = {
@@ -71,3 +80,7 @@ export const navigationMenuItems: NavigationMenuItem[] = [
     element: SettingsPage
   }
 ]
+
+export const getRouteLabelByPath = (path: string) => {
+  return navigationMenuItems.find((item) => item.path === path)?.label
+}

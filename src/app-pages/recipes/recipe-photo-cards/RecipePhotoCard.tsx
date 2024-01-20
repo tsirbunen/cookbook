@@ -52,16 +52,19 @@ const outerContainer = css`
   height: ${cardHeight + cardMargin}px;
 `
 
+const border = `2px solid ${ColorCodes.DARK}`
+
 const container = (isPicked: boolean) => css`
   width: ${cardWidth}px;
   height: ${cardHeight}px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: ${borderRadius}px;
+  /* border: ${isPicked ? border : 'none'}; */
   margin-right: ${cardMargin / 2}px;
   margin-left: ${cardMargin / 2}px;
   margin-bottom: ${cardMargin}px;
   position: relative;
-  background-color: ${isPicked ? ColorCodes.MEDIUM : 'transparent'};
+  background-color: ${isPicked ? ColorCodes.PALE : 'transparent'};
 `
 
 const titleContainer = (isPicked: boolean) => css`

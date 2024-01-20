@@ -1,20 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import { noCategory } from '../../../recipes-service/useRecipeApi'
-import { Recipe } from '../../../types/graphql-schema-types.generated'
+import { RecipesViewElementProps } from '../page/RecipesContent'
 import RecipeCard from './RecipePhotoCard'
 import { css } from '@emotion/react'
-
-type RecipesPhotoCardsViewProps = {
-  recipes: Recipe[]
-  onPickRecipeChanged: (recipeId: number, category: string) => void
-  pickedRecipeIdsByCategory: Record<string, number[]>
-}
 
 const RecipesPhotoCardsView = ({
   recipes,
   onPickRecipeChanged,
   pickedRecipeIdsByCategory
-}: RecipesPhotoCardsViewProps) => {
+}: RecipesViewElementProps) => {
   return (
     <div css={grid}>
       {recipes.map((recipe) => {

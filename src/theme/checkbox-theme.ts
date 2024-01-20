@@ -5,7 +5,7 @@ const { definePartsStyle, defineMultiStyleConfig } = createMultiStyleConfigHelpe
 
 const baseStyle = definePartsStyle({
   control: {
-    borderRadius: 25,
+    borderRadius: 6,
     width: '25px',
     height: '25px',
     borderColor: '#4F4A45',

@@ -1,16 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import RecipeTitle from './RecipeTitle'
-import { Recipe } from '../../../types/graphql-schema-types.generated'
 import { noCategory } from '../../../recipes-service/useRecipeApi'
+import { RecipesViewElementProps } from '../page/RecipesContent'
 
-type RecipesTitlesViewProps = {
-  recipes: Recipe[]
-  onPickRecipeChanged: (recipeId: number, category: string) => void
-  pickedRecipeIdsByCategory: Record<string, number[]>
-}
-
-const RecipesTitlesView = ({ recipes, onPickRecipeChanged, pickedRecipeIdsByCategory }: RecipesTitlesViewProps) => {
+const RecipesTitlesView = ({ recipes, onPickRecipeChanged, pickedRecipeIdsByCategory }: RecipesViewElementProps) => {
   return (
     <div css={container}>
       {recipes.map((recipe) => {

@@ -33,7 +33,7 @@ const container = (isPicked: boolean) => css`
   margin-left: 5px;
   margin-bottom: 2px;
   color: ${ColorCodes.VERY_DARK};
-  background-color: ${isPicked ? ColorCodes.MEDIUM : 'transparent'};
+  background-color: ${isPicked ? ColorCodes.PALE : 'transparent'};
   padding: 4px 6px;
   border-radius: 6px;
 `
