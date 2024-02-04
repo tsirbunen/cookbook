@@ -36,9 +36,9 @@ const NavigationDrawer = () => {
         aria-label="Navigation-menu"
         icon={<TbMenu2 fontSize="1.5em" color={ColorCodes.VERY_DARK} strokeWidth="3" />}
         onClick={onOpen}
-        backgroundColor={ColorCodes.VERY_PALE}
+        backgroundColor={ColorCodes.PALE}
         size="sm"
-        margin="10px"
+        margin="8px"
         data-cy={drawerButtonDataCy}
       />
       <Drawer isOpen={isOpen} placement="left" onClose={onClose}>

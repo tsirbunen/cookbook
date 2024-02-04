@@ -28,25 +28,10 @@ export default function Home() {
           {appTitle}
         </Text>
 
-        <Button {...buttonStyles} onClick={() => router.push(startPage)} data-cy={startButtonDataCy}>
+        <Button variant="mediumSizePale" onClick={() => router.push(startPage)} data-cy={startButtonDataCy}>
           {startText}
         </Button>
       </Flex>
     </Flex>
   )
-}
-
-const buttonStyles = {
-  size: 'sm',
-  variant: 'solid',
-  borderRadius: '4px',
-  paddingLeft: '5px',
-  paddingRight: '5px',
-  bg: ColorCodes.DARK,
-  color: ColorCodes.VERY_PALE,
-  _focus: { outline: 'none' },
-  _hover: {
-    bg: ColorCodes.VERY_PALE,
-    color: ColorCodes.DARK
-  }
 }

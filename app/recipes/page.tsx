@@ -2,10 +2,10 @@
 
 import dynamic from 'next/dynamic'
 
-const RecipesPage = dynamic(() => import('../../src/app-pages/recipes/page/RecipesPage'), {
+const RecipesViewingPage = dynamic(() => import('../../src/app-pages/recipes-viewing/page/RecipesViewingPage'), {
   ssr: false
 })
 
 export default function Recipes() {
-  return <RecipesPage />
+  return <RecipesViewingPage />
 }

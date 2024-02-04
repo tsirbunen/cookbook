@@ -1,8 +1,10 @@
 'use client'
 
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect } from 'react'
 import { Recipe } from '../types/graphql-schema-types.generated'
 import { RecipeFilters, useRecipeApi } from './useRecipeApi'
+import { AppStateContext, AppStateContextType } from '../state/StateContextProvider'
+import { Dispatch } from '../state/reducer'
 
 export type RecipeCategory = {
   category: string
@@ -10,35 +12,29 @@ export type RecipeCategory = {
 }
 
 export type RecipeService = {
-  recipes: Recipe[]
-  filteredRecipesInCategories: RecipeCategory[]
   filterRecipes: (filters: RecipeFilters) => Promise<void>
-  pickedRecipeIds: number[]
-  pickedRecipeIdsByCategory: Record<string, number[]>
-  updatePickedRecipeIds: (recipeId: number) => void
-  updatePickedRecipes: (recipeId: number, category: string) => void
 }
 
 export const RecipeServiceContext = createContext<RecipeService>({} as RecipeService)
 
 /**
- * The RecipeServiceProvider provides the recipes for the whole app.
- * It holds the state of recipes, picked recipe ids, etc.
+ * This provider is responsible for performing all communication with the api through
+ * the useRecipeApi hook. When the app loads, this provider orchestrates fetching recipes
+ * from the api (using the hook) and stores the recipes to state. Later, if, for example,
+ * some filters are applied or a new recipe is created or an old recipe is updated,
+ * this provider orchestrates the necessary actions.
+ * Note: This provider does not store data.App state provider is for that purpose.
  */
 const RecipeServiceProvider = ({ children }: { children: React.ReactNode }) => {
-  const [recipes, setRecipes] = useState<Recipe[]>([])
-  const [filteredRecipesInCategories, setFilteredRecipesInCategories] = useState<RecipeCategory[]>([])
-  const [pickedRecipeIds, setPickedRecipeIds] = useState<number[]>([])
-  const [pickedRecipeIdsByCategory, setPickedRecipeIdsByCategory] = useState<Record<string, number[]>>({})
-  const { getAllRecipes, getFilteredCategorizedRecipes } = useRecipeApi()
+  const { dispatch } = useContext(AppStateContext) as AppStateContextType
+
+  const { getFilteredCategorizedRecipes } = useRecipeApi()
 
   useEffect(() => {
     if (window !== undefined) {
       const getRecipes = async () => {
-        const allRecipes = await getAllRecipes()
-        if (allRecipes) setRecipes(allRecipes)
-        const filteredRecipes = await getFilteredCategorizedRecipes({})
-        setFilteredRecipesInCategories(filteredRecipes)
+        const filteredRecipes = await getFilteredCategorizedRecipes()
+        dispatch({ type: Dispatch.SET_RECIPES_AND_FILTERS, payload: { recipes: filteredRecipes, filters: {} } })
       }
 
       getRecipes()
@@ -47,40 +43,13 @@ const RecipeServiceProvider = ({ children }: { children: React.ReactNode }) => {
 
   const filterRecipes = async (filters: RecipeFilters) => {
     const filteredRecipes = await getFilteredCategorizedRecipes(filters)
-    setFilteredRecipesInCategories(filteredRecipes)
-  }
-
-  const updatePickedRecipeIds = (recipeId: number) => {
-    setPickedRecipeIds((previousIds) => {
-      const shouldRemove = previousIds.includes(recipeId)
-      const updatedIds = shouldRemove ? previousIds.filter((id) => id !== recipeId) : [...previousIds, recipeId]
-      return updatedIds
-    })
-  }
-
-  const updatePickedRecipes = (recipeId: number, category: string) => {
-    setPickedRecipeIdsByCategory((previous) => {
-      const pickedCategoryRecipeIds = previous[category] ?? []
-      const shouldRemove = pickedCategoryRecipeIds.includes(recipeId)
-      const updatedIds = shouldRemove
-        ? pickedCategoryRecipeIds.filter((id) => id !== recipeId)
-        : [...pickedCategoryRecipeIds, recipeId]
-      const updatedPickedCategoryIds = { ...previous }
-      updatedPickedCategoryIds[category] = updatedIds
-      return updatedPickedCategoryIds
-    })
+    dispatch({ type: Dispatch.SET_RECIPES_AND_FILTERS, payload: { recipes: filteredRecipes, filters } })
   }
 
   return (
     <RecipeServiceContext.Provider
       value={{
-        recipes,
-        filteredRecipesInCategories,
-        filterRecipes,
-        pickedRecipeIds,
-        pickedRecipeIdsByCategory,
-        updatePickedRecipeIds,
-        updatePickedRecipes
+        filterRecipes
       }}
     >
       {children}

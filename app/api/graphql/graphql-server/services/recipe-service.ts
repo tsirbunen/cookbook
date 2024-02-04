@@ -1,9 +1,9 @@
-import { database } from '../database/config/config'
-import { recipes } from '../database/database-schemas/recipes'
+// import { database } from '../database/config/config'
+// import { recipes } from '../database/database-schemas/recipes'
 
 export const getAllRecipes = async () => {
-  const allRecipes = await database.select().from(recipes)
-  console.log(allRecipes)
+  // const allRecipes = await database.select().from(recipes)
+  // console.log(allRecipes)
 
   return [
     {
@@ -113,16 +113,17 @@ export const getAllRecipes = async () => {
       ovenNeeded: true,
       isFavorite: false
     },
-    {
-      ...devRecipe,
-      id: 13,
-      title: `13: ${devRecipe.title}`,
-      tags: ['middleeast'],
-      category: 'lunch',
-      ovenNeeded: true,
-      isFavorite: false
-    }
+    devRecipe13
   ]
+
+  // r.forEach((recipe, index) => {
+  //   console.log(recipe.title, recipe.ingredientGroups)
+  //   recipe.ingredientGroups.forEach((group, groupIndex) => {
+  //     console.log(group.ingredients)
+  //   })
+  // })
+
+  // return r
 }
 
 const devRecipe = {
@@ -234,6 +235,49 @@ const devRecipe = {
             "Serve the falafel immediately, while warm and crispy on the outside. They're delicious served with tahini sauce as well.",
           previousInstructionId: 7,
           ingredientReferenceIds: []
+        }
+      ]
+    }
+  ]
+}
+
+const devRecipe13 = {
+  id: 13,
+  title: 'BLUEBERRY RECIPE TEST',
+  description: 'The best!',
+  mainImageUrl: 'falafel-image-url',
+  extraImageUrls: [],
+  tags: ['vegan', 'chickpea'],
+  isFavorite: true,
+  category: 'dinner',
+  ovenNeeded: false,
+  ingredientGroups: [
+    {
+      id: 101,
+      title: null,
+      ingredients: [
+        {
+          id: 200,
+          amount: 1,
+          unit: 'cup',
+          name: 'raspberry',
+          previousIngredientId: null
+        },
+        { id: 201, amount: 0.5, unit: 'cup', name: 'blueberry', previousIngredientId: 1 }
+      ]
+    }
+  ],
+  instructionGroups: [
+    {
+      id: 300,
+      title: null,
+      instructions: [
+        {
+          id: 400,
+          content:
+            "The night before, soak the dried chickpeas in water. Make sure the water covers the chickpeas by 2 to 3 inches, as they'll triple in size.",
+          previousInstructionId: null,
+          ingredientReferenceIds: [200]
         }
       ]
     }

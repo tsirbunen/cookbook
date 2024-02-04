@@ -2,8 +2,8 @@
 
 import { css } from '@emotion/react'
 import { NavigationMenuItem } from '../router/router'
-import { navBarWidth } from '../../app-layout/ViewSizeProvider'
 import { ColorCodes } from '../../theme/theme'
+import { navBarWidth } from '../../constants/constants'
 
 export const navigationBarDataCy = 'navigation-bar-item'
 
@@ -33,8 +33,7 @@ const selectedColor = ColorCodes.VERY_PALE
 const notSelectedColor = ColorCodes.VERY_DARK
 
 const itemContainer = (isSelected: boolean) => css`
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;

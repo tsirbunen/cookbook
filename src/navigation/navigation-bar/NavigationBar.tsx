@@ -6,28 +6,33 @@ import { useRouter, usePathname } from 'next/navigation'
 import { css } from '@emotion/react'
 import NavigationBarItem from './NavigationBarItem'
 import { navigationMenuItems } from '../router/router'
-import { navBarWidth, ViewSizeContext } from '../../app-layout/ViewSizeProvider'
+import { headerHeightRegular, headerHeightWithTools, ViewSizeContext } from '../../app-layout/ViewSizeProvider'
 import { ColorCodes } from '../../theme/theme'
-import { headerHeight } from '../../components/header/Header'
+import MenuIconWithoutAction from '../../components/header-with-optional-tools/MenuIconWithoutAction'
+import { navBarWidth } from '../../constants/constants'
+import { navigationBarZIndex } from '../../constants/z-indexes'
 
 type DrawerNavigatorProps = {
   isMobile: boolean
 }
 
 /**
- * Permanent vertical navigation bar. Intended to be used when app use mode
+ * Permanent vertical navigation bar on the left. Intended to be used when app use mode
  * is other than mobile.
  */
 const NavigationBar = ({ isMobile }: DrawerNavigatorProps) => {
-  const { windowHeight } = useContext(ViewSizeContext)
+  const { windowHeight, isHeaderWithTools, headerHeight } = useContext(ViewSizeContext)
   const router = useRouter()
   const pathname = usePathname()
+  const isWithTools = isHeaderWithTools(pathname)
+  const height = isWithTools ? headerHeight : headerHeightRegular
 
   if (isMobile) return null
 
   return (
-    <div css={outerContainer(windowHeight)}>
-      <div css={container}>
+    <div css={outerContainer(windowHeight, isMobile)}>
+      <div css={container(isMobile, height)}>
+        <MenuIconWithoutAction height={height} />
         {navigationMenuItems.map((menuItem) => {
           return (
             <NavigationBarItem
@@ -45,14 +50,17 @@ const NavigationBar = ({ isMobile }: DrawerNavigatorProps) => {
 
 export default NavigationBar
 
-const outerContainer = (windowHeight: number) => css`
-  width: ${navBarWidth}px;
-  height: ${windowHeight - headerHeight}px;
-  background-color: ${ColorCodes.VERY_DARK};
-  border-right-color: ${ColorCodes.VERY_DARK};
-`
-
-const container = css`
+const outerContainer = (windowHeight: number, isMobile: boolean) => {
+  const headerHeight = isMobile ? headerHeightRegular : headerHeightWithTools
+  return css`
+    z-index: ${navigationBarZIndex};
+    width: ${navBarWidth}px;
+    height: ${windowHeight - headerHeight}px;
+    background-color: ${ColorCodes.VERY_DARK};
+    border-right-color: ${ColorCodes.VERY_DARK};
+  `
+}
+const container = (isMobile: boolean, headerHeight: number) => css`
   display: flex;
   flex-direction: column;
   justify-content: start;

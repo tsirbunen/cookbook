@@ -1,10 +1,12 @@
 import { extendTheme } from '@chakra-ui/react'
-import { checkboxTheme } from './checkbox-theme'
+import { checkboxesTheme } from './checkboxes/checkboxes-theme'
+import { inputTheme } from './inputs/inputs-theme'
+import { buttonsTheme } from './buttons/buttons-theme'
 
 export enum ColorCodes {
   BACKGROUND = '#F3EEEA',
   VERY_PALE = '#EBE3D5',
-  PALE = '#d6cbb8',
+  PALE = '#D6CBB8',
   MEDIUM = '#B0A695',
   DARK = '#776B5D',
   VERY_DARK = '#4F4A45',
@@ -17,11 +19,20 @@ export const theme = extendTheme({
     global: {
       body: {
         bg: ColorCodes.BACKGROUND,
-        veryPale: ColorCodes.VERY_PALE,
-        pale: ColorCodes.PALE,
-        dark: ColorCodes.DARK,
         success: ColorCodes.SUCCESS,
         error: ColorCodes.ERROR,
+        overscrollBehavior: 'none',
+        // overscrollBehavior: 'contain'
+        '*::-webkit-scrollbar': {
+          backgroundColor: '#EBE3D5',
+          width: '12px'
+        },
+        '*::-webkit-scrollbar-thumb': {
+          backgroundColor: '#D6CBB8',
+          borderRadius: '8px'
+        }
+      },
+      html: {
         overscrollBehavior: 'none'
       }
     }
@@ -39,6 +50,8 @@ export const theme = extendTheme({
     useSystemColorMode: false
   },
   components: {
-    Checkbox: checkboxTheme
+    Checkbox: checkboxesTheme,
+    Input: inputTheme,
+    Button: buttonsTheme
   }
 })

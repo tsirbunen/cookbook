@@ -4,6 +4,7 @@ import { css } from '@emotion/react'
 import { ColorCodes } from '../../theme/theme'
 import { useEffect } from 'react'
 import { TbArrowBarToUp } from 'react-icons/tb'
+import { scrollToTopZIndex } from '../../constants/z-indexes'
 
 const scrollToTopButtonId = 'scrollToTopButtonId'
 
@@ -46,7 +47,7 @@ const button = css`
   position: fixed;
   bottom: ${margin}px;
   right: ${margin}px;
-  z-index: 1000;
+  z-index: ${scrollToTopZIndex};
   border: none;
   outline: none;
   background-color: ${ColorCodes.VERY_DARK};

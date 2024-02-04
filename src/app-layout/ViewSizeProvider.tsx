@@ -1,7 +1,8 @@
 'use client'
 import { createContext, useCallback, useEffect, useState } from 'react'
+import { getPageHeaderHasToolsByPath } from '../navigation/router/router'
+import { navBarWidth, splitViewBreakpoint } from '../constants/constants'
 
-export const navBarWidth = 70
 export const minPanelWidth = 250
 export const maxPanelWidth = 1000
 const appMinWidth = 375
@@ -9,6 +10,11 @@ const appMinHeight = 650
 const mobileNarrowBreakpoint = 430
 const narrowMediumBreakpoint = navBarWidth + 2 * minPanelWidth
 const mediumLargeBreakpoint = narrowMediumBreakpoint + minPanelWidth
+export const headerWithToolsBreakpoint = 625
+export const headerHeightRegular = 50
+export const headerHeightWithTools = 80
+export const headerHeightWithToolsDoubleLine = 110
+export const narrowHeaderBreakpoint = 625
 
 export enum ViewMode {
   MOBILE = 'MOBILE',
@@ -29,6 +35,11 @@ export type ViewSize = {
   maxPanelsCount: number
   isMobile: boolean
   isTooSmallWindow: boolean
+  isSplitView: boolean
+  isHeaderWithTools: (path: string) => boolean
+  headerHeight: number
+  isDoubleLineHeader: boolean
+  isNarrowHeader: boolean
 }
 
 export const ViewSizeContext = createContext<ViewSize>({} as ViewSize)
@@ -65,12 +76,32 @@ const ViewSizeContextProvider = ({ children }: { children: React.ReactNode }) =>
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const isHeaderWithTools = (path: string) => {
+    return getPageHeaderHasToolsByPath(path) ?? false
+  }
+
   const isMobile = viewMode === ViewMode.MOBILE
   const isTooSmallWindow = maxPanelsCount === 0 || windowHeight < appMinHeight
+  const isSplitView = windowWidth.current >= splitViewBreakpoint
+  const isDoubleLineHeader = windowWidth.current < headerWithToolsBreakpoint
+  const isNarrowHeader = windowWidth.current < narrowHeaderBreakpoint
+  const headerHeight = isNarrowHeader || isMobile ? headerHeightWithToolsDoubleLine : headerHeightWithTools
 
   return (
     <ViewSizeContext.Provider
-      value={{ windowWidth, viewMode, maxPanelsCount, windowHeight, isMobile, isTooSmallWindow }}
+      value={{
+        windowWidth,
+        viewMode,
+        maxPanelsCount,
+        windowHeight,
+        isMobile,
+        isTooSmallWindow,
+        isSplitView,
+        isHeaderWithTools,
+        headerHeight,
+        isDoubleLineHeader,
+        isNarrowHeader
+      }}
     >
       {children}
     </ViewSizeContext.Provider>

@@ -2,7 +2,7 @@ import React from 'react'
 import { IconType } from 'react-icons/lib'
 import { TbSettings, TbListDetails, TbBasket, TbWand, TbBook, TbStar } from 'react-icons/tb'
 
-import RecipesPage from '../../app-pages/recipes/page/RecipesPage'
+import RecipesPage from '../../app-pages/recipes-viewing/page/RecipesViewingPage'
 import SettingsPage from '../../app-pages/settings/SettingsPage'
 import ShoppingPage from '../../app-pages/shopping/ShoppingPage'
 import FavoritesPage from '../../app-pages/favorites/FavoritesPage'
@@ -34,6 +34,7 @@ export type NavigationMenuItem = {
   path: string
   element: () => React.ReactNode
   errorElement?: () => React.ReactNode
+  headerHasTools: boolean
 }
 
 export const navigationMenuItems: NavigationMenuItem[] = [
@@ -42,45 +43,55 @@ export const navigationMenuItems: NavigationMenuItem[] = [
     label: 'recipes',
     iconElement: TbListDetails,
     path: '/recipes',
-    element: RecipesPage
+    element: RecipesPage,
+    headerHasTools: true
   },
   {
     page: Page.COOK,
     label: 'cook',
     iconElement: TbBook,
     path: '/cook',
-    element: CookPage
+    element: CookPage,
+    headerHasTools: false
   },
   {
     page: Page.WIZARD,
     label: 'wizard',
     iconElement: TbWand,
     path: '/wizard',
-    element: WizardPage
+    element: WizardPage,
+    headerHasTools: false
   },
   {
     page: Page.FAVORITES,
     label: 'favorites',
     iconElement: TbStar,
     path: '/favorites',
-    element: FavoritesPage
+    element: FavoritesPage,
+    headerHasTools: false
   },
   {
     page: Page.SHOPPING,
     label: 'shopping',
     iconElement: TbBasket,
     path: '/shopping',
-    element: ShoppingPage
+    element: ShoppingPage,
+    headerHasTools: false
   },
   {
     page: Page.SETTINGS,
     label: 'settings',
     iconElement: TbSettings,
     path: '/settings',
-    element: SettingsPage
+    element: SettingsPage,
+    headerHasTools: false
   }
 ]
 
 export const getRouteLabelByPath = (path: string) => {
   return navigationMenuItems.find((item) => item.path === path)?.label
+}
+
+export const getPageHeaderHasToolsByPath = (path: string) => {
+  return navigationMenuItems.find((item) => item.path === path)?.headerHasTools
 }

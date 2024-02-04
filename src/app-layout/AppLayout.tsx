@@ -2,14 +2,14 @@
 'use client'
 import { useContext } from 'react'
 import { css } from '@emotion/react'
-import Header from '../components/header/Header'
+import HeaderWithOptionalTools from '../components/header-with-optional-tools/HeaderWithOptionalTools'
 
 import { ViewSizeContext } from '../app-layout/ViewSizeProvider'
 import ErrorPage from '../navigation/router/ErrorPage'
 import NavigationBar from '../navigation/navigation-bar/NavigationBar'
 import { usePathname } from 'next/navigation'
 
-const tooSmallWIndowMessage = 'Too small window...'
+const tooSmallWindowMessage = 'Too small window...'
 const root = '/'
 
 type AppLayoutProps = {
@@ -27,7 +27,7 @@ const AppLayout = ({ children }: AppLayoutProps) => {
   const pathname = usePathname()
 
   if (isTooSmallWindow) {
-    return <ErrorPage message={tooSmallWIndowMessage} />
+    return <ErrorPage message={tooSmallWindowMessage} />
   }
 
   if (pathname === root) {
@@ -36,11 +36,10 @@ const AppLayout = ({ children }: AppLayoutProps) => {
 
   return (
     <div css={app}>
-      <Header isMobile={isMobile} />
+      <HeaderWithOptionalTools />
 
       <div css={content}>
         <NavigationBar isMobile={isMobile} />
-
         {children}
       </div>
     </div>
@@ -52,9 +51,11 @@ export default AppLayout
 const app = css`
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
   justify-content: start;
   align-content: start;
+  flex: 1;
+  height: 100vh;
+  width: 100vw;
 `
 
 const content = css`
@@ -63,5 +64,5 @@ const content = css`
   justify-content: start;
   align-content: center;
   width: 100%;
-  /* background-color: pink; */
+  height: 100%;
 `

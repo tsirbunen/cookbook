@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic'
 import { Inter } from 'next/font/google'
 import LoadingPage from '../src/components/loading-page/LoadingPage'
 import { GraphQLClientProvider } from '../src/graphql-client/graphql-client'
+import { AppStateContextProvider } from '../src/state/StateContextProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -40,15 +41,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider>
-          <ViewSizeContextProvider>
-            <GraphQLClientProvider>
-              <RecipeServiceProvider>
-                <AppLayout>{children}</AppLayout>
-              </RecipeServiceProvider>
-            </GraphQLClientProvider>
-          </ViewSizeContextProvider>
-        </ThemeProvider>
+        <AppStateContextProvider>
+          <ThemeProvider>
+            <ViewSizeContextProvider>
+              <GraphQLClientProvider>
+                <RecipeServiceProvider>
+                  <AppLayout>{children}</AppLayout>
+                </RecipeServiceProvider>
+              </GraphQLClientProvider>
+            </ViewSizeContextProvider>
+          </ThemeProvider>
+        </AppStateContextProvider>
       </body>
     </html>
   )

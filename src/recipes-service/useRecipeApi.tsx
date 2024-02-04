@@ -3,14 +3,14 @@ import { Recipe } from '../types/graphql-schema-types.generated'
 import { GraphQLClientContext } from '../graphql-client/graphql-client'
 import { AllRecipesDocument, AllRecipesQuery, AllRecipesQueryVariables } from './queries.generated'
 import { RecipeCategory } from './RecipeServiceProvider'
+import { FilterableProperty } from '../app-pages/recipes-viewing/viewing-management/filtering-management-tool/FilteringProvider'
 
 export const noCategory = 'No category'
-
 export type RecipeFilters = Record<string, string[]>
 
 type UseRecipeApi = {
   getAllRecipes: () => Promise<Recipe[] | undefined>
-  getFilteredCategorizedRecipes: (filters: RecipeFilters) => Promise<RecipeCategory[]>
+  getFilteredCategorizedRecipes: (filters?: RecipeFilters) => Promise<RecipeCategory[]>
 }
 
 /**
@@ -39,17 +39,34 @@ export const useRecipeApi = (): UseRecipeApi => {
     }
   }
 
-  const getFilteredCategorizedRecipes = async (filters: RecipeFilters) => {
-    console.log(filters)
+  const getFilteredCategorizedRecipes = async (filters?: RecipeFilters) => {
     let filteredRecipes: RecipeCategory[] = []
 
     try {
-      // TODO: Add true filtering
+      // TODO: Change to true filtering
       const result = await client.query<AllRecipesQuery, AllRecipesQueryVariables>({
         query: AllRecipesDocument
       })
 
-      const allRecipes = result.data?.allRecipes
+      let allRecipes = result.data?.allRecipes
+      if (filters?.[FilterableProperty.CATEGORY]) {
+        const categoriesToInclude = filters[FilterableProperty.CATEGORY]
+        allRecipes = allRecipes.filter((r) => r.category && categoriesToInclude.includes(r.category))
+      }
+
+      if (filters?.[FilterableProperty.INGREDIENT]) {
+        const wordsToContain = filters[FilterableProperty.INGREDIENT][0].split(' ').map((w) => w.toLowerCase())
+
+        allRecipes = allRecipes.filter((r) => {
+          return r.ingredientGroups.some((g) => {
+            return g.ingredients.some((i) => {
+              return wordsToContain.some((w) => {
+                return i.name.toLowerCase().includes(w)
+              })
+            })
+          })
+        })
+      }
 
       if (!allRecipes) {
         throw new Error('No recipes')
