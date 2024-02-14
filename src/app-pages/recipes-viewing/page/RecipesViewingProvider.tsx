@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState } from 'react'
 import { ViewSizeContext } from '../../../app-layout/ViewSizeProvider'
-import { ViewRecipesMode } from '../viewing-management/view-mode-management-tool/ViewModeManagementTool'
+import { ViewRecipesMode } from '../viewing-management/ViewModeManagementTool'
 
 type RecipesViewing = {
   mode: ViewRecipesMode
@@ -20,6 +20,11 @@ type RecipesViewing = {
 
 export const RecipesViewingContext = createContext<RecipesViewing>({} as RecipesViewing)
 
+/**
+ * This provider holds the state of what is displayed on the recipes viewing page:
+ * what viewing management "tools" are displayed (if any) and if recipes are shown
+ * and in what mode (with what kind of styling).
+ */
 const RecipesViewingProvider = ({ children }: { children: React.ReactNode }) => {
   const { isSplitView } = useContext(ViewSizeContext)
   const [mode, setMode] = useState(ViewRecipesMode.PHOTOS)

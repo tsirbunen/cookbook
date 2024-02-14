@@ -1,6 +1,6 @@
 # COOKBOOK
 
-Interested in cooking something **delicious**? Navigate to the **[COOKBOOK](https://cookbook-dusky.vercel.app)** to view recipes.
+Interested in cooking something **delicious**? Navigate to the **[COOKBOOK](https://cookbook-dusky.vercel.app)** !!!
 COOKBOOK is a full-stack React Typescript web application built with the **[ Next.js](https://nextjs.org/docs)** framework.
 
 ![Vercel](https://vercelbadge.vercel.app/api/tsirbunen/cookbook?style=plastic) ![example workflow](https://github.com/tsirbunen/cookbook/actions/workflows/running-tests.yml/badge.svg)
@@ -10,10 +10,8 @@ COOKBOOK is a full-stack React Typescript web application built with the **[ Nex
 First make sure you have Node version ^20.10.0.
 
 To run the application locally, first start a PostgreSQL database with Docker by running
-&nbsp;&nbsp;&nbsp;&nbsp; **`docker run --name postgres_for_cookbook \`**
-&nbsp;&nbsp;&nbsp;&nbsp; **`-p 5432:5432 -e POSTGRES_USER=postgres -e \`**
-&nbsp;&nbsp;&nbsp;&nbsp; **`POSTGRES_PASSWORD=postgres -e \`**
-&nbsp;&nbsp;&nbsp;&nbsp; **`POSTGRES_DB=postgres -d --rm postgres`**
+&nbsp;&nbsp;&nbsp;&nbsp; **`docker run --name postgres_for_cookbook -p 5432:5432 -e POSTGRES_USER=postgres -e \`**
+&nbsp;&nbsp;&nbsp;&nbsp; **`POSTGRES_PASSWORD=postgres -e POSTGRES_DB=postgres -d --rm postgres`**
 
 Then install libraries
 &nbsp;&nbsp;&nbsp;&nbsp; **`npm install`**
@@ -112,7 +110,7 @@ The commands used to lint, build and start te project in production mode are
 - Functions are often placed outside of the component that use them so that it would be easier to see what the component actually does. This applies mainly to functions that do not need to, for example, set some state variable, but merely calculate some outcome for given input params.
 - Css-styles are placed in the same files that they are used in, below the component code at the end of the file.
 
-### Code structure
+### Codebase overall structure
 
 The structure of the project is very much **dictated by the Next.js framework** selected. The main structure is provided in the skeleton below, followed by a table with some descriptions.
 
@@ -144,12 +142,25 @@ cookbook/
 
 ```
 
-| Folder / file | Description                                                                                        |
-| :------------ | :------------------------------------------------------------------------------------------------- |
-| app/          | When using the new App Router, all the routes need to be defined in the app folder                 |
-| layout.tsx    | Required top level element (needed to modify HTML on initial load)                                 |
-| page.tsx      | The launch page of the application                                                                 |
-| recipes/      | The route recipes. Each route is a folder with a file named page.tsx containing page content       |
-| api/          | The folder within which an "internal" api should be implemented in Next.js                         |
-| api/graphql/  | The api route named graphql. Each route must contain a file route.ts                               |
-| route.ts      | The file containing the route handler. In this project, the handler returns a Yoga request handler |
+| Folder / file | Description                                                                                                                                                                                                                                                                                                                          |
+| :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| layout.tsx    | Top level layout element (required by Next.js; needed to modify HTML on initial load). All common providers are introduced here to be available to application throughout                                                                                                                                                            |
+| page.tsx      | The launch page of the application (the default starting route "/" required by Next.js)                                                                                                                                                                                                                                              |
+| **app/**      | When using the new App Router (of Next.js), all the routes need to be defined in the app folder as folders that have the route names and contain a page.tsx file with the page content. (for example route recipes: app/recipes/page.tsx). The page.tsx files only contain a wrapper that imports the actual code from src/app-pages |
+| **api/**      | The "internal" api is contained as an app route in the app folder (required byt Next.js)                                                                                                                                                                                                                                             |
+| **graphql/**  | The api route named graphql is in the api folder in a folder with the same name (i.e. _graphql_). The folder contains a file named route.ts (required by Next.js)                                                                                                                                                                    |
+| route.ts      | The file containing the route handler. In this project, the handler returns a Yoga request handler                                                                                                                                                                                                                                   |
+
+### File structure
+
+#### React components
+
+The order of appearance of "elements" within a single react component is the following:
+
+- imports
+- declared constants and types
+- the component itself
+- css styling
+
+Conventions:
+Move as much of the styling "out" of the component to the below css objects so that it is easier to see the relevant component parts.

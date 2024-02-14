@@ -6,7 +6,7 @@ type CheckboxWithThemeProps = {
 }
 
 const CheckboxWithTheme = ({ isChecked, onChange }: CheckboxWithThemeProps) => {
-  return <Checkbox isChecked={isChecked} onChange={onChange} size="xl" />
+  return <Checkbox isChecked={isChecked} onChange={onChange} size="xl" marginRight="10px" />
 }
 
 export default CheckboxWithTheme

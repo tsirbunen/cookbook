@@ -25,6 +25,14 @@ type Instruction {
   ingredientReferenceIds: [Int]!
 }
 
+enum Category {
+  BREAKFAST
+  LUNCH
+  DINNER
+  BRUNCH
+  SNACK
+}
+
 type Recipe {
   id: Int!
   title: String!
@@ -33,7 +41,7 @@ type Recipe {
   extraImageUrls: [String!]!
   tags: [String!]!
   isFavorite: Boolean!
-  category: String
+  category: Category
   ovenNeeded: Boolean!
   ingredientGroups: [IngredientGroup!]!
   instructionGroups: [InstructionGroup!]!

@@ -1,5 +1,6 @@
 'use client'
-import { Flex, Text, Button } from '@chakra-ui/react'
+
+import { Flex, Text, Button, ChakraProps } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import { ColorCodes } from '../src/theme/theme'
 
@@ -19,14 +20,10 @@ export default function Home() {
   const router = useRouter()
 
   return (
-    <Flex marginTop="50px" data-cy={launchPageDataCy} width="100%">
-      <Flex flexDirection="column" justifyContent="center" alignItems="center" flex={1}>
-        <Text fontSize="1.25em" color={ColorCodes.DARK} marginBottom="10px">
-          {welcomeText}
-        </Text>
-        <Text fontSize="1.75em" color={ColorCodes.DARK} fontWeight="bold" marginBottom="20px">
-          {appTitle}
-        </Text>
+    <Flex data-cy={launchPageDataCy} {...outerCss}>
+      <Flex {...innerCss}>
+        <Text {...welcomeCss}>{welcomeText}</Text>
+        <Text {...titleCss}>{appTitle}</Text>
 
         <Button variant="mediumSizePale" onClick={() => router.push(startPage)} data-cy={startButtonDataCy}>
           {startText}
@@ -34,4 +31,29 @@ export default function Home() {
       </Flex>
     </Flex>
   )
+}
+
+const outerCss = {
+  marginTop: '50px',
+  width: '100%'
+}
+
+const innerCss = {
+  flexDirection: 'column' as ChakraProps['flexDirection'],
+  justifyContent: 'center',
+  alignItems: 'center',
+  flex: 1
+}
+
+const welcomeCss = {
+  fontSize: '1.25em',
+  color: ColorCodes.DARK,
+  marginBottom: '10px'
+}
+
+const titleCss = {
+  fontSize: '1.75em',
+  color: ColorCodes.DARK,
+  fontWeight: 'bold',
+  marginBottom: '20px'
 }

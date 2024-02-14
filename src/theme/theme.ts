@@ -2,6 +2,7 @@ import { extendTheme } from '@chakra-ui/react'
 import { checkboxesTheme } from './checkboxes/checkboxes-theme'
 import { inputTheme } from './inputs/inputs-theme'
 import { buttonsTheme } from './buttons/buttons-theme'
+import { textareaTheme } from './textareas/textareas-theme'
 
 export enum ColorCodes {
   BACKGROUND = '#F3EEEA',
@@ -25,7 +26,7 @@ export const theme = extendTheme({
         // overscrollBehavior: 'contain'
         '*::-webkit-scrollbar': {
           backgroundColor: '#EBE3D5',
-          width: '12px'
+          width: '8px'
         },
         '*::-webkit-scrollbar-thumb': {
           backgroundColor: '#D6CBB8',
@@ -52,6 +53,7 @@ export const theme = extendTheme({
   components: {
     Checkbox: checkboxesTheme,
     Input: inputTheme,
-    Button: buttonsTheme
+    Button: buttonsTheme,
+    Textarea: textareaTheme
   }
 })

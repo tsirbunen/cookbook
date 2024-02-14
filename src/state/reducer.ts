@@ -1,5 +1,5 @@
-import { RecipeCategory } from '../recipes-service/RecipeServiceProvider'
-import { RecipeFilters } from '../recipes-service/useRecipeApi'
+import { RecipesFilterValues } from '../app-pages/recipes-viewing/page/FilteringProvider'
+import { RecipeCategory } from '../types/types'
 import { AppState } from './StateContextProvider'
 
 export enum Dispatch {
@@ -8,7 +8,7 @@ export enum Dispatch {
 }
 
 export type DispatchAction =
-  | { type: Dispatch.SET_RECIPES_AND_FILTERS; payload: { recipes: RecipeCategory[]; filters: RecipeFilters } }
+  | { type: Dispatch.SET_RECIPES_AND_FILTERS; payload: { recipes: RecipeCategory[]; filters: RecipesFilterValues } }
   | { type: Dispatch.UPDATE_PICKED_RECIPE_IDS; payload: { recipeId: number; category: string } }
 
 export const reducer = (state: AppState, action: DispatchAction) => {

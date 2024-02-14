@@ -2,15 +2,14 @@ import { useContext } from 'react'
 import { Recipe } from '../types/graphql-schema-types.generated'
 import { GraphQLClientContext } from '../graphql-client/graphql-client'
 import { AllRecipesDocument, AllRecipesQuery, AllRecipesQueryVariables } from './queries.generated'
-import { RecipeCategory } from './RecipeServiceProvider'
-import { FilterableProperty } from '../app-pages/recipes-viewing/viewing-management/filtering-management-tool/FilteringProvider'
-
-export const noCategory = 'No category'
-export type RecipeFilters = Record<string, string[]>
+import { RecipesFilterValues } from '../app-pages/recipes-viewing/page/FilteringProvider'
+import { SearchMode } from '../widgets/form-textarea-search/FormTextAreaSearch'
+import { noCategoryTitle } from '../constants/constants'
+import { RecipeCategory } from '../types/types'
 
 type UseRecipeApi = {
   getAllRecipes: () => Promise<Recipe[] | undefined>
-  getFilteredCategorizedRecipes: (filters?: RecipeFilters) => Promise<RecipeCategory[]>
+  getFilteredCategorizedRecipes: (filters?: RecipesFilterValues) => Promise<RecipeCategory[]>
 }
 
 /**
@@ -25,11 +24,12 @@ export const useRecipeApi = (): UseRecipeApi => {
       const result = await client.query<AllRecipesQuery, AllRecipesQueryVariables>({
         query: AllRecipesDocument
       })
+      console.log(result)
 
       const allRecipes = result.data?.allRecipes
 
       if (!allRecipes) {
-        // TODO: Show snackbar, there is error?
+        // FIXME: Show snackbar, there is error?
         return
       }
 
@@ -39,26 +39,27 @@ export const useRecipeApi = (): UseRecipeApi => {
     }
   }
 
-  const getFilteredCategorizedRecipes = async (filters?: RecipeFilters) => {
+  const getFilteredCategorizedRecipes = async (filters?: RecipesFilterValues) => {
     let filteredRecipes: RecipeCategory[] = []
 
     try {
-      // TODO: Change to true filtering
+      // FIXME: Change to true filtering
       const result = await client.query<AllRecipesQuery, AllRecipesQueryVariables>({
         query: AllRecipesDocument
       })
 
       let allRecipes = result.data?.allRecipes
-      if (filters?.[FilterableProperty.CATEGORY]) {
-        const categoriesToInclude = filters[FilterableProperty.CATEGORY]
+      if (filters?.categories?.length) {
+        const categoriesToInclude = filters.categories
         allRecipes = allRecipes.filter((r) => r.category && categoriesToInclude.includes(r.category))
       }
 
-      if (filters?.[FilterableProperty.INGREDIENT]) {
-        const wordsToContain = filters[FilterableProperty.INGREDIENT][0].split(' ').map((w) => w.toLowerCase())
+      if (filters?.ingredients.searchTerm.length) {
+        const wordsToContain = filters.ingredients.searchTerm.split(' ').map((w) => w.toLowerCase())
 
+        const filterFn = filters.ingredients.searchMode === SearchMode.AND ? 'every' : 'some'
         allRecipes = allRecipes.filter((r) => {
-          return r.ingredientGroups.some((g) => {
+          return r.ingredientGroups[filterFn]((g) => {
             return g.ingredients.some((i) => {
               return wordsToContain.some((w) => {
                 return i.name.toLowerCase().includes(w)
@@ -74,7 +75,7 @@ export const useRecipeApi = (): UseRecipeApi => {
 
       filteredRecipes = arrangeRecipesInCategories(allRecipes)
     } catch (error) {
-      // TODO: Show snackbar, there is error?
+      // FIXME: Show snackbar, there is error?
       console.log({ error })
     }
 
@@ -112,7 +113,7 @@ const arrangeRecipesInCategories = (recipes: Recipe[]) => {
 
   if (recipesWithoutCategory.length) {
     recipesInCategories.push({
-      category: noCategory,
+      category: noCategoryTitle,
       recipes: recipesWithoutCategory
     })
   }

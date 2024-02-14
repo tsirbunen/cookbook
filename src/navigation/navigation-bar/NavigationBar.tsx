@@ -8,7 +8,7 @@ import NavigationBarItem from './NavigationBarItem'
 import { navigationMenuItems } from '../router/router'
 import { headerHeightRegular, headerHeightWithTools, ViewSizeContext } from '../../app-layout/ViewSizeProvider'
 import { ColorCodes } from '../../theme/theme'
-import MenuIconWithoutAction from '../../components/header-with-optional-tools/MenuIconWithoutAction'
+import MenuIconWithoutAction from '../../widgets/header-with-optional-toggles/MenuIconWithoutAction'
 import { navBarWidth } from '../../constants/constants'
 import { navigationBarZIndex } from '../../constants/z-indexes'
 

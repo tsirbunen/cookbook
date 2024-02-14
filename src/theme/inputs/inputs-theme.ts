@@ -1,6 +1,10 @@
 import { inputAnatomy } from '@chakra-ui/anatomy'
 import { createMultiStyleConfigHelpers } from '@chakra-ui/react'
 
+export enum InputVariant {
+  Search = 'search'
+}
+
 const { definePartsStyle, defineMultiStyleConfig } = createMultiStyleConfigHelpers(inputAnatomy.keys)
 
 const search = definePartsStyle({

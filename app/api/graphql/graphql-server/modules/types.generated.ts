@@ -15,6 +15,13 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type Category =
+  | 'BREAKFAST'
+  | 'BRUNCH'
+  | 'DINNER'
+  | 'LUNCH'
+  | 'SNACK';
+
 export type Ingredient = {
   __typename?: 'Ingredient';
   amount?: Maybe<Scalars['Float']['output']>;
@@ -59,7 +66,7 @@ export type Query = {
 
 export type Recipe = {
   __typename?: 'Recipe';
-  category?: Maybe<Scalars['String']['output']>;
+  category?: Maybe<Category>;
   description?: Maybe<Scalars['String']['output']>;
   extraImageUrls: Array<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
@@ -143,6 +150,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  Category: Category;
   Ingredient: ResolverTypeWrapper<Ingredient>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
@@ -212,7 +220,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type RecipeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Recipe'] = ResolversParentTypes['Recipe']> = {
-  category?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  category?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   extraImageUrls?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;

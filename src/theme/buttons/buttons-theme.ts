@@ -31,7 +31,9 @@ const mediumSizeDark = defineStyle({
     _disabled: {
       background: '#776B5D',
       color: '#D6CBB8'
-    }
+    },
+    background: '#776B5D',
+    color: '#D6CBB8'
   },
   height: '30px'
 })
@@ -88,8 +90,8 @@ const smallDark = (toggled: boolean) => {
     color: toggled ? '#EBE3D5' : '#D6CBB8',
     _focus: { outline: 'none' },
     _hover: {
-      bg: toggled ? '#4F4A45' : '#B0A695',
-      color: toggled ? '#EBE3D5' : '#D6CBB8'
+      bg: toggled ? '#776B5D' : '#776B5D',
+      color: toggled ? '#D6CBB8' : '#D6CBB8'
     },
     height: '20px'
   }

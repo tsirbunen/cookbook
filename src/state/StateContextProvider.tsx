@@ -2,8 +2,8 @@
 
 import React, { createContext, useReducer } from 'react'
 import { DispatchAction, reducer } from './reducer'
-import { RecipeCategory } from '../recipes-service/RecipeServiceProvider'
-import { RecipeFilters } from '../recipes-service/useRecipeApi'
+import { RecipesFilterValues, getEmptyFilterValues } from '../app-pages/recipes-viewing/page/FilteringProvider'
+import { RecipeCategory } from '../types/types'
 
 export type AppStateContextType = {
   state: AppState
@@ -12,13 +12,13 @@ export type AppStateContextType = {
 
 export type AppState = {
   recipes: RecipeCategory[]
-  filters: RecipeFilters
+  filters: RecipesFilterValues
   pickedRecipeIdsByCategory: Record<string, number[]>
 }
 
 const initialAppState = {
   recipes: [],
-  filters: {},
+  filters: getEmptyFilterValues(),
   pickedRecipeIdsByCategory: {}
 }
 

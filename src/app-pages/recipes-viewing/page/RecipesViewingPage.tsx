@@ -2,14 +2,22 @@
 import { css } from '@emotion/react'
 import { useContext } from 'react'
 import { ViewSizeContext } from '../../../app-layout/ViewSizeProvider'
-import { ViewRecipesMode } from '../viewing-management/view-mode-management-tool/ViewModeManagementTool'
-import { cardsViewMobileWidth } from '../recipes-display/recipe-photo-cards/RecipePhotoCard'
-import RecipesDisplay from '../recipes-display/RecipesDisplay'
-import ViewingManagement from '../viewing-management/ViewingManagement'
+import { ViewRecipesMode } from '../viewing-management/ViewModeManagementTool'
+import { cardsViewMobileWidth } from '../recipes-display/PhotoCardRecipe'
+import RecipesContent from './RecipesContent'
+import ViewingManagement from './ViewingManagement'
 import RecipesViewingProvider, { RecipesViewingContext } from './RecipesViewingProvider'
-import FilteringProvider from '../viewing-management/filtering-management-tool/FilteringProvider'
+import FilteringProvider from './FilteringProvider'
 import { navBarWidth } from '../../../constants/constants'
 
+/**
+ * This page displays the actual recipes and viewing management "tools" with which the user
+ * can manage what is displayed in the UI. For example, the user can manage the displayed recipes to
+ * present the recipes in different modes (as cards with large images, as cards with main details or
+ * as simply as plain titles), pick recipes and select whether to view a list of the picked recipes,
+ * and set filters. If the window width is large enough, the view management "tools" are displayed
+ * on the left.
+ */
 const RecipesViewingPage = () => {
   const { windowWidth, isMobile, isSplitView, headerHeight } = useContext(ViewSizeContext)
   const { mode } = useContext(RecipesViewingContext)
@@ -20,26 +28,24 @@ const RecipesViewingPage = () => {
   return (
     <RecipesViewingProvider>
       <FilteringProvider>
-        {isSplitView ? (
-          <div css={outerCss}>
-            <div css={splitBoxCss(headerHeight)}>
+        <div css={outerCss(isSplitView)}>
+          {isSplitView ? (
+            <div css={scrollableCss(headerHeight)}>
               <ViewingManagement />
 
-              <div css={scrollableRecipesCss}>
-                <RecipesDisplay />
+              <div css={preventOverflowCss}>
+                <RecipesContent />
               </div>
             </div>
-          </div>
-        ) : (
-          <div css={scrollableAllCss}>
+          ) : (
             <div css={page(isMobile, width, isSummaryMode, headerHeight)}>
               <div css={container(isMobile, isSplitView)}>
                 <ViewingManagement />
-                <RecipesDisplay />
+                <RecipesContent />
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </FilteringProvider>
     </RecipesViewingProvider>
   )
@@ -47,28 +53,21 @@ const RecipesViewingPage = () => {
 
 export default RecipesViewingPage
 
-const outerCss = css`
+const outerCss = (isSplitView: boolean) => css`
   height: 100%;
   width: 100%;
   display: flex;
   flex: 1;
-  flex-direction: column;
+  flex-direction: ${isSplitView ? 'column' : 'row'};
+  overflow-x: hidden;
 `
 
-const scrollableRecipesCss = css`
+const preventOverflowCss = css`
   width: 100%;
   overflow-x: hidden;
 `
 
-const scrollableAllCss = css`
-  width: 100%;
-  overflow-x: hidden;
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-`
-
-const splitBoxCss = (headerHeight: number) => css`
+const scrollableCss = (headerHeight: number) => css`
   display: flex;
   flex: 1;
   flex-direction: row;

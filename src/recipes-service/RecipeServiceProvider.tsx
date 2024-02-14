@@ -1,18 +1,13 @@
 'use client'
 
 import { createContext, useContext, useEffect } from 'react'
-import { Recipe } from '../types/graphql-schema-types.generated'
-import { RecipeFilters, useRecipeApi } from './useRecipeApi'
+import { useRecipeApi } from './useRecipeApi'
 import { AppStateContext, AppStateContextType } from '../state/StateContextProvider'
 import { Dispatch } from '../state/reducer'
-
-export type RecipeCategory = {
-  category: string
-  recipes: Recipe[]
-}
+import { RecipesFilterValues, getEmptyFilterValues } from '../app-pages/recipes-viewing/page/FilteringProvider'
 
 export type RecipeService = {
-  filterRecipes: (filters: RecipeFilters) => Promise<void>
+  filterRecipes: (filters: RecipesFilterValues) => Promise<void>
 }
 
 export const RecipeServiceContext = createContext<RecipeService>({} as RecipeService)
@@ -34,14 +29,17 @@ const RecipeServiceProvider = ({ children }: { children: React.ReactNode }) => {
     if (window !== undefined) {
       const getRecipes = async () => {
         const filteredRecipes = await getFilteredCategorizedRecipes()
-        dispatch({ type: Dispatch.SET_RECIPES_AND_FILTERS, payload: { recipes: filteredRecipes, filters: {} } })
+        dispatch({
+          type: Dispatch.SET_RECIPES_AND_FILTERS,
+          payload: { recipes: filteredRecipes, filters: getEmptyFilterValues() }
+        })
       }
 
       getRecipes()
     }
   }, [])
 
-  const filterRecipes = async (filters: RecipeFilters) => {
+  const filterRecipes = async (filters: RecipesFilterValues) => {
     const filteredRecipes = await getFilteredCategorizedRecipes(filters)
     dispatch({ type: Dispatch.SET_RECIPES_AND_FILTERS, payload: { recipes: filteredRecipes, filters } })
   }

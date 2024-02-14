@@ -14,6 +14,14 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export enum Category {
+  Breakfast = 'BREAKFAST',
+  Brunch = 'BRUNCH',
+  Dinner = 'DINNER',
+  Lunch = 'LUNCH',
+  Snack = 'SNACK'
+}
+
 export type Ingredient = {
   __typename?: 'Ingredient';
   amount?: Maybe<Scalars['Float']['output']>;
@@ -58,7 +66,7 @@ export type Query = {
 
 export type Recipe = {
   __typename?: 'Recipe';
-  category?: Maybe<Scalars['String']['output']>;
+  category?: Maybe<Category>;
   description?: Maybe<Scalars['String']['output']>;
   extraImageUrls: Array<Scalars['String']['output']>;
   id: Scalars['Int']['output'];

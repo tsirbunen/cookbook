@@ -2,7 +2,7 @@
 'use client'
 import { useContext } from 'react'
 import { css } from '@emotion/react'
-import HeaderWithOptionalTools from '../components/header-with-optional-tools/HeaderWithOptionalTools'
+import HeaderWithOptionalToggles from '../widgets/header-with-optional-toggles/HeaderWithOptionalToggles'
 
 import { ViewSizeContext } from '../app-layout/ViewSizeProvider'
 import ErrorPage from '../navigation/router/ErrorPage'
@@ -36,7 +36,7 @@ const AppLayout = ({ children }: AppLayoutProps) => {
 
   return (
     <div css={app}>
-      <HeaderWithOptionalTools />
+      <HeaderWithOptionalToggles />
 
       <div css={content}>
         <NavigationBar isMobile={isMobile} />
