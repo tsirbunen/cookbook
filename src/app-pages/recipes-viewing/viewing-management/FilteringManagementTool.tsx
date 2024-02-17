@@ -10,6 +10,8 @@ import FormTextAreaSearch from '../../../widgets/form-textarea-search/FormTextAr
 import { RecipesViewingContext } from '../page/RecipesViewingProvider'
 import { Category } from '../../../types/types'
 
+export const filteringManagementToolDataTestId = 'filtering-management-tool'
+
 type FilteringManagementToolProps = {
   isMobile: boolean
 }
@@ -59,7 +61,7 @@ const FilteringManagementTool = ({ isMobile }: FilteringManagementToolProps) => 
   const applyLabel = hasChanges ? applyChangesLabel : applyFiltersLabel
 
   return (
-    <Flex {...outerStyle(isMobile)}>
+    <Flex {...outerStyle(isMobile)} data-testid={filteringManagementToolDataTestId}>
       {showTitle ? <Title title={filteringTitle.toUpperCase()} variant={TitleVariant.MediumRegular} /> : null}
 
       <form onSubmit={handleSubmit(onSubmit)}>

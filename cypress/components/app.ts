@@ -1,49 +1,55 @@
 import { Base } from './base'
 import { ViewMode } from '../../src/app-layout/ViewSizeProvider'
-import { drawerButtonDataCy, drawerDataCy, drawerTitle } from '../../src/navigation/navigation-drawer/NavigationDrawer'
-import { drawerItemDataCy } from '../../src/navigation/navigation-drawer/NavigationDrawerItem'
-import { navigationBarDataCy } from '../../src/navigation/navigation-bar/NavigationBarItem'
-import { launchPageDataCy, startButtonDataCy } from '../../app/page'
+import {
+  drawerButtonDataTestId,
+  drawerDataTestId,
+  drawerTitle
+} from '../../src/navigation/navigation-drawer/NavigationDrawer'
+import { drawerItemDataTestId } from '../../src/navigation/navigation-drawer/NavigationDrawerItem'
+import { navigationBarDataTestId } from '../../src/navigation/navigation-bar/NavigationBarItem'
+import { launchPageDataTestId, startButtonDataTestId } from '../../app/page'
 
 const CLIENT = 'localhost'
 const CLIENT_BASE_URL = `http://${CLIENT}:3000`
 
-const viewPorts = {
+const viewPortWindowWidthHeightPairs = {
   MOBILE: [400, 750],
   NARROW: [500, 750],
   MEDIUM: [650, 750],
-  WIDE: [900, 750]
+  WIDE: [900, 750],
+  VERY_WIDE: [1400, 750]
 }
 
 export class App extends Base {
-  navigateToCookbookApp() {
-    cy.visit(CLIENT_BASE_URL)
+  navigateToCookbookAppRoute(route?: string) {
+    const url = route ? `${CLIENT_BASE_URL}/${route}` : CLIENT_BASE_URL
+    cy.visit(url)
   }
 
   verifyWelcomePageIsVisible() {
-    this.verifyIsVisible(launchPageDataCy)
+    this.verifyIsVisible(launchPageDataTestId)
   }
 
   startUsingApp(mode: ViewMode) {
-    cy.getByDataCy(startButtonDataCy).click()
+    cy.getByDataTestId(startButtonDataTestId).click()
     // Note: We must wait for the dynamically loaded items to catch up!
     cy.wait(350)
     this.setViewMode(mode)
   }
 
   setViewMode(mode: ViewMode) {
-    const [width, height] = viewPorts[mode]
+    const [width, height] = viewPortWindowWidthHeightPairs[mode]
     cy.viewport(width, height)
     cy.debug()
     cy.window().its('innerWidth').should('equal', width)
   }
 
   openNavigationDrawer() {
-    cy.getByDataCy(drawerButtonDataCy).click()
+    cy.getByDataTestId(drawerButtonDataTestId).click()
   }
 
   navigationDrawerIsOpen() {
-    this.verifyIsVisible(drawerDataCy)
+    this.verifyIsVisible(drawerDataTestId)
     this.verifyTextContentDoesExist(drawerTitle)
   }
 
@@ -52,11 +58,11 @@ export class App extends Base {
   }
 
   navigationDrawerIsNotAvailable() {
-    this.verifyDataCyDoesNotExist(drawerDataCy)
+    this.verifyDataTestIdDoesNotExist(drawerDataTestId)
   }
 
   tapNavigationDrawerItem(menuItem: string) {
-    cy.getByDataCy(drawerItemDataCy).filter(`:contains("${menuItem}")`).click()
+    cy.getByDataTestId(drawerItemDataTestId).filter(`:contains("${menuItem}")`).click()
   }
 
   pageIsVisible(page: string) {
@@ -64,14 +70,14 @@ export class App extends Base {
   }
 
   navigationBarIsVisible() {
-    this.verifyIsVisible(navigationBarDataCy)
+    this.verifyIsVisible(navigationBarDataTestId)
   }
 
   navigationBarIsNotAvailable() {
-    this.verifyDataCyDoesNotExist(navigationBarDataCy)
+    this.verifyDataTestIdDoesNotExist(navigationBarDataTestId)
   }
 
   clickNavigationBarItem(menuItem: string) {
-    cy.getByDataCy(navigationBarDataCy).filter(`:contains("${menuItem.toUpperCase()}")`).click()
+    cy.getByDataTestId(navigationBarDataTestId).filter(`:contains("${menuItem.toUpperCase()}")`).click()
   }
 }

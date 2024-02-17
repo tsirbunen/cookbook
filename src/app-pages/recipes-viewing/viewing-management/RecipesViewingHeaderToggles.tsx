@@ -10,6 +10,11 @@ import { RecipesViewingContext } from '../page/RecipesViewingProvider'
 import { FiltersContext } from '../page/FilteringProvider'
 import Toggles from '../../../widgets/header-with-optional-toggles/Toggles'
 
+export const selectModeToggleProperty = 'selectMode'
+export const pickedRecipesToggleProperty = 'pickedRecipes'
+export const filteringToggleProperty = 'filtering'
+export const startCookingToggleProperty = 'startCooking'
+
 const RecipesViewingHeaderToggles = () => {
   const { state } = useContext(AppStateContext) as AppStateContextType
   const { isMobile } = useContext(ViewSizeContext)
@@ -31,13 +36,19 @@ const RecipesViewingHeaderToggles = () => {
 
   return (
     <Toggles isMobile={isMobile}>
-      <Toggle isToggled={showSelectMode} toggle={toggleShowSelectMode} Icon={TbListDetails} />
+      <Toggle
+        isToggled={showSelectMode}
+        toggle={toggleShowSelectMode}
+        Icon={TbListDetails}
+        toggleProperty={selectModeToggleProperty}
+      />
 
       <Toggle
         isToggled={showPickedRecipes}
         toggle={toggleShowPickedRecipes}
         Icon={TbCheckbox}
         count={pickedRecipesCount}
+        toggleProperty={pickedRecipesToggleProperty}
       />
 
       <Toggle
@@ -48,6 +59,7 @@ const RecipesViewingHeaderToggles = () => {
         }}
         Icon={TbTool}
         count={appliedFiltersCount}
+        toggleProperty={filteringToggleProperty}
       />
 
       <Toggle
@@ -56,6 +68,7 @@ const RecipesViewingHeaderToggles = () => {
         Icon={TbChefHat}
         isDisabled={pickedRecipesCount === 0}
         count={null}
+        toggleProperty={startCookingToggleProperty}
       />
     </Toggles>
   )

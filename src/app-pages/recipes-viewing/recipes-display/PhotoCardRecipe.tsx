@@ -6,6 +6,8 @@ import { ColorCodes } from '../../../theme/theme'
 import falafel from '../../../assets/falafel.png'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
 
+export const photoRepresentationDataTestId = 'card-representation'
+
 const cardHeight = 195
 const spacing = 10
 const borderRadius = 6
@@ -24,7 +26,7 @@ const PhotoCardRecipe = ({ recipe, onPickRecipeChanged, isPicked, photoUrl }: Re
   console.log(photoUrl)
 
   return (
-    <div css={cardCss(isPicked)}>
+    <div css={cardCss(isPicked)} data-testid={photoRepresentationDataTestId}>
       <Image
         src={falafel}
         alt={'Some image title'}

@@ -20,7 +20,8 @@ export enum ViewMode {
   MOBILE = 'MOBILE',
   NARROW = 'NARROW',
   MEDIUM = 'MEDIUM',
-  WIDE = 'WIDE'
+  WIDE = 'WIDE',
+  VERY_WIDE = 'VERY_WIDE'
 }
 
 export type WindowWidth = {
@@ -118,6 +119,7 @@ const getInitialWidth = (window: Window) => {
 }
 
 const getViewMode = (width: number) => {
+  if (width > splitViewBreakpoint) return ViewMode.VERY_WIDE
   if (width > mediumLargeBreakpoint) return ViewMode.WIDE
   if (width > narrowMediumBreakpoint) return ViewMode.MEDIUM
   if (width > mobileNarrowBreakpoint) return ViewMode.NARROW

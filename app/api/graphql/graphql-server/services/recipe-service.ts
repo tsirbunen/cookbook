@@ -4,8 +4,8 @@ import { Category } from '../../../../../src/types/types'
 
 export const getAllRecipes = async () => {
   // const allRecipes = await database.select().from(recipes)
-  console.log(recipes)
-  return recipes
+  // console.log(recipes)
+  return [...recipes, { ...cypressTestRecipe1 }, { ...cypressTestRecipe2 }]
 }
 
 const devRecipe = {
@@ -123,6 +123,60 @@ const devRecipe = {
   ]
 }
 
+const cypressTestRecipe1 = {
+  id: 111,
+  title: 'CYPRESS TITLE 1',
+  description: 'cypress decription 1',
+  mainImageUrl: 'cypress-image-url-1',
+  extraImageUrls: [],
+  tags: ['cypress'],
+  isFavorite: true,
+  category: Category.SNACK,
+  ovenNeeded: false,
+  ingredientGroups: [
+    {
+      id: 111,
+      title: null,
+      ingredients: [
+        {
+          id: 111,
+          amount: 1,
+          unit: 'cup',
+          name: 'cypress',
+          previousIngredientId: null
+        },
+        { id: 112, amount: 0.5, unit: 'cup', name: 'blueberry', previousIngredientId: 111 }
+      ]
+    }
+  ],
+  instructionGroups: [
+    {
+      id: 333,
+      title: null,
+      instructions: [
+        {
+          id: 333,
+          content:
+            "The night before, soak the dried chickpeas in water. Make sure the water covers the chickpeas by 2 to 3 inches, as they'll triple in size.",
+          previousInstructionId: null,
+          ingredientReferenceIds: [111]
+        }
+      ]
+    }
+  ]
+}
+
+const cypressTestRecipe2 = {
+  ...cypressTestRecipe1,
+  id: 555,
+  title: 'CYPRESS TITLE 2',
+  description: 'cypress decription 2',
+  mainImageUrl: 'cypress-image-url-2',
+  category: Category.BRUNCH,
+  ovenNeeded: true,
+  isFavorite: false
+}
+
 const devRecipe13 = {
   id: 13,
   title: 'BLUEBERRY RECIPE TEST',
@@ -145,7 +199,7 @@ const devRecipe13 = {
           name: 'raspberry',
           previousIngredientId: null
         },
-        { id: 201, amount: 0.5, unit: 'cup', name: 'blueberry', previousIngredientId: 1 }
+        { id: 201, amount: 0.5, unit: 'cup', name: 'blueberry', previousIngredientId: 200 }
       ]
     }
   ],

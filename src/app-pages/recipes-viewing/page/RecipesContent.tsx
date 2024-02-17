@@ -13,6 +13,8 @@ import { navBarWidth, noCategoryTitle } from '../../../constants/constants'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
 import RecipesDisplay from '../recipes-display/RecipesDisplay'
 
+export const recipesContentDataTestId = 'recipes-content'
+
 export type RecipesViewElementProps = {
   recipes: Recipe[]
   onPickRecipeChanged: (recipeId: number, category: string) => void
@@ -37,7 +39,7 @@ const RecipesContent = () => {
   const recipesInCategories = state.recipes
 
   return (
-    <div css={outerCss(isMobile, mode === ViewRecipesMode.PHOTOS)}>
+    <div css={outerCss(isMobile, mode === ViewRecipesMode.PHOTOS)} data-testid={recipesContentDataTestId}>
       {recipesInCategories.map((recipeCategory) => {
         const title = recipeCategory.category.toUpperCase()
         const category = recipeCategory.category ?? noCategoryTitle

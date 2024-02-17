@@ -9,6 +9,8 @@ import CardRadioButtonSelector from '../card-radio-button-selector/CardRadioButt
 import TextAreaWithTheme from '../../theme/textareas/TextAreaWithTheme'
 import { TextAreaVariant } from '../../theme/textareas/textareas-theme'
 
+export const formTextAreaSearchDataTestId = 'form-text-area-search'
+
 export enum SearchMode {
   'AND' = 'AND',
   'OR' = 'OR'
@@ -66,7 +68,7 @@ const FormTextAreaSearch = <TextAreaSearchValues extends FieldValues, T extends 
   const clearingIsDisabled = searchTerm.length === 0
 
   return (
-    <Flex {...outerCss}>
+    <Flex {...outerCss} data-testid={formTextAreaSearchDataTestId}>
       <Title title={label.toUpperCase()} variant={TitleVariant.Small} />
 
       <Flex {...innerCss}>

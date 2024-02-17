@@ -7,6 +7,8 @@ import falafel from '../../../assets/falafel.png'
 import { TbStarFilled, TbStar, TbCooker } from 'react-icons/tb'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
 
+export const summaryRepresentationDataTestId = 'summary-representation'
+
 export type SummaryRecipeProps = {
   recipe: Recipe
   onPickRecipeChanged: () => void
@@ -27,7 +29,7 @@ const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked }: SummaryRecipeP
   const tagsCombined = tags.map((tag) => `#${tag.toUpperCase()}`).join(' ')
 
   return (
-    <div css={container(isPicked)}>
+    <div css={container(isPicked)} data-testid={summaryRepresentationDataTestId}>
       <div css={imageContainer}>
         <Image
           src={falafel}

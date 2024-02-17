@@ -14,8 +14,8 @@ Feature: Navigation
     Scenario: One can navigate from start page (recipes) to other pages in mobile mode
         Given one has started using the app in "MOBILE" mode
         When one clicks the menu button to open the navigation drawer
-        When one taps "<menu item>"
-        Then the "<page>" is navigated to
+        When one taps navigation drawer "<menu item>"
+        Then the page "<page>" is navigated to
         Then the navigation drawer is closed
 
         Examples:
@@ -32,15 +32,16 @@ Feature: Navigation
         Then the navigation drawer is not available
 
         Examples:
-            | mode   |
-            | NARROW |
-            | MEDIUM |
-            | WIDE   |
+            | mode      |
+            | NARROW    |
+            | MEDIUM    |
+            | WIDE      |
+            | VERY_WIDE |
 
     Scenario: One can navigate from start page (recipes) to other pages in modes other than mobile
         Given one has started using the app in "NARROW" mode
-        When one clicks "<menu item>"
-        Then the "<page>" is navigated to
+        When one clicks menu item "<menu item>"
+        Then the page "<page>" is navigated to
         Then the navigation bar is visible
 
         Examples:

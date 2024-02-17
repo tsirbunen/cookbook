@@ -6,6 +6,8 @@ import CheckboxWithTheme from '../../../theme/checkboxes/CheckboxWithTheme'
 import TitleWithLink from '../../../widgets/titles/TitleWithLink'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
 
+export const titleRepresentationDataTestId = 'title-representation'
+
 export type TitleRecipeProps = {
   recipe: Recipe
   onPickRecipeChanged: () => void
@@ -17,7 +19,7 @@ const TitleRecipe = ({ recipe, isPicked, onPickRecipeChanged, showBackground }: 
   const { title } = recipe
 
   return (
-    <div css={outerCss(isPicked && showBackground)}>
+    <div css={outerCss(isPicked && showBackground)} data-testid={titleRepresentationDataTestId}>
       <CheckboxWithTheme isChecked={isPicked} onChange={onPickRecipeChanged} />
 
       <TitleWithLink title={title} url="TODO" />

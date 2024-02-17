@@ -2,6 +2,8 @@ import { Flex, Divider, ChakraProps } from '@chakra-ui/react'
 import CardRadioButton, { RoundedBordersOnSide } from './CardRadioButton'
 import { Fragment } from 'react'
 
+export const cardRadioButtonSelectorDataTestId = 'card-radio-button-selector'
+
 type CardRadioButtonSelectorOption<T> = {
   label: string
   value: T
@@ -23,7 +25,7 @@ const CardRadioButtonSelector = <T,>({ options, currentValue, selectValue }: Car
   const optionsCount = options.length
 
   return (
-    <Flex {...innerCss}>
+    <Flex {...innerCss} data-testid={cardRadioButtonSelectorDataTestId}>
       {options.map((option, index) => {
         const showDividerOnRight = index < optionsCount - 1
 

@@ -5,7 +5,7 @@ import { Page } from '../../navigation/router/router'
 
 const ShoppingPage = () => {
   return (
-    <div css={container} data-cy={`${Page.SHOPPING}-page`}>
+    <div css={container} data-testid={`${Page.SHOPPING}-page`}>
       <div>SHOPPING</div>
       <p>Content coming later</p>
     </div>

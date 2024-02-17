@@ -5,7 +5,7 @@ import { Page } from '../../navigation/router/router'
 
 const WizardPage = () => {
   return (
-    <div css={container} data-cy={`${Page.WIZARD}-page`}>
+    <div css={container} data-testid={`${Page.WIZARD}-page`}>
       <div>WIZARD</div>
       <p>Content coming later</p>
     </div>

@@ -19,8 +19,8 @@ import { navigationMenuItems } from '../router/router'
 import { ColorCodes } from '../../theme/theme'
 
 export const drawerTitle = 'CONTENTS'
-export const drawerButtonDataCy = 'drawer-menu-button'
-export const drawerDataCy = 'drawer-menu'
+export const drawerButtonDataTestId = 'drawer-menu-button'
+export const drawerDataTestId = 'drawer-menu'
 
 /**
  * Menu icon button with onClick action to open a navigation drawer (from left).
@@ -39,11 +39,11 @@ const NavigationDrawer = () => {
         backgroundColor={ColorCodes.PALE}
         size="sm"
         margin="8px"
-        data-cy={drawerButtonDataCy}
+        data-testid={drawerButtonDataTestId}
       />
       <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
         <DrawerOverlay backgroundColor={ColorCodes.VERY_DARK} />
-        <DrawerContent style={{ backgroundColor: ColorCodes.BACKGROUND }} data-cy={drawerDataCy}>
+        <DrawerContent style={{ backgroundColor: ColorCodes.BACKGROUND }} data-testid={drawerDataTestId}>
           <DrawerCloseButton color={ColorCodes.DARK} />
           <DrawerHeader fontSize="1.2em" fontWeight="bold" color={ColorCodes.DARK}>
             {drawerTitle}

@@ -2,7 +2,7 @@ import { Text, Flex, Divider } from '@chakra-ui/react'
 import { ColorCodes } from '../../theme/theme'
 import { IconType } from 'react-icons'
 
-export const drawerItemDataCy = 'drawer-menu-item'
+export const drawerItemDataTestId = 'drawer-menu-item'
 
 type DrawerNavigationMenuItemProps = {
   content: string
@@ -17,7 +17,7 @@ const NavigationDrawerItem = ({ iconElement, content, onClick, showDividerBelow 
   const icon = <IconElement fontSize="1.75em" color={ColorCodes.DARK} />
 
   return (
-    <Flex flexDirection="column" marginBottom="10px" onClick={onClick} data-cy={drawerItemDataCy}>
+    <Flex flexDirection="column" marginBottom="10px" onClick={onClick} data-testid={drawerItemDataTestId}>
       <Divider marginBottom="10px" borderColor={contentColor} borderWidth="1px" />
 
       <Flex flexDirection="row" alignItems="center">

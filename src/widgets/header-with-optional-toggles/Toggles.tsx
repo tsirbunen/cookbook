@@ -1,6 +1,8 @@
 import { ColorCodes } from '../../theme/theme'
 import { ChakraProps, Flex } from '@chakra-ui/react'
 
+export const togglesDataTestId = 'toggles'
+
 type TogglesProps = {
   children?: JSX.Element | React.ReactNode
   isMobile: boolean
@@ -8,7 +10,7 @@ type TogglesProps = {
 
 const Toggles = ({ children, isMobile }: TogglesProps) => {
   return (
-    <Flex {...outerBoxCss(isMobile)}>
+    <Flex {...outerBoxCss(isMobile)} data-testid={togglesDataTestId}>
       <Flex {...togglesBoxCss}>{children}</Flex>
     </Flex>
   )

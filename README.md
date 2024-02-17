@@ -31,10 +31,13 @@ To run the app in **`DEBUG`** mode, select option "Full stack" in RUN AND DEBUG 
 
 ### Tests
 
-To trigger feature test files manually one by one with live viewing, first start the application in one shell (as described above) and then run in another shell
+**Unit tests and React Component/Hook tests** files have been placed into **\_\_tests\_\_** -folders next to the code they are testing. To run these tests
+&nbsp;&nbsp;&nbsp;&nbsp; **`npm run test`**
+
+**E2E testing** feature test files can be triggered manually (one by one) with live viewing by first starting the application in one shell (as described above) and then running in another
 &nbsp;&nbsp;&nbsp;&nbsp; **`npm run cypress:open`**
 
-Alternatively, run all tests without viewing the tests live with
+Alternatively, run E2E tests can be run without live viewing (but with the application running in the background) with
 &nbsp;&nbsp;&nbsp;&nbsp; **`npm run cypress:run`**
 
 Note: If the tests fail, it might be that the waiting time is not long enough for the dynamic page components to catch up. In that case, increase the waiting time **[here](/cypress/components/app.ts)**.
@@ -46,7 +49,8 @@ Note: If the tests fail, it might be that the waiting time is not long enough fo
 - Database: PostgresSQL hosted on **[Supabase](https://supabase.com)**
 - TypeScript ORM: **[Drizzle ORM](https://orm.drizzle.team/docs/overview)**
 - GraphQL Client: **[Apollo Client](https://www.apollographql.com/docs/react/)** with **[experimental support for next.js](https://www.npmjs.com/package/@apollo/experimental-nextjs-app-support)**
-- Automated tests: **[Cypress testing](https://docs.cypress.io/guides/overview/why-cypress)** with a **[Cucumber-like](https://www.npmjs.com/package/@badeball/cypress-cucumber-preprocessor)**-experience
+- Unit and React Component/Hook tests: **[jest](https://jestjs.io/docs/getting-started)**, **[@testing-library/jest-dom](https://www.npmjs.com/package/@testing-library/jest-dom)** and **[@testing-library/react](https://testing-library.com/docs/react-testing-library/intro/)**
+- E2E tests: **[Cypress testing](https://docs.cypress.io/guides/overview/why-cypress)** with a **[Cucumber-like](https://www.npmjs.com/package/@badeball/cypress-cucumber-preprocessor)**-experience
 - Component styling: **[@emotion/react](https://www.npmjs.com/package/@emotion/react)**
 - UI Component library: **[Chakra ui](https://chakra-ui.com)** (even though it did not seem to work too well together with @emotion/react if used in the same file)
 - Icons: React **[Tabler icons](https://react-icons.github.io/react-icons/icons/tb/)**

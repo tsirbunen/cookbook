@@ -6,9 +6,10 @@ import { ButtonVariant } from '../../theme/buttons/buttons-theme'
 import Title, { TitleVariant } from '../titles/Title'
 import { isEqual } from 'lodash'
 
+export const formButtonsSelectorDataTestId = 'form-buttons-selector'
 export type FormButtonsSelectorValue = string[]
 
-type FormButtonsSelectorProps<FormButtonsSelectorValue extends FieldValues, T> = {
+export type FormButtonsSelectorProps<FormButtonsSelectorValue extends FieldValues, T> = {
   label: string
   control: Control<FormButtonsSelectorValue>
   name: T
@@ -42,7 +43,7 @@ const FormButtonsSelector = <
   }
 
   return (
-    <Flex {...outerCss}>
+    <Flex {...outerCss} data-testid={formButtonsSelectorDataTestId}>
       <Title title={label.toUpperCase()} variant={TitleVariant.Small} />
 
       <Flex {...innerCss}>

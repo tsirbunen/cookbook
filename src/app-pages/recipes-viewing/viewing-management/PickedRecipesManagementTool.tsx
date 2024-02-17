@@ -9,6 +9,8 @@ import RecipeElements from '../recipes-display/RecipesDisplay'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
 import { RecipeCategory } from '../../../types/types'
 
+export const pickedRecipesManagementToolDataTestId = 'picked-recipes-management-tool'
+
 type PickedRecipesManagementToolProps = {
   isMobile: boolean
 }
@@ -43,7 +45,7 @@ const PickedRecipesManagementTool = ({ isMobile }: PickedRecipesManagementToolPr
   const showTitle = !isMobile || noRecipesPickedYet
 
   return (
-    <Flex {...outerCss(isMobile)}>
+    <Flex {...outerCss(isMobile)} data-testid={pickedRecipesManagementToolDataTestId}>
       {showTitle ? <Title title={title.toUpperCase()} variant={TitleVariant.MediumRegular} /> : null}
 
       <Flex {...innerCss(isMobile, noRecipesPickedYet)}>

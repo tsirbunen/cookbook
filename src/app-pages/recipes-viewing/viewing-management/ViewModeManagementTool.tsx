@@ -6,6 +6,7 @@ import { useContext } from 'react'
 import CardRadioButtonSelector from '../../../widgets/card-radio-button-selector/CardRadioButtonSelector'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
 
+export const viewModeManagementToolDataTestId = 'view-mode-management-tool'
 export enum ViewRecipesMode {
   PHOTOS = 'PHOTOS',
   SUMMARIES = 'SUMMARIES',
@@ -31,7 +32,7 @@ const ViewModeManagementTool = ({ isMobile }: ViewModeManagementToolProps) => {
   const showTitle = !isMobile
 
   return (
-    <Flex {...outerCss(isMobile)}>
+    <Flex {...outerCss(isMobile)} data-testid={viewModeManagementToolDataTestId}>
       {showTitle ? <Title title={title.toUpperCase()} variant={TitleVariant.MediumRegular} /> : null}
 
       <CardRadioButtonSelector options={viewModeOptions} currentValue={mode} selectValue={selectMode} />

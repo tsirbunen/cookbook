@@ -4,7 +4,7 @@ import { Page } from '../../navigation/router/router'
 
 const SettingsPage = () => {
   return (
-    <div css={container} data-cy={`${Page.SETTINGS}-page`}>
+    <div css={container} data-testid={`${Page.SETTINGS}-page`}>
       <div>SETTINGS</div>
       <p>Content coming later</p>
     </div>

@@ -10,11 +10,12 @@ export type ToggleProps = {
   Icon: IconType
   count?: number | null
   isDisabled?: boolean
+  toggleProperty: string
 }
 
-const Toggle = ({ isToggled, toggle, Icon, count, isDisabled }: ToggleProps) => {
+const Toggle = ({ isToggled, toggle, Icon, count, isDisabled, toggleProperty }: ToggleProps) => {
   return (
-    <Flex {...toggleStyles}>
+    <Flex {...toggleStyles} data-testid={toggleProperty}>
       <ButtonWithTheme
         variant={ButtonVariant.SquareWithIcon}
         onClick={toggle}

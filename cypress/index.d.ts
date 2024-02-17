@@ -1,7 +1,8 @@
 declare namespace Cypress {
   interface Chainable {
-    getByDataCy(dataCy: string): Chainable<JQuery<HTMLElement>>
-    getByDataCyBeginsWith(dataCyBeginsWith: string, count?: number): Chainable<JQuery<HTMLElement>>
-    getByDataContains(dataContained: string): Chainable<JQuery<HTMLElement>>
+    getByDataTestId(dataTestId: string): Chainable<JQuery<HTMLElement>>
+    getByDataTestIdBeginsWith(dataTestIdBeginsWith: string, count?: number): Chainable<JQuery<HTMLElement>>
+    getByDataTestIdContains(dataContained: string): Chainable<JQuery<HTMLElement>>
+    escapeFromWithin(): Chainable<JQuery<HTMLElement>>
   }
 }

@@ -5,7 +5,7 @@ import { NavigationMenuItem } from '../router/router'
 import { ColorCodes } from '../../theme/theme'
 import { navBarWidth } from '../../constants/constants'
 
-export const navigationBarDataCy = 'navigation-bar-item'
+export const navigationBarDataTestId = 'navigation-bar-item'
 
 type NavigationBarItemProps = {
   menuItem: NavigationMenuItem
@@ -18,7 +18,7 @@ const NavigationBarItem = ({ menuItem, currentPath, navigateTo }: NavigationBarI
   const IconElement = menuItem.iconElement
 
   return (
-    <div key={menuItem.page} css={itemContainer(isSelected)} onClick={navigateTo} data-cy={navigationBarDataCy}>
+    <div key={menuItem.page} css={itemContainer(isSelected)} onClick={navigateTo} data-testid={navigationBarDataTestId}>
       <div css={iconContainer}>
         <IconElement fontSize="1.75em" />
       </div>

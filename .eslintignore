@@ -1,3 +1,10 @@
 /node_modules
 **/*.generated.ts
 
+.eslintrc.js
+
+**/test/*.ts
+**/test/*.tsx
+
+*.test.ts
+*.test.tsx

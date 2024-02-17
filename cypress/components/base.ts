@@ -1,10 +1,10 @@
 export class Base {
-  verifyIsVisible(dataCy: string) {
-    cy.getByDataCy(dataCy).should('be.visible')
+  verifyIsVisible(dataTestId: string) {
+    cy.getByDataTestId(dataTestId).should('be.visible')
   }
 
-  verifyIsNotVisible(dataCy: string) {
-    cy.getByDataCy(dataCy).should('not.be.visible')
+  verifyIsNotVisible(dataTestId: string) {
+    cy.getByDataTestId(dataTestId).should('not.be.visible')
   }
 
   verifyTextContentDoesExist(text: string) {
@@ -15,15 +15,15 @@ export class Base {
     cy.contains(text).should('not.exist')
   }
 
-  verifyDataCyDoesNotExist(dataCy: string) {
-    cy.getByDataCy(dataCy).should('not.exist')
+  verifyDataTestIdDoesNotExist(dataTestId: string) {
+    cy.getByDataTestId(dataTestId).should('not.exist')
   }
 
-  verifyDataCyBeginsWithInstancesAreVisible(beginsWith: string, count?: number) {
-    cy.getByDataCyBeginsWith(beginsWith, count).should('be.visible')
+  verifyDataTestIdBeginsWithInstancesAreVisible(beginsWith: string, count?: number) {
+    cy.getByDataTestIdBeginsWith(beginsWith, count).should('be.visible')
   }
 
-  verifyDataCyContains(containedData: string) {
-    cy.getByDataContains(containedData)
+  verifyDataTestIdContains(containedData: string) {
+    cy.getByDataTestIdContains(containedData)
   }
 }

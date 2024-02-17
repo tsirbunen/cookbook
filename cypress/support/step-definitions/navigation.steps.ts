@@ -1,12 +1,11 @@
 import { When, Then, Given } from '@badeball/cypress-cucumber-preprocessor'
-
 import { App } from '../../components/app'
 import { ViewMode } from '../../../src/app-layout/ViewSizeProvider'
 
 const app = new App()
 
 Given('one has navigated to the COOKBOOK app', () => {
-  app.navigateToCookbookApp()
+  app.navigateToCookbookAppRoute()
 })
 
 Then('the welcome page is visible', () => {
@@ -31,16 +30,16 @@ Then('the navigation bar is not available', () => {
 
 Given('one has opened the navigation drawer', () => {
   app.setViewMode(ViewMode.MOBILE)
-  app.navigateToCookbookApp()
+  app.navigateToCookbookAppRoute()
   app.openNavigationDrawer()
   app.navigationDrawerIsOpen()
 })
 
-When('one taps {string}', (menuItem: string) => {
+When('one taps navigation drawer {string}', (menuItem: string) => {
   app.tapNavigationDrawerItem(menuItem)
 })
 
-Then('the {string} is navigated to', (page: string) => {
+Then('the page {string} is navigated to', (page: string) => {
   app.pageIsVisible(page)
 })
 
@@ -56,6 +55,6 @@ Then('the navigation drawer is not available', () => {
   app.navigationDrawerIsNotAvailable()
 })
 
-When('one clicks {string}', (menuItem: string) => {
+When('one clicks menu item {string}', (menuItem: string) => {
   app.clickNavigationBarItem(menuItem)
 })

@@ -1,14 +1,16 @@
 /// <reference types="cypress" />
 
-Cypress.Commands.add('getByDataCy', (dataCy: string) => {
-  return cy.get(`[data-cy=${dataCy}]`)
+Cypress.Commands.add('getByDataTestId', (dataTestId: string) => {
+  return cy.get(`[data-testid=${dataTestId}]`)
 })
 
-Cypress.Commands.add('getByDataCyBeginsWith', (dataCyBeginsWith: string, count?: number) => {
-  if (count) return cy.get(`[data-cy^=${dataCyBeginsWith}]`).should('have.length', count)
-  return cy.get(`[data-cy^=${dataCyBeginsWith}]`)
+Cypress.Commands.add('getByDataTestIdBeginsWith', (dataTestIdBeginsWith: string, count?: number) => {
+  if (count) return cy.get(`[data-testid^=${dataTestIdBeginsWith}]`).should('have.length', count)
+  return cy.get(`[data-testid^=${dataTestIdBeginsWith}]`)
 })
 
-Cypress.Commands.add('getByDataContains', (dataContained: string) => {
-  return cy.get(`[data-cy*=${dataContained}]`)
+Cypress.Commands.add('getByDataTestIdContains', (dataContained: string) => {
+  return cy.get(`[data-testid*=${dataContained}]`)
 })
+
+Cypress.Commands.addQuery('escapeFromWithin', () => () => cy.$$('body'))
