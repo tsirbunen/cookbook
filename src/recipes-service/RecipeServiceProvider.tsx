@@ -5,6 +5,8 @@ import { useRecipeApi } from './useRecipeApi'
 import { AppStateContext, AppStateContextType } from '../state/StateContextProvider'
 import { Dispatch } from '../state/reducer'
 import { RecipesFilterValues, getEmptyFilterValues } from '../app-pages/recipes-viewing/page/FilteringProvider'
+import { getFilteredCategorizedRecipes } from './utils'
+// import { useRecipeApi } from './__tests__/useRecipeApi'
 
 export type RecipeService = {
   filterRecipes: (filters: RecipesFilterValues) => Promise<void>
@@ -23,36 +25,28 @@ export const RecipeServiceContext = createContext<RecipeService>({} as RecipeSer
 const RecipeServiceProvider = ({ children }: { children: React.ReactNode }) => {
   const { dispatch } = useContext(AppStateContext) as AppStateContextType
 
-  const { getFilteredCategorizedRecipes } = useRecipeApi()
+  const { allRecipes } = useRecipeApi()
+  console.log('allRecipes', allRecipes)
 
   useEffect(() => {
-    if (window !== undefined) {
-      const getRecipes = async () => {
-        const filteredRecipes = await getFilteredCategorizedRecipes()
-        dispatch({
-          type: Dispatch.SET_RECIPES_AND_FILTERS,
-          payload: { recipes: filteredRecipes, filters: getEmptyFilterValues() }
-        })
-      }
-
-      getRecipes()
+    console.log('useEffect')
+    if (allRecipes !== undefined) {
+      const filteredRecipes = getFilteredCategorizedRecipes(allRecipes)
+      dispatch({
+        type: Dispatch.SET_RECIPES_AND_FILTERS,
+        payload: { recipes: filteredRecipes, filters: getEmptyFilterValues() }
+      })
     }
-  }, [])
+  }, [allRecipes])
 
   const filterRecipes = async (filters: RecipesFilterValues) => {
-    const filteredRecipes = await getFilteredCategorizedRecipes(filters)
+    if (!allRecipes?.length) return
+
+    const filteredRecipes = getFilteredCategorizedRecipes(allRecipes, filters)
     dispatch({ type: Dispatch.SET_RECIPES_AND_FILTERS, payload: { recipes: filteredRecipes, filters } })
   }
 
-  return (
-    <RecipeServiceContext.Provider
-      value={{
-        filterRecipes
-      }}
-    >
-      {children}
-    </RecipeServiceContext.Provider>
-  )
+  return <RecipeServiceContext.Provider value={{ filterRecipes }}>{children}</RecipeServiceContext.Provider>
 }
 
 export default RecipeServiceProvider

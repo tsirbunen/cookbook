@@ -22,9 +22,7 @@ export type RecipeForPhotoCardProps = {
   photoUrl?: string
 }
 
-const PhotoCardRecipe = ({ recipe, onPickRecipeChanged, isPicked, photoUrl }: RecipeForPhotoCardProps) => {
-  console.log(photoUrl)
-
+const PhotoCardRecipe = ({ recipe, onPickRecipeChanged, isPicked }: RecipeForPhotoCardProps) => {
   return (
     <div css={cardCss(isPicked)} data-testid={photoRepresentationDataTestId}>
       <Image

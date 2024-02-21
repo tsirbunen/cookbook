@@ -40,7 +40,8 @@ To run the app in **`DEBUG`** mode, select option "Full stack" in RUN AND DEBUG 
 Alternatively, run E2E tests can be run without live viewing (but with the application running in the background) with
 &nbsp;&nbsp;&nbsp;&nbsp; **`npm run cypress:run`**
 
-Note: If the tests fail, it might be that the waiting time is not long enough for the dynamic page components to catch up. In that case, increase the waiting time **[here](/cypress/components/app.ts)**.
+Note 1: If the tests fail, it might be that the waiting time is not long enough for the dynamic page components to catch up. In that case, increase the waiting time **[here](/cypress/components/app.ts)**.
+Note 2: The cypress E2E tests are truly E2E only when run locally. For some reason (related to the ApolloNextAppProvider) the Apollo Client could not be made to work in GitHub Actions testing environment and therefore in GitHub test flow the hook using Apollo Client to fetch data from api is replaced with a mock.
 
 ### Libraries used
 
