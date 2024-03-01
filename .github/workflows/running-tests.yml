@@ -2,7 +2,7 @@ name: All tests
 on: push
 
 jobs:
-  e2e_cypress_testing:
+  e2e_cypress_and_unit_testing:
     runs-on: ubuntu-latest
 
     services:
@@ -31,6 +31,9 @@ jobs:
           node-version: '20.x'
       - run: npm install
       - run: npm run migrations:local
+
+      - name: Run unit tests
+        run: npm run test
 
       - name: Replace GraphQL client using hook with a mock
         run: mv ./src/test-utils/useRecipeApi.tsx ./src/recipes-service/useRecipeApi.tsx
