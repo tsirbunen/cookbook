@@ -1,7 +1,7 @@
 # COOKBOOK
 
-Interested in cooking something **delicious**? Navigate to the **[COOKBOOK](https://cookbook-dusky.vercel.app)** !!!
-COOKBOOK is a full-stack React Typescript web application built with the **[ Next.js](https://nextjs.org/docs)** framework.
+Want to eat something **delicious**? Navigate to the **[COOKBOOK](https://cookbook-dusky.vercel.app)** !!!
+COOKBOOK is a full-stack React Typescript GraphQL web application built with the **[Next.js](https://nextjs.org/docs)** framework.
 
 ![Vercel](https://vercelbadge.vercel.app/api/tsirbunen/cookbook?style=plastic) ![example workflow](https://github.com/tsirbunen/cookbook/actions/workflows/running-tests.yml/badge.svg)
 
@@ -31,23 +31,25 @@ To run the app in **`DEBUG`** mode, select option "Full stack" in RUN AND DEBUG 
 
 ### Tests
 
-**Unit tests and React Component/Hook tests** files have been placed into **\_\_tests\_\_** -folders next to the code they are testing. To run these tests
-&nbsp;&nbsp;&nbsp;&nbsp; **`npm run test`**
+**Unit and React Component/Hook test** files have been placed into **\_\_tests\_\_** -folders next to the code they test. To run these tests, use either
+&nbsp;&nbsp;&nbsp;&nbsp; **`npm run test`** or **`npm run test:watch`**
 
-**E2E testing** feature test files can be triggered manually (one by one) with live viewing by first starting the application in one shell (as described above) and then running in another
+**E2E feature test files** can be triggered manually (one by one) with live viewing. First start the application in one shell (as described above) and then run in another shell
 &nbsp;&nbsp;&nbsp;&nbsp; **`npm run cypress:open`**
 
-Alternatively, run E2E tests can be run without live viewing (but with the application running in the background) with
+Alternatively, E2E tests can be run without live viewing (but with the application running in the background) with
 &nbsp;&nbsp;&nbsp;&nbsp; **`npm run cypress:run`**
 
-Note 1: If the tests fail, it might be that the waiting time is not long enough for the dynamic page components to catch up. In that case, increase the waiting time **[here](/cypress/components/app.ts)**.
-Note 2: The cypress E2E tests are truly E2E only when run locally. For some reason (related to the ApolloNextAppProvider) the Apollo Client could not be made to work in GitHub Actions testing environment and therefore in GitHub test flow the hook using Apollo Client to fetch data from api is replaced with a mock.
+Neither the unit/component nor the E2E tests cover all the code on their own. Instead they have been designed to **complement** each other. For example, there are unit tests for the individual form components (like the search text input), but for forms (like the recipes filtering form) there are E2E tests. Writing integration tests for "higher order" components like forms, pages, and even the whole app was skipped in favor of the E2E tests because: (1) E2E tests were seen confirmatory of intended functionality anyway, (2) E2E tests were considered easier to maintain (final desired features and functionality were clear already in the beginning, whereas the detailed implementation was not), and (3) E2E tests did not require mocking for example React contexts, meaning there was less opportunity for tests introducing "artificial" errors.
+
+_Note 1:_ If the cypress tests fail, it might be that the waiting time is not long enough for the dynamic page components to catch up. In that case, increase the waiting time.
+_Note 2:_ The cypress E2E tests are truly E2E only when run locally. For some reason (related to the ApolloNextAppProvider) the Apollo Client could not be made to work in GitHub Actions testing environment and therefore in GitHub test flow the hook using Apollo Client to fetch data from api is replaced with a mock.
 
 ### Libraries used
 
 - Api graphQL server: the easy-to-set-up **[Graphql Yoga](https://the-guild.dev/graphql/yoga-server/docs)**
 - Automatic code generation: **[@graphql-codegen/cli (with a preset and plugins)](https://the-guild.dev/graphql/codegen/docs/getting-started)** GraphQL Yoga with server preset for server and near-operation file generation for Apollo client
-- Database: PostgresSQL hosted on **[Supabase](https://supabase.com)**
+- Database: **PostgresSQL** hosted on **[Supabase](https://supabase.com)**
 - TypeScript ORM: **[Drizzle ORM](https://orm.drizzle.team/docs/overview)**
 - GraphQL Client: **[Apollo Client](https://www.apollographql.com/docs/react/)** with **[experimental support for next.js](https://www.npmjs.com/package/@apollo/experimental-nextjs-app-support)**
 - Unit and React Component/Hook tests: **[jest](https://jestjs.io/docs/getting-started)**, **[@testing-library/jest-dom](https://www.npmjs.com/package/@testing-library/jest-dom)** and **[@testing-library/react](https://testing-library.com/docs/react-testing-library/intro/)**
@@ -112,12 +114,11 @@ The commands used to lint, build and start te project in production mode are
 
 - Components should be smaller !!!
 - Functions should be smaller !!!
-- Functions are often placed outside of the component that use them so that it would be easier to see what the component actually does. This applies mainly to functions that do not need to, for example, set some state variable, but merely calculate some outcome for given input params.
 - Css-styles are placed in the same files that they are used in, below the component code at the end of the file.
 
 ### Codebase overall structure
 
-The structure of the project is very much **dictated by the Next.js framework** selected. The main structure is provided in the skeleton below, followed by a table with some descriptions.
+The structure of the project is very much **dictated by the selected Next.js framework**. The main structure is provided in the skeleton below, followed by a table with some descriptions.
 
 ```
 cookbook/
@@ -134,33 +135,41 @@ cookbook/
                 ├── modules/
                 └── services/
     ...
+├── cypress/
 ├── src/
     ├── app-layout/
     ├── app-pages/
-    ├── components/
+    ├── assets/
+    ├── constants/
     ├── graphql-client/
     ├── navigation/
     ├── recipes-service/
+    ├── state/
+    ├── test-utils/
     ├── theme/
+    ├── types/
+    ├── widgets/
     ...
 ...
 
 ```
 
-| Folder / file | Description                                                                                                                                                                                                                                                                                                                          |
-| :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| layout.tsx    | Top level layout element (required by Next.js; needed to modify HTML on initial load). All common providers are introduced here to be available to application throughout                                                                                                                                                            |
-| page.tsx      | The launch page of the application (the default starting route "/" required by Next.js)                                                                                                                                                                                                                                              |
-| **app/**      | When using the new App Router (of Next.js), all the routes need to be defined in the app folder as folders that have the route names and contain a page.tsx file with the page content. (for example route recipes: app/recipes/page.tsx). The page.tsx files only contain a wrapper that imports the actual code from src/app-pages |
-| **api/**      | The "internal" api is contained as an app route in the app folder (required byt Next.js)                                                                                                                                                                                                                                             |
-| **graphql/**  | The api route named graphql is in the api folder in a folder with the same name (i.e. _graphql_). The folder contains a file named route.ts (required by Next.js)                                                                                                                                                                    |
-| route.ts      | The file containing the route handler. In this project, the handler returns a Yoga request handler                                                                                                                                                                                                                                   |
+| Folder / file  | Description                                                                                                                                                                                                                                                                                                                          |
+| :------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| layout.tsx     | Top level layout element (required by Next.js; needed to modify HTML on initial load). All common providers are introduced here to be available to application throughout                                                                                                                                                            |
+| page.tsx       | The launch page of the application (the default starting route "/" required by Next.js)                                                                                                                                                                                                                                              |
+| **app/**       | When using the new App Router (of Next.js), all the routes need to be defined in the app folder as folders that have the route names and contain a page.tsx file with the page content. (for example route recipes: app/recipes/page.tsx). The page.tsx files only contain a wrapper that imports the actual code from src/app-pages |
+| **api/**       | The "internal" api is contained as an app route in the app folder (required byt Next.js)                                                                                                                                                                                                                                             |
+| **graphql/**   | The api route named graphql is in the api folder in a folder with the same name (i.e. _graphql_). The folder contains a file named route.ts (required by Next.js)                                                                                                                                                                    |
+| route.ts       | The file containing the route handler. In this project, the handler returns a Yoga request handler                                                                                                                                                                                                                                   |
+| **cypress/**   | Cypress E2E testing related files                                                                                                                                                                                                                                                                                                    |
+| ****tests**/** | These folders (that are scattered around) contain test files that test the code nearby.                                                                                                                                                                                                                                              |
 
 ### File structure
 
-#### React components
+#### React component files
 
-The order of appearance of "elements" within a single react component is the following:
+The order of appearance of "elements" within a single react component file is the following:
 
 - imports
 - declared constants and types
@@ -168,4 +177,4 @@ The order of appearance of "elements" within a single react component is the fol
 - css styling
 
 Conventions:
-Move as much of the styling "out" of the component to the below css objects so that it is easier to see the relevant component parts.
+Move as much of the styling "out" of the component to the below css section so that it is easier to see the relevant component functionality.

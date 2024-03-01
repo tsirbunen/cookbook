@@ -33,7 +33,7 @@ jobs:
       - run: npm run migrations:local
 
       - name: Replace GraphQL client using hook with a mock
-        run: mv ./src/recipes-service/__tests__/useRecipeApi.tsx ./src/recipes-service/useRecipeApi.tsx
+        run: mv ./src/test-utils/useRecipeApi.tsx ./src/recipes-service/useRecipeApi.tsx
 
       - name: Run cypress tests
         uses: cypress-io/github-action@v6

@@ -24,12 +24,9 @@ export const RecipeServiceContext = createContext<RecipeService>({} as RecipeSer
  */
 const RecipeServiceProvider = ({ children }: { children: React.ReactNode }) => {
   const { dispatch } = useContext(AppStateContext) as AppStateContextType
-
   const { allRecipes } = useRecipeApi()
-  console.log('allRecipes', allRecipes)
 
   useEffect(() => {
-    console.log('useEffect')
     if (allRecipes !== undefined) {
       const filteredRecipes = getFilteredCategorizedRecipes(allRecipes)
       dispatch({
