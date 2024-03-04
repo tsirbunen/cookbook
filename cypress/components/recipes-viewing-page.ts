@@ -1,22 +1,22 @@
 import { Base } from './base'
-import { togglesDataTestId } from '../../src/widgets/header-with-optional-toggles/Toggles'
+import { togglesTestId } from '../../src/widgets/header-with-optional-toggles/Toggles'
 import {
   filteringToggleProperty,
   pickedRecipesToggleProperty,
   selectModeToggleProperty,
   startCookingToggleProperty
-} from '../../src/app-pages/recipes-viewing/viewing-management/RecipesViewingHeaderToggles'
+} from '../../src/app-pages/recipes/viewing-management/RecipesViewingHeaderToggles'
 import {
   ViewRecipesMode,
   viewModeManagementToolDataTestId
-} from '../../src/app-pages/recipes-viewing/viewing-management/ViewModeManagementTool'
-import { pickedRecipesManagementToolDataTestId } from '../../src/app-pages/recipes-viewing/viewing-management/PickedRecipesManagementTool'
-import { filteringManagementToolDataTestId } from '../../src/app-pages/recipes-viewing/viewing-management/FilteringManagementTool'
-import { photoRepresentationDataTestId } from '../../src/app-pages/recipes-viewing/recipes-display/PhotoCardRecipe'
-import { summaryRepresentationDataTestId } from '../../src/app-pages/recipes-viewing/recipes-display/SummaryRecipe'
-import { titleRepresentationDataTestId } from '../../src/app-pages/recipes-viewing/recipes-display/TitleRecipe'
+} from '../../src/app-pages/recipes/viewing-management/ViewModeManagementTool'
+import { pickedRecipesManagementToolDataTestId } from '../../src/app-pages/recipes/viewing-management/PickedRecipesManagementTool'
+import { filteringManagementToolDataTestId } from '../../src/app-pages/recipes/viewing-management/FilteringManagementTool'
+import { photoRepresentationDataTestId } from '../../src/app-pages/recipes/recipes-display/PhotoCardRecipe'
+import { summaryRepresentationDataTestId } from '../../src/app-pages/recipes/recipes-display/SummaryRecipe'
+import { titleRepresentationDataTestId } from '../../src/app-pages/recipes/recipes-display/TitleRecipe'
 import { cardRadioButtonSelectorDataTestId } from '../../src/widgets/card-radio-button-selector/CardRadioButtonSelector'
-import { recipesContentDataTestId } from '../../src/app-pages/recipes-viewing/page/RecipesContent'
+import { recipesContentDataTestId } from '../../src/app-pages/recipes/page/RecipesContent'
 
 const CLIENT = 'localhost'
 const CLIENT_BASE_URL = `http://${CLIENT}:3000`
@@ -48,7 +48,7 @@ export class RecipesViewingPage extends Base {
   }
 
   headerTogglesAreVisible() {
-    this.verifyIsVisible(togglesDataTestId)
+    this.verifyIsVisible(togglesTestId)
   }
 
   managementToolVisibility(tool: string, isVisible: boolean) {

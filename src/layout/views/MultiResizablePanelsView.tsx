@@ -1,10 +1,9 @@
 import { useContext, useEffect, useState } from 'react'
-import Panel from './Panel'
-import { ViewSizeContext, minPanelWidth, maxPanelWidth, WindowWidth } from '../app-layout/ViewSizeProvider'
-import { navBarWidth } from '../constants/constants'
+import Panel from '../layout-widgets/Panel'
+import { ViewSizeContext, minPanelWidth, maxPanelWidth, WindowWidth } from '../view-size-service/ViewSizeProvider'
+import { navBarWidth } from '../../constants/constants'
 
-type AppLayoutProps = {
-  hasNavBar: boolean
+type MultiResizablePanelsViewProps = {
   leftContent: JSX.Element
   middleContent?: JSX.Element
   rightContent?: JSX.Element
@@ -16,12 +15,12 @@ type AppLayoutProps = {
  * can contain be 1-3 panels (arranged horizontally into a row). The widths of the panels
  * can be adjusted within certain limits with resizer elements and by adjusting the window width.
  */
-const AppContent = (props: AppLayoutProps) => {
-  const { hasNavBar, leftContent, middleContent, rightContent } = props
-  const { windowWidth } = useContext(ViewSizeContext)
+const MultiResizablePanelsView = (props: MultiResizablePanelsViewProps) => {
+  const { leftContent, middleContent, rightContent } = props
+  const { windowWidth, isMobile } = useContext(ViewSizeContext)
   const count = getPanelsCount([leftContent, middleContent, rightContent])
   const [panelsCount, setPanelsCount] = useState(count)
-  const initialWidths = getEvenPanelWidths(windowWidth.current, panelsCount, hasNavBar)
+  const initialWidths = getEvenPanelWidths(windowWidth.current, panelsCount, !isMobile)
   const [leftPanelWidth, setLeftPanelWidth] = useState(initialWidths.left)
   const [middlePanelWidth, setMiddlePanelWidth] = useState(initialWidths.middle)
 
@@ -34,7 +33,7 @@ const AppContent = (props: AppLayoutProps) => {
       windowWidth,
       newPanelsCount: count,
       panelsCountHasChanged,
-      hasNavBar,
+      hasNavBar: !isMobile,
       currentWidths: {
         left: leftPanelWidth,
         middle: getMiddlePanelWidth(count),
@@ -51,7 +50,7 @@ const AppContent = (props: AppLayoutProps) => {
     // We want to perform these calculations ONLY when the user adjusts
     // the window width or the count of the content components changes!
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [count, windowWidth, hasNavBar])
+  }, [count, windowWidth, isMobile])
 
   const onResizeLeftPanel = (deltaX: number) => {
     setLeftPanelWidth((currentLeftWidth) => {
@@ -121,7 +120,7 @@ const AppContent = (props: AppLayoutProps) => {
   )
 }
 
-export default AppContent
+export default MultiResizablePanelsView
 
 const getPanelsCount = (panels: Array<JSX.Element | undefined>) => {
   return panels.filter(Boolean).length

@@ -1,5 +1,6 @@
 import { Button } from '@chakra-ui/react'
 import { ColorCodes } from '../../theme/theme'
+import { IconType } from 'react-icons'
 
 export enum RoundedBordersOnSide {
   LEFT = 'LEFT',
@@ -12,11 +13,13 @@ type CardRadioButtonProps = {
   isSelected: boolean
   selectValue: () => void
   roundBordersOnSide: RoundedBordersOnSide
+  icon?: IconType
 }
 
 const borderRadius = '6px'
+const iconSize = '30px'
 
-const CardRadioButton = ({ label, isSelected, selectValue, roundBordersOnSide }: CardRadioButtonProps) => {
+const CardRadioButton = ({ label, isSelected, selectValue, roundBordersOnSide, icon }: CardRadioButtonProps) => {
   const backgroundColor = isSelected ? ColorCodes.VERY_DARK : ColorCodes.MEDIUM
   const labelColor = ColorCodes.PALE
 
@@ -29,10 +32,13 @@ const CardRadioButton = ({ label, isSelected, selectValue, roundBordersOnSide }:
     borderRadii[2] = borderRadius
   }
 
+  const size = icon ? 'md' : 'small'
+  const IconElement = icon ? icon : null
+
   return (
     <Button
       onClick={selectValue}
-      size="small"
+      size={size}
       backgroundColor={backgroundColor}
       color={labelColor}
       padding={'3px 8px 3px 8px'}
@@ -43,7 +49,7 @@ const CardRadioButton = ({ label, isSelected, selectValue, roundBordersOnSide }:
       borderRadius={borderRadii.join(' ')}
       key={label}
     >
-      {label}
+      {IconElement ? <IconElement size={iconSize} /> : label}
     </Button>
   )
 }

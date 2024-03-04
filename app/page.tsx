@@ -4,8 +4,8 @@ import { Flex, Text, Button, ChakraProps } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import { ColorCodes } from '../src/theme/theme'
 
-export const launchPageDataTestId = 'cookbook-launch-page'
-export const startButtonDataTestId = 'start-button'
+export const launchPageTestId = 'cookbook-launch-page'
+export const startButtonTestId = 'start-button'
 export const appTitle = 'COOKBOOK'
 const welcomeText = 'Welcome to'
 const startPage = '/recipes'
@@ -19,13 +19,17 @@ const startText = 'START'
 export default function Home() {
   const router = useRouter()
 
+  const startUsingApp = () => {
+    router.push(startPage)
+  }
+
   return (
-    <Flex {...outerCss} data-testid={launchPageDataTestId}>
+    <Flex {...outerCss} data-testid={launchPageTestId}>
       <Flex {...innerCss}>
         <Text {...welcomeCss}>{welcomeText}</Text>
         <Text {...titleCss}>{appTitle}</Text>
 
-        <Button variant="mediumSizePale" onClick={() => router.push(startPage)} data-testid={startButtonDataTestId}>
+        <Button variant="mediumSizePale" onClick={startUsingApp} data-testid={startButtonTestId}>
           {startText}
         </Button>
       </Flex>

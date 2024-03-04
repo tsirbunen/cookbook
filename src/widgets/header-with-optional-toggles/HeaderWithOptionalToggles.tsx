@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation'
 import { getRouteLabelByPath } from '../../navigation/router/router'
-import { ViewSizeContext, headerHeightRegular } from '../../app-layout/ViewSizeProvider'
+import { ViewSizeContext, headerHeightRegular } from '../../layout/view-size-service/ViewSizeProvider'
 import { useContext } from 'react'
 import MobileHeaderWithOptionalToggles from './MobileHeaderWithOptionalToggles'
 import NarrowHeaderWithToggles from './NarrowHeaderWithToggles'

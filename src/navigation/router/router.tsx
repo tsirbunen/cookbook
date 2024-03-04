@@ -2,12 +2,12 @@ import React from 'react'
 import { IconType } from 'react-icons/lib'
 import { TbSettings, TbListDetails, TbBasket, TbWand, TbBook, TbStar } from 'react-icons/tb'
 
-import RecipesPage from '../../app-pages/recipes-viewing/page/RecipesViewingPage'
+import RecipesPage from '../../app-pages/recipes/page/RecipesViewingPage'
 import SettingsPage from '../../app-pages/settings/SettingsPage'
 import ShoppingPage from '../../app-pages/shopping/ShoppingPage'
 import FavoritesPage from '../../app-pages/favorites/FavoritesPage'
 import WizardPage from '../../app-pages/wizard/WizardPage'
-import CookPage from '../../app-pages/cook/CookPage'
+import CookPage from '../../app-pages/cook/page/CookPage'
 
 export enum Page {
   RECIPES = 'recipes',
@@ -52,7 +52,7 @@ export const navigationMenuItems: NavigationMenuItem[] = [
     iconElement: TbBook,
     path: '/cook',
     element: CookPage,
-    headerHasTools: false
+    headerHasTools: true
   },
   {
     page: Page.WIZARD,

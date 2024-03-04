@@ -9,6 +9,7 @@ import FormButtonsSelector from '../../../widgets/form-buttons-selector/FormButt
 import FormTextAreaSearch from '../../../widgets/form-textarea-search/FormTextAreaSearch'
 import { RecipesViewingContext } from '../page/RecipesViewingProvider'
 import { Category } from '../../../types/types'
+import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
 
 export const filteringManagementToolDataTestId = 'filtering-management-tool'
 
@@ -26,6 +27,7 @@ const ingredientsPlaceholder = 'Type here ingredients...'
 
 const FilteringManagementTool = ({ isMobile }: FilteringManagementToolProps) => {
   const { toggleShowFiltering, toggleHideRecipes } = useContext(RecipesViewingContext)
+  const { isSplitView } = useContext(ViewSizeContext)
   const { applyFilters, clearFilters, updateLocalFilters, initialValues, filtersHaveValues, filtersHaveChanges } =
     useContext(FiltersContext)
   const { handleSubmit, control, watch, reset, formState } = useForm<RecipesFilterValues>({
@@ -44,8 +46,10 @@ const FilteringManagementTool = ({ isMobile }: FilteringManagementToolProps) => 
 
   const onSubmit: SubmitHandler<RecipesFilterValues> = (_filterValues: RecipesFilterValues) => {
     applyFilters()
-    toggleShowFiltering()
-    toggleHideRecipes()
+    if (!isSplitView) {
+      toggleShowFiltering()
+      toggleHideRecipes()
+    }
   }
 
   const clearFormValues = () => {

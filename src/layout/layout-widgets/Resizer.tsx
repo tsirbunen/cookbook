@@ -37,16 +37,17 @@ const Resizer = ({ onResize }: ResizerProps) => {
 
   const onMouseDown = () => setMouseIsDown(true)
 
-  return (
-    <div>
-      <div css={resizer} onMouseDown={onMouseDown}></div>
-    </div>
-  )
+  // return (
+  //   <div>
+  //     <div css={resizer} onMouseDown={onMouseDown}></div>
+  //   </div>
+  // )
+  return <div css={resizer} onMouseDown={onMouseDown}></div>
 }
 
 export default Resizer
 
-const resizeElementWidth = 5
+const resizeElementWidth = 3
 
 const resizer = css`
   cursor: ew-resize;

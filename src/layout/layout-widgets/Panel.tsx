@@ -12,9 +12,10 @@ type PanelProps = {
 /**
  * Column container with limited width for child components. Optionally contains
  * a resizer element (in cases where an "onResize" callback is provided in props).
+ * Panel has a vertical scroll bar (to enable scrolling this single panel only).
  */
 const Panel = ({ children, width, onResize }: PanelProps) => {
-  const panelCss = width ? panelWithWidth(width) : panel
+  const panelCss = panel(width)
 
   return (
     <>
@@ -26,15 +27,16 @@ const Panel = ({ children, width, onResize }: PanelProps) => {
   )
 }
 
-const panelWithWidth = (width: number) => css`
-  width: ${width}px;
-  display: flex;
-  flex-direction: column;
-`
-const panel = css`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`
+const panel = (width?: number) =>
+  css`
+    width: ${width}px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: scroll;
+    overflow-x: hidden;
+    align-items: start;
+    justify-content: start;
+  `
 
 export default Panel

@@ -1,4 +1,4 @@
-import { RecipesFilterValues } from '../app-pages/recipes-viewing/page/FilteringProvider'
+import { RecipesFilterValues } from '../app-pages/recipes/page/FilteringProvider'
 import { RecipeCategory } from '../types/types'
 import { AppState } from './StateContextProvider'
 
@@ -26,10 +26,12 @@ const updatePickedRecipeIds = (state: AppState, payload: { recipeId: number; cat
   const { recipeId, category } = payload
   const pickedCategoryRecipeIds = state.pickedRecipeIdsByCategory[category] ?? []
   const shouldRemove = pickedCategoryRecipeIds.includes(recipeId)
+
   const updatedIds = shouldRemove
     ? pickedCategoryRecipeIds.filter((id) => id !== recipeId)
     : [...pickedCategoryRecipeIds, recipeId]
   const updatedPickedCategoryIds = { ...state.pickedRecipeIdsByCategory }
   updatedPickedCategoryIds[category] = updatedIds
+
   return { ...state, pickedRecipeIdsByCategory: updatedPickedCategoryIds }
 }

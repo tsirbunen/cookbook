@@ -1,10 +1,10 @@
 'use client'
 import { createContext, useCallback, useEffect, useState } from 'react'
-import { getPageHeaderHasToolsByPath } from '../navigation/router/router'
-import { navBarWidth, splitViewBreakpoint } from '../constants/constants'
+import { getPageHeaderHasToolsByPath } from '../../navigation/router/router'
+import { navBarWidth, splitViewBreakpoint } from '../../constants/constants'
 
 export const minPanelWidth = 250
-export const maxPanelWidth = 1000
+export const maxPanelWidth = 2000 //1000
 const appMinWidth = 375
 const appMinHeight = 650
 const mobileNarrowBreakpoint = 430

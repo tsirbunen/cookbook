@@ -1,5 +1,5 @@
 import { Base } from './base'
-import { ViewMode } from '../../src/app-layout/ViewSizeProvider'
+import { ViewMode } from '../../src/layout/view-size-service/ViewSizeProvider'
 import {
   drawerButtonDataTestId,
   drawerDataTestId,
@@ -7,7 +7,7 @@ import {
 } from '../../src/navigation/navigation-drawer/NavigationDrawer'
 import { drawerItemDataTestId } from '../../src/navigation/navigation-drawer/NavigationDrawerItem'
 import { navigationBarDataTestId } from '../../src/navigation/navigation-bar/NavigationBarItem'
-import { launchPageDataTestId, startButtonDataTestId } from '../../app/page'
+import { launchPageTestId, startButtonTestId } from '../../app/page'
 
 const CLIENT = 'localhost'
 const CLIENT_BASE_URL = `http://${CLIENT}:3000`
@@ -27,11 +27,11 @@ export class App extends Base {
   }
 
   verifyWelcomePageIsVisible() {
-    this.verifyIsVisible(launchPageDataTestId)
+    this.verifyIsVisible(launchPageTestId)
   }
 
   startUsingApp(mode: ViewMode) {
-    cy.getByDataTestId(startButtonDataTestId).click()
+    cy.getByDataTestId(startButtonTestId).click()
     // Note: We must wait for the dynamically loaded items to catch up!
     cy.wait(350)
     this.setViewMode(mode)

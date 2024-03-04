@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { useContext } from 'react'
-import { ViewSizeContext } from '../../../app-layout/ViewSizeProvider'
+import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
 import { css } from '@emotion/react'
 import React from 'react'
 import { Recipe } from '../../../types/graphql-schema-types.generated'

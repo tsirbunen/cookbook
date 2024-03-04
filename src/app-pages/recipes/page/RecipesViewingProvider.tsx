@@ -1,7 +1,5 @@
-/** @jsxImportSource @emotion/react */
-
 import { createContext, useContext, useState } from 'react'
-import { ViewSizeContext } from '../../../app-layout/ViewSizeProvider'
+import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
 import { ViewRecipesMode } from '../viewing-management/ViewModeManagementTool'
 
 type RecipesViewing = {

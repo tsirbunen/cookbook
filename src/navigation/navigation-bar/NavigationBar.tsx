@@ -6,7 +6,11 @@ import { useRouter, usePathname } from 'next/navigation'
 import { css } from '@emotion/react'
 import NavigationBarItem from './NavigationBarItem'
 import { navigationMenuItems } from '../router/router'
-import { headerHeightRegular, headerHeightWithTools, ViewSizeContext } from '../../app-layout/ViewSizeProvider'
+import {
+  headerHeightRegular,
+  headerHeightWithTools,
+  ViewSizeContext
+} from '../../layout/view-size-service/ViewSizeProvider'
 import { ColorCodes } from '../../theme/theme'
 import MenuIconWithoutAction from '../../widgets/header-with-optional-toggles/MenuIconWithoutAction'
 import { navBarWidth } from '../../constants/constants'
@@ -54,10 +58,10 @@ const outerContainer = (windowHeight: number, isMobile: boolean) => {
   const headerHeight = isMobile ? headerHeightRegular : headerHeightWithTools
   return css`
     z-index: ${navigationBarZIndex};
-    width: ${navBarWidth}px;
     height: ${windowHeight - headerHeight}px;
     background-color: ${ColorCodes.VERY_DARK};
     border-right-color: ${ColorCodes.VERY_DARK};
+    width: ${navBarWidth}px;
   `
 }
 const container = (isMobile: boolean, headerHeight: number) => css`
@@ -65,9 +69,9 @@ const container = (isMobile: boolean, headerHeight: number) => css`
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  width: ${navBarWidth}px;
   height: 100%;
   background-color: ${ColorCodes.VERY_DARK};
   top: ${headerHeight}px;
+  width: ${navBarWidth}px;
   position: fixed;
 `

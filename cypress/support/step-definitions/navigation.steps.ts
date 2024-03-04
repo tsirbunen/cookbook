@@ -1,6 +1,6 @@
 import { When, Then, Given } from '@badeball/cypress-cucumber-preprocessor'
 import { App } from '../../components/app'
-import { ViewMode } from '../../../src/app-layout/ViewSizeProvider'
+import { ViewMode } from '../../../src/layout/view-size-service/ViewSizeProvider'
 
 const app = new App()
 

@@ -1,8 +1,8 @@
 import { When, Then, Given } from '@badeball/cypress-cucumber-preprocessor'
 import { App } from '../../components/app'
-import { ViewMode } from '../../../src/app-layout/ViewSizeProvider'
+import { ViewMode } from '../../../src/layout/view-size-service/ViewSizeProvider'
 import { RecipesViewingPage } from '../../components/recipes-viewing-page'
-import { ViewRecipesMode } from '../../../src/app-pages/recipes-viewing/viewing-management/ViewModeManagementTool'
+import { ViewRecipesMode } from '../../../src/app-pages/recipes/viewing-management/ViewModeManagementTool'
 
 const app = new App()
 const recipesViewingPage = new RecipesViewingPage()

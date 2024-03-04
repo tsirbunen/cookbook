@@ -15,6 +15,8 @@ export enum ColorCodes {
   ERROR = '#E36414'
 }
 
+export const scrollBarWidth = 8
+
 export const theme = extendTheme({
   styles: {
     global: {
@@ -26,11 +28,11 @@ export const theme = extendTheme({
         // overscrollBehavior: 'contain'
         '*::-webkit-scrollbar': {
           backgroundColor: '#EBE3D5',
-          width: '8px'
+          width: `${scrollBarWidth}px`
         },
         '*::-webkit-scrollbar-thumb': {
           backgroundColor: '#D6CBB8',
-          borderRadius: '8px'
+          borderRadius: `${scrollBarWidth}px`
         }
       },
       html: {

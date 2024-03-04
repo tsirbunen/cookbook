@@ -1,21 +1,29 @@
 import { Flex, Divider, ChakraProps } from '@chakra-ui/react'
 import CardRadioButton, { RoundedBordersOnSide } from './CardRadioButton'
 import { Fragment } from 'react'
+import { IconType } from 'react-icons'
 
 export const cardRadioButtonSelectorDataTestId = 'card-radio-button-selector'
 
 type CardRadioButtonSelectorOption<T> = {
   label: string
   value: T
+  icon?: IconType
 }
 
 type CardRadioButtonSelectorProps<T> = {
   options: CardRadioButtonSelectorOption<T>[]
   currentValue: T
   selectValue: (newValue: T) => void
+  noMargin?: boolean
 }
 
-const CardRadioButtonSelector = <T,>({ options, currentValue, selectValue }: CardRadioButtonSelectorProps<T>) => {
+const CardRadioButtonSelector = <T,>({
+  options,
+  currentValue,
+  selectValue,
+  noMargin
+}: CardRadioButtonSelectorProps<T>) => {
   const getRoundBordersOnSide = (index: number, optionsCount: number) => {
     if (index === 0) return RoundedBordersOnSide.LEFT
     if (index === optionsCount - 1) return RoundedBordersOnSide.RIGHT
@@ -25,7 +33,7 @@ const CardRadioButtonSelector = <T,>({ options, currentValue, selectValue }: Car
   const optionsCount = options.length
 
   return (
-    <Flex {...innerCss} data-testid={cardRadioButtonSelectorDataTestId}>
+    <Flex {...innerCss(!noMargin)} data-testid={cardRadioButtonSelectorDataTestId}>
       {options.map((option, index) => {
         const showDividerOnRight = index < optionsCount - 1
 
@@ -36,6 +44,7 @@ const CardRadioButtonSelector = <T,>({ options, currentValue, selectValue }: Car
               isSelected={currentValue === option.value}
               selectValue={() => selectValue(option.value)}
               roundBordersOnSide={getRoundBordersOnSide(index, optionsCount)}
+              icon={option.icon}
             />
             {showDividerOnRight ? <Divider orientation="vertical" /> : null}
           </Fragment>
@@ -47,8 +56,10 @@ const CardRadioButtonSelector = <T,>({ options, currentValue, selectValue }: Car
 
 export default CardRadioButtonSelector
 
-const innerCss = {
-  flexDirection: 'row' as ChakraProps['flexDirection'],
-  alignItems: 'center',
-  margin: '10px 15px 0px 15px'
+const innerCss = (hasMargin: boolean) => {
+  return {
+    flexDirection: 'row' as ChakraProps['flexDirection'],
+    alignItems: 'center',
+    margin: hasMargin ? '10px 15px 0px 15px' : undefined
+  }
 }

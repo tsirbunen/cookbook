@@ -18,11 +18,11 @@ const ThemeProvider = dynamic(() => import('../src/theme/ThemeProvider'), {
   ssr: false
 })
 
-const ViewSizeContextProvider = dynamic(() => import('../src/app-layout/ViewSizeProvider'), {
+const ViewSizeContextProvider = dynamic(() => import('../src/layout/view-size-service/ViewSizeProvider'), {
   ssr: false
 })
 
-const AppLayout = dynamic(() => import('../src/app-layout/AppLayout'), {
+const MainAppLayout = dynamic(() => import('../src/layout/main-app-layout/MainAppLayout'), {
   ssr: false
 })
 
@@ -32,7 +32,7 @@ const RecipeServiceProvider = dynamic(() => import('../src/recipes-service/Recip
 
 /**
  * This is a required top level element that enables modification of the initial HTML
- * returned from the server. The app components are wrapped with providers common to
+ * returned from the server. Here the app components are wrapped with providers common to
  * all components. We need to wait for the window to be available to be able to return
  * our app with all the providers.
  */
@@ -49,7 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <ViewSizeContextProvider>
               <GraphQLClientProvider>
                 <RecipeServiceProvider>
-                  <AppLayout>{children}</AppLayout>
+                  <MainAppLayout>{children}</MainAppLayout>
                 </RecipeServiceProvider>
               </GraphQLClientProvider>
             </ViewSizeContextProvider>

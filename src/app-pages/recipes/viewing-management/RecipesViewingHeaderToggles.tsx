@@ -2,7 +2,7 @@ import { useRouter } from 'next/navigation'
 import { useContext } from 'react'
 
 import { TbCheckbox, TbChefHat, TbTool, TbListDetails } from 'react-icons/tb'
-import { ViewSizeContext } from '../../../app-layout/ViewSizeProvider'
+import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
 import Toggle from '../../../widgets/header-with-optional-toggles/Toggle'
 import { pagePaths, Page } from '../../../navigation/router/router'
 import { AppStateContext, AppStateContextType } from '../../../state/StateContextProvider'

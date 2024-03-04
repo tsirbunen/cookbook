@@ -2,7 +2,7 @@
 
 import React, { createContext, useReducer } from 'react'
 import { DispatchAction, reducer } from './reducer'
-import { RecipesFilterValues, getEmptyFilterValues } from '../app-pages/recipes-viewing/page/FilteringProvider'
+import { RecipesFilterValues, getEmptyFilterValues } from '../app-pages/recipes/page/FilteringProvider'
 import { RecipeCategory } from '../types/types'
 
 export type AppStateContextType = {

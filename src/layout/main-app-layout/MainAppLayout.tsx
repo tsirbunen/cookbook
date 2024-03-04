@@ -2,17 +2,17 @@
 'use client'
 import { useContext } from 'react'
 import { css } from '@emotion/react'
-import HeaderWithOptionalToggles from '../widgets/header-with-optional-toggles/HeaderWithOptionalToggles'
+import HeaderWithOptionalToggles from '../../widgets/header-with-optional-toggles/HeaderWithOptionalToggles'
 
-import { ViewSizeContext } from '../app-layout/ViewSizeProvider'
-import ErrorPage from '../navigation/router/ErrorPage'
-import NavigationBar from '../navigation/navigation-bar/NavigationBar'
+import { ViewSizeContext } from '../view-size-service/ViewSizeProvider'
+import ErrorPage from '../../navigation/router/ErrorPage'
+import NavigationBar from '../../navigation/navigation-bar/NavigationBar'
 import { usePathname } from 'next/navigation'
 
 const tooSmallWindowMessage = 'Too small window...'
 const root = '/'
 
-type AppLayoutProps = {
+type MainAppLayoutProps = {
   children: JSX.Element | React.ReactNode
 }
 
@@ -22,7 +22,7 @@ type AppLayoutProps = {
  * The main content is the children passed to the layout component (and the children vary depending on
  * which page the user has navigated to).
  */
-const AppLayout = ({ children }: AppLayoutProps) => {
+const MainAppLayout = ({ children }: MainAppLayoutProps) => {
   const { isMobile, isTooSmallWindow } = useContext(ViewSizeContext)
   const pathname = usePathname()
 
@@ -46,7 +46,7 @@ const AppLayout = ({ children }: AppLayoutProps) => {
   )
 }
 
-export default AppLayout
+export default MainAppLayout
 
 const app = css`
   display: flex;
@@ -56,6 +56,8 @@ const app = css`
   flex: 1;
   height: 100vh;
   width: 100vw;
+  overflow-x: hidden;
+  overflow-y: hidden;
 `
 
 const content = css`

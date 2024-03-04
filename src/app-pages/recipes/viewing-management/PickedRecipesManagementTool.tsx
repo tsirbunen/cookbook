@@ -3,11 +3,10 @@ import { useContext } from 'react'
 import { AppStateContext, AppStateContextType } from '../../../state/StateContextProvider'
 import { Dispatch } from '../../../state/reducer'
 import { ColorCodes } from '../../../theme/theme'
-import { Recipe } from '../../../types/graphql-schema-types.generated'
 import { ViewRecipesMode } from './ViewModeManagementTool'
 import RecipeElements from '../recipes-display/RecipesDisplay'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
-import { RecipeCategory } from '../../../types/types'
+import { getPickedRecipes } from '../../../utils/recipe-utils'
 
 export const pickedRecipesManagementToolDataTestId = 'picked-recipes-management-tool'
 
@@ -25,21 +24,7 @@ const PickedRecipesManagementTool = ({ isMobile }: PickedRecipesManagementToolPr
     dispatch({ type: Dispatch.UPDATE_PICKED_RECIPE_IDS, payload: { recipeId, category } })
   }
 
-  const getPickedRecipes = () => {
-    const recipesInCategories = state.recipes
-    const pickedRecipeIdsByCategory = state.pickedRecipeIdsByCategory
-    return recipesInCategories
-      .map((recipeCategory: RecipeCategory) => {
-        if (pickedRecipeIdsByCategory[recipeCategory.category]) {
-          const pickedIdsInCategory = pickedRecipeIdsByCategory[recipeCategory.category]
-          return recipeCategory.recipes.filter((r) => pickedIdsInCategory.includes(r.id))
-        }
-      })
-      .flat()
-      .filter(Boolean) as Recipe[]
-  }
-
-  const pickedRecipes = getPickedRecipes()
+  const pickedRecipes = getPickedRecipes(state)
   const noRecipesPickedYet = pickedRecipes.length === 0
   const title = noRecipesPickedYet ? noRecipesPickedYetTitle : pickRecipesTitle
   const showTitle = !isMobile || noRecipesPickedYet
