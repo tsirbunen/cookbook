@@ -1,11 +1,13 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { css } from '@emotion/react'
 import CardRadioButtonSelector from '../../../widgets/card-radio-button-selector/CardRadioButtonSelector'
-import { TbColumns1, TbColumns2, TbColumns3, TbPlayerTrackPrev, TbPlayerTrackNext } from 'react-icons/tb'
+import { TbColumns1, TbColumns2, TbColumns3, TbPlayerTrackPrev, TbPlayerTrackNext, TbCheckbox } from 'react-icons/tb'
 import Toggles from '../../../widgets/header-with-optional-toggles/Toggles'
 import { CookingContext } from './CookingProvider'
+import Toggle, { pickedRecipesToggleProperty } from '../../../widgets/header-with-optional-toggles/Toggle'
+import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
 
 const displayCountOptions = [
   { label: '1', value: 1, icon: TbColumns1 },
@@ -19,11 +21,26 @@ const displayPreviousNextOptions = [
 ]
 
 const CookingHeaderToggles = () => {
-  const { displayCount, changeNumberOfRecipesToDisplay, pickedRecipesCount } = useContext(CookingContext)
+  const { isMobile } = useContext(ViewSizeContext)
+  const {
+    displayCount,
+    changeNumberOfRecipesToDisplay,
+    pickedRecipesCount,
+    showPickedRecipes,
+    toggleShowPickedRecipes
+  } = useContext(CookingContext)
   const showToggleDisplayRecipesCount = pickedRecipesCount > 1
 
   return (
-    <Toggles isMobile={false}>
+    <Toggles isMobile={isMobile}>
+      <Toggle
+        isToggled={showPickedRecipes}
+        toggle={toggleShowPickedRecipes}
+        Icon={TbCheckbox}
+        count={pickedRecipesCount}
+        toggleProperty={pickedRecipesToggleProperty}
+      />
+
       {showToggleDisplayRecipesCount ? (
         <div css={selectorLeft}>
           <CardRadioButtonSelector

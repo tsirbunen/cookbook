@@ -12,6 +12,8 @@ type Cooking = {
   changeNumberOfRecipesToDisplay: (newNumberOfRecipes: number) => void
   displayCount: number
   pickedRecipesCount: number
+  showPickedRecipes: boolean
+  toggleShowPickedRecipes: () => void
 }
 
 export const CookingContext = createContext<Cooking>({} as Cooking)
@@ -19,10 +21,11 @@ export const CookingContext = createContext<Cooking>({} as Cooking)
 const CookingProvider = ({ children }: { children: React.ReactNode }) => {
   const { state } = useContext(AppStateContext) as AppStateContextType
   const [pickedRecipes] = useState<Recipe[]>(getPickedRecipes(state))
+  const [showPickedRecipes, setShowPickedRecipes] = useState(false)
   const [leftRecipeIndex, setLeftRecipeIndex] = useState<number | null>(pickedRecipes.length > 0 ? 0 : null)
   const [middleRecipeIndex, setMiddleRecipeIndex] = useState<number | null>(pickedRecipes.length > 1 ? 1 : null)
   const [rightRecipeIndex, setRightRecipeIndex] = useState<number | null>(pickedRecipes.length > 2 ? 2 : null)
-  const [displayCount, setDisplayCount] = useState(1)
+  const [displayCount, setDisplayCount] = useState(3) //1)
   // console.log('cookingRecipes', pickedRecipes)
 
   const changeNumberOfRecipesToDisplay = (newNumberOfRecipes: number) => {
@@ -32,6 +35,10 @@ const CookingProvider = ({ children }: { children: React.ReactNode }) => {
 
     setDisplayCount(newNumberOfRecipes)
     // Tähän se, että miten update se, mitä reseptejä näytetään, jos lukumäärä muuttuu!
+  }
+
+  const toggleShowPickedRecipes = () => {
+    setShowPickedRecipes((previous) => !previous)
   }
 
   // Se, että jos haluaa muuttaa reseptien järjestystä
@@ -48,7 +55,9 @@ const CookingProvider = ({ children }: { children: React.ReactNode }) => {
         rightRecipeIndex,
         changeNumberOfRecipesToDisplay,
         displayCount,
-        pickedRecipesCount
+        pickedRecipesCount,
+        showPickedRecipes,
+        toggleShowPickedRecipes
       }}
     >
       {children}

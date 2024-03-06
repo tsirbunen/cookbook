@@ -101,6 +101,7 @@ const MultiResizablePanelsView = (props: MultiResizablePanelsViewProps) => {
   const showMiddleResizeElement = Boolean(rightContent)
 
   return (
+    // <div style={{ overflowX: 'hidden', flex: 1, flexDirection: 'row' }}>
     <>
       <Panel width={leftPanelWidth} onResize={showLeftResizeElement ? onResizeLeftPanel : undefined}>
         {leftContent}
@@ -117,6 +118,7 @@ const MultiResizablePanelsView = (props: MultiResizablePanelsViewProps) => {
 
       {rightContent ? <Panel width={getRightPanelWidth(panelsCount)}>{rightContent}</Panel> : null}
     </>
+    // </div>
   )
 }
 

@@ -4,6 +4,11 @@ import ButtonWithTheme from '../../theme/buttons/ButtonWithTheme'
 import Badge, { badgeSize } from '../badge/Badge'
 import { ButtonVariant } from '../../theme/buttons/buttons-theme'
 
+export const selectModeToggleProperty = 'selectMode'
+export const pickedRecipesToggleProperty = 'pickedRecipes'
+export const filteringToggleProperty = 'filtering'
+export const startCookingToggleProperty = 'startCooking'
+
 export type ToggleProps = {
   isToggled: boolean
   toggle: () => void

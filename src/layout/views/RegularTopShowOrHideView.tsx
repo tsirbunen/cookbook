@@ -5,12 +5,17 @@ import { cardsViewMobileWidth } from '../../app-pages/recipes/recipes-display/Ph
 import { navBarWidth } from '../../constants/constants'
 import { recipesViewingManagementZIndex } from '../../constants/z-indexes'
 import { ColorCodes } from '../../theme/theme'
-import { ViewSizeContext, headerHeightWithTools } from '../view-size-service/ViewSizeProvider'
+import {
+  ViewSizeContext,
+  headerHeightWithTools,
+  headerHeightWithToolsDoubleLine
+} from '../view-size-service/ViewSizeProvider'
 import { useContext } from 'react'
 
 type RegularTopShowOrHideViewProps = {
   topShowOrHideContent: JSX.Element
   mainContent: JSX.Element
+  isMultiPanel?: boolean
 }
 
 const RegularTopShowOrHideView = ({ topShowOrHideContent, mainContent }: RegularTopShowOrHideViewProps) => {
@@ -18,18 +23,29 @@ const RegularTopShowOrHideView = ({ topShowOrHideContent, mainContent }: Regular
   const width = windowWidth.current - navBarWidth
 
   return (
-    <div css={page(isMobile, width)}>
-      <div css={container(isMobile, false)}>
-        <div css={outerCss}>
-          <div css={boxCss}>{topShowOrHideContent}</div>
+    <div css={view}>
+      <div css={page(isMobile, width)}>
+        <div css={container(isMobile)}>
+          <div css={topOuter}>
+            <div css={topInner}>{topShowOrHideContent}</div>
+          </div>
+          {mainContent}
         </div>
-        {mainContent}
       </div>
     </div>
   )
 }
 
 export default RegularTopShowOrHideView
+
+const view = css`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  overflow-x: hidden;
+`
 
 const page = (isMobile: boolean, width: number) => {
   return css`
@@ -40,20 +56,20 @@ const page = (isMobile: boolean, width: number) => {
     justify-content: start;
     align-items: ${isMobile ? 'center' : 'start'};
     width: ${isMobile ? cardsViewMobileWidth : width - navBarWidth}px;
-    margin-top: ${headerHeightWithTools}px;
+    margin-top: ${isMobile ? headerHeightWithToolsDoubleLine : headerHeightWithTools}px;
   `
 }
 
-const container = (isMobile: boolean, isSplitView: boolean) => css`
+const container = (isMobile: boolean) => css`
   display: flex;
   flex: 1;
-  flex-direction: ${isSplitView ? 'row' : 'column'};
+  flex-direction: column;
   justify-content: start;
   align-items: ${isMobile ? 'center' : 'start'};
   width: 100%;
 `
 
-const outerCss = css`
+const topOuter = css`
   height: 100%;
   position: sticky;
   top: ${headerHeightWithTools}px;
@@ -62,7 +78,7 @@ const outerCss = css`
   width: 100%;
 `
 
-const boxCss = css`
+const topInner = css`
   position: sticky;
   top: ${headerHeightWithTools}px;
   z-index: ${recipesViewingManagementZIndex};

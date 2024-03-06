@@ -12,24 +12,35 @@ type SplitViewProps = {
 
 const SplitView = ({ splitContent, mainContent }: SplitViewProps) => {
   return (
-    <div css={containerWithScrollableRightPanelCss}>
-      <div css={leftPanelContainerCss}>
-        <div css={leftPanelScrollableCss}>{splitContent}</div>
-      </div>
+    <div css={view}>
+      <div css={container}>
+        <div css={splitOuter}>
+          <div css={splitScrollable}>{splitContent}</div>
+        </div>
 
-      <div css={preventOverflowCss}>{mainContent}</div>
+        <div css={preventOverflow}>{mainContent}</div>
+      </div>
     </div>
   )
 }
 
 export default SplitView
 
-const preventOverflowCss = css`
+const view = css`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow-x: hidden;
+`
+
+const preventOverflow = css`
   width: 100%;
   overflow-x: hidden;
 `
 
-const containerWithScrollableRightPanelCss = css`
+const container = css`
   display: flex;
   flex: 1;
   flex-direction: row;
@@ -42,7 +53,7 @@ const containerWithScrollableRightPanelCss = css`
   overflow-x: hidden;
 `
 
-const leftPanelContainerCss = css`
+const splitOuter = css`
   height: 100%;
   position: sticky;
   top: 0px;
@@ -53,7 +64,7 @@ const leftPanelContainerCss = css`
   display: flex;
 `
 
-const leftPanelScrollableCss = css`
+const splitScrollable = css`
   height: 100%;
   overflow: scroll;
   overflow-x: hidden;

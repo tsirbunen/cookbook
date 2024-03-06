@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react'
 import { useContext } from 'react'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
 import RecipesContent from './RecipesContent'
@@ -26,25 +24,14 @@ const RecipesViewingPage = () => {
   return (
     <RecipesViewingProvider>
       <FilteringProvider>
-        <div css={outerCss(isSplitView)}>
-          {isSplitView ? (
-            <SplitView splitContent={viewingManagement} mainContent={actualRecipes} />
-          ) : (
-            <RegularTopShowOrHideView topShowOrHideContent={viewingManagement} mainContent={actualRecipes} />
-          )}
-        </div>
+        {isSplitView ? (
+          <SplitView splitContent={viewingManagement} mainContent={actualRecipes} />
+        ) : (
+          <RegularTopShowOrHideView topShowOrHideContent={viewingManagement} mainContent={actualRecipes} />
+        )}
       </FilteringProvider>
     </RecipesViewingProvider>
   )
 }
 
 export default RecipesViewingPage
-
-const outerCss = (isSplitView: boolean) => css`
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex: 1;
-  flex-direction: ${isSplitView ? 'column' : 'row'};
-  overflow-x: hidden;
-`

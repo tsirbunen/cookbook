@@ -25,8 +25,9 @@ const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
 export default CookRecipePanel
 
 const container = css`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+  /* height: 100%; */
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* flex: 1; */
+  /* overflow: scroll; */
 `

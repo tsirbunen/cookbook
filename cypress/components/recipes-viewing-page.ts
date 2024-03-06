@@ -1,12 +1,6 @@
 import { Base } from './base'
 import { togglesTestId } from '../../src/widgets/header-with-optional-toggles/Toggles'
 import {
-  filteringToggleProperty,
-  pickedRecipesToggleProperty,
-  selectModeToggleProperty,
-  startCookingToggleProperty
-} from '../../src/app-pages/recipes/viewing-management/RecipesViewingHeaderToggles'
-import {
   ViewRecipesMode,
   viewModeManagementToolDataTestId
 } from '../../src/app-pages/recipes/viewing-management/ViewModeManagementTool'
@@ -17,6 +11,12 @@ import { summaryRepresentationDataTestId } from '../../src/app-pages/recipes/rec
 import { titleRepresentationDataTestId } from '../../src/app-pages/recipes/recipes-display/TitleRecipe'
 import { cardRadioButtonSelectorDataTestId } from '../../src/widgets/card-radio-button-selector/CardRadioButtonSelector'
 import { recipesContentDataTestId } from '../../src/app-pages/recipes/page/RecipesContent'
+import {
+  selectModeToggleProperty,
+  pickedRecipesToggleProperty,
+  filteringToggleProperty,
+  startCookingToggleProperty
+} from '../../src/widgets/header-with-optional-toggles/Toggle'
 
 const CLIENT = 'localhost'
 const CLIENT_BASE_URL = `http://${CLIENT}:3000`
