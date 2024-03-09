@@ -3,7 +3,7 @@
 import { css } from '@emotion/react'
 import { recipesViewingManagementZIndex } from '../../constants/z-indexes'
 import { ColorCodes } from '../../theme/theme'
-import { headerHeightWithTools } from '../view-size-service/ViewSizeProvider'
+import { headerHeightWithTools } from '../../constants/constants'
 
 type SplitViewProps = {
   splitContent: JSX.Element

@@ -4,6 +4,7 @@ import React, { createContext, useReducer } from 'react'
 import { DispatchAction, reducer } from './reducer'
 import { RecipesFilterValues, getEmptyFilterValues } from '../app-pages/recipes/page/FilteringProvider'
 import { RecipeCategory } from '../types/types'
+import { Recipe } from '../types/graphql-schema-types.generated'
 
 export type AppStateContextType = {
   state: AppState
@@ -14,12 +15,14 @@ export type AppState = {
   recipes: RecipeCategory[]
   filters: RecipesFilterValues
   pickedRecipeIdsByCategory: Record<string, number[]>
+  pickedRecipes: Recipe[]
 }
 
 const initialAppState = {
   recipes: [],
   filters: getEmptyFilterValues(),
-  pickedRecipeIdsByCategory: {}
+  pickedRecipeIdsByCategory: {},
+  pickedRecipes: []
 }
 
 export const AppStateContext = createContext({})

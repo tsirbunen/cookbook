@@ -30,6 +30,10 @@ const RecipeServiceProvider = dynamic(() => import('../src/recipes-service/Recip
   ssr: false
 })
 
+const CookingProvider = dynamic(() => import('../src/app-pages/cook/page/CookingProvider'), {
+  ssr: false
+})
+
 /**
  * This is a required top level element that enables modification of the initial HTML
  * returned from the server. Here the app components are wrapped with providers common to
@@ -49,7 +53,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <ViewSizeContextProvider>
               <GraphQLClientProvider>
                 <RecipeServiceProvider>
-                  <MainAppLayout>{children}</MainAppLayout>
+                  <CookingProvider>
+                    <MainAppLayout>{children}</MainAppLayout>
+                  </CookingProvider>
                 </RecipeServiceProvider>
               </GraphQLClientProvider>
             </ViewSizeContextProvider>

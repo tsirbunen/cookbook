@@ -2,14 +2,10 @@
 
 import { css } from '@emotion/react'
 import { cardsViewMobileWidth } from '../../app-pages/recipes/recipes-display/PhotoCardRecipe'
-import { navBarWidth } from '../../constants/constants'
+import { headerHeightWithTools, headerHeightWithToolsDoubleLine, navBarWidth } from '../../constants/constants'
 import { recipesViewingManagementZIndex } from '../../constants/z-indexes'
 import { ColorCodes } from '../../theme/theme'
-import {
-  ViewSizeContext,
-  headerHeightWithTools,
-  headerHeightWithToolsDoubleLine
-} from '../view-size-service/ViewSizeProvider'
+import { ViewSizeContext } from '../view-size-service/ViewSizeProvider'
 import { useContext } from 'react'
 
 type RegularTopShowOrHideViewProps = {

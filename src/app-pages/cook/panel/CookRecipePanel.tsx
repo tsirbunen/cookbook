@@ -5,10 +5,12 @@ import { css } from '@emotion/react'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
 
 type RecipePanelProps = {
-  recipe: Recipe
+  recipe?: Recipe
 }
 
 const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
+  if (!recipe) return null
+
   const items = []
   const count = recipe.title === '1: Truly delicious falafels' ? 100 : 25
   for (let i = 0; i < count; i++) {

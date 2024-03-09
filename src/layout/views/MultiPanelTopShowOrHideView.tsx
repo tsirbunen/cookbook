@@ -1,18 +1,14 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import { navBarWidth } from '../../constants/constants'
+import { headerHeightWithTools, headerHeightWithToolsDoubleLine, navBarWidth } from '../../constants/constants'
 import { recipesViewingManagementZIndex } from '../../constants/z-indexes'
 import { ColorCodes } from '../../theme/theme'
-import {
-  ViewSizeContext,
-  headerHeightWithTools,
-  headerHeightWithToolsDoubleLine
-} from '../view-size-service/ViewSizeProvider'
+import { ViewSizeContext } from '../view-size-service/ViewSizeProvider'
 import { useContext } from 'react'
 
 type MultiPanelTopShowOrHideViewProps = {
-  topShowOrHideContent: JSX.Element
+  topShowOrHideContent: JSX.Element | null
   mainContent: JSX.Element
 }
 
@@ -22,9 +18,11 @@ const MultiPanelTopShowOrHideView = ({ topShowOrHideContent, mainContent }: Mult
 
   return (
     <div css={outer(width, isMobile, isNarrowHeader)}>
-      <div css={topOuter}>
-        <div css={topInner}>{topShowOrHideContent}</div>
-      </div>
+      {topShowOrHideContent ? (
+        <div css={topOuter}>
+          <div css={topInner}>{topShowOrHideContent}</div>
+        </div>
+      ) : null}
       <div css={main}>{mainContent}</div>
     </div>
   )

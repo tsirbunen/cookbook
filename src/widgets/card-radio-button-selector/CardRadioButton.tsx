@@ -5,7 +5,8 @@ import { IconType } from 'react-icons'
 export enum RoundedBordersOnSide {
   LEFT = 'LEFT',
   NONE = 'NONE',
-  RIGHT = 'RIGHT'
+  RIGHT = 'RIGHT',
+  BOTH = 'BOTH'
 }
 
 type CardRadioButtonProps = {
@@ -23,13 +24,15 @@ const CardRadioButton = ({ label, isSelected, selectValue, roundBordersOnSide, i
   const backgroundColor = isSelected ? ColorCodes.VERY_DARK : ColorCodes.MEDIUM
   const labelColor = ColorCodes.PALE
 
-  const borderRadii = ['0px', '0px', '0px', '0px']
+  let borderRadii = ['0px', '0px', '0px', '0px']
   if (roundBordersOnSide === RoundedBordersOnSide.LEFT) {
     borderRadii[0] = borderRadius
     borderRadii[3] = borderRadius
   } else if (roundBordersOnSide === RoundedBordersOnSide.RIGHT) {
     borderRadii[1] = borderRadius
     borderRadii[2] = borderRadius
+  } else if (roundBordersOnSide === RoundedBordersOnSide.BOTH) {
+    borderRadii = [borderRadius, borderRadius, borderRadius, borderRadius]
   }
 
   const size = icon ? 'md' : 'small'

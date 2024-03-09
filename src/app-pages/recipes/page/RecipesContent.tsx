@@ -29,7 +29,7 @@ const RecipesContent = () => {
   const { state, dispatch } = useContext(AppStateContext) as AppStateContextType
 
   const onPickRecipeChanged = (recipeId: number, category: string) => {
-    dispatch({ type: Dispatch.UPDATE_PICKED_RECIPE_IDS, payload: { recipeId, category } })
+    dispatch({ type: Dispatch.UPDATE_PICKED_RECIPES, payload: { recipeId, category } })
   }
 
   if (!showRecipes) {

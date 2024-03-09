@@ -13,7 +13,7 @@ type CardRadioButtonSelectorOption<T> = {
 
 type CardRadioButtonSelectorProps<T> = {
   options: CardRadioButtonSelectorOption<T>[]
-  currentValue: T
+  currentValue?: T
   selectValue: (newValue: T) => void
   noMargin?: boolean
 }
@@ -25,6 +25,7 @@ const CardRadioButtonSelector = <T,>({
   noMargin
 }: CardRadioButtonSelectorProps<T>) => {
   const getRoundBordersOnSide = (index: number, optionsCount: number) => {
+    if (index === 0 && optionsCount === 1) return RoundedBordersOnSide.BOTH
     if (index === 0) return RoundedBordersOnSide.LEFT
     if (index === optionsCount - 1) return RoundedBordersOnSide.RIGHT
     return RoundedBordersOnSide.NONE

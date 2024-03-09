@@ -6,14 +6,10 @@ import { useRouter, usePathname } from 'next/navigation'
 import { css } from '@emotion/react'
 import NavigationBarItem from './NavigationBarItem'
 import { navigationMenuItems } from '../router/router'
-import {
-  headerHeightRegular,
-  headerHeightWithTools,
-  ViewSizeContext
-} from '../../layout/view-size-service/ViewSizeProvider'
+import { ViewSizeContext } from '../../layout/view-size-service/ViewSizeProvider'
 import { ColorCodes } from '../../theme/theme'
 import MenuIconWithoutAction from '../../widgets/header-with-optional-toggles/MenuIconWithoutAction'
-import { navBarWidth } from '../../constants/constants'
+import { headerHeightRegular, headerHeightWithTools, navBarWidth } from '../../constants/constants'
 import { navigationBarZIndex } from '../../constants/z-indexes'
 
 type DrawerNavigatorProps = {

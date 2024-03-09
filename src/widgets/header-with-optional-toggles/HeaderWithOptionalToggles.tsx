@@ -2,11 +2,12 @@
 
 import { usePathname } from 'next/navigation'
 import { getRouteLabelByPath } from '../../navigation/router/router'
-import { ViewSizeContext, headerHeightRegular } from '../../layout/view-size-service/ViewSizeProvider'
+import { ViewSizeContext } from '../../layout/view-size-service/ViewSizeProvider'
 import { useContext } from 'react'
 import MobileHeaderWithOptionalToggles from './MobileHeaderWithOptionalToggles'
 import NarrowHeaderWithToggles from './NarrowHeaderWithToggles'
 import RegularHeaderWithToggles from './RegularHeaderWithToggles'
+import { headerHeightRegular } from '../../constants/constants'
 
 export const toolsElementId = 'toolsElementId'
 

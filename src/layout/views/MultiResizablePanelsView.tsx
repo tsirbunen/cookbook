@@ -3,6 +3,8 @@ import Panel from '../layout-widgets/Panel'
 import { ViewSizeContext, minPanelWidth, maxPanelWidth, WindowWidth } from '../view-size-service/ViewSizeProvider'
 import { navBarWidth } from '../../constants/constants'
 
+export const maxAllowedPanelsCount = 3
+
 type MultiResizablePanelsViewProps = {
   leftContent: JSX.Element
   middleContent?: JSX.Element
