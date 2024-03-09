@@ -136,8 +136,11 @@ export default RecipesDisplay
 const separatorCss = (isVisible: boolean) => css`
   width: 100%;
   height: ${isVisible ? 40 : 0}px;
-  background-color: ${isVisible ? ColorCodes.MEDIUM : 'transparent'};
   border-radius: 6px;
+  border: ${isVisible ? '3px dashed' : 'transparent'};
+  border-color: ${isVisible ? ColorCodes.VERY_DARK : 'transparent'};
+  background-color: ${isVisible ? ColorCodes.MEDIUM : 'transparent'};
+  opacity: 0.5;
 `
 
 const photosContainerCss = (_: boolean) => css`

@@ -6,8 +6,8 @@ import { ColorCodes } from '../../../theme/theme'
 import CheckboxWithTheme from '../../../theme/checkboxes/CheckboxWithTheme'
 import TitleWithLink from '../../../widgets/titles/TitleWithLink'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
-import { FaRegHandPaper, FaHandRock } from 'react-icons/fa'
-import { FaHand, FaRegHand } from 'react-icons/fa6'
+import { FaHandRock } from 'react-icons/fa'
+import { FaHand } from 'react-icons/fa6'
 import { useRef, useState } from 'react'
 
 export const titleRepresentationDataTestId = 'title-representation'
@@ -91,7 +91,7 @@ const TitleRecipe = ({
       <TitleWithLink title={title} url="TODO" />
       {canDragAndDrop ? (
         <div className="dragHandle">
-          <FaRegHand size="25px" />
+          <FaHand size="25px" />
         </div>
       ) : null}
     </div>
@@ -102,7 +102,6 @@ const TitleRecipe = ({
       <Draggable
         axis="y"
         handle=".dragHandle"
-        // bounds=".dragArea"
         position={position}
         onStart={onStartDrag}
         onStop={onStopDrag}
@@ -124,15 +123,9 @@ const outerCss = (showBackground: boolean, zIndex?: number, hide?: boolean) => c
   flex-direction: row;
   justify-content: start;
   align-items: center;
-  /* margin-bottom: 2px; */
   color: ${ColorCodes.VERY_DARK};
-  /* background-color: ${showBackground ? ColorCodes.PALE : 'transparent'}; */
-  /* background-color: pink; */
-  /* background-color: ${zIndex ? ColorCodes.MEDIUM : showBackground ? ColorCodes.PALE : 'transparent'}; */
-  /* background: repeating-linear-gradient(45deg, #606dbc, #606dbc 10px, #465298 10px, #465298 20px); */
   padding: ${showBackground ? 4 : 1}px 6px;
   border-radius: 6px;
-  /* height: ${zIndex ? 0 : 40}px; */
   height: ${hide ? 0 : 40}px;
   z-index: ${zIndex};
 `
@@ -142,17 +135,11 @@ const dragCss = (showBackground: boolean, zIndex?: number) => css`
   flex-direction: row;
   justify-content: start;
   align-items: center;
-  /* margin-bottom: 2px; */
   color: ${ColorCodes.VERY_DARK};
-  /* background-color: ${showBackground ? ColorCodes.PALE : 'transparent'}; */
-  /* background-color: pink; */
   background-color: ${ColorCodes.MEDIUM};
-  /* padding: ${showBackground ? 4 : 1}px 6px; */
   padding: ${showBackground ? 4 : 1}px 6px;
   margin-left: -6px;
   border-radius: 6px;
   height: ${zIndex ? 40 : 40}px;
-  /* width: 100%; */
   z-index: ${zIndex};
-  /* margin-top: 20px; */
 `
