@@ -5,12 +5,14 @@ import { AppState } from './StateContextProvider'
 
 export enum Dispatch {
   SET_RECIPES_AND_FILTERS = 'SET_RECIPES_AND_FILTERS',
-  UPDATE_PICKED_RECIPES = 'UPDATE_PICKED_RECIPES'
+  UPDATE_PICKED_RECIPES = 'UPDATE_PICKED_RECIPES',
+  CHANGE_RECIPES_ORDER = 'CHANGE_RECIPES_ORDER'
 }
 
 export type DispatchAction =
   | { type: Dispatch.SET_RECIPES_AND_FILTERS; payload: { recipes: RecipeCategory[]; filters: RecipesFilterValues } }
   | { type: Dispatch.UPDATE_PICKED_RECIPES; payload: { recipeId: number; category: string } }
+  | { type: Dispatch.CHANGE_RECIPES_ORDER; payload: { recipes: Recipe[] } }
 
 export const reducer = (state: AppState, action: DispatchAction) => {
   switch (action.type) {
@@ -18,6 +20,8 @@ export const reducer = (state: AppState, action: DispatchAction) => {
       return { ...state, recipes: action.payload.recipes, filters: action.payload.filters }
     case Dispatch.UPDATE_PICKED_RECIPES:
       return updatePickedRecipes(state, action.payload)
+    case Dispatch.CHANGE_RECIPES_ORDER:
+      return { ...state, pickedRecipes: action.payload.recipes }
     default:
       throw new Error(`${JSON.stringify(action)} is not an app state reducer action!`)
   }

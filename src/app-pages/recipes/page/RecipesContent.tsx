@@ -56,6 +56,7 @@ const RecipesContent = () => {
               isMobile={isMobile}
               showBackground={true}
               pickedRecipeIds={pickedRecipeIds}
+              canDragAndDrop={false}
             />
           </React.Fragment>
         )
