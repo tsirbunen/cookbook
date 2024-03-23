@@ -32,6 +32,10 @@ const RecipesContent = () => {
     dispatch({ type: Dispatch.UPDATE_PICKED_RECIPES, payload: { recipeId, category } })
   }
 
+  const onRecipesOrderChanged = (newOrderOfIds: number[]) => {
+    dispatch({ type: Dispatch.CHANGE_RECIPES_ORDER, payload: { newOrderOfIds } })
+  }
+
   if (!showRecipes) {
     return null
   }
@@ -57,6 +61,7 @@ const RecipesContent = () => {
               showBackground={true}
               pickedRecipeIds={pickedRecipeIds}
               canDragAndDrop={false}
+              onChangedRecipeOrder={onRecipesOrderChanged}
             />
           </React.Fragment>
         )

@@ -6,8 +6,6 @@ import { ColorCodes } from '../../../theme/theme'
 import { ViewRecipesMode } from './ViewModeManagementTool'
 import RecipesDisplay from '../recipes-display/RecipesDisplay'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
-// import { getPickedRecipes } from '../../../utils/recipe-utils'
-import { Recipe } from '../../../types/graphql-schema-types.generated'
 
 export const pickedRecipesManagementToolDataTestId = 'picked-recipes-management-tool'
 
@@ -25,13 +23,11 @@ const PickedRecipesManagementTool = ({ isMobile }: PickedRecipesManagementToolPr
     dispatch({ type: Dispatch.UPDATE_PICKED_RECIPES, payload: { recipeId, category } })
   }
 
-  const onChangedRecipeOrder = (recipes: Recipe[]) => {
-    dispatch({ type: Dispatch.CHANGE_RECIPES_ORDER, payload: { recipes } })
+  const onChangedRecipeOrder = (newOrderOfIds: number[]) => {
+    dispatch({ type: Dispatch.CHANGE_RECIPES_ORDER, payload: { newOrderOfIds } })
   }
 
-  // const pickedRecipes = getPickedRecipes(state)
   const pickedRecipes = state.pickedRecipes
-  console.log(pickedRecipes)
   const noRecipesPickedYet = pickedRecipes.length === 0
   const title = noRecipesPickedYet ? noRecipesPickedYetTitle : pickRecipesTitle
   const showTitle = !isMobile || noRecipesPickedYet
@@ -48,7 +44,7 @@ const PickedRecipesManagementTool = ({ isMobile }: PickedRecipesManagementToolPr
           showBackground={false}
           isMobile={isMobile}
           pickedRecipeIds={pickedRecipes.map((recipe) => recipe.id)}
-          canDragAndDrop={true}
+          canDragAndDrop={pickedRecipes.length > 1}
           onChangedRecipeOrder={onChangedRecipeOrder}
         />
       </Flex>

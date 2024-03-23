@@ -1,6 +1,6 @@
 'use client'
 
-import { Dispatch, createContext, useContext, useEffect, useReducer, useState } from 'react'
+import { Dispatch, createContext, useContext, useEffect, useReducer } from 'react'
 import { AppStateContext, AppStateContextType } from '../../../state/StateContextProvider'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
@@ -11,8 +11,6 @@ type DisplayIndexes = { leftRecipeIndex?: number; middleRecipeIndex?: number; ri
 type Cooking = {
   pickedRecipes: Recipe[]
   pickedRecipesCount: number
-  showPickedRecipes: boolean
-  toggleShowPickedRecipes: () => void
 
   displayConfig: DisplayConfig
   dispatchCookingEvent: Dispatch<DispatchCookingEventAction>
@@ -42,7 +40,6 @@ const CookingProvider = ({ children }: { children: React.ReactNode }) => {
     cookingReducer,
     getInitialCookingState(pickedRecipes.length, maxPanelsCount)
   )
-  const [showPickedRecipes, setShowPickedRecipes] = useState(false)
 
   useEffect(() => {
     dispatchCookingEvent({
@@ -50,10 +47,6 @@ const CookingProvider = ({ children }: { children: React.ReactNode }) => {
       payload: { maxPanelsCount, pickedRecipesCount: pickedRecipes.length }
     })
   }, [pickedRecipes])
-
-  const toggleShowPickedRecipes = () => {
-    setShowPickedRecipes((previous) => !previous)
-  }
 
   const pickedRecipesCount = pickedRecipes.length
   const displayConfig = cookingState.displayConfig
@@ -63,8 +56,6 @@ const CookingProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         pickedRecipes,
         pickedRecipesCount,
-        showPickedRecipes,
-        toggleShowPickedRecipes,
         displayConfig,
         dispatchCookingEvent
       }}

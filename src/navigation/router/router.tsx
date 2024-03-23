@@ -1,6 +1,6 @@
 import React from 'react'
 import { IconType } from 'react-icons/lib'
-import { TbSettings, TbListDetails, TbBasket, TbWand, TbBook, TbStar } from 'react-icons/tb'
+import { TbSettings, TbListDetails, TbBasket, TbWand, TbChefHat, TbStar } from 'react-icons/tb'
 
 import RecipesPage from '../../app-pages/recipes/page/RecipesViewingPage'
 import SettingsPage from '../../app-pages/settings/SettingsPage'
@@ -49,7 +49,7 @@ export const navigationMenuItems: NavigationMenuItem[] = [
   {
     page: Page.COOK,
     label: 'cook',
-    iconElement: TbBook,
+    iconElement: TbChefHat,
     path: '/cook',
     element: CookPage,
     headerHasTools: true

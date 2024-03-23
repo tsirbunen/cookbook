@@ -10,6 +10,7 @@ import Toggle, { pickedRecipesToggleProperty } from '../../../widgets/header-wit
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
 import { IconType } from 'react-icons'
 import { DispatchCookingEvent, DisplayDirection } from './cooking-reducer'
+import { RecipesViewingContext } from '../../recipes/page/RecipesViewingProvider'
 
 const displayCountOptionsAll = [
   { label: '1', value: 1, icon: TbColumns1 },
@@ -23,8 +24,8 @@ const displayNextOption: DisplayOptionType = { label: 'next', value: 'next', ico
 
 const CookingHeaderToggles = () => {
   const { isMobile, maxPanelsCount } = useContext(ViewSizeContext)
-  const { displayConfig, pickedRecipesCount, showPickedRecipes, toggleShowPickedRecipes, dispatchCookingEvent } =
-    useContext(CookingContext)
+  const { displayConfig, pickedRecipesCount, dispatchCookingEvent } = useContext(CookingContext)
+  const { showPickedRecipes, toggleShowPickedRecipes } = useContext(RecipesViewingContext)
   const { count, indexes } = displayConfig
 
   const { leftRecipeIndex, middleRecipeIndex, rightRecipeIndex } = indexes

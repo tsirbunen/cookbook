@@ -11,22 +11,26 @@ import { toolsElementId } from '../../../widgets/header-with-optional-toggles/Mo
 import CookingHeaderToggles from './CookingHeaderToggles'
 import React from 'react'
 import PickedRecipesManagementTool from '../../recipes/viewing-management/PickedRecipesManagementTool'
+import { RecipesViewingContext } from '../../recipes/page/RecipesViewingProvider'
+import { Page } from '../../../navigation/router/router'
 
 const CookPage = () => {
   const { maxPanelsCount, isMobile } = useContext(ViewSizeContext)
-  const { pickedRecipes, showPickedRecipes, displayConfig } = useContext(CookingContext)
+  const { pickedRecipes, displayConfig } = useContext(CookingContext)
+  const { showPickedRecipes } = useContext(RecipesViewingContext)
   const { indexes, count } = displayConfig
   const { leftRecipeIndex, middleRecipeIndex, rightRecipeIndex } = indexes
   const toolsPortalDomNode = document.getElementById(toolsElementId)
 
+  const cookPageTestId = `${Page.COOK}-page`
   const hasNoRecipesToDisplay = leftRecipeIndex === undefined || pickedRecipes.length === 0
   if (hasNoRecipesToDisplay)
     return (
-      <React.Fragment>
+      <div data-testid={cookPageTestId}>
         {toolsPortalDomNode ? createPortal(<CookingHeaderToggles />, toolsPortalDomNode) : null}
 
-        <div style={{ marginTop: '100px', marginLeft: '20px' }}>You have not picked any recipes to cook yet!</div>
-      </React.Fragment>
+        <div style={{ marginTop: '150px', marginLeft: '20px' }}>You have not picked any recipes to cook yet!</div>
+      </div>
     )
 
   const leftRecipe = pickedRecipes[leftRecipeIndex]
@@ -54,6 +58,7 @@ const CookPage = () => {
             rightContent={rightRecipe ? <CookRecipePanel recipe={rightRecipe} /> : undefined}
           />
         }
+        testId={cookPageTestId}
       />
     </React.Fragment>
   )

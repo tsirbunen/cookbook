@@ -2,7 +2,6 @@ import { useContext } from 'react'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
 import RecipesContent from './RecipesContent'
 import ViewingManagement from './ViewingManagement'
-import RecipesViewingProvider from './RecipesViewingProvider'
 import FilteringProvider from './FilteringProvider'
 import SplitView from '../../../layout/views/SplitView'
 import RegularTopShowOrHideView from '../../../layout/views/RegularTopShowOrHideView'
@@ -22,15 +21,13 @@ const RecipesViewingPage = () => {
   const actualRecipes = <RecipesContent />
 
   return (
-    <RecipesViewingProvider>
-      <FilteringProvider>
-        {isSplitView ? (
-          <SplitView splitContent={viewingManagement} mainContent={actualRecipes} />
-        ) : (
-          <RegularTopShowOrHideView topShowOrHideContent={viewingManagement} mainContent={actualRecipes} />
-        )}
-      </FilteringProvider>
-    </RecipesViewingProvider>
+    <FilteringProvider>
+      {isSplitView ? (
+        <SplitView splitContent={viewingManagement} mainContent={actualRecipes} />
+      ) : (
+        <RegularTopShowOrHideView topShowOrHideContent={viewingManagement} mainContent={actualRecipes} />
+      )}
+    </FilteringProvider>
   )
 }
 

@@ -14,9 +14,8 @@ import FilteringManagementTool from '../viewing-management/FilteringManagementTo
 
 const ViewingManagement = () => {
   const { isMobile, isSplitView } = useContext(ViewSizeContext)
-  const { showSelectMode, showPickedRecipes, showFiltering } = useContext(RecipesViewingContext)
+  const { showSelectMode, showPickedRecipes, showFiltering, someFeatureIsToggled } = useContext(RecipesViewingContext)
 
-  const someFeatureIsToggled = showSelectMode || showPickedRecipes || showFiltering
   const innerCss = isSplitView ? slitViewCss(someFeatureIsToggled) : boxCss(isMobile, showFiltering)
   const toolsPortalDomNode = document.getElementById(toolsElementId)
 

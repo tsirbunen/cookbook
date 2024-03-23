@@ -145,7 +145,7 @@ const cypressTestRecipe1 = {
           name: 'cypress',
           previousIngredientId: null
         },
-        { id: 112, amount: 0.5, unit: 'cup', name: 'blueberry', previousIngredientId: 111 }
+        { id: 112, amount: 0.5, unit: 'cup', name: 'plum', previousIngredientId: 111 }
       ]
     }
   ],

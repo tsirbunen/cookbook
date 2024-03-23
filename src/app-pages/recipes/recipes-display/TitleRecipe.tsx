@@ -1,14 +1,11 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import Draggable, { DraggableData, DraggableEvent } from 'react-draggable'
+
 import { ColorCodes } from '../../../theme/theme'
 import CheckboxWithTheme from '../../../theme/checkboxes/CheckboxWithTheme'
 import TitleWithLink from '../../../widgets/titles/TitleWithLink'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
-import { FaHandRock } from 'react-icons/fa'
-import { FaHand } from 'react-icons/fa6'
-import { useRef, useState } from 'react'
 
 export const titleRepresentationDataTestId = 'title-representation'
 
@@ -22,103 +19,21 @@ export type TitleRecipeProps = {
   onTargetChanged?: (direction?: 'up' | 'down', index?: number) => void
 }
 
-const TitleRecipe = ({
-  recipe,
-  index,
-  isPicked,
-  onPickRecipeChanged,
-  showBackground,
-  confirmNewPosition,
-  onTargetChanged
-}: TitleRecipeProps) => {
-  const [position] = useState({ x: 0, y: 0 })
-  const [zIndex, setZIndex] = useState<number | undefined>(undefined)
-  const [shouldHide, setShouldHide] = useState<boolean>(false)
-
-  const nodeRef = useRef(null)
+const TitleRecipe = ({ recipe, isPicked, onPickRecipeChanged, showBackground }: TitleRecipeProps) => {
   const { title } = recipe
 
-  const onStartDrag = () => {
-    setShouldHide(false)
-    setZIndex(1000)
-  }
-
-  const onStopDrag = () => {
-    setZIndex(undefined)
-    confirmNewPosition && confirmNewPosition(recipe.id)
-  }
-
-  const onControlledDrag = (e: DraggableEvent, data: DraggableData) => {
-    if (!onTargetChanged) return
-
-    const { y } = data
-    if (y <= 10 && y >= -10) {
-    }
-
-    if (y > 10) {
-      const recipesInBetween = Math.floor(y / 40)
-      const targetIndex = index + 1 + recipesInBetween
-      onTargetChanged('down', targetIndex)
-      setShouldHide(true)
-    }
-
-    if (y < -10) {
-      const recipesInBetween = Math.floor(y / 40)
-      const targetIndex = index + recipesInBetween - 1
-      onTargetChanged('up', targetIndex)
-      setShouldHide(true)
-    }
-  }
-
-  const canDragAndDrop = onTargetChanged !== undefined
-
-  const content = zIndex ? (
-    <div
-      css={outerCss(isPicked && showBackground, zIndex, shouldHide)}
-      data-testid={titleRepresentationDataTestId}
-      ref={nodeRef}
-    >
-      <div css={dragCss(isPicked && showBackground, zIndex)}>
-        <CheckboxWithTheme isChecked={isPicked} onChange={onPickRecipeChanged} />
-        <TitleWithLink title={title} url="TODO" />
-        <FaHandRock size="25px" />
-      </div>
-    </div>
-  ) : (
-    <div css={outerCss(isPicked && showBackground, zIndex)} data-testid={titleRepresentationDataTestId} ref={nodeRef}>
+  return (
+    <div css={outerCss(isPicked && showBackground)} data-testid={titleRepresentationDataTestId}>
       <CheckboxWithTheme isChecked={isPicked} onChange={onPickRecipeChanged} />
 
       <TitleWithLink title={title} url="TODO" />
-      {canDragAndDrop ? (
-        <div className="dragHandle">
-          <FaHand size="25px" />
-        </div>
-      ) : null}
     </div>
   )
-
-  if (canDragAndDrop) {
-    return (
-      <Draggable
-        axis="y"
-        handle=".dragHandle"
-        position={position}
-        onStart={onStartDrag}
-        onStop={onStopDrag}
-        onDrag={onControlledDrag}
-        nodeRef={nodeRef}
-      >
-        {content}
-      </Draggable>
-    )
-  }
-
-  return content
 }
 
 export default TitleRecipe
 
-const outerCss = (showBackground: boolean, zIndex?: number, hide?: boolean) => css`
+const outerCss = (showBackground: boolean) => css`
   display: flex;
   flex-direction: row;
   justify-content: start;
@@ -126,20 +41,8 @@ const outerCss = (showBackground: boolean, zIndex?: number, hide?: boolean) => c
   color: ${ColorCodes.VERY_DARK};
   padding: ${showBackground ? 4 : 1}px 6px;
   border-radius: 6px;
-  height: ${hide ? 0 : 40}px;
-  z-index: ${zIndex};
-`
-
-const dragCss = (showBackground: boolean, zIndex?: number) => css`
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
-  color: ${ColorCodes.VERY_DARK};
-  background-color: ${ColorCodes.MEDIUM};
-  padding: ${showBackground ? 4 : 1}px 6px;
-  margin-left: -6px;
-  border-radius: 6px;
-  height: ${zIndex ? 40 : 40}px;
-  z-index: ${zIndex};
+  height: ${40}px;
+  touch-action: none;
+  width: 100%;
+  flex: 1;
 `

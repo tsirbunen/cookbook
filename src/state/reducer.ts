@@ -12,7 +12,7 @@ export enum Dispatch {
 export type DispatchAction =
   | { type: Dispatch.SET_RECIPES_AND_FILTERS; payload: { recipes: RecipeCategory[]; filters: RecipesFilterValues } }
   | { type: Dispatch.UPDATE_PICKED_RECIPES; payload: { recipeId: number; category: string } }
-  | { type: Dispatch.CHANGE_RECIPES_ORDER; payload: { recipes: Recipe[] } }
+  | { type: Dispatch.CHANGE_RECIPES_ORDER; payload: { newOrderOfIds: number[] } }
 
 export const reducer = (state: AppState, action: DispatchAction) => {
   switch (action.type) {
@@ -21,7 +21,7 @@ export const reducer = (state: AppState, action: DispatchAction) => {
     case Dispatch.UPDATE_PICKED_RECIPES:
       return updatePickedRecipes(state, action.payload)
     case Dispatch.CHANGE_RECIPES_ORDER:
-      return { ...state, pickedRecipes: action.payload.recipes }
+      return updatePickedRecipesOrder(state, action.payload)
     default:
       throw new Error(`${JSON.stringify(action)} is not an app state reducer action!`)
   }
@@ -47,4 +47,19 @@ const updatePickedRecipes = (state: AppState, payload: { recipeId: number; categ
   ) as Recipe[]
 
   return { ...state, pickedRecipeIdsByCategory: updatedPickedCategoryIds, pickedRecipes: updatedPickedRecipes }
+}
+
+// FIXME: CHANGE STATE SO THAT FINDING RECIPES IS EASIER!!!
+const updatePickedRecipesOrder = (state: AppState, payload: { newOrderOfIds: number[] }) => {
+  const allRecipes = state.recipes.flatMap((recipeCategory) => recipeCategory.recipes)
+
+  const recipesInOrder = []
+  for (const id of payload.newOrderOfIds) {
+    const recipe = allRecipes.find((r) => r.id === id)
+    if (recipe) {
+      recipesInOrder.push(recipe)
+    }
+  }
+
+  return { ...state, pickedRecipes: recipesInOrder }
 }

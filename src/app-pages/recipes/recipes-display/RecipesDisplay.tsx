@@ -8,6 +8,7 @@ import { Recipe } from '../../../types/graphql-schema-types.generated'
 import { noCategoryTitle } from '../../../constants/constants'
 import { useEffect, useState } from 'react'
 import { ColorCodes } from '../../../theme/theme'
+import DraggableItemsList from '../../../widgets/draggable-items-list/DraggableItemsList'
 
 const recipesElementsByMode = {
   PHOTOS: PhotoCardRecipe,
@@ -23,7 +24,7 @@ export type RecipesDisplayProps = {
   isMobile: boolean
   pickedRecipeIds: number[]
   canDragAndDrop: boolean
-  onChangedRecipeOrder?: (recipesInOrder: Recipe[]) => void
+  onChangedRecipeOrder?: (newOrderOfIds: number[]) => void
 }
 
 const RecipesDisplay = (props: RecipesDisplayProps) => {
@@ -38,7 +39,6 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
     onChangedRecipeOrder
   } = props
   const [recipesInOrder, setRecipesInOrder] = useState(recipes)
-  const [target, setTarget] = useState<{ direction?: 'up' | 'down'; index?: number }>({})
   const RecipeElement = recipesElementsByMode[mode]
   const recipesCss = cssByMode[mode]
 
@@ -46,35 +46,18 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
     setRecipesInOrder(recipes)
   }, [recipes])
 
-  const onTargetChanged = (direction?: 'up' | 'down', index?: number) => {
-    setTarget({ direction, index })
+  const onConfirmNewOrder = (newOrderOfKeys: string[]) => {
+    const recipeIds = newOrderOfKeys.map(getRecipeIdFromKey)
+    onChangedRecipeOrder && onChangedRecipeOrder(recipeIds)
   }
 
-  const confirmNewPosition = (recipeId: number) => {
-    let recipeToMove = recipesInOrder.find((r) => r.id === recipeId)
-    if (!target.direction || target.index === undefined || !recipeToMove) return
-    const newIndex = target.direction === 'up' ? target.index + 1 : target.index
+  const createElementKey = (index: number, recipeId: number) => {
+    return `title-${index}-${recipeId}`
+  }
 
-    const updatedRecipesInOrder: Recipe[] = []
-    let index = 0
-    recipesInOrder.forEach((loopRecipe) => {
-      if (index === newIndex && recipeToMove) {
-        updatedRecipesInOrder.push(recipeToMove)
-        recipeToMove = undefined
-        index += 1
-      }
-
-      if (loopRecipe.id !== recipeId) {
-        updatedRecipesInOrder.push(loopRecipe)
-        index += 1
-      }
-    })
-
-    if (recipeToMove) updatedRecipesInOrder.push(recipeToMove)
-
-    setRecipesInOrder(updatedRecipesInOrder.filter(Boolean))
-    setTarget({})
-    onChangedRecipeOrder && onChangedRecipeOrder(updatedRecipesInOrder)
+  const getRecipeIdFromKey = (key: string) => {
+    const parts = key.split('-')
+    return parseInt(parts[parts.length - 1])
   }
 
   if (!canDragAndDrop) {
@@ -87,7 +70,7 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
 
           return (
             <RecipeElement
-              key={`title-${recipeId}`}
+              key={createElementKey(index, recipeId)}
               recipe={recipe}
               index={index}
               onPickRecipeChanged={() => onPickRecipeChanged(recipeId, category ?? noCategoryTitle)}
@@ -100,48 +83,37 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
     )
   }
 
-  const content: JSX.Element[] = []
-  recipesInOrder.forEach((recipe, index) => {
-    const recipeId = recipe.id
-    const category = recipe.category ?? noCategoryTitle
-    const isPicked = pickedRecipeIds.includes(recipe.id)
+  const listItemHeight = 40
 
-    if (canDragAndDrop && index === 0) {
-      content.push(<div key={`separator-${recipeId}-before-all`} css={separatorCss(target.index === -1)} />)
-    }
+  const content = (
+    <DraggableItemsList
+      onConfirmNewOrder={onConfirmNewOrder}
+      items={recipesInOrder.map((recipe, index) => {
+        const recipeId = recipe.id
+        const category = recipe.category ?? noCategoryTitle
+        const isPicked = pickedRecipeIds.includes(recipe.id)
 
-    content.push(
-      <RecipeElement
-        key={`title-${recipeId}`}
-        recipe={recipe}
-        index={index}
-        onPickRecipeChanged={() => onPickRecipeChanged(recipeId, category ?? noCategoryTitle)}
-        isPicked={isPicked}
-        showBackground={showBackground}
-        confirmNewPosition={confirmNewPosition}
-        onTargetChanged={onTargetChanged}
-      />
-    )
-
-    if (canDragAndDrop && index < recipes.length) {
-      content.push(<div key={`separator-${recipeId}-${index}`} css={separatorCss(index === target.index)} />)
-    }
-  })
+        return (
+          <RecipeElement
+            key={`title-${recipeId}`}
+            recipe={recipe}
+            index={index}
+            onPickRecipeChanged={() => onPickRecipeChanged(recipeId, category ?? noCategoryTitle)}
+            isPicked={isPicked}
+            showBackground={showBackground}
+          />
+        )
+      })}
+      itemHeight={listItemHeight}
+      onMoveBgColor={ColorCodes.MEDIUM}
+      handColor={ColorCodes.VERY_DARK}
+    />
+  )
 
   return <div css={recipesCss(isMobile)}>{content}</div>
 }
 
 export default RecipesDisplay
-
-const separatorCss = (isVisible: boolean) => css`
-  width: 100%;
-  height: ${isVisible ? 40 : 0}px;
-  border-radius: 6px;
-  border: ${isVisible ? '3px dashed' : 'transparent'};
-  border-color: ${isVisible ? ColorCodes.VERY_DARK : 'transparent'};
-  background-color: ${isVisible ? ColorCodes.MEDIUM : 'transparent'};
-  opacity: 0.5;
-`
 
 const photosContainerCss = (_: boolean) => css`
   display: flex;
@@ -164,6 +136,7 @@ const titlesContainerCss = (isMobile: boolean) => css`
   justify-content: start;
   align-items: start;
   padding-left: ${!isMobile ? 5 : 0}px;
+  width: 100%;
 `
 
 const cssByMode: Record<ViewRecipesMode, (isMobile: boolean) => SerializedStyles> = {

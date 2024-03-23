@@ -1,3 +1,5 @@
+'use client'
+
 import { createContext, useContext, useState } from 'react'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
 import { ViewRecipesMode } from '../viewing-management/ViewModeManagementTool'
@@ -14,6 +16,7 @@ type RecipesViewing = {
   toggleShowPickedRecipes: () => void
   showFiltering: boolean
   toggleShowFiltering: () => void
+  someFeatureIsToggled: boolean
 }
 
 export const RecipesViewingContext = createContext<RecipesViewing>({} as RecipesViewing)
@@ -37,6 +40,7 @@ const RecipesViewingProvider = ({ children }: { children: React.ReactNode }) => 
   const toggleShowFiltering = () => setShowFiltering((previous) => !previous)
 
   const showRecipes = isSplitView || !recipesAreHidden
+  const someFeatureIsToggled = showSelectMode || showPickedRecipes || showFiltering
 
   return (
     <RecipesViewingContext.Provider
@@ -51,7 +55,8 @@ const RecipesViewingProvider = ({ children }: { children: React.ReactNode }) => 
         showPickedRecipes,
         toggleShowPickedRecipes,
         showFiltering,
-        toggleShowFiltering
+        toggleShowFiltering,
+        someFeatureIsToggled
       }}
     >
       {children}

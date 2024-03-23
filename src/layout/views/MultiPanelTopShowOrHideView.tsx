@@ -10,14 +10,19 @@ import { useContext } from 'react'
 type MultiPanelTopShowOrHideViewProps = {
   topShowOrHideContent: JSX.Element | null
   mainContent: JSX.Element
+  testId: string
 }
 
-const MultiPanelTopShowOrHideView = ({ topShowOrHideContent, mainContent }: MultiPanelTopShowOrHideViewProps) => {
+const MultiPanelTopShowOrHideView = ({
+  topShowOrHideContent,
+  mainContent,
+  testId
+}: MultiPanelTopShowOrHideViewProps) => {
   const { windowWidth, isMobile, isNarrowHeader } = useContext(ViewSizeContext)
   const width = isMobile ? windowWidth.current : windowWidth.current - navBarWidth
 
   return (
-    <div css={outer(width, isMobile, isNarrowHeader)}>
+    <div css={outer(width, isMobile, isNarrowHeader)} data-testid={testId}>
       {topShowOrHideContent ? (
         <div css={topOuter}>
           <div css={topInner}>{topShowOrHideContent}</div>

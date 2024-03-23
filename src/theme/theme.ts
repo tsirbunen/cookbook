@@ -26,6 +26,11 @@ export const theme = extendTheme({
         error: ColorCodes.ERROR,
         overscrollBehavior: 'none',
         // overscrollBehavior: 'contain'
+        // NOTE: MDN documents advice to use these, but they do not work so
+        // using the webkit-scrollbar instead...
+        // https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-scrollbar
+        // scrollbarColor: '#EBE3D5',
+        // scrollbarWidth: `${scrollBarWidth}px`,
         '*::-webkit-scrollbar': {
           backgroundColor: '#EBE3D5',
           width: `${scrollBarWidth}px`

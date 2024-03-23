@@ -15,12 +15,12 @@ type RegularTopShowOrHideViewProps = {
 }
 
 const RegularTopShowOrHideView = ({ topShowOrHideContent, mainContent }: RegularTopShowOrHideViewProps) => {
-  const { windowWidth, isMobile } = useContext(ViewSizeContext)
+  const { windowWidth, isMobile, isNarrowHeader } = useContext(ViewSizeContext)
   const width = windowWidth.current - navBarWidth
 
   return (
     <div css={view}>
-      <div css={page(isMobile, width)}>
+      <div css={page(isMobile, width, isNarrowHeader)}>
         <div css={container(isMobile)}>
           <div css={topOuter}>
             <div css={topInner}>{topShowOrHideContent}</div>
@@ -43,7 +43,7 @@ const view = css`
   overflow-x: hidden;
 `
 
-const page = (isMobile: boolean, width: number) => {
+const page = (isMobile: boolean, width: number, isNarrowHeader: boolean) => {
   return css`
     display: flex;
     flex: 1;
@@ -52,7 +52,7 @@ const page = (isMobile: boolean, width: number) => {
     justify-content: start;
     align-items: ${isMobile ? 'center' : 'start'};
     width: ${isMobile ? cardsViewMobileWidth : width - navBarWidth}px;
-    margin-top: ${isMobile ? headerHeightWithToolsDoubleLine : headerHeightWithTools}px;
+    margin-top: ${isMobile || isNarrowHeader ? headerHeightWithToolsDoubleLine : headerHeightWithTools}px;
   `
 }
 
