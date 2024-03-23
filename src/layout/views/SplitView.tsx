@@ -8,14 +8,15 @@ import { headerHeightWithTools } from '../../constants/constants'
 type SplitViewProps = {
   splitContent: JSX.Element
   mainContent: JSX.Element
+  hideSplit: boolean
 }
 
-const SplitView = ({ splitContent, mainContent }: SplitViewProps) => {
+const SplitView = ({ splitContent, mainContent, hideSplit }: SplitViewProps) => {
   return (
     <div css={view}>
       <div css={container}>
         <div css={splitOuter}>
-          <div css={splitScrollable}>{splitContent}</div>
+          <div css={splitScrollable(!hideSplit)}>{splitContent}</div>
         </div>
 
         <div css={preventOverflow}>{mainContent}</div>
@@ -64,9 +65,9 @@ const splitOuter = css`
   display: flex;
 `
 
-const splitScrollable = css`
+const splitScrollable = (showScrollBar: boolean) => css`
   height: 100%;
-  overflow: scroll;
+  overflow: ${showScrollBar ? 'scroll' : undefined};
   overflow-x: hidden;
   box-shadow: 2px 0px 8px -1px rgba(0, 0, 0, 0.24);
 `

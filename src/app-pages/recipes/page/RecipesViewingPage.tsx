@@ -5,6 +5,7 @@ import ViewingManagement from './ViewingManagement'
 import FilteringProvider from './FilteringProvider'
 import SplitView from '../../../layout/views/SplitView'
 import RegularTopShowOrHideView from '../../../layout/views/RegularTopShowOrHideView'
+import { RecipesViewingContext } from './RecipesViewingProvider'
 
 /**
  * This page displays the actual recipes and viewing management "tools" with which the user
@@ -16,6 +17,7 @@ import RegularTopShowOrHideView from '../../../layout/views/RegularTopShowOrHide
  */
 const RecipesViewingPage = () => {
   const { isSplitView } = useContext(ViewSizeContext)
+  const { someFeatureIsToggled } = useContext(RecipesViewingContext)
 
   const viewingManagement = <ViewingManagement />
   const actualRecipes = <RecipesContent />
@@ -23,7 +25,7 @@ const RecipesViewingPage = () => {
   return (
     <FilteringProvider>
       {isSplitView ? (
-        <SplitView splitContent={viewingManagement} mainContent={actualRecipes} />
+        <SplitView splitContent={viewingManagement} mainContent={actualRecipes} hideSplit={!someFeatureIsToggled} />
       ) : (
         <RegularTopShowOrHideView topShowOrHideContent={viewingManagement} mainContent={actualRecipes} />
       )}
