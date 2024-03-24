@@ -44,7 +44,7 @@ const PickedRecipesManagementTool = ({ isMobile }: PickedRecipesManagementToolPr
           showBackground={false}
           isMobile={isMobile}
           pickedRecipeIds={pickedRecipes.map((recipe) => recipe.id)}
-          canDragAndDrop={pickedRecipes.length > 1}
+          canDragAndDrop={true}
           onChangedRecipeOrder={onChangedRecipeOrder}
         />
       </Flex>

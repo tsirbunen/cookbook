@@ -19,9 +19,7 @@ const Panel = ({ children, width, onResize }: PanelProps) => {
 
   return (
     <>
-      <div css={panelCss}>
-        <div>{children}</div>
-      </div>
+      <div css={panelCss}>{children}</div>
       {onResize ? <Resizer onResize={onResize} /> : null}
     </>
   )

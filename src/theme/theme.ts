@@ -32,11 +32,11 @@ export const theme = extendTheme({
         // scrollbarColor: '#EBE3D5',
         // scrollbarWidth: `${scrollBarWidth}px`,
         '*::-webkit-scrollbar': {
-          backgroundColor: '#EBE3D5',
+          backgroundColor: '#B0A695', //'#EBE3D5',
           width: `${scrollBarWidth}px`
         },
         '*::-webkit-scrollbar-thumb': {
-          backgroundColor: '#D6CBB8',
+          backgroundColor: '#4F4A45', // '#D6CBB8',
           borderRadius: `${scrollBarWidth}px`
         }
       },

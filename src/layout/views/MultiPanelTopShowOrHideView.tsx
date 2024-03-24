@@ -46,6 +46,7 @@ const main = css`
   display: flex;
   flex-direction: row;
   overflow-x: hidden;
+  flex: 1;
 `
 
 const topOuter = css`
