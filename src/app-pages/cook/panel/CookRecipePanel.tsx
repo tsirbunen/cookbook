@@ -1,30 +1,30 @@
 /** @jsxImportSource @emotion/react */
-
-import React from 'react'
 import { css } from '@emotion/react'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
-
 import RecipeTitle from './RecipeTitle'
 import RecipePhotos from './RecipePhotos'
+import RecipePropertyIcons from '../../../widgets/property-icon/RecipePropertyIcons'
+import RecipeIngredients from './RecipeIngredients'
+import { useWidthChangedObserver } from './useWidthChangedObserver'
 
 type RecipePanelProps = {
   recipe?: Recipe
 }
 
 const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
+  const { elementRef, currentWidth } = useWidthChangedObserver()
+
   if (!recipe) return null
 
-  const items = []
-  const count = recipe.title === '1: Truly delicious falafels' ? 100 : 50
-  for (let i = 0; i < count; i++) {
-    items.push(<div key={i}>Test item {i}</div>)
-  }
+  const { isFavorite, ovenNeeded } = recipe
+
   return (
-    <div css={container}>
+    <div css={container} ref={elementRef}>
       <RecipePhotos title={recipe.title} />
       <RecipeTitle title={recipe.title} />
+      <RecipePropertyIcons isFavorite={isFavorite} ovenNeeded={ovenNeeded} justifyContent="center" />
 
-      {items}
+      <RecipeIngredients ingredientGroups={recipe.ingredientGroups} currentWidth={currentWidth} />
     </div>
   )
 }

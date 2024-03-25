@@ -22,7 +22,7 @@ const devRecipe = {
   ingredientGroups: [
     {
       id: 1,
-      title: null,
+      title: 'Falafels',
       ingredients: [
         {
           id: 1,
@@ -55,6 +55,33 @@ const devRecipe = {
         { id: 11, amount: 2, unit: 'tbsp', name: 'chickpea flour (or other flour)', previousIngredientId: 10 },
         { id: 12, amount: 0.5, unit: 'ts', name: ' baking soda', previousIngredientId: 11 },
         { id: 13, name: 'oil for frying', previousIngredientId: 12 }
+      ]
+    },
+    {
+      id: 777,
+      title: 'Test group',
+      ingredients: [
+        {
+          id: 555,
+          amount: 1,
+          unit: 'tbsp',
+          name: 'apple jam',
+          previousIngredientId: null
+        },
+        {
+          id: 556,
+          amount: 5,
+          unit: 'cups',
+          name: 'all purpose flour',
+          previousIngredientId: 555
+        },
+        {
+          id: 556,
+          amount: 600,
+          unit: 'grams',
+          name: 'minced pork meat (low fat)',
+          previousIngredientId: 556
+        }
       ]
     }
   ],
@@ -224,11 +251,11 @@ const recipes = [
   {
     ...devRecipe,
     id: 1,
-    title: `1: Truly delicious falafels`,
+    title: `Truly delicious falafels`,
     tags: ['vegan', 'chickpea'],
     category: Category.DINNER,
     ovenNeeded: true,
-    isFavorite: false
+    isFavorite: true
   },
   {
     ...devRecipe,

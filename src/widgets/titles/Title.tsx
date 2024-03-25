@@ -3,7 +3,9 @@ import { ColorCodes } from '../../theme/theme'
 
 export enum TitleVariant {
   Small = 'Small',
+
   Medium = 'Medium',
+  MediumPale = 'MediumPale',
   MediumLeft = 'MediumLeft',
   MediumRegular = 'MediumRegular'
 }
@@ -44,6 +46,11 @@ const variantCssMap = {
   [TitleVariant.Medium]: {
     fontWeight: 'bold',
     color: ColorCodes.VERY_DARK,
-    fontSize: '1.2em'
+    fontSize: '1.3em'
+  },
+  [TitleVariant.MediumPale]: {
+    fontWeight: 'bold',
+    color: ColorCodes.DARK,
+    fontSize: '1.1em'
   }
 }

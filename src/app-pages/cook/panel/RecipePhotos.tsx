@@ -52,6 +52,7 @@ const imageCss = css`
   object-fit: cover;
   min-height: 200px;
   max-height: 400px;
+  width: 100%;
 `
 
 const dotBoxCss = css`

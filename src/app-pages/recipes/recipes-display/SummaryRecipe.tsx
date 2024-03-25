@@ -4,8 +4,8 @@ import { css } from '@emotion/react'
 import Image from 'next/image'
 import { ColorCodes } from '../../../theme/theme'
 import falafel from '../../../assets/falafel.png'
-import { TbStarFilled, TbStar, TbCooker } from 'react-icons/tb'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
+import RecipePropertyIcons from '../../../widgets/property-icon/RecipePropertyIcons'
 
 export const summaryRepresentationDataTestId = 'summary-representation'
 
@@ -25,7 +25,7 @@ const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked }: SummaryRecipeP
   const getImageRadii = () => {
     return `${borderRadius}px 0px 0px ${borderRadius}px`
   }
-  const Element = isFavorite ? TbStarFilled : TbStar
+
   const tagsCombined = tags.map((tag) => `#${tag.toUpperCase()}`).join(' ')
 
   return (
@@ -52,22 +52,7 @@ const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked }: SummaryRecipeP
           <div>{tagsCombined}</div>
         </div>
 
-        <div css={bottomContainer}>
-          {isFavorite ? (
-            <div>
-              <div css={badge(isPicked)}>
-                <Element fontSize="1.3em" strokeWidth="2" />
-              </div>
-            </div>
-          ) : null}
-          {ovenNeeded ? (
-            <div>
-              <div css={badge(isPicked)}>
-                <TbCooker fontSize="1.3em" strokeWidth="2" />
-              </div>
-            </div>
-          ) : null}
-        </div>
+        <RecipePropertyIcons isFavorite={isFavorite} ovenNeeded={ovenNeeded} justifyContent="start" />
       </div>
     </div>
   )
@@ -129,24 +114,4 @@ const categoryContainer = (isPicked: boolean) => css`
   color: ${isPicked ? ColorCodes.DARK : ColorCodes.DARK};
   font-size: 0.7em;
   font-weight: bold;
-`
-
-const bottomContainer = css`
-  display: flex;
-  width: 100%;
-  flex-direction: row;
-  justify-content: start;
-`
-
-const badge = (isPicked: boolean) => css`
-  width: 28px;
-  height: 28px;
-  background-color: ${isPicked ? ColorCodes.DARK : ColorCodes.DARK};
-  border-radius: 28px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: ${ColorCodes.VERY_PALE};
-  margin-right: 5px;
 `
