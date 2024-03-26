@@ -5,7 +5,7 @@ import RecipeTitle from './RecipeTitle'
 import RecipePhotos from './RecipePhotos'
 import RecipePropertyIcons from '../../../widgets/property-icon/RecipePropertyIcons'
 import RecipeIngredients from './RecipeIngredients'
-import { useWidthChangedObserver } from './useWidthChangedObserver'
+import { useWidthChangedObserver } from '../../../hooks/useWidthChangedObserver'
 
 type RecipePanelProps = {
   recipe?: Recipe

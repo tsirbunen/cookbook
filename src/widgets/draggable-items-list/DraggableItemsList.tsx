@@ -112,7 +112,7 @@ const DraggableItemsList = ({
 
         return (
           <DraggableItem
-            key={`draggable-list-item-${index}`}
+            key={`draggable-list-item-${item.key}-${index}`}
             currentItemIndex={index}
             translateY={translateY}
             itemHeight={itemHeight}

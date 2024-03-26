@@ -69,5 +69,5 @@ export const getUpdatedKeyOrder = (updatedVisualIndexOrder: number[], originalKe
 }
 
 export const getInitialTranslateYs = (items: ReactElement[], listItemHeight: number) => {
-  return range(0, (items.length + 1) * listItemHeight, listItemHeight)
+  return range(0, items.length * listItemHeight, listItemHeight)
 }
