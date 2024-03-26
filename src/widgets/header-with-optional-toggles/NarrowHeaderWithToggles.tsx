@@ -5,8 +5,7 @@ import { ColorCodes } from '../../theme/theme'
 import { appTitle } from '../../../app/page'
 import { navBarWidth } from '../../constants/constants'
 import { headerZIndex } from '../../constants/z-indexes'
-
-export const toolsElementId = 'toolsElementId'
+import { toolsElementId } from './HeaderWithOptionalToggles'
 
 type NarrowHeaderWithTogglesProps = {
   label: string

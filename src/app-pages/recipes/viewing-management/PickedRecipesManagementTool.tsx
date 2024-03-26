@@ -9,14 +9,10 @@ import Title, { TitleVariant } from '../../../widgets/titles/Title'
 
 export const pickedRecipesManagementToolDataTestId = 'picked-recipes-management-tool'
 
-type PickedRecipesManagementToolProps = {
-  isMobile: boolean
-}
-
 const noRecipesPickedYetTitle = 'Pick some recipes to start cooking!'
 const pickRecipesTitle = 'Picked recipes'
 
-const PickedRecipesManagementTool = ({ isMobile }: PickedRecipesManagementToolProps) => {
+const PickedRecipesManagementTool = () => {
   const { state, dispatch } = useContext(AppStateContext) as AppStateContextType
 
   const updatePickedRecipes = (recipeId: number, category: string) => {
@@ -30,19 +26,18 @@ const PickedRecipesManagementTool = ({ isMobile }: PickedRecipesManagementToolPr
   const pickedRecipes = state.pickedRecipes
   const noRecipesPickedYet = pickedRecipes.length === 0
   const title = noRecipesPickedYet ? noRecipesPickedYetTitle : pickRecipesTitle
-  const showTitle = !isMobile || noRecipesPickedYet
+  const showTitle = noRecipesPickedYet
 
   return (
-    <Flex {...outerCss(isMobile)} data-testid={pickedRecipesManagementToolDataTestId}>
+    <Flex {...outerCss} data-testid={pickedRecipesManagementToolDataTestId}>
       {showTitle ? <Title title={title.toUpperCase()} variant={TitleVariant.MediumRegular} /> : null}
 
-      <Flex {...innerCss(isMobile, noRecipesPickedYet)}>
+      <Flex {...innerCss(noRecipesPickedYet)}>
         <RecipesDisplay
           recipes={pickedRecipes}
           onPickRecipeChanged={updatePickedRecipes}
           mode={ViewRecipesMode.TITLES}
           showBackground={false}
-          isMobile={isMobile}
           pickedRecipeIds={pickedRecipes.map((recipe) => recipe.id)}
           canDragAndDrop={true}
           onChangedRecipeOrder={onChangedRecipeOrder}
@@ -54,22 +49,20 @@ const PickedRecipesManagementTool = ({ isMobile }: PickedRecipesManagementToolPr
 
 export default PickedRecipesManagementTool
 
-const outerCss = (isMobile: boolean) => {
-  return {
-    flexDirection: 'column' as ChakraProps['flexDirection'],
-    backgroundColor: ColorCodes.PALE,
-    borderRadius: '6px',
-    margin: isMobile ? '10px 15px 10px 5px' : '10px 0px 10px 5px',
-    width: '100%'
-  }
+const outerCss = {
+  flexDirection: 'column' as ChakraProps['flexDirection'],
+  backgroundColor: ColorCodes.PALE,
+  borderRadius: '6px',
+  margin: '10px 0px 10px 5px',
+  width: '100%'
 }
 
-const innerCss = (isMobile: boolean, noRecipesPickedYet: boolean) => {
+const innerCss = (noRecipesPickedYet: boolean) => {
   return {
     marginBottom: '10px',
     marginTop: '10px',
     flexDirection: 'column' as ChakraProps['flexDirection'],
-    alignItems: isMobile ? 'center' : 'start',
-    flex: isMobile && noRecipesPickedYet ? 1 : undefined
+    alignItems: 'start',
+    flex: noRecipesPickedYet ? 1 : undefined
   }
 }

@@ -5,12 +5,11 @@ export const togglesTestId = 'toggles'
 
 type TogglesProps = {
   children?: JSX.Element | React.ReactNode
-  isMobile: boolean
 }
 
-const Toggles = ({ children, isMobile }: TogglesProps) => {
+const Toggles = ({ children }: TogglesProps) => {
   return (
-    <Flex {...outerBoxCss(isMobile)} data-testid={togglesTestId}>
+    <Flex {...outerBoxCss} data-testid={togglesTestId}>
       <Flex {...togglesBoxCss}>{children}</Flex>
     </Flex>
   )
@@ -18,16 +17,14 @@ const Toggles = ({ children, isMobile }: TogglesProps) => {
 
 export default Toggles
 
-const outerBoxCss = (isMobile: boolean) => {
-  return {
-    flexDirection: 'column' as ChakraProps['flexDirection'],
-    alignItems: 'start',
-    justifyContent: isMobile ? 'center' : 'start',
-    backgroundColor: ColorCodes.PALE,
-    margin: `0px 0px 10px 0px`,
-    padding: '10px',
-    borderRadius: '6px'
-  }
+const outerBoxCss = {
+  flexDirection: 'column' as ChakraProps['flexDirection'],
+  alignItems: 'start',
+  justifyContent: 'start',
+  backgroundColor: ColorCodes.PALE,
+  margin: `0px 0px 10px 0px`,
+  padding: '10px',
+  borderRadius: '6px'
 }
 
 const togglesBoxCss = {

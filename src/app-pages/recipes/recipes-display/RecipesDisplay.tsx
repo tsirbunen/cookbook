@@ -21,7 +21,7 @@ export type RecipesDisplayProps = {
   onPickRecipeChanged: (recipeId: number, category: string) => void
   mode: ViewRecipesMode
   showBackground: boolean
-  isMobile: boolean
+
   pickedRecipeIds: number[]
   canDragAndDrop: boolean
   onChangedRecipeOrder?: (newOrderOfIds: number[]) => void
@@ -32,7 +32,7 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
     recipes,
     mode,
     onPickRecipeChanged,
-    isMobile,
+
     showBackground,
     pickedRecipeIds,
     canDragAndDrop,
@@ -62,7 +62,7 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
 
   if (!canDragAndDrop) {
     return (
-      <div css={recipesCss(isMobile)}>
+      <div css={recipesCss}>
         {recipes.map((recipe, index) => {
           const recipeId = recipe.id
           const category = recipe.category ?? noCategoryTitle
@@ -110,36 +110,36 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
     />
   )
 
-  return <div css={recipesCss(isMobile)}>{content}</div>
+  return <div css={recipesCss}>{content}</div>
 }
 
 export default RecipesDisplay
 
-const photosContainerCss = (_: boolean) => css`
+const photosContainerCss = css`
   display: flex;
   flex-wrap: wrap;
   justify-content: start;
   width: 100%;
 `
 
-const summariesContainerCss = (isMobile: boolean) => css`
+const summariesContainerCss = css`
   display: flex;
   flex-direction: column;
   justify-content: start;
   width: 100%;
-  padding-left: ${!isMobile ? 5 : 0}px;
+  /* padding-left: 0px; */
 `
-const titlesContainerCss = (isMobile: boolean) => css`
+const titlesContainerCss = css`
   display: flex;
   flex: 1;
   flex-direction: column;
   justify-content: start;
   align-items: start;
-  padding-left: ${!isMobile ? 5 : 0}px;
+  /* padding-left: 0px; */
   width: 100%;
 `
 
-const cssByMode: Record<ViewRecipesMode, (isMobile: boolean) => SerializedStyles> = {
+const cssByMode: Record<ViewRecipesMode, SerializedStyles> = {
   [ViewRecipesMode.PHOTOS]: photosContainerCss,
   [ViewRecipesMode.SUMMARIES]: summariesContainerCss,
   [ViewRecipesMode.TITLES]: titlesContainerCss

@@ -24,7 +24,6 @@ export type RecipesViewElementProps = {
 export const maxSummaryWidth = 700 - navBarWidth - 50
 
 const RecipesContent = () => {
-  const { isMobile } = useContext(ViewSizeContext)
   const { showRecipes, mode } = useContext(RecipesViewingContext)
   const { state, dispatch } = useContext(AppStateContext) as AppStateContextType
 
@@ -43,7 +42,7 @@ const RecipesContent = () => {
   const recipesInCategories = state.recipes
 
   return (
-    <div css={outerCss(isMobile, mode === ViewRecipesMode.PHOTOS)} data-testid={recipesContentDataTestId}>
+    <div css={outerCss(mode === ViewRecipesMode.PHOTOS)} data-testid={recipesContentDataTestId}>
       {recipesInCategories.map((recipeCategory) => {
         const title = recipeCategory.category.toUpperCase()
         const category = recipeCategory.category ?? noCategoryTitle
@@ -57,7 +56,6 @@ const RecipesContent = () => {
               recipes={recipeCategory.recipes}
               onPickRecipeChanged={onPickRecipeChanged}
               mode={mode}
-              isMobile={isMobile}
               showBackground={true}
               pickedRecipeIds={pickedRecipeIds}
               canDragAndDrop={false}
@@ -73,12 +71,12 @@ const RecipesContent = () => {
 
 export default RecipesContent
 
-const outerCss = (isMobile: boolean, isPhotos: boolean) => {
+const outerCss = (isPhotos: boolean) => {
   return css`
     display: flex;
     flex-direction: column;
     justify-content: start;
-    align-items: ${isMobile ? 'center' : 'start'};
+    align-items: start;
     width: 100%;
     padding-left: 10px;
     padding-right: ${!isPhotos ? 10 : 0}px;

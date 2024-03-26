@@ -19,10 +19,10 @@ type MultiResizablePanelsViewProps = {
  */
 const MultiResizablePanelsView = (props: MultiResizablePanelsViewProps) => {
   const { leftContent, middleContent, rightContent } = props
-  const { windowWidth, isMobile } = useContext(ViewSizeContext)
+  const { windowWidth } = useContext(ViewSizeContext)
   const count = getPanelsCount([leftContent, middleContent, rightContent])
   const [panelsCount, setPanelsCount] = useState(count)
-  const initialWidths = getEvenPanelWidths(windowWidth.current, panelsCount, !isMobile)
+  const initialWidths = getEvenPanelWidths(windowWidth.current, panelsCount, true)
   const [leftPanelWidth, setLeftPanelWidth] = useState(initialWidths.left)
   const [middlePanelWidth, setMiddlePanelWidth] = useState(initialWidths.middle)
 
@@ -35,7 +35,7 @@ const MultiResizablePanelsView = (props: MultiResizablePanelsViewProps) => {
       windowWidth,
       newPanelsCount: count,
       panelsCountHasChanged,
-      hasNavBar: !isMobile,
+      hasNavBar: true,
       currentWidths: {
         left: leftPanelWidth,
         middle: getMiddlePanelWidth(count),
@@ -52,7 +52,7 @@ const MultiResizablePanelsView = (props: MultiResizablePanelsViewProps) => {
     // We want to perform these calculations ONLY when the user adjusts
     // the window width or the count of the content components changes!
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [count, windowWidth, isMobile])
+  }, [count, windowWidth])
 
   const onResizeLeftPanel = (deltaX: number) => {
     setLeftPanelWidth((currentLeftWidth) => {

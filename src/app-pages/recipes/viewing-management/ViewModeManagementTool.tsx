@@ -21,19 +21,14 @@ const viewModeOptions = [
 
 const title = 'View mode'
 
-type ViewModeManagementToolProps = {
-  isMobile: boolean
-}
-
-const ViewModeManagementTool = ({ isMobile }: ViewModeManagementToolProps) => {
+const ViewModeManagementTool = () => {
   const { mode, setMode } = useContext(RecipesViewingContext)
 
   const selectMode = (newMode: ViewRecipesMode) => setMode(newMode)
-  const showTitle = !isMobile
 
   return (
-    <Flex {...outerCss(isMobile)} data-testid={viewModeManagementToolDataTestId}>
-      {showTitle ? <Title title={title.toUpperCase()} variant={TitleVariant.MediumRegular} /> : null}
+    <Flex {...outerCss} data-testid={viewModeManagementToolDataTestId}>
+      <Title title={title.toUpperCase()} variant={TitleVariant.MediumRegular} />
 
       <CardRadioButtonSelector options={viewModeOptions} currentValue={mode} selectValue={selectMode} />
     </Flex>
@@ -42,14 +37,12 @@ const ViewModeManagementTool = ({ isMobile }: ViewModeManagementToolProps) => {
 
 export default ViewModeManagementTool
 
-const outerCss = (isMobile: boolean) => {
-  return {
-    flexDirection: 'column' as ChakraProps['flexDirection'],
-    alignItems: isMobile ? 'center' : 'start',
-    margin: isMobile ? '0px' : '10px 0px 10px 5px',
-    paddingBottom: '10px',
-    backgroundColor: isMobile ? 'transparent' : ColorCodes.PALE,
-    borderRadius: '6px',
-    width: '100%'
-  }
+const outerCss = {
+  flexDirection: 'column' as ChakraProps['flexDirection'],
+  alignItems: 'start',
+  margin: '10px 0px 10px 5px',
+  paddingBottom: '10px',
+  backgroundColor: ColorCodes.PALE,
+  borderRadius: '6px',
+  width: '100%'
 }

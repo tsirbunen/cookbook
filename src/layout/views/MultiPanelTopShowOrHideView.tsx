@@ -18,11 +18,11 @@ const MultiPanelTopShowOrHideView = ({
   mainContent,
   testId
 }: MultiPanelTopShowOrHideViewProps) => {
-  const { windowWidth, isMobile, isNarrowHeader } = useContext(ViewSizeContext)
-  const width = isMobile ? windowWidth.current : windowWidth.current - navBarWidth
+  const { windowWidth, isNarrowHeader } = useContext(ViewSizeContext)
+  const width = windowWidth.current - navBarWidth
 
   return (
-    <div css={outer(width, isMobile, isNarrowHeader)} data-testid={testId}>
+    <div css={outer(width, isNarrowHeader)} data-testid={testId}>
       {topShowOrHideContent ? (
         <div css={topOuter}>
           <div css={topInner}>{topShowOrHideContent}</div>
@@ -35,8 +35,8 @@ const MultiPanelTopShowOrHideView = ({
 
 export default MultiPanelTopShowOrHideView
 
-const outer = (width: number, isMobile: boolean, isNarrowHeader: boolean) => css`
-  margin-top: ${isMobile || isNarrowHeader ? headerHeightWithToolsDoubleLine : headerHeightWithTools}px;
+const outer = (width: number, isNarrowHeader: boolean) => css`
+  margin-top: ${isNarrowHeader ? headerHeightWithToolsDoubleLine : headerHeightWithTools}px;
   display: flex;
   flex-direction: column;
   width: ${width}px;

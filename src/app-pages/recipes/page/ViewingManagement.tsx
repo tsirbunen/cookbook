@@ -13,10 +13,10 @@ import RecipesViewingHeaderToggles from '../viewing-management/RecipesViewingHea
 import FilteringManagementTool from '../viewing-management/FilteringManagementTool'
 
 const ViewingManagement = () => {
-  const { isMobile, isSplitView } = useContext(ViewSizeContext)
+  const { isSplitView } = useContext(ViewSizeContext)
   const { showSelectMode, showPickedRecipes, showFiltering, someFeatureIsToggled } = useContext(RecipesViewingContext)
 
-  const innerCss = isSplitView ? slitViewCss(someFeatureIsToggled) : boxCss(isMobile, showFiltering)
+  const innerCss = isSplitView ? slitViewCss(someFeatureIsToggled) : boxCss(showFiltering)
   const toolsPortalDomNode = document.getElementById(toolsElementId)
 
   return (
@@ -24,9 +24,9 @@ const ViewingManagement = () => {
       {toolsPortalDomNode ? createPortal(<RecipesViewingHeaderToggles />, toolsPortalDomNode) : null}
 
       <div css={toolsCss}>
-        {showSelectMode ? <ViewModeManagementTool isMobile={isMobile} /> : null}
-        {showPickedRecipes ? <PickedRecipesManagementTool isMobile={isMobile} /> : null}
-        {showFiltering ? <FilteringManagementTool isMobile={isMobile} /> : null}
+        {showSelectMode ? <ViewModeManagementTool /> : null}
+        {showPickedRecipes ? <PickedRecipesManagementTool /> : null}
+        {showFiltering ? <FilteringManagementTool /> : null}
       </div>
     </div>
   )
@@ -42,7 +42,7 @@ const slitViewCss = (someFeatureIsToggled: boolean) => css`
   width: ${someFeatureIsToggled ? `${splitViewWidth}` : '0'}px;
 `
 
-const boxCss = (isMobile: boolean, showFiltering: boolean) => css`
+const boxCss = (showFiltering: boolean) => css`
   height: ${showFiltering ? '100%' : undefined};
-  padding-left: ${isMobile ? '5px' : '10px'};
+  padding-left: 10px;
 `

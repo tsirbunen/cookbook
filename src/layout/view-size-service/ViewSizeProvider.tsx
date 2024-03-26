@@ -12,14 +12,12 @@ import {
 
 export const minPanelWidth = 250
 export const maxPanelWidth = 2000 //1000
-const appMinWidth = 375
+const appMinWidth = 430
 const appMinHeight = 650
-const mobileNarrowBreakpoint = 430
 const narrowMediumBreakpoint = navBarWidth + 2 * minPanelWidth
 const mediumLargeBreakpoint = narrowMediumBreakpoint + minPanelWidth
 
 export enum ViewMode {
-  MOBILE = 'MOBILE',
   NARROW = 'NARROW',
   MEDIUM = 'MEDIUM',
   WIDE = 'WIDE',
@@ -36,7 +34,6 @@ export type ViewSize = {
   windowHeight: number
   viewMode: ViewMode
   maxPanelsCount: number
-  isMobile: boolean
   isTooSmallWindow: boolean
   isSplitView: boolean
   isHeaderWithTools: (path: string) => boolean
@@ -83,12 +80,11 @@ const ViewSizeContextProvider = ({ children }: { children: React.ReactNode }) =>
     return getPageHeaderHasToolsByPath(path) ?? false
   }
 
-  const isMobile = viewMode === ViewMode.MOBILE
   const isTooSmallWindow = maxPanelsCount === 0 || windowHeight < appMinHeight
   const isSplitView = windowWidth.current >= splitViewBreakpoint
   const isDoubleLineHeader = windowWidth.current < headerWithToolsBreakpoint
   const isNarrowHeader = windowWidth.current < narrowHeaderBreakpoint
-  const headerHeight = isNarrowHeader || isMobile ? headerHeightWithToolsDoubleLine : headerHeightWithTools
+  const headerHeight = isNarrowHeader ? headerHeightWithToolsDoubleLine : headerHeightWithTools
 
   return (
     <ViewSizeContext.Provider
@@ -97,7 +93,6 @@ const ViewSizeContextProvider = ({ children }: { children: React.ReactNode }) =>
         viewMode,
         maxPanelsCount,
         windowHeight,
-        isMobile,
         isTooSmallWindow,
         isSplitView,
         isHeaderWithTools,
@@ -124,8 +119,7 @@ const getViewMode = (width: number) => {
   if (width > splitViewBreakpoint) return ViewMode.VERY_WIDE
   if (width > mediumLargeBreakpoint) return ViewMode.WIDE
   if (width > narrowMediumBreakpoint) return ViewMode.MEDIUM
-  if (width > mobileNarrowBreakpoint) return ViewMode.NARROW
-  return ViewMode.MOBILE
+  return ViewMode.NARROW
 }
 
 const getMaxPanelsCount = (windowWidth: number) => {

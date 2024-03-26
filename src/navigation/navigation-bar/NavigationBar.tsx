@@ -13,25 +13,25 @@ import { headerHeightRegular, headerHeightWithTools, navBarWidth } from '../../c
 import { navigationBarZIndex } from '../../constants/z-indexes'
 
 type DrawerNavigatorProps = {
-  isMobile: boolean
+  isTooSmallWindow: boolean
 }
 
 /**
  * Permanent vertical navigation bar on the left. Intended to be used when app use mode
  * is other than mobile.
  */
-const NavigationBar = ({ isMobile }: DrawerNavigatorProps) => {
+const NavigationBar = ({ isTooSmallWindow }: DrawerNavigatorProps) => {
   const { windowHeight, isHeaderWithTools, headerHeight } = useContext(ViewSizeContext)
   const router = useRouter()
   const pathname = usePathname()
   const isWithTools = isHeaderWithTools(pathname)
   const height = isWithTools ? headerHeight : headerHeightRegular
 
-  if (isMobile) return null
+  if (isTooSmallWindow) return null
 
   return (
-    <div css={outerContainer(windowHeight, isMobile)}>
-      <div css={container(isMobile, height)}>
+    <div css={outerContainer(windowHeight)}>
+      <div css={container(height)}>
         <MenuIconWithoutAction height={height} />
         {navigationMenuItems.map((menuItem) => {
           return (
@@ -50,8 +50,8 @@ const NavigationBar = ({ isMobile }: DrawerNavigatorProps) => {
 
 export default NavigationBar
 
-const outerContainer = (windowHeight: number, isMobile: boolean) => {
-  const headerHeight = isMobile ? headerHeightRegular : headerHeightWithTools
+const outerContainer = (windowHeight: number) => {
+  const headerHeight = headerHeightWithTools
   return css`
     z-index: ${navigationBarZIndex};
     height: ${windowHeight - headerHeight}px;
@@ -60,7 +60,7 @@ const outerContainer = (windowHeight: number, isMobile: boolean) => {
     width: ${navBarWidth}px;
   `
 }
-const container = (isMobile: boolean, headerHeight: number) => css`
+const container = (headerHeight: number) => css`
   display: flex;
   flex-direction: column;
   justify-content: start;

@@ -7,15 +7,15 @@ import { CookingContext } from './CookingProvider'
 import MultiResizablePanelsView from '../../../layout/views/MultiResizablePanelsView'
 import CookRecipePanel from '../panel/CookRecipePanel'
 import { createPortal } from 'react-dom'
-import { toolsElementId } from '../../../widgets/header-with-optional-toggles/MobileHeaderWithOptionalToggles'
 import CookingHeaderToggles from './CookingHeaderToggles'
 import React from 'react'
 import PickedRecipesManagementTool from '../../recipes/viewing-management/PickedRecipesManagementTool'
 import { RecipesViewingContext } from '../../recipes/page/RecipesViewingProvider'
 import { Page } from '../../../navigation/router/router'
+import { toolsElementId } from '../../../widgets/header-with-optional-toggles/HeaderWithOptionalToggles'
 
 const CookPage = () => {
-  const { maxPanelsCount, isMobile } = useContext(ViewSizeContext)
+  const { maxPanelsCount } = useContext(ViewSizeContext)
   const { pickedRecipes, displayConfig } = useContext(CookingContext)
   const { showPickedRecipes } = useContext(RecipesViewingContext)
   const { indexes, count } = displayConfig
@@ -46,8 +46,8 @@ const CookPage = () => {
       <MultiPanelTopShowOrHideView
         topShowOrHideContent={
           showPickedRecipes ? (
-            <div css={boxCss(isMobile)}>
-              <div css={toolsCss}>{showPickedRecipes ? <PickedRecipesManagementTool isMobile={isMobile} /> : null}</div>
+            <div css={boxCss}>
+              <div css={toolsCss}>{showPickedRecipes ? <PickedRecipesManagementTool /> : null}</div>
             </div>
           ) : null
         }
@@ -70,6 +70,6 @@ const toolsCss = css`
   padding-right: 15px;
 `
 
-const boxCss = (isMobile: boolean) => css`
-  padding-left: ${isMobile ? '5px' : '10px'};
+const boxCss = css`
+  padding-left: 10px;
 `

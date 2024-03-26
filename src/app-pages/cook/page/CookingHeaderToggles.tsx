@@ -23,7 +23,7 @@ const displayPreviousOption: DisplayOptionType = { label: 'previous', value: 'pr
 const displayNextOption: DisplayOptionType = { label: 'next', value: 'next', icon: TbPlayerTrackNext }
 
 const CookingHeaderToggles = () => {
-  const { isMobile, maxPanelsCount } = useContext(ViewSizeContext)
+  const { maxPanelsCount } = useContext(ViewSizeContext)
   const { displayConfig, pickedRecipesCount, dispatchCookingEvent } = useContext(CookingContext)
   const { showPickedRecipes, toggleShowPickedRecipes } = useContext(RecipesViewingContext)
   const { count, indexes } = displayConfig
@@ -76,7 +76,7 @@ const CookingHeaderToggles = () => {
   const showToggleDisplayPreviousNext = displayPreviousNextOptions.length > 0
 
   return (
-    <Toggles isMobile={isMobile}>
+    <Toggles>
       <Toggle
         isToggled={showPickedRecipes}
         toggle={toggleShowPickedRecipes}

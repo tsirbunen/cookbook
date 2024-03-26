@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import { cardsViewMobileWidth } from '../../app-pages/recipes/recipes-display/PhotoCardRecipe'
 import { headerHeightWithTools, headerHeightWithToolsDoubleLine, navBarWidth } from '../../constants/constants'
 import { recipesViewingManagementZIndex } from '../../constants/z-indexes'
 import { ColorCodes } from '../../theme/theme'
@@ -15,13 +14,13 @@ type RegularTopShowOrHideViewProps = {
 }
 
 const RegularTopShowOrHideView = ({ topShowOrHideContent, mainContent }: RegularTopShowOrHideViewProps) => {
-  const { windowWidth, isMobile, isNarrowHeader } = useContext(ViewSizeContext)
+  const { windowWidth, isNarrowHeader } = useContext(ViewSizeContext)
   const width = windowWidth.current - navBarWidth
 
   return (
     <div css={view}>
-      <div css={page(isMobile, width, isNarrowHeader)}>
-        <div css={container(isMobile)}>
+      <div css={page(width, isNarrowHeader)}>
+        <div css={container}>
           <div css={topOuter}>
             <div css={topInner}>{topShowOrHideContent}</div>
           </div>
@@ -43,25 +42,25 @@ const view = css`
   overflow-x: hidden;
 `
 
-const page = (isMobile: boolean, width: number, isNarrowHeader: boolean) => {
+const page = (width: number, isNarrowHeader: boolean) => {
   return css`
     display: flex;
     flex: 1;
     width: 100%;
     flex-direction: column;
     justify-content: start;
-    align-items: ${isMobile ? 'center' : 'start'};
-    width: ${isMobile ? cardsViewMobileWidth : width - navBarWidth}px;
-    margin-top: ${isMobile || isNarrowHeader ? headerHeightWithToolsDoubleLine : headerHeightWithTools}px;
+    align-items: 'start';
+    width: ${width - navBarWidth}px;
+    margin-top: ${isNarrowHeader ? headerHeightWithToolsDoubleLine : headerHeightWithTools}px;
   `
 }
 
-const container = (isMobile: boolean) => css`
+const container = css`
   display: flex;
   flex: 1;
   flex-direction: column;
   justify-content: start;
-  align-items: ${isMobile ? 'center' : 'start'};
+  align-items: start;
   width: 100%;
 `
 

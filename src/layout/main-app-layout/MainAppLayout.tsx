@@ -9,7 +9,7 @@ import ErrorPage from '../../navigation/router/ErrorPage'
 import NavigationBar from '../../navigation/navigation-bar/NavigationBar'
 import { usePathname } from 'next/navigation'
 
-const tooSmallWindowMessage = 'Too small window...'
+const tooSmallWindowMessage = 'Not available for mobile phones yet'
 const root = '/'
 
 type MainAppLayoutProps = {
@@ -23,7 +23,7 @@ type MainAppLayoutProps = {
  * which page the user has navigated to).
  */
 const MainAppLayout = ({ children }: MainAppLayoutProps) => {
-  const { isMobile, isTooSmallWindow } = useContext(ViewSizeContext)
+  const { isTooSmallWindow } = useContext(ViewSizeContext)
   const pathname = usePathname()
 
   if (isTooSmallWindow) {
@@ -39,7 +39,7 @@ const MainAppLayout = ({ children }: MainAppLayoutProps) => {
       <HeaderWithOptionalToggles />
 
       <div css={content}>
-        <NavigationBar isMobile={isMobile} />
+        <NavigationBar isTooSmallWindow={isTooSmallWindow} />
         {children}
       </div>
     </div>

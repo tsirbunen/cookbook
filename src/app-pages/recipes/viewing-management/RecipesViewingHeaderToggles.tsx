@@ -13,7 +13,7 @@ import Toggles from '../../../widgets/header-with-optional-toggles/Toggles'
 
 const RecipesViewingHeaderToggles = () => {
   const { state } = useContext(AppStateContext) as AppStateContextType
-  const { isMobile } = useContext(ViewSizeContext)
+
   const { appliedFiltersCount } = useContext(FiltersContext)
   const {
     toggleHideRecipes,
@@ -29,7 +29,7 @@ const RecipesViewingHeaderToggles = () => {
   const pickedRecipesCount = Object.values(pickedRecipeIdsByCategory).flat().length
 
   return (
-    <Toggles isMobile={isMobile}>
+    <Toggles>
       <Toggle
         isToggled={showSelectMode}
         toggle={toggleShowSelectMode}
