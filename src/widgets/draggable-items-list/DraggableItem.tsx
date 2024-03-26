@@ -7,7 +7,6 @@ import { FaHand } from 'react-icons/fa6'
 type DraggableItemProps = {
   draggableContent: JSX.Element
   currentItemIndex: number
-  // onStartMove: () => void
   onItemMoved: (originalIndexOfItemMoving: number, deltaY: number, isConfirm: boolean) => void
   translateY: number
   itemHeight: number
@@ -19,7 +18,6 @@ type DraggableItemProps = {
 const DraggableItem = ({
   draggableContent,
   currentItemIndex,
-  // onStartMove,
   itemHeight,
   translateY,
   onItemMoved,

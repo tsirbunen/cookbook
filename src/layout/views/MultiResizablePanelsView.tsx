@@ -105,7 +105,7 @@ const MultiResizablePanelsView = (props: MultiResizablePanelsViewProps) => {
   return (
     // <div style={{ overflowX: 'hidden', flex: 1, flexDirection: 'row' }}>
     <>
-      <Panel width={leftPanelWidth} onResize={showLeftResizeElement ? onResizeLeftPanel : undefined}>
+      <Panel width={leftPanelWidth} onResize={showLeftResizeElement ? onResizeLeftPanel : undefined} key={'panel-left'}>
         {leftContent}
       </Panel>
 
@@ -113,12 +113,17 @@ const MultiResizablePanelsView = (props: MultiResizablePanelsViewProps) => {
         <Panel
           width={getMiddlePanelWidth(panelsCount)}
           onResize={showMiddleResizeElement ? onResizeMiddlePanel : undefined}
+          key={'panel-middle'}
         >
           {middleContent}
         </Panel>
       ) : null}
 
-      {rightContent ? <Panel width={getRightPanelWidth(panelsCount)}>{rightContent}</Panel> : null}
+      {rightContent ? (
+        <Panel width={getRightPanelWidth(panelsCount)} key={'panel-right'}>
+          {rightContent}
+        </Panel>
+      ) : null}
     </>
     // </div>
   )

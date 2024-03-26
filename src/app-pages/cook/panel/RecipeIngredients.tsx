@@ -8,12 +8,13 @@ import { ColorCodes } from '../../../theme/theme'
 type RecipeIngredientsProps = {
   ingredientGroups: IngredientGroup[]
   currentWidth: number | null
+  recipeId: number
 }
 
 const MULTI_COLUMN_BREAKPOINT = 800
 const INGREDIENTS_SECTION_TITLE = 'INGREDIENTS'
 
-const RecipeIngredients = ({ ingredientGroups, currentWidth }: RecipeIngredientsProps) => {
+const RecipeIngredients = ({ ingredientGroups, currentWidth, recipeId }: RecipeIngredientsProps) => {
   const columnCount = currentWidth && currentWidth > MULTI_COLUMN_BREAKPOINT ? 2 : 1
 
   return (
@@ -29,7 +30,7 @@ const RecipeIngredients = ({ ingredientGroups, currentWidth }: RecipeIngredients
             const { title, ingredients } = group
 
             return (
-              <Flex {...ingredientGroupCss} key={`${title}-${index}`}>
+              <Flex {...ingredientGroupCss} key={`${title}-${index}-${recipeId}`}>
                 {title ? (
                   <Flex marginBottom="5px">
                     <Title title={title} variant={TitleVariant.MediumPale} />
@@ -40,8 +41,8 @@ const RecipeIngredients = ({ ingredientGroups, currentWidth }: RecipeIngredients
                   const isLastInGroup = i === ingredients.length - 1
 
                   return (
-                    <>
-                      <Flex {...ingredientRowCss} key={`${amount}-${name}`}>
+                    <React.Fragment key={`ingredient-row-${group.id}-${i}-${recipeId}`}>
+                      <Flex {...ingredientRowCss}>
                         <Flex {...checkboxCss}>
                           <CheckboxWithTheme isChecked={false} onChange={() => console.log('CHECK')} />
                         </Flex>
@@ -57,7 +58,7 @@ const RecipeIngredients = ({ ingredientGroups, currentWidth }: RecipeIngredients
                         </Flex>
                       </Flex>
                       {isLastInGroup ? <div style={{ marginBottom: '20px' }} /> : null}
-                    </>
+                    </React.Fragment>
                   )
                 })}
               </Flex>

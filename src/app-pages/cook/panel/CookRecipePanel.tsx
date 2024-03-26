@@ -24,7 +24,7 @@ const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
       <RecipeTitle title={recipe.title} />
       <RecipePropertyIcons isFavorite={isFavorite} ovenNeeded={ovenNeeded} justifyContent="center" />
 
-      <RecipeIngredients ingredientGroups={recipe.ingredientGroups} currentWidth={currentWidth} />
+      <RecipeIngredients ingredientGroups={recipe.ingredientGroups} currentWidth={currentWidth} recipeId={recipe.id} />
     </div>
   )
 }
