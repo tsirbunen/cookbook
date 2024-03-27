@@ -3,16 +3,30 @@ import { checkboxesTheme } from './checkboxes/checkboxes-theme'
 import { inputTheme } from './inputs/inputs-theme'
 import { buttonsTheme } from './buttons/buttons-theme'
 import { textareaTheme } from './textareas/textareas-theme'
+import {
+  BACKGROUND_COLOR,
+  DARK_COLOR,
+  ERROR_COLOR,
+  MEDIUM_COLOR,
+  PALE_COLOR,
+  SLIGHTLY_DARK_COLOR,
+  SLIGHTLY_PALE_COLOR,
+  SUCCESS_COLOR,
+  VERY_DARK_COLOR,
+  VERY_PALE_COLOR
+} from '../constants/color-codes'
 
 export enum ColorCodes {
-  BACKGROUND = '#F3EEEA',
-  VERY_PALE = '#EBE3D5',
-  PALE = '#D6CBB8',
-  MEDIUM = '#B0A695',
-  DARK = '#776B5D',
-  VERY_DARK = '#4F4A45',
-  SUCCESS = '#65B741',
-  ERROR = '#E36414'
+  BACKGROUND = BACKGROUND_COLOR,
+  VERY_PALE = VERY_PALE_COLOR,
+  PALE = PALE_COLOR,
+  SLIGHTLY_PALE = SLIGHTLY_PALE_COLOR,
+  MEDIUM = MEDIUM_COLOR,
+  SLIGHTLY_DARK = SLIGHTLY_DARK_COLOR,
+  DARK = DARK_COLOR,
+  VERY_DARK = VERY_DARK_COLOR,
+  SUCCESS = SUCCESS_COLOR,
+  ERROR = ERROR_COLOR
 }
 
 export const scrollBarWidth = 8

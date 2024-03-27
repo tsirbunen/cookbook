@@ -127,7 +127,6 @@ const summariesContainerCss = css`
   flex-direction: column;
   justify-content: start;
   width: 100%;
-  /* padding-left: 0px; */
 `
 const titlesContainerCss = css`
   display: flex;
@@ -135,7 +134,6 @@ const titlesContainerCss = css`
   flex-direction: column;
   justify-content: start;
   align-items: start;
-  /* padding-left: 0px; */
   width: 100%;
 `
 

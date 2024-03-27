@@ -1,5 +1,6 @@
 import { checkboxAnatomy } from '@chakra-ui/anatomy'
 import { createMultiStyleConfigHelpers, CheckboxIcon } from '@chakra-ui/react'
+import { VERY_DARK_COLOR, VERY_PALE_COLOR } from '../../constants/color-codes'
 
 const { definePartsStyle, defineMultiStyleConfig } = createMultiStyleConfigHelpers(checkboxAnatomy.keys)
 
@@ -8,17 +9,17 @@ const baseStyle = definePartsStyle({
     borderRadius: 6,
     width: '25px',
     height: '25px',
-    borderColor: '#4F4A45',
+    borderColor: VERY_DARK_COLOR,
     borderWidth: '3px',
     iconSize: 'xl',
     _checked: {
-      color: '#EBE3D5',
-      backgroundColor: '#4F4A45',
-      borderColor: '#4F4A45',
+      color: VERY_PALE_COLOR,
+      backgroundColor: VERY_DARK_COLOR,
+      borderColor: VERY_DARK_COLOR,
       icon: CheckboxIcon
     },
-    _focus: { outline: 'none', backgroundColor: '#4F4A45', borderColor: '#4F4A45' },
-    _hover: { outline: 'none', backgroundColor: '#4F4A45', borderColor: '#4F4A45' }
+    _focus: { outline: 'none', backgroundColor: VERY_DARK_COLOR, borderColor: VERY_DARK_COLOR },
+    _hover: { outline: 'none', backgroundColor: VERY_DARK_COLOR, borderColor: VERY_DARK_COLOR }
   }
 })
 

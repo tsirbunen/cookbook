@@ -52,11 +52,11 @@ const cardCss = (isPicked: boolean) => css`
   margin-left: 3px;
   margin-bottom: ${spacing}px;
   position: relative;
-  background-color: ${isPicked ? ColorCodes.PALE : 'transparent'};
+  background-color: ${isPicked ? ColorCodes.VERY_DARK : 'transparent'};
 `
 
 const titleCss = (isPicked: boolean) => css`
-  color: ${isPicked ? ColorCodes.VERY_DARK : ColorCodes.VERY_DARK};
+  color: ${isPicked ? ColorCodes.VERY_PALE : ColorCodes.VERY_DARK};
   font-weight: bold;
   font-size: 12px;
   height: ${cardHeight - imageHeight - 10}px;

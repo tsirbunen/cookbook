@@ -1,4 +1,5 @@
 import { defineStyle, defineStyleConfig } from '@chakra-ui/react'
+import { DARK_COLOR, MEDIUM_COLOR, PALE_COLOR, VERY_DARK_COLOR, VERY_PALE_COLOR } from '../../constants/color-codes'
 
 export enum ButtonVariant {
   SquareWithIcon = 'squareWithIcon',
@@ -8,8 +9,8 @@ export enum ButtonVariant {
 }
 
 const mediumSizeDark = defineStyle({
-  background: '#4F4A45',
-  color: '#EBE3D5',
+  background: VERY_DARK_COLOR,
+  color: VERY_PALE_COLOR,
   fontSize: '1em',
   variant: 'unstyled',
   borderRadius: '6px',
@@ -20,20 +21,20 @@ const mediumSizeDark = defineStyle({
   marginTop: '5px',
   _focus: { outline: 'none' },
   _disabled: {
-    background: '#776B5D',
-    color: '#D6CBB8',
+    background: DARK_COLOR,
+    color: PALE_COLOR,
     _hover: {
-      background: '#776B5D',
-      color: '#D6CBB8'
+      background: DARK_COLOR,
+      color: PALE_COLOR
     }
   },
   _hover: {
     _disabled: {
-      background: '#776B5D',
-      color: '#D6CBB8'
+      background: DARK_COLOR,
+      color: PALE_COLOR
     },
-    background: '#776B5D',
-    color: '#D6CBB8'
+    background: DARK_COLOR,
+    color: PALE_COLOR
   },
   height: '30px'
 })
@@ -44,12 +45,12 @@ const mediumSizePale = defineStyle({
   borderRadius: '4px',
   paddingLeft: '10px',
   paddingRight: '10px',
-  bg: '#776B5D',
-  color: '#EBE3D5',
+  bg: DARK_COLOR,
+  color: VERY_PALE_COLOR,
   _focus: { outline: 'none' },
   _hover: {
-    bg: '#EBE3D5',
-    color: '#776B5D'
+    bg: VERY_PALE_COLOR,
+    color: DARK_COLOR
   },
   height: '30px'
 })
@@ -61,15 +62,15 @@ const squareWithIcon = (toggled: boolean) => {
     borderRadius: '6px',
     fontSize: '1.75em',
     padding: '5px',
-    bg: toggled ? '#4F4A45' : '#B0A695',
-    color: toggled ? '#EBE3D5' : '#D6CBB8',
+    bg: toggled ? VERY_DARK_COLOR : MEDIUM_COLOR,
+    color: toggled ? VERY_PALE_COLOR : PALE_COLOR,
     _focus: { outline: 'none' },
     _hover: {
-      bg: toggled ? '#4F4A45' : '#B0A695',
-      color: toggled ? '#EBE3D5' : '#D6CBB8',
+      bg: toggled ? VERY_DARK_COLOR : MEDIUM_COLOR,
+      color: toggled ? VERY_PALE_COLOR : PALE_COLOR,
       _disabled: {
-        background: '#776B5D',
-        color: '#D6CBB8'
+        background: DARK_COLOR,
+        color: PALE_COLOR
       }
     }
   }
@@ -86,12 +87,12 @@ const smallDark = (toggled: boolean) => {
     paddingBottom: '1px',
     marginRight: '5px',
     marginTop: '5px',
-    bg: toggled ? '#4F4A45' : '#B0A695',
-    color: toggled ? '#EBE3D5' : '#D6CBB8',
+    bg: toggled ? VERY_DARK_COLOR : MEDIUM_COLOR,
+    color: toggled ? VERY_PALE_COLOR : PALE_COLOR,
     _focus: { outline: 'none' },
     _hover: {
-      bg: toggled ? '#776B5D' : '#776B5D',
-      color: toggled ? '#D6CBB8' : '#D6CBB8'
+      bg: toggled ? DARK_COLOR : DARK_COLOR,
+      color: toggled ? PALE_COLOR : PALE_COLOR
     },
     height: '20px'
   }

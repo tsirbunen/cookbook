@@ -67,7 +67,7 @@ const container = (isPicked: boolean) => css`
   flex-direction: row;
   justify-content: start;
   margin-bottom: 15px;
-  background-color: ${isPicked ? ColorCodes.PALE : 'transparent'};
+  background-color: ${isPicked ? ColorCodes.VERY_DARK : 'transparent'};
   border-radius: ${borderRadius}px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: ${borderRadius}px;
@@ -89,7 +89,7 @@ const infoContainer = css`
 `
 
 const titleContainer = (isPicked: boolean) => css`
-  color: ${isPicked ? ColorCodes.VERY_DARK : ColorCodes.VERY_DARK};
+  color: ${isPicked ? ColorCodes.VERY_PALE : ColorCodes.VERY_DARK};
   font-weight: bold;
   font-size: 0.9em;
   margin-bottom: 5px;
@@ -105,13 +105,13 @@ const titleContainer = (isPicked: boolean) => css`
 `
 
 const tagsContainer = (isPicked: boolean) => css`
-  color: ${isPicked ? ColorCodes.DARK : ColorCodes.DARK};
+  color: ${isPicked ? ColorCodes.MEDIUM : ColorCodes.DARK};
   font-size: 0.7em;
   font-weight: bold;
   margin-bottom: 5px;
 `
 const categoryContainer = (isPicked: boolean) => css`
-  color: ${isPicked ? ColorCodes.DARK : ColorCodes.DARK};
+  color: ${isPicked ? ColorCodes.MEDIUM : ColorCodes.DARK};
   font-size: 0.7em;
   font-weight: bold;
 `

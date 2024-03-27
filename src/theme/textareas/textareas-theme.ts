@@ -1,4 +1,5 @@
 import { defineStyle, defineStyleConfig } from '@chakra-ui/react'
+import { DARK_COLOR, MEDIUM_COLOR, PALE_COLOR, VERY_DARK_COLOR } from '../../constants/color-codes'
 
 export enum TextAreaVariant {
   Search = 'search'
@@ -6,20 +7,20 @@ export enum TextAreaVariant {
 
 const search = defineStyle({
   border: '2px solid',
-  borderColor: '#776B5D',
-  color: '#4F4A45',
-  background: '#D6CBB8',
+  borderColor: DARK_COLOR,
+  color: VERY_DARK_COLOR,
+  background: PALE_COLOR,
   borderRadius: '6px',
-  _placeholder: { color: '#B0A695' },
+  _placeholder: { color: MEDIUM_COLOR },
   _focus: {
     border: '2px solid',
-    borderColor: '#B0A695',
-    color: '#4F4A45'
+    borderColor: MEDIUM_COLOR,
+    color: VERY_DARK_COLOR
   },
   _hover: {
     border: '2px solid',
-    borderColor: '#B0A695',
-    color: '#4F4A45'
+    borderColor: MEDIUM_COLOR,
+    color: VERY_DARK_COLOR
   }
 })
 
