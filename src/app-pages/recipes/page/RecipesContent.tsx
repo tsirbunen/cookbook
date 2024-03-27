@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { useContext } from 'react'
-import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
 import { css } from '@emotion/react'
 import React from 'react'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
@@ -9,7 +8,7 @@ import ScrollToTopButton from '../../../widgets/scroll-to-top-button/ScrollToTop
 import { AppStateContext, AppStateContextType } from '../../../state/StateContextProvider'
 import { Dispatch } from '../../../state/reducer'
 import { RecipesViewingContext } from './RecipesViewingProvider'
-import { navBarWidth, noCategoryTitle } from '../../../constants/constants'
+import { NO_CATEGORY_TITLE } from '../../../constants/layout'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
 import RecipesDisplay from '../recipes-display/RecipesDisplay'
 
@@ -20,8 +19,6 @@ export type RecipesViewElementProps = {
   onPickRecipeChanged: (recipeId: number, category: string) => void
   pickedRecipeIdsByCategory: Record<string, number[]>
 }
-
-export const maxSummaryWidth = 700 - navBarWidth - 50
 
 const RecipesContent = () => {
   const { showRecipes, mode } = useContext(RecipesViewingContext)
@@ -45,7 +42,7 @@ const RecipesContent = () => {
     <div css={outerCss(mode === ViewRecipesMode.PHOTOS)} data-testid={recipesContentDataTestId}>
       {recipesInCategories.map((recipeCategory) => {
         const title = recipeCategory.category.toUpperCase()
-        const category = recipeCategory.category ?? noCategoryTitle
+        const category = recipeCategory.category ?? NO_CATEGORY_TITLE
         const pickedRecipeIds = state.pickedRecipeIdsByCategory[category] ?? []
 
         return (

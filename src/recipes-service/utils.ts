@@ -1,5 +1,5 @@
 import { Recipe } from '../types/graphql-schema-types.generated'
-import { noCategoryTitle } from '../constants/constants'
+import { NO_CATEGORY_TITLE } from '../constants/layout'
 import { RecipeCategory } from '../types/types'
 import { SearchMode } from '../widgets/form-textarea-search/FormTextAreaSearch'
 import { RecipesFilterValues } from '../app-pages/recipes/page/FilteringProvider'
@@ -61,7 +61,7 @@ export const arrangeRecipesInCategories = (recipes: Recipe[]) => {
 
   if (recipesWithoutCategory.length) {
     recipesInCategories.push({
-      category: noCategoryTitle,
+      category: NO_CATEGORY_TITLE,
       recipes: recipesWithoutCategory
     })
   }

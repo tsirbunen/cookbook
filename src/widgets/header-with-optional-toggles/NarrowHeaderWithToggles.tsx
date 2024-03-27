@@ -2,10 +2,10 @@
 
 import { css } from '@emotion/react'
 import { ColorCodes } from '../../theme/theme'
-import { appTitle } from '../../../app/page'
-import { navBarWidth } from '../../constants/constants'
+import { NAV_BAR_WIDTH } from '../../constants/layout'
 import { headerZIndex } from '../../constants/z-indexes'
 import { toolsElementId } from './HeaderWithOptionalToggles'
+import { APP_TITLE } from '../../constants/widgets'
 
 type NarrowHeaderWithTogglesProps = {
   label: string
@@ -16,7 +16,7 @@ const NarrowHeaderWithToggles = ({ label, height }: NarrowHeaderWithTogglesProps
   return (
     <div css={outerCss(height)}>
       <div css={innerCss}>
-        <div css={titleCss}>{`${appTitle} / ${label}`}</div>
+        <div css={titleCss}>{`${APP_TITLE} / ${label}`}</div>
         <div css={toolsCss}>
           <div id={toolsElementId} />
         </div>
@@ -38,13 +38,13 @@ const outerCss = (height: number) => css`
   z-index: ${headerZIndex};
   height: ${height}px;
   background-color: ${ColorCodes.VERY_DARK};
-  margin-left: ${navBarWidth};
+  margin-left: ${NAV_BAR_WIDTH};
 `
 
 const innerCss = css`
   display: flex;
   flex-direction: column;
-  margin-left: ${navBarWidth}px;
+  margin-left: ${NAV_BAR_WIDTH}px;
   padding-left: 10px;
 `
 

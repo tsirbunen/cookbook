@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import { headerHeightWithTools, headerHeightWithToolsDoubleLine, navBarWidth } from '../../constants/constants'
+import { HEADER_HEIGHT_WITH_TOOLS, HEADER_HEIGHT_WITH_TOOLS_DOUBLE_LINE, NAV_BAR_WIDTH } from '../../constants/layout'
 import { recipesViewingManagementZIndex } from '../../constants/z-indexes'
 import { ColorCodes } from '../../theme/theme'
 import { ViewSizeContext } from '../view-size-service/ViewSizeProvider'
@@ -15,7 +15,7 @@ type RegularTopShowOrHideViewProps = {
 
 const RegularTopShowOrHideView = ({ topShowOrHideContent, mainContent }: RegularTopShowOrHideViewProps) => {
   const { windowWidth, isNarrowHeader } = useContext(ViewSizeContext)
-  const width = windowWidth.current - navBarWidth
+  const width = windowWidth.current - NAV_BAR_WIDTH
 
   return (
     <div css={view}>
@@ -50,8 +50,8 @@ const page = (width: number, isNarrowHeader: boolean) => {
     flex-direction: column;
     justify-content: start;
     align-items: 'start';
-    width: ${width - navBarWidth}px;
-    margin-top: ${isNarrowHeader ? headerHeightWithToolsDoubleLine : headerHeightWithTools}px;
+    width: ${width - NAV_BAR_WIDTH}px;
+    margin-top: ${isNarrowHeader ? HEADER_HEIGHT_WITH_TOOLS_DOUBLE_LINE : HEADER_HEIGHT_WITH_TOOLS}px;
   `
 }
 
@@ -67,7 +67,7 @@ const container = css`
 const topOuter = css`
   height: 100%;
   position: sticky;
-  top: ${headerHeightWithTools}px;
+  top: ${HEADER_HEIGHT_WITH_TOOLS}px;
   z-index: ${recipesViewingManagementZIndex};
   flex: 1;
   width: 100%;
@@ -75,7 +75,7 @@ const topOuter = css`
 
 const topInner = css`
   position: sticky;
-  top: ${headerHeightWithTools}px;
+  top: ${HEADER_HEIGHT_WITH_TOOLS}px;
   z-index: ${recipesViewingManagementZIndex};
   background-color: ${ColorCodes.VERY_PALE};
   width: 100%;

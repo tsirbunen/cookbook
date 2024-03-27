@@ -2,20 +2,16 @@
 import { createContext, useCallback, useEffect, useState } from 'react'
 import { getPageHeaderHasToolsByPath } from '../../navigation/router/router'
 import {
-  headerHeightWithTools,
-  headerHeightWithToolsDoubleLine,
-  headerWithToolsBreakpoint,
-  narrowHeaderBreakpoint,
-  navBarWidth,
-  splitViewBreakpoint
-} from '../../constants/constants'
-
-export const minPanelWidth = 250
-export const maxPanelWidth = 2000 //1000
-const appMinWidth = 430
-const appMinHeight = 650
-const narrowMediumBreakpoint = navBarWidth + 2 * minPanelWidth
-const mediumLargeBreakpoint = narrowMediumBreakpoint + minPanelWidth
+  APP_MIN_HEIGHT,
+  APP_MIN_WIDTH,
+  HEADER_HEIGHT_WITH_TOOLS,
+  HEADER_HEIGHT_WITH_TOOLS_DOUBLE_LINE,
+  HEADER_WITH_TOOLS_BREAKPOINT,
+  MEDIUM_LARGE_BREAKPOINT,
+  NARROW_HEADER_BREAKPOINT,
+  NARROW_MEDIUM_BREAKPOINT,
+  SPLIT_VIEW_BREAKPOINT
+} from '../../constants/layout'
 
 export enum ViewMode {
   NARROW = 'NARROW',
@@ -80,11 +76,11 @@ const ViewSizeContextProvider = ({ children }: { children: React.ReactNode }) =>
     return getPageHeaderHasToolsByPath(path) ?? false
   }
 
-  const isTooSmallWindow = maxPanelsCount === 0 || windowHeight < appMinHeight
-  const isSplitView = windowWidth.current >= splitViewBreakpoint
-  const isDoubleLineHeader = windowWidth.current < headerWithToolsBreakpoint
-  const isNarrowHeader = windowWidth.current < narrowHeaderBreakpoint
-  const headerHeight = isNarrowHeader ? headerHeightWithToolsDoubleLine : headerHeightWithTools
+  const isTooSmallWindow = maxPanelsCount === 0 || windowHeight < APP_MIN_HEIGHT
+  const isSplitView = windowWidth.current >= SPLIT_VIEW_BREAKPOINT
+  const isDoubleLineHeader = windowWidth.current < HEADER_WITH_TOOLS_BREAKPOINT
+  const isNarrowHeader = windowWidth.current < NARROW_HEADER_BREAKPOINT
+  const headerHeight = isNarrowHeader ? HEADER_HEIGHT_WITH_TOOLS_DOUBLE_LINE : HEADER_HEIGHT_WITH_TOOLS
 
   return (
     <ViewSizeContext.Provider
@@ -116,15 +112,15 @@ const getInitialWidth = (window: Window) => {
 }
 
 const getViewMode = (width: number) => {
-  if (width > splitViewBreakpoint) return ViewMode.VERY_WIDE
-  if (width > mediumLargeBreakpoint) return ViewMode.WIDE
-  if (width > narrowMediumBreakpoint) return ViewMode.MEDIUM
+  if (width > SPLIT_VIEW_BREAKPOINT) return ViewMode.VERY_WIDE
+  if (width > MEDIUM_LARGE_BREAKPOINT) return ViewMode.WIDE
+  if (width > NARROW_MEDIUM_BREAKPOINT) return ViewMode.MEDIUM
   return ViewMode.NARROW
 }
 
 const getMaxPanelsCount = (windowWidth: number) => {
-  if (windowWidth < appMinWidth) return 0
-  if (windowWidth <= narrowMediumBreakpoint) return 1
-  if (windowWidth <= mediumLargeBreakpoint) return 2
+  if (windowWidth < APP_MIN_WIDTH) return 0
+  if (windowWidth <= NARROW_MEDIUM_BREAKPOINT) return 1
+  if (windowWidth <= MEDIUM_LARGE_BREAKPOINT) return 2
   return 3
 }

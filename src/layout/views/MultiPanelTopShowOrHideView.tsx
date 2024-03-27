@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import { headerHeightWithTools, headerHeightWithToolsDoubleLine, navBarWidth } from '../../constants/constants'
+import { HEADER_HEIGHT_WITH_TOOLS, HEADER_HEIGHT_WITH_TOOLS_DOUBLE_LINE, NAV_BAR_WIDTH } from '../../constants/layout'
 import { recipesViewingManagementZIndex } from '../../constants/z-indexes'
 import { ColorCodes } from '../../theme/theme'
 import { ViewSizeContext } from '../view-size-service/ViewSizeProvider'
@@ -19,7 +19,7 @@ const MultiPanelTopShowOrHideView = ({
   testId
 }: MultiPanelTopShowOrHideViewProps) => {
   const { windowWidth, isNarrowHeader } = useContext(ViewSizeContext)
-  const width = windowWidth.current - navBarWidth
+  const width = windowWidth.current - NAV_BAR_WIDTH
 
   return (
     <div css={outer(width, isNarrowHeader)} data-testid={testId}>
@@ -36,7 +36,7 @@ const MultiPanelTopShowOrHideView = ({
 export default MultiPanelTopShowOrHideView
 
 const outer = (width: number, isNarrowHeader: boolean) => css`
-  margin-top: ${isNarrowHeader ? headerHeightWithToolsDoubleLine : headerHeightWithTools}px;
+  margin-top: ${isNarrowHeader ? HEADER_HEIGHT_WITH_TOOLS_DOUBLE_LINE : HEADER_HEIGHT_WITH_TOOLS}px;
   display: flex;
   flex-direction: column;
   width: ${width}px;
@@ -52,7 +52,7 @@ const main = css`
 const topOuter = css`
   height: 100%;
   position: sticky;
-  top: ${headerHeightWithTools}px;
+  top: ${HEADER_HEIGHT_WITH_TOOLS}px;
   z-index: ${recipesViewingManagementZIndex};
   flex: 1;
   width: 100%;
@@ -60,7 +60,7 @@ const topOuter = css`
 
 const topInner = css`
   position: sticky;
-  top: ${headerHeightWithTools}px;
+  top: ${HEADER_HEIGHT_WITH_TOOLS}px;
   z-index: ${recipesViewingManagementZIndex};
   background-color: ${ColorCodes.VERY_PALE};
   width: 100%;

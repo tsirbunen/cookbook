@@ -8,7 +8,7 @@ import PickedRecipesManagementTool from '../viewing-management/PickedRecipesMana
 import { createPortal } from 'react-dom'
 import { toolsElementId } from '../../../widgets/header-with-optional-toggles/HeaderWithOptionalToggles'
 
-import { splitViewWidth } from '../../../constants/constants'
+import { SPLIT_VIEW_WIDTH } from '../../../constants/layout'
 import RecipesViewingHeaderToggles from '../viewing-management/RecipesViewingHeaderToggles'
 import FilteringManagementTool from '../viewing-management/FilteringManagementTool'
 
@@ -39,7 +39,7 @@ const toolsCss = css`
 `
 
 const slitViewCss = (someFeatureIsToggled: boolean) => css`
-  width: ${someFeatureIsToggled ? `${splitViewWidth}` : '0'}px;
+  width: ${someFeatureIsToggled ? `${SPLIT_VIEW_WIDTH}` : '0'}px;
 `
 
 const boxCss = (showFiltering: boolean) => css`

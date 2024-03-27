@@ -9,7 +9,7 @@ import { navigationMenuItems } from '../router/router'
 import { ViewSizeContext } from '../../layout/view-size-service/ViewSizeProvider'
 import { ColorCodes } from '../../theme/theme'
 import MenuIconWithoutAction from '../../widgets/header-with-optional-toggles/MenuIconWithoutAction'
-import { headerHeightRegular, headerHeightWithTools, navBarWidth } from '../../constants/constants'
+import { HEADER_HEIGHT_REGULAR, HEADER_HEIGHT_WITH_TOOLS, NAV_BAR_WIDTH } from '../../constants/layout'
 import { navigationBarZIndex } from '../../constants/z-indexes'
 
 type DrawerNavigatorProps = {
@@ -25,7 +25,7 @@ const NavigationBar = ({ isTooSmallWindow }: DrawerNavigatorProps) => {
   const router = useRouter()
   const pathname = usePathname()
   const isWithTools = isHeaderWithTools(pathname)
-  const height = isWithTools ? headerHeight : headerHeightRegular
+  const height = isWithTools ? headerHeight : HEADER_HEIGHT_REGULAR
 
   if (isTooSmallWindow) return null
 
@@ -51,13 +51,13 @@ const NavigationBar = ({ isTooSmallWindow }: DrawerNavigatorProps) => {
 export default NavigationBar
 
 const outerContainer = (windowHeight: number) => {
-  const headerHeight = headerHeightWithTools
+  const headerHeight = HEADER_HEIGHT_WITH_TOOLS
   return css`
     z-index: ${navigationBarZIndex};
     height: ${windowHeight - headerHeight}px;
     background-color: ${ColorCodes.VERY_DARK};
     border-right-color: ${ColorCodes.VERY_DARK};
-    width: ${navBarWidth}px;
+    width: ${NAV_BAR_WIDTH}px;
   `
 }
 const container = (headerHeight: number) => css`
@@ -68,6 +68,6 @@ const container = (headerHeight: number) => css`
   height: 100%;
   background-color: ${ColorCodes.VERY_DARK};
   top: ${headerHeight}px;
-  width: ${navBarWidth}px;
+  width: ${NAV_BAR_WIDTH}px;
   position: fixed;
 `

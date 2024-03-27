@@ -2,10 +2,10 @@
 
 import { css } from '@emotion/react'
 import { ColorCodes } from '../../theme/theme'
-import { appTitle } from '../../../app/page'
-import { navBarWidth } from '../../constants/constants'
+import { NAV_BAR_WIDTH } from '../../constants/layout'
 import { headerZIndex } from '../../constants/z-indexes'
 import { toolsElementId } from './HeaderWithOptionalToggles'
+import { APP_TITLE } from '../../constants/widgets'
 
 type RegularHeaderWithTogglesProps = {
   label: string
@@ -17,7 +17,7 @@ const RegularHeaderWithToggles = ({ label, height }: RegularHeaderWithTogglesPro
     <div css={outerCss(height)}>
       <div css={middleCss}>
         <div css={innerCss}>
-          <div css={titleCss}>{`${appTitle} / ${label}`}</div>
+          <div css={titleCss}>{`${APP_TITLE} / ${label}`}</div>
           <div css={toolsCss}>
             <div id={toolsElementId} />
           </div>
@@ -38,7 +38,7 @@ const outerCss = (height: number) => css`
   position: fixed;
   top: 0px;
   left: 0px;
-  padding-left: ${navBarWidth}px;
+  padding-left: ${NAV_BAR_WIDTH}px;
   z-index: ${headerZIndex};
   height: ${height}px;
   background-color: ${ColorCodes.VERY_DARK};
@@ -69,7 +69,7 @@ const titleCss = css`
   width: 100%;
   color: ${ColorCodes.VERY_PALE};
   font-weight: bold;
-  padding-left: ${navBarWidth};
+  padding-left: ${NAV_BAR_WIDTH};
 `
 
 const toolsCss = css`

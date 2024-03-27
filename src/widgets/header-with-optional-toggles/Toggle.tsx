@@ -1,8 +1,9 @@
 import { Flex } from '@chakra-ui/react'
 import { IconType } from 'react-icons/lib'
 import ButtonWithTheme from '../../theme/buttons/ButtonWithTheme'
-import Badge, { badgeSize } from '../badge/Badge'
+import Badge from '../badge/Badge'
 import { ButtonVariant } from '../../theme/buttons/buttons-theme'
+import { BADGE_SIZE } from '../../constants/widgets'
 
 export const selectModeToggleProperty = 'selectMode'
 export const pickedRecipesToggleProperty = 'pickedRecipes'
@@ -33,7 +34,7 @@ const Toggle = ({ isToggled, toggle, Icon, count, isDisabled, toggleProperty }: 
       {count !== undefined && count !== null ? (
         <Badge count={count} />
       ) : count === undefined ? (
-        <Flex width={`${badgeSize}px`} />
+        <Flex width={`${BADGE_SIZE}px`} />
       ) : null}
     </Flex>
   )

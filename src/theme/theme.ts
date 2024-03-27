@@ -15,6 +15,7 @@ import {
   VERY_DARK_COLOR,
   VERY_PALE_COLOR
 } from '../constants/color-codes'
+import { SCROLL_BAR_WIDTH } from '../constants/layout'
 
 export enum ColorCodes {
   BACKGROUND = BACKGROUND_COLOR,
@@ -29,8 +30,6 @@ export enum ColorCodes {
   ERROR = ERROR_COLOR
 }
 
-export const scrollBarWidth = 8
-
 export const theme = extendTheme({
   styles: {
     global: {
@@ -44,14 +43,14 @@ export const theme = extendTheme({
         // using the webkit-scrollbar instead...
         // https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-scrollbar
         // scrollbarColor: '#EBE3D5',
-        // scrollbarWidth: `${scrollBarWidth}px`,
+        // scrollbarWidth: `${SCROLL_BAR_WIDTH}px`,
         '*::-webkit-scrollbar': {
-          backgroundColor: '#B0A695', //'#EBE3D5',
-          width: `${scrollBarWidth}px`
+          backgroundColor: '#B0A695',
+          width: `${SCROLL_BAR_WIDTH}px`
         },
         '*::-webkit-scrollbar-thumb': {
-          backgroundColor: '#4F4A45', // '#D6CBB8',
-          borderRadius: `${scrollBarWidth}px`
+          backgroundColor: '#4F4A45',
+          borderRadius: `${SCROLL_BAR_WIDTH}px`
         }
       },
       html: {

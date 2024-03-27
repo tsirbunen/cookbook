@@ -8,12 +8,11 @@ import { Recipe } from '../../../types/graphql-schema-types.generated'
 
 export const photoRepresentationDataTestId = 'card-representation'
 
-const cardHeight = 195
-const spacing = 10
-const borderRadius = 6
-const imageHeight = 150
-export const cardWidth = 170
-export const cardsViewMobileWidth = (cardWidth + spacing) * 2
+const CARD_HEIGHT = 195
+const SPACING = 10
+const BORDER_RADIUS = 6
+const IMAGE_HEIGHT = 150
+const CARD_WIDTH = 170
 
 export type RecipeForPhotoCardProps = {
   recipe: Recipe
@@ -31,8 +30,8 @@ const PhotoCardRecipe = ({ recipe, onPickRecipeChanged, isPicked }: RecipeForPho
         style={{
           borderRadius: '6px 6px 0px 0px',
           objectFit: 'cover',
-          height: imageHeight,
-          width: cardWidth
+          height: IMAGE_HEIGHT,
+          width: CARD_WIDTH
         }}
         onClick={onPickRecipeChanged}
       />
@@ -44,13 +43,13 @@ const PhotoCardRecipe = ({ recipe, onPickRecipeChanged, isPicked }: RecipeForPho
 export default PhotoCardRecipe
 
 const cardCss = (isPicked: boolean) => css`
-  width: ${cardWidth}px;
-  height: ${cardHeight}px;
+  width: ${CARD_WIDTH}px;
+  height: ${CARD_HEIGHT}px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  border-radius: ${borderRadius}px;
+  border-radius: ${BORDER_RADIUS}px;
   margin-right: 3px;
   margin-left: 3px;
-  margin-bottom: ${spacing}px;
+  margin-bottom: ${SPACING}px;
   position: relative;
   background-color: ${isPicked ? ColorCodes.VERY_DARK : 'transparent'};
 `
@@ -59,7 +58,7 @@ const titleCss = (isPicked: boolean) => css`
   color: ${isPicked ? ColorCodes.VERY_PALE : ColorCodes.VERY_DARK};
   font-weight: bold;
   font-size: 12px;
-  height: ${cardHeight - imageHeight - 10}px;
+  height: ${CARD_HEIGHT - IMAGE_HEIGHT - 10}px;
   margin-left: 8px;
   margin-right: 8px;
   margin-top: 3px;

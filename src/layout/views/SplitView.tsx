@@ -3,7 +3,7 @@
 import { css } from '@emotion/react'
 import { recipesViewingManagementZIndex } from '../../constants/z-indexes'
 import { ColorCodes } from '../../theme/theme'
-import { headerHeightWithTools } from '../../constants/constants'
+import { HEADER_HEIGHT_WITH_TOOLS } from '../../constants/layout'
 
 type SplitViewProps = {
   splitContent: JSX.Element
@@ -50,7 +50,7 @@ const container = css`
   width: 100%;
   height: 100%;
   overflow: scroll;
-  margin-top: ${headerHeightWithTools}px;
+  margin-top: ${HEADER_HEIGHT_WITH_TOOLS}px;
   overflow-x: hidden;
 `
 

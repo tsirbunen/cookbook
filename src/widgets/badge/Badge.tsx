@@ -1,7 +1,6 @@
 import { ChakraProps, Flex } from '@chakra-ui/react'
 import { ColorCodes } from '../../theme/theme'
-
-export const badgeSize = 22
+import { BADGE_SIZE } from '../../constants/widgets'
 
 type BadgeProps = {
   count: number
@@ -14,13 +13,13 @@ const Badge = ({ count }: BadgeProps) => {
 export default Badge
 
 const badgeStyles = {
-  width: `${badgeSize}px`,
-  height: `${badgeSize}px`,
+  width: `${BADGE_SIZE}px`,
+  height: `${BADGE_SIZE}px`,
   bg: ColorCodes.DARK,
-  borderRadius: `${badgeSize / 2}px`,
+  borderRadius: `${BADGE_SIZE / 2}px`,
   position: 'relative' as ChakraProps['position'],
-  right: `${badgeSize / 2}px`,
-  top: `-${badgeSize / 4}px`,
+  right: `${BADGE_SIZE / 2}px`,
+  top: `-${BADGE_SIZE / 4}px`,
   flexDirection: 'row' as ChakraProps['flexDirection'],
   alignItems: 'center',
   justifyContent: 'center',

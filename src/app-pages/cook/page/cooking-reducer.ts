@@ -1,4 +1,4 @@
-import { maxAllowedPanelsCount } from '../../../layout/views/MultiResizablePanelsView'
+import { MAX_ALLOWED_PANELS_COUNT } from '../../../layout/views/MultiResizablePanelsView'
 import { CookingState, DisplayConfig } from './CookingProvider'
 
 export type DisplayDirection = 'previous' | 'next'
@@ -57,7 +57,7 @@ const getUpdatedDisplayConfigAfterCountChanged = (
 
   if (pickedRecipesCount === 0) return { count: 0, indexes: {} }
 
-  const candidates = [pickedRecipesCount, maxPanelsCount, maxAllowedPanelsCount]
+  const candidates = [pickedRecipesCount, maxPanelsCount, MAX_ALLOWED_PANELS_COUNT]
   if (newValue === undefined) candidates.push(count === 0 ? 1 : count)
   else candidates.push(newValue)
 

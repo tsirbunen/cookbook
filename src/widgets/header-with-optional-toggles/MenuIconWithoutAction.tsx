@@ -3,7 +3,7 @@
 import { TbMenu2 } from 'react-icons/tb'
 import { ColorCodes } from '../../theme/theme'
 import { css } from '@emotion/react'
-import { navBarWidth } from '../../constants/constants'
+import { NAV_BAR_WIDTH } from '../../constants/layout'
 
 type MenuIconWithoutActionProps = {
   height: number
@@ -26,7 +26,7 @@ const iconOuterContainer = (height: number) => css`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: ${navBarWidth}px;
+  width: ${NAV_BAR_WIDTH}px;
   background-color: ${ColorCodes.VERY_DARK};
   position: fixed;
   top: 0px;

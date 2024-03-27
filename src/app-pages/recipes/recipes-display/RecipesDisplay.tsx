@@ -5,7 +5,7 @@ import SummaryRecipe from './SummaryRecipe'
 import TitleRecipe from './TitleRecipe'
 import { ViewRecipesMode } from '../viewing-management/ViewModeManagementTool'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
-import { noCategoryTitle } from '../../../constants/constants'
+import { NO_CATEGORY_TITLE } from '../../../constants/layout'
 import { useEffect, useState } from 'react'
 import { ColorCodes } from '../../../theme/theme'
 import DraggableItemsList from '../../../widgets/draggable-items-list/DraggableItemsList'
@@ -65,7 +65,7 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
       <div css={recipesCss}>
         {recipes.map((recipe, index) => {
           const recipeId = recipe.id
-          const category = recipe.category ?? noCategoryTitle
+          const category = recipe.category ?? NO_CATEGORY_TITLE
           const isPicked = pickedRecipeIds.includes(recipe.id)
 
           return (
@@ -73,7 +73,7 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
               key={createElementKey(index, recipeId)}
               recipe={recipe}
               index={index}
-              onPickRecipeChanged={() => onPickRecipeChanged(recipeId, category ?? noCategoryTitle)}
+              onPickRecipeChanged={() => onPickRecipeChanged(recipeId, category ?? NO_CATEGORY_TITLE)}
               isPicked={isPicked}
               showBackground={showBackground}
             />
@@ -90,7 +90,7 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
       onConfirmNewOrder={onConfirmNewOrder}
       items={recipesInOrder.map((recipe, index) => {
         const recipeId = recipe.id
-        const category = recipe.category ?? noCategoryTitle
+        const category = recipe.category ?? NO_CATEGORY_TITLE
         const isPicked = pickedRecipeIds.includes(recipe.id)
 
         return (
@@ -98,7 +98,7 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
             key={`title-${recipeId}`}
             recipe={recipe}
             index={index}
-            onPickRecipeChanged={() => onPickRecipeChanged(recipeId, category ?? noCategoryTitle)}
+            onPickRecipeChanged={() => onPickRecipeChanged(recipeId, category ?? NO_CATEGORY_TITLE)}
             isPicked={isPicked}
             showBackground={showBackground}
           />

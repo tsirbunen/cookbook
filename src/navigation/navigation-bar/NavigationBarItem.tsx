@@ -3,7 +3,7 @@
 import { css } from '@emotion/react'
 import { NavigationMenuItem } from '../router/router'
 import { ColorCodes } from '../../theme/theme'
-import { navBarWidth } from '../../constants/constants'
+import { NAV_BAR_WIDTH } from '../../constants/layout'
 
 export const navigationBarDataTestId = 'navigation-bar-item'
 
@@ -39,7 +39,7 @@ const itemContainer = (isSelected: boolean) => css`
   justify-content: center;
   align-items: center;
   border-radius: 6px;
-  width: ${navBarWidth - 8}px;
+  width: ${NAV_BAR_WIDTH - 8}px;
   padding-top: 10px;
   padding-bottom: 10px;
   background-color: ${isSelected ? selectedColor : notSelectedColor};

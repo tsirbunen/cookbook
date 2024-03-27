@@ -23,8 +23,6 @@ type DraggableItemsListProps = {
   handColor: string
 }
 
-export const RELEVANT_OVERLAP_THRESHOLD = 0.5
-
 const DraggableItemsList = ({
   itemHeight,
   onConfirmNewOrder,
