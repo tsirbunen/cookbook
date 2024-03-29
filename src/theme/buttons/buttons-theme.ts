@@ -1,5 +1,12 @@
 import { defineStyle, defineStyleConfig } from '@chakra-ui/react'
-import { DARK_COLOR, MEDIUM_COLOR, PALE_COLOR, VERY_DARK_COLOR, VERY_PALE_COLOR } from '../../constants/color-codes'
+import {
+  DARK_COLOR,
+  MEDIUM_COLOR,
+  PALE_COLOR,
+  SLIGHTLY_DARK_COLOR,
+  VERY_DARK_COLOR,
+  VERY_PALE_COLOR
+} from '../../constants/color-codes'
 
 export enum ButtonVariant {
   SquareWithIcon = 'squareWithIcon',
@@ -62,11 +69,11 @@ const squareWithIcon = (toggled: boolean) => {
     borderRadius: '6px',
     fontSize: '1.75em',
     padding: '5px',
-    bg: toggled ? VERY_DARK_COLOR : MEDIUM_COLOR,
+    bg: toggled ? VERY_DARK_COLOR : SLIGHTLY_DARK_COLOR,
     color: toggled ? VERY_PALE_COLOR : PALE_COLOR,
     _focus: { outline: 'none' },
     _hover: {
-      bg: toggled ? VERY_DARK_COLOR : MEDIUM_COLOR,
+      bg: toggled ? VERY_DARK_COLOR : DARK_COLOR,
       color: toggled ? VERY_PALE_COLOR : PALE_COLOR,
       _disabled: {
         background: DARK_COLOR,

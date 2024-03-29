@@ -22,6 +22,7 @@ export const reducer = (state: AppState, action: DispatchAction) => {
       return updatePickedRecipes(state, action.payload)
     case Dispatch.CHANGE_RECIPES_ORDER:
       return updatePickedRecipesOrder(state, action.payload)
+
     default:
       throw new Error(`${JSON.stringify(action)} is not an app state reducer action!`)
   }

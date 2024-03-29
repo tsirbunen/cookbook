@@ -8,7 +8,9 @@ import { BADGE_SIZE } from '../../constants/widgets'
 export const selectModeToggleProperty = 'selectMode'
 export const pickedRecipesToggleProperty = 'pickedRecipes'
 export const filteringToggleProperty = 'filtering'
-export const startCookingToggleProperty = 'startCooking'
+export const cookToggleProperty = 'cook'
+export const addedIngredientToggleProperty = 'addedIngredient'
+export const cookingTimerToggleProperty = 'cookingTimer'
 
 export type ToggleProps = {
   isToggled: boolean

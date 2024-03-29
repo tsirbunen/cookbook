@@ -4,30 +4,27 @@ import { Dispatch, createContext, useContext, useEffect, useReducer } from 'reac
 import { AppStateContext, AppStateContextType } from '../../../state/StateContextProvider'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
-import { DispatchCookingEvent, DispatchCookingEventAction, cookingReducer } from './cooking-reducer'
-
-type DisplayIndexes = { leftRecipeIndex?: number; middleRecipeIndex?: number; rightRecipeIndex?: number }
+import { DispatchCookingEvent, DispatchCookingEventAction, cookingReducer } from '../cooking-state/cooking-reducer'
+import { CookingRecipeData, TimerData } from '../../../types/types'
+import { CookingState, DisplayConfig, getInitialCookingState } from '../cooking-state/cooking-state'
 
 type Cooking = {
   pickedRecipes: Recipe[]
   pickedRecipesCount: number
-
   displayConfig: DisplayConfig
   dispatchCookingEvent: Dispatch<DispatchCookingEventAction>
-}
-
-export type CookingState = {
-  displayConfig: DisplayConfig
+  cookingRecipes: CookingRecipeData[]
+  timersByRecipeId: Record<number, TimerData>
+  toggleIsCookingRecipe: (recipe: Recipe) => void
+  toggleIngredientAdded: (ingredientId: number) => void
+  ingredientsAdded: number[]
+  instructionsDone: number[]
+  toggleInstructionDone: (instructionId: number) => void
 }
 
 export type CookingContextType = {
   cookingState: CookingState
   dispatchCookingEvent: React.Dispatch<DispatchCookingEventAction>
-}
-
-export type DisplayConfig = {
-  count: number
-  indexes: DisplayIndexes
 }
 
 export const CookingContext = createContext<Cooking>({} as Cooking)
@@ -48,16 +45,32 @@ const CookingProvider = ({ children }: { children: React.ReactNode }) => {
     })
   }, [pickedRecipes])
 
-  const pickedRecipesCount = pickedRecipes.length
-  const displayConfig = cookingState.displayConfig
+  const toggleIsCookingRecipe = (recipe: Recipe) => {
+    dispatchCookingEvent({ type: DispatchCookingEvent.TOGGLE_IS_COOKING_RECIPE, payload: { recipe } })
+  }
+
+  const toggleIngredientAdded = (ingredientId: number) => {
+    dispatchCookingEvent({ type: DispatchCookingEvent.TOGGLE_ADD_INGREDIENT, payload: { ingredientId } })
+  }
+
+  const toggleInstructionDone = (instructionId: number) => {
+    dispatchCookingEvent({ type: DispatchCookingEvent.TOGGLE_INSTRUCTION_DONE, payload: { instructionId } })
+  }
 
   return (
     <CookingContext.Provider
       value={{
         pickedRecipes,
-        pickedRecipesCount,
-        displayConfig,
-        dispatchCookingEvent
+        pickedRecipesCount: pickedRecipes.length,
+        displayConfig: cookingState.displayConfig,
+        cookingRecipes: cookingState.cookingRecipes,
+        timersByRecipeId: cookingState.timersByRecipeId,
+        ingredientsAdded: cookingState.ingredientsAdded,
+        instructionsDone: cookingState.instructionsDone,
+        dispatchCookingEvent,
+        toggleIsCookingRecipe,
+        toggleIngredientAdded,
+        toggleInstructionDone
       }}
     >
       {children}
@@ -66,23 +79,3 @@ const CookingProvider = ({ children }: { children: React.ReactNode }) => {
 }
 
 export default CookingProvider
-
-const getInitialDisplayIndexes = (pickedRecipesCount: number, maxPanelsCount: number) => {
-  const leftRecipeIndex = 0
-  const middleRecipeIndex = pickedRecipesCount >= 1 && maxPanelsCount > 1 ? 1 : undefined
-  const rightRecipeIndex = pickedRecipesCount >= 2 && maxPanelsCount > 2 ? 2 : undefined
-  return { leftRecipeIndex, middleRecipeIndex, rightRecipeIndex }
-}
-
-const getInitialDisplayCount = (pickedRecipesCount: number, maxPanelsCount: number) => {
-  return Math.min(pickedRecipesCount, maxPanelsCount, 3)
-}
-
-const getInitialCookingState = (pickedRecipesCount: number, maxPanelsCount: number): CookingState => {
-  return {
-    displayConfig: {
-      count: getInitialDisplayCount(pickedRecipesCount, maxPanelsCount),
-      indexes: getInitialDisplayIndexes(pickedRecipesCount, maxPanelsCount)
-    }
-  }
-}

@@ -1,5 +1,5 @@
 import { Base } from './base'
-import { togglesTestId } from '../../src/widgets/header-with-optional-toggles/Toggles'
+import { togglesTestId } from '../../src/widgets/toggles/Toggles'
 import {
   ViewRecipesMode,
   viewModeManagementToolDataTestId
@@ -16,7 +16,7 @@ import {
   pickedRecipesToggleProperty,
   filteringToggleProperty,
   startCookingToggleProperty
-} from '../../src/widgets/header-with-optional-toggles/Toggle'
+} from '../../src/widgets/toggles/Toggle'
 
 const CLIENT = 'localhost'
 const CLIENT_BASE_URL = `http://${CLIENT}:3000`

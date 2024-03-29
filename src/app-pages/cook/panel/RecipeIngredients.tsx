@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useContext, useMemo } from 'react'
 import { ChakraProps, Flex, Text } from '@chakra-ui/react'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
 import { IngredientGroup } from '../../../types/graphql-schema-types.generated'
-import CheckboxWithTheme from '../../../theme/checkboxes/CheckboxWithTheme'
+import CheckboxWithTheme, { CheckboxVariant } from '../../../theme/checkboxes/CheckboxWithTheme'
 import { ColorCodes } from '../../../theme/theme'
 import MultiColumnContent from './MultiColumnContent'
+import { CookingContext } from '../page/CookingProvider'
 
 type RecipeIngredientsProps = {
   ingredientGroups: IngredientGroup[]
@@ -15,6 +16,10 @@ type RecipeIngredientsProps = {
 const INGREDIENTS_SECTION_TITLE = 'INGREDIENTS'
 
 const RecipeIngredients = ({ ingredientGroups, currentWidth, recipeId }: RecipeIngredientsProps) => {
+  const { cookingRecipes, toggleIngredientAdded, ingredientsAdded } = useContext(CookingContext)
+
+  const showCheckboxes = useMemo(() => cookingRecipes.map((r) => r.recipe.id).includes(recipeId), [cookingRecipes])
+
   return (
     <MultiColumnContent currentWidth={currentWidth} title={INGREDIENTS_SECTION_TITLE} recipeId={recipeId}>
       <Flex {...containerCss}>
@@ -31,21 +36,29 @@ const RecipeIngredients = ({ ingredientGroups, currentWidth, recipeId }: RecipeI
               {ingredients.map((ingredient, i) => {
                 const { amount, unit, name } = ingredient
                 const isLastInGroup = i === ingredients.length - 1
+                const ingredientId = ingredient.id
+                const isChecked = ingredientsAdded.includes(ingredientId)
 
                 return (
                   <React.Fragment key={`ingredient-row-${group.id}-${i}-${recipeId}`}>
                     <Flex {...ingredientRowCss}>
-                      <Flex {...checkboxCss}>
-                        <CheckboxWithTheme isChecked={false} onChange={() => console.log('CHECK')} />
-                      </Flex>
-                      <Flex {...amountAndUnitCss}>
+                      {showCheckboxes ? (
+                        <Flex {...checkboxCss}>
+                          <CheckboxWithTheme
+                            isChecked={isChecked}
+                            onChange={() => toggleIngredientAdded(ingredientId)}
+                            variant={isChecked ? CheckboxVariant.Pale : CheckboxVariant.Dark}
+                          />
+                        </Flex>
+                      ) : null}
+                      <Flex {...amountAndUnitCss(isChecked)}>
                         <Flex {...overFlowTextCss}>
                           <Text>
                             {amount} {unit}
                           </Text>
                         </Flex>
                       </Flex>
-                      <Flex {...overFlowTextCss}>
+                      <Flex {...overFlowTextCss(isChecked)}>
                         <Text>{name}</Text>
                       </Flex>
                     </Flex>
@@ -87,13 +100,14 @@ const checkboxCss = {
   width: '35px'
 }
 
-const amountAndUnitCss = {
-  width: '100px',
-  color: ColorCodes.DARK,
-  fontWeight: 'bold'
+const amountAndUnitCss = (isPale: boolean) => {
+  return { width: '90px', color: isPale ? ColorCodes.SLIGHTLY_PALE : ColorCodes.DARK, fontWeight: 'bold' }
 }
 
-const overFlowTextCss = {
-  overflow: 'wrap',
-  flex: 1
+const overFlowTextCss = (isPale: boolean) => {
+  return {
+    overflow: 'wrap',
+    flex: 1,
+    color: isPale ? ColorCodes.SLIGHTLY_PALE : ColorCodes.VERY_DARK
+  }
 }

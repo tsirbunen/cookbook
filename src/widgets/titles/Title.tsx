@@ -13,12 +13,17 @@ export enum TitleVariant {
 type TitleProps = {
   title: string
   variant: TitleVariant
+  color?: string
 }
 
-const Title = ({ title, variant }: TitleProps) => {
+const Title = ({ title, variant, color }: TitleProps) => {
   const css = variantCssMap[variant]
 
-  return <Text {...css}>{title}</Text>
+  return (
+    <Text {...css} color={color}>
+      {title}
+    </Text>
+  )
 }
 
 export default Title

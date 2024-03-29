@@ -1,7 +1,5 @@
 import { ChakraProps, Flex, Text } from '@chakra-ui/react'
-import { FaTag } from 'react-icons/fa'
 import { ColorCodes } from '../../../theme/theme'
-import { MIN_PANEL_WIDTH } from '../../../constants/layout'
 
 type RecipeTagsProps = {
   tags: string[]
@@ -49,13 +47,13 @@ const innerCss = {
 const tagCss = {
   marginLeft: '5px',
   marginRight: '5px',
-  backgroundColor: ColorCodes.PALE,
+  backgroundColor: ColorCodes.VERY_PALE,
   padding: '0px 4px',
   borderRadius: '4px'
 }
 
 const textCss = {
-  color: ColorCodes.DARK,
-  fontWeight: 'semibold',
+  color: ColorCodes.SLIGHTLY_DARK,
+  fontWeight: 'bold',
   fontSize: 'sm'
 }

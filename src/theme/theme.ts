@@ -45,8 +45,9 @@ export const theme = extendTheme({
         // scrollbarColor: VERY_DARK_COLOR,
         // scrollbarWidth: `${SCROLL_BAR_WIDTH}px`,
         '*::-webkit-scrollbar': {
-          backgroundColor: PALE_COLOR,
-          width: `${SCROLL_BAR_WIDTH}px`
+          // backgroundColor: PALE_COLOR,
+          // width: `${SCROLL_BAR_WIDTH}px`
+          display: 'none'
         },
         '*::-webkit-scrollbar-thumb': {
           backgroundColor: MEDIUM_COLOR,

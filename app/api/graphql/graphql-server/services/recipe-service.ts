@@ -262,8 +262,39 @@ const recipes = [
     id: 2,
     title: `2: ${devRecipe.title}`,
     tags: ['vegetarian', 'healthy'],
-    category: Category.LUNCH,
-    isFavorite: false
+    category: Category.DINNER,
+    isFavorite: false,
+    ingredientGroups: [
+      {
+        id: 85,
+        title: 'Falafels',
+        ingredients: [
+          {
+            id: 85,
+            amount: 1,
+            unit: 'cup',
+            name: "dried chickpeas, soaked overnight (don't use canned chickpeas)",
+            previousIngredientId: null
+          },
+          { id: 86, amount: 0.5, unit: 'cup', name: 'roughly chopped onion', previousIngredientId: 85 }
+        ]
+      }
+    ],
+    instructionGroups: [
+      {
+        id: 774,
+        title: null,
+        instructions: [
+          {
+            id: 774,
+            content:
+              "The night before, soak the dried chickpeas in water. Make sure the water covers the chickpeas by 2 to 3 inches, as they'll triple in size.",
+            previousInstructionId: null,
+            ingredientReferenceIds: []
+          }
+        ]
+      }
+    ]
   },
   {
     ...devRecipe,
@@ -272,7 +303,9 @@ const recipes = [
     tags: ['vegan', 'chickpea'],
     category: Category.BREAKFAST,
     ovenNeeded: true,
-    isFavorite: true
+    isFavorite: true,
+    ingredientGroups: [],
+    instructionGroups: []
   },
   {
     ...devRecipe,
@@ -282,7 +315,9 @@ const recipes = [
     tags: ['vegetarian', 'lebanese', 'healthy'],
     category: Category.BREAKFAST,
     ovenNeeded: true,
-    isFavorite: false
+    isFavorite: false,
+    ingredientGroups: [],
+    instructionGroups: []
   },
   {
     ...devRecipe,
@@ -291,7 +326,9 @@ const recipes = [
     tags: ['vegetarian', 'middleeast'],
     category: Category.DINNER,
     ovenNeeded: true,
-    isFavorite: true
+    isFavorite: true,
+    ingredientGroups: [],
+    instructionGroups: []
   },
   {
     ...devRecipe,
@@ -300,7 +337,9 @@ const recipes = [
     tags: ['vegetarian', 'middleeast'],
     category: Category.DINNER,
     ovenNeeded: false,
-    isFavorite: true
+    isFavorite: true,
+    ingredientGroups: [],
+    instructionGroups: []
   },
   {
     ...devRecipe,
@@ -309,7 +348,9 @@ const recipes = [
     tags: ['middleeast'],
     category: Category.DINNER,
     ovenNeeded: true,
-    isFavorite: false
+    isFavorite: false,
+    ingredientGroups: [],
+    instructionGroups: []
   },
   {
     ...devRecipe,
@@ -318,7 +359,9 @@ const recipes = [
     tags: ['vegetarian', 'middleeast'],
     category: Category.BREAKFAST,
     ovenNeeded: false,
-    isFavorite: true
+    isFavorite: true,
+    ingredientGroups: [],
+    instructionGroups: []
   },
   {
     ...devRecipe,
@@ -327,7 +370,9 @@ const recipes = [
     tags: ['salad', 'noredmeat'],
     category: Category.BREAKFAST,
     ovenNeeded: true,
-    isFavorite: false
+    isFavorite: false,
+    ingredientGroups: [],
+    instructionGroups: []
   },
   {
     ...devRecipe,
@@ -336,7 +381,9 @@ const recipes = [
     tags: ['vegan'],
     category: Category.LUNCH,
     ovenNeeded: true,
-    isFavorite: false
+    isFavorite: false,
+    ingredientGroups: [],
+    instructionGroups: []
   },
   {
     ...devRecipe,
@@ -345,7 +392,8 @@ const recipes = [
     tags: ['vegetarian', 'fastfood', 'middleeast'],
     category: Category.DINNER,
     ovenNeeded: false,
-    isFavorite: false
+    isFavorite: false,
+    ingredientGroups: []
   },
   {
     ...devRecipe,
@@ -354,7 +402,8 @@ const recipes = [
     tags: ['vegan', 'healthy', 'middleeast'],
     category: Category.DINNER,
     ovenNeeded: true,
-    isFavorite: false
+    isFavorite: false,
+    instructionGroups: []
   },
   devRecipe13
 ]

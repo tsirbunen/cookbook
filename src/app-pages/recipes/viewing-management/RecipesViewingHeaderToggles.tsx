@@ -1,15 +1,14 @@
 import { useContext } from 'react'
 import { TbCheckbox, TbTool, TbListDetails } from 'react-icons/tb'
-import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
 import Toggle, {
   filteringToggleProperty,
   pickedRecipesToggleProperty,
   selectModeToggleProperty
-} from '../../../widgets/header-with-optional-toggles/Toggle'
+} from '../../../widgets/toggles/Toggle'
 import { AppStateContext, AppStateContextType } from '../../../state/StateContextProvider'
 import { RecipesViewingContext } from '../page/RecipesViewingProvider'
 import { FiltersContext } from '../page/FilteringProvider'
-import Toggles from '../../../widgets/header-with-optional-toggles/Toggles'
+import Toggles from '../../../widgets/toggles/Toggles'
 
 const RecipesViewingHeaderToggles = () => {
   const { state } = useContext(AppStateContext) as AppStateContextType

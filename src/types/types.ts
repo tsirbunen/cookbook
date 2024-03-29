@@ -18,6 +18,13 @@ export enum FilterableRecipeProperty {
   ingredients = 'ingredients'
 }
 
+export type TimerData = {
+  secondsAtStart: number
+  startedAt: Date
+}
+
 export type CookingRecipeData = {
   recipe: Recipe
+  ingredientsAddedIds: number[]
+  instructionsCompletedIds: number[]
 }

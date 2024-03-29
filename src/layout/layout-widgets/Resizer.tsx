@@ -2,6 +2,7 @@
 
 import { css } from '@emotion/react'
 import { useEffect, useState } from 'react'
+import { ColorCodes } from '../../theme/theme'
 
 type ResizerProps = {
   onResize: (deltaX: number) => void
@@ -73,10 +74,18 @@ const Resizer = ({ onResize }: ResizerProps) => {
 
 export default Resizer
 
-const resizeElementWidth = 3
+const resizeElementWidth = 5
 
 const resizer = css`
   cursor: ew-resize;
   width: ${resizeElementWidth}px;
   height: 100%;
+  /* background-color: ${ColorCodes.PALE}; */
+  background: repeating-linear-gradient(
+    0deg,
+    ${ColorCodes.BACKGROUND},
+    ${ColorCodes.BACKGROUND} 5px,
+    ${ColorCodes.PALE} 5px,
+    ${ColorCodes.PALE} 10px
+  );
 `

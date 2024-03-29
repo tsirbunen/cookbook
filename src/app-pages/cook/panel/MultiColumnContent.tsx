@@ -3,7 +3,7 @@ import { ChakraProps, Divider, Flex } from '@chakra-ui/react'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
 import { ColorCodes } from '../../../theme/theme'
 
-type RecipeIngredientsProps = {
+type MultiColumnContentProps = {
   currentWidth: number | null
   recipeId: number
   children: JSX.Element
@@ -12,11 +12,11 @@ type RecipeIngredientsProps = {
 
 const MULTI_COLUMN_BREAKPOINT = 850
 
-const MultiColumnContent = ({ currentWidth, title, children }: RecipeIngredientsProps) => {
+const MultiColumnContent = ({ currentWidth, title, recipeId, children }: MultiColumnContentProps) => {
   const columnCount = currentWidth && currentWidth > MULTI_COLUMN_BREAKPOINT ? 2 : 1
 
   return (
-    <div style={{ ...outerCss }}>
+    <div style={{ ...outerCss }} key={`multi-column-${recipeId}`}>
       <Flex {...titleAndDividerCss}>
         <Title title={title} variant={TitleVariant.MediumPale} />
         <Divider {...dividerCss} />
@@ -41,7 +41,9 @@ const columnsCss = (columnCount: number) => {
 }
 
 const outerCss = {
-  marginTop: '30px'
+  marginTop: '30px',
+  marginLeft: '5px',
+  marginRight: '5px'
 }
 
 const titleAndDividerCss = {

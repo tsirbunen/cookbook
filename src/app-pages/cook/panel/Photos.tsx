@@ -8,11 +8,11 @@ import dal from '../../../assets/dal.png'
 import korma from '../../../assets/korma.png'
 import { ColorCodes } from '../../../theme/theme'
 
-type RecipePhotosProps = {
+type PhotosProps = {
   title: string
 }
 
-const RecipePhotos = ({ title }: RecipePhotosProps) => {
+const Photos = ({ title }: PhotosProps) => {
   const [selectedPhotoIndex, setSelectedPhotoIndex] = React.useState(0)
   const photoUrls = [falafel, dal, korma]
 
@@ -39,13 +39,14 @@ const RecipePhotos = ({ title }: RecipePhotosProps) => {
   )
 }
 
-export default RecipePhotos
+export default Photos
 
 const DOT_SIZE = 15
 const DOT_SPACER = 3
 
 const containerCss = css`
-  width: 100%;
+  margin-left: 10px;
+  margin-right: 10px;
 `
 
 const imageCss = css`
@@ -53,6 +54,7 @@ const imageCss = css`
   min-height: 200px;
   max-height: 400px;
   width: 100%;
+  border-radius: 0px 0px 20px 20px;
 `
 
 const dotBoxCss = css`

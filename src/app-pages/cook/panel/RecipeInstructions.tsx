@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useContext, useMemo } from 'react'
 import { ChakraProps, Flex, Text } from '@chakra-ui/react'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
 import { InstructionGroup } from '../../../types/graphql-schema-types.generated'
-import CheckboxWithTheme from '../../../theme/checkboxes/CheckboxWithTheme'
+import CheckboxWithTheme, { CheckboxVariant } from '../../../theme/checkboxes/CheckboxWithTheme'
 import { ColorCodes } from '../../../theme/theme'
 import MultiColumnContent from './MultiColumnContent'
+import { CookingContext } from '../page/CookingProvider'
 type RecipeIngredientsProps = {
   instructionGroups: InstructionGroup[]
   currentWidth: number | null
@@ -13,7 +14,14 @@ type RecipeIngredientsProps = {
 
 const INSTRUCTIONS_SECTION_TITLE = 'INSTRUCTIONS'
 
-const RecipeIngredients = ({ instructionGroups, currentWidth, recipeId }: RecipeIngredientsProps) => {
+const RecipeInstructions = ({ instructionGroups, currentWidth, recipeId }: RecipeIngredientsProps) => {
+  const { cookingRecipes, instructionsDone, toggleInstructionDone } = useContext(CookingContext)
+
+  const isCookingRecipe = useMemo(() => {
+    return cookingRecipes.some((cookingRecipeData) => cookingRecipeData.recipe.id === recipeId)
+  }, [cookingRecipes])
+  const showCheckboxes = useMemo(() => cookingRecipes.map((r) => r.recipe.id).includes(recipeId), [cookingRecipes])
+
   return (
     <MultiColumnContent currentWidth={currentWidth} title={INSTRUCTIONS_SECTION_TITLE} recipeId={recipeId}>
       <Flex {...containerCss}>
@@ -31,14 +39,26 @@ const RecipeIngredients = ({ instructionGroups, currentWidth, recipeId }: Recipe
               {instructions.map((instruction, i) => {
                 const { id, content } = instruction
                 const isLastInGroup = i === instructions.length - 1
+                const isChecked = instructionsDone.includes(instruction.id)
+                const showAsPale = isChecked && isCookingRecipe
 
                 return (
                   <React.Fragment key={`instruction-row-${group.id}-${id}-${recipeId}`}>
                     <Flex {...ingredientRowCss}>
-                      <Flex {...checkboxCss}>
-                        <CheckboxWithTheme isChecked={false} onChange={() => console.log('CHECK')} />
-                      </Flex>
-                      <Flex {...overFlowTextCss}>
+                      {showCheckboxes ? (
+                        <Flex {...checkboxCss}>
+                          <CheckboxWithTheme
+                            isChecked={showAsPale}
+                            onChange={() => toggleInstructionDone(instruction.id)}
+                            variant={CheckboxVariant.Pale}
+                          />
+                        </Flex>
+                      ) : (
+                        <Flex {...indexCss}>
+                          <Text>{i + 1}</Text>
+                        </Flex>
+                      )}
+                      <Flex {...overFlowTextCss(showAsPale)}>
                         <Text>{content}</Text>
                       </Flex>
                     </Flex>
@@ -54,7 +74,7 @@ const RecipeIngredients = ({ instructionGroups, currentWidth, recipeId }: Recipe
   )
 }
 
-export default RecipeIngredients
+export default RecipeInstructions
 
 const containerCss = {
   flexDirection: 'column' as ChakraProps['flexDirection'],
@@ -80,13 +100,23 @@ const checkboxCss = {
   width: '35px'
 }
 
-const amountAndUnitCss = {
-  width: '100px',
+const indexCss = {
+  width: '25px',
+  height: '25px',
+  backgroundColor: ColorCodes.PALE,
+  flexDirection: 'column' as ChakraProps['flexDirection'],
+  alignItems: 'center' as ChakraProps['alignItems'],
+  justifyContent: 'center' as ChakraProps['justifyContent'],
   color: ColorCodes.DARK,
-  fontWeight: 'bold'
+  fontWeight: 'bold',
+  borderRadius: '50%',
+  marginRight: '5px'
 }
 
-const overFlowTextCss = {
-  overflow: 'wrap',
-  flex: 1
+const overFlowTextCss = (isPale: boolean) => {
+  return {
+    overflow: 'wrap',
+    flex: 1,
+    color: isPale ? ColorCodes.SLIGHTLY_PALE : ColorCodes.VERY_DARK
+  }
 }

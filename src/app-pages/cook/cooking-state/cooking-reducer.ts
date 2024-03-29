@@ -1,11 +1,16 @@
 import { MAX_ALLOWED_PANELS_COUNT } from '../../../constants/layout'
-import { CookingState, DisplayConfig } from './CookingProvider'
+import { Recipe } from '../../../types/graphql-schema-types.generated'
+import { CookingRecipeData } from '../../../types/types'
+import { DisplayConfig, CookingState } from './cooking-state'
 
 export type DisplayDirection = 'previous' | 'next'
 export enum DispatchCookingEvent {
   UPDATE_DISPLAY_CONFIG = 'UPDATE_DISPLAY_CONFIG',
   UPDATE_DISPLAY_RECIPES_COUNT = 'UPDATE_DISPLAY_RECIPES_COUNT',
-  UPDATE_DISPLAY_RECIPES_INDEXES = 'UPDATE_DISPLAY_RECIPES_INDEXES'
+  UPDATE_DISPLAY_RECIPES_INDEXES = 'UPDATE_DISPLAY_RECIPES_INDEXES',
+  TOGGLE_IS_COOKING_RECIPE = 'TOGGLE_IS_COOKING_RECIPE',
+  TOGGLE_ADD_INGREDIENT = 'TOGGLE_ADD_INGREDIENT',
+  TOGGLE_INSTRUCTION_DONE = 'TOGGLE_INSTRUCTION_DONE'
 }
 
 export type DispatchCookingEventAction =
@@ -15,19 +20,15 @@ export type DispatchCookingEventAction =
     }
   | {
       type: DispatchCookingEvent.UPDATE_DISPLAY_RECIPES_COUNT
-      payload: {
-        newValue?: number
-        maxPanelsCount: number
-        pickedRecipesCount: number
-      }
+      payload: { newValue?: number; maxPanelsCount: number; pickedRecipesCount: number }
     }
   | {
       type: DispatchCookingEvent.UPDATE_DISPLAY_RECIPES_INDEXES
-      payload: {
-        moveDirection: 'previous' | 'next'
-        pickedRecipesCount: number
-      }
+      payload: { moveDirection: 'previous' | 'next'; pickedRecipesCount: number }
     }
+  | { type: DispatchCookingEvent.TOGGLE_IS_COOKING_RECIPE; payload: { recipe: Recipe } }
+  | { type: DispatchCookingEvent.TOGGLE_ADD_INGREDIENT; payload: { ingredientId: number } }
+  | { type: DispatchCookingEvent.TOGGLE_INSTRUCTION_DONE; payload: { instructionId: number } }
 
 export const cookingReducer = (state: CookingState, action: DispatchCookingEventAction) => {
   switch (action.type) {
@@ -43,8 +44,45 @@ export const cookingReducer = (state: CookingState, action: DispatchCookingEvent
         ...state,
         displayConfig: getUpdatedDisplayConfigAfterIndexesChanged(state.displayConfig, action.payload)
       }
+    case DispatchCookingEvent.TOGGLE_IS_COOKING_RECIPE:
+      return toggleIsCookingRecipes(state, action.payload)
+    case DispatchCookingEvent.TOGGLE_ADD_INGREDIENT:
+      return { ...state, ingredientsAdded: getUpdatedIdList(state.ingredientsAdded, action.payload.ingredientId) }
+    case DispatchCookingEvent.TOGGLE_INSTRUCTION_DONE:
+      return { ...state, instructionsDone: getUpdatedIdList(state.instructionsDone, action.payload.instructionId) }
     default:
       throw new Error(`${JSON.stringify(action)} is not a cooking state reducer action!`)
+  }
+}
+
+const getUpdatedIdList = (list: number[], targetId: number) => {
+  let updatedList = [...list]
+  const shouldAdd = updatedList.every((id) => id !== targetId)
+  if (shouldAdd) updatedList.push(targetId)
+  else updatedList = updatedList.filter((id) => id !== targetId)
+  return updatedList
+}
+
+const toggleIsCookingRecipes = (state: CookingState, payload: { recipe: Recipe }) => {
+  let updatedCookingRecipes: CookingRecipeData[]
+  const isStartCooking = state.cookingRecipes.every(
+    (recipeCookingData) => recipeCookingData.recipe.id !== payload.recipe.id
+  )
+
+  if (isStartCooking) {
+    updatedCookingRecipes = [
+      ...state.cookingRecipes,
+      { recipe: payload.recipe, ingredientsAddedIds: [], instructionsCompletedIds: [] }
+    ]
+  } else {
+    updatedCookingRecipes = state.cookingRecipes.filter(
+      (recipeCookingData) => recipeCookingData.recipe.id !== payload.recipe.id
+    )
+  }
+
+  return {
+    ...state,
+    cookingRecipes: updatedCookingRecipes
   }
 }
 
