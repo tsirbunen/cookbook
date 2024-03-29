@@ -2,17 +2,20 @@
 
 import { css } from '@emotion/react'
 import { ColorCodes } from '../../theme/theme'
-import { TbCooker, TbStar, TbStarFilled } from 'react-icons/tb'
+import { TbCooker, TbStar, TbStarFilled, TbTag } from 'react-icons/tb'
+import { FaTag } from 'react-icons/fa6'
 import { IconType } from 'react-icons'
 
 export enum PropertyVariant {
   Favorite = 'Favorite',
-  Oven = 'Oven'
+  Oven = 'Oven',
+  Tag = 'Tag'
 }
 
 const propertyIcons: Record<PropertyVariant, { filled: IconType; empty?: IconType }> = {
   [PropertyVariant.Favorite]: { filled: TbStarFilled, empty: TbStar },
-  [PropertyVariant.Oven]: { filled: TbCooker }
+  [PropertyVariant.Oven]: { filled: TbCooker },
+  [PropertyVariant.Tag]: { filled: FaTag, empty: TbTag }
 }
 
 type PropertyIconProps = {
@@ -44,5 +47,5 @@ const containerCss = (isSelected: boolean) => css`
   justify-content: center;
   align-items: center;
   color: ${ColorCodes.VERY_PALE};
-  margin-right: 5px;
+  margin-right: 7px;
 `

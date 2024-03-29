@@ -23,4 +23,5 @@ const container = css`
   flex-direction: column;
   align-items: center;
   justify-content: start;
+  margin-bottom: 5px;
 `

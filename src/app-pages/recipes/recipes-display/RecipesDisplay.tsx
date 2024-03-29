@@ -135,6 +135,7 @@ const titlesContainerCss = css`
   justify-content: start;
   align-items: start;
   width: 100%;
+  margin-left: 8px;
 `
 
 const cssByMode: Record<ViewRecipesMode, SerializedStyles> = {

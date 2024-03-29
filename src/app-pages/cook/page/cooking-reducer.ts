@@ -1,4 +1,4 @@
-import { MAX_ALLOWED_PANELS_COUNT } from '../../../layout/views/MultiResizablePanelsView'
+import { MAX_ALLOWED_PANELS_COUNT } from '../../../constants/layout'
 import { CookingState, DisplayConfig } from './CookingProvider'
 
 export type DisplayDirection = 'previous' | 'next'

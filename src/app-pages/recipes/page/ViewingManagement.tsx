@@ -23,7 +23,7 @@ const ViewingManagement = () => {
     <div css={innerCss}>
       {toolsPortalDomNode ? createPortal(<RecipesViewingHeaderToggles />, toolsPortalDomNode) : null}
 
-      <div css={toolsCss}>
+      <div>
         {showSelectMode ? <ViewModeManagementTool /> : null}
         {showPickedRecipes ? <PickedRecipesManagementTool /> : null}
         {showFiltering ? <FilteringManagementTool /> : null}
@@ -33,10 +33,6 @@ const ViewingManagement = () => {
 }
 
 export default ViewingManagement
-
-const toolsCss = css`
-  padding-right: 15px;
-`
 
 const slitViewCss = (someFeatureIsToggled: boolean) => css`
   width: ${someFeatureIsToggled ? `${SPLIT_VIEW_WIDTH}` : '0'}px;

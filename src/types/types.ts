@@ -17,3 +17,7 @@ export enum FilterableRecipeProperty {
   categories = 'categories',
   ingredients = 'ingredients'
 }
+
+export type CookingRecipeData = {
+  recipe: Recipe
+}

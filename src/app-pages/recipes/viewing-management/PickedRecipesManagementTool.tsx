@@ -26,11 +26,10 @@ const PickedRecipesManagementTool = () => {
   const pickedRecipes = state.pickedRecipes
   const noRecipesPickedYet = pickedRecipes.length === 0
   const title = noRecipesPickedYet ? noRecipesPickedYetTitle : pickRecipesTitle
-  const showTitle = noRecipesPickedYet
 
   return (
     <Flex {...outerCss} data-testid={pickedRecipesManagementToolDataTestId}>
-      {showTitle ? <Title title={title.toUpperCase()} variant={TitleVariant.MediumRegular} /> : null}
+      <Title title={title.toUpperCase()} variant={TitleVariant.MediumRegular} />
 
       <Flex {...innerCss(noRecipesPickedYet)}>
         <RecipesDisplay
@@ -54,7 +53,8 @@ const outerCss = {
   backgroundColor: ColorCodes.PALE,
   borderRadius: '6px',
   margin: '10px 0px 10px 5px',
-  width: '100%'
+  width: '100%',
+  paddingRight: '10px'
 }
 
 const innerCss = (noRecipesPickedYet: boolean) => {

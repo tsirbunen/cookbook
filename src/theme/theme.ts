@@ -42,14 +42,14 @@ export const theme = extendTheme({
         // NOTE: MDN documents advice to use these, but they do not work so
         // using the webkit-scrollbar instead...
         // https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-scrollbar
-        // scrollbarColor: '#EBE3D5',
+        // scrollbarColor: VERY_DARK_COLOR,
         // scrollbarWidth: `${SCROLL_BAR_WIDTH}px`,
         '*::-webkit-scrollbar': {
-          backgroundColor: '#B0A695',
+          backgroundColor: PALE_COLOR,
           width: `${SCROLL_BAR_WIDTH}px`
         },
         '*::-webkit-scrollbar-thumb': {
-          backgroundColor: '#4F4A45',
+          backgroundColor: MEDIUM_COLOR,
           borderRadius: `${SCROLL_BAR_WIDTH}px`
         }
       },

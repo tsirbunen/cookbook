@@ -1,25 +1,24 @@
 import React from 'react'
 import { ChakraProps, Flex, Text } from '@chakra-ui/react'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
-import { IngredientGroup } from '../../../types/graphql-schema-types.generated'
+import { InstructionGroup } from '../../../types/graphql-schema-types.generated'
 import CheckboxWithTheme from '../../../theme/checkboxes/CheckboxWithTheme'
 import { ColorCodes } from '../../../theme/theme'
 import MultiColumnContent from './MultiColumnContent'
-
 type RecipeIngredientsProps = {
-  ingredientGroups: IngredientGroup[]
+  instructionGroups: InstructionGroup[]
   currentWidth: number | null
   recipeId: number
 }
 
-const INGREDIENTS_SECTION_TITLE = 'INGREDIENTS'
+const INSTRUCTIONS_SECTION_TITLE = 'INSTRUCTIONS'
 
-const RecipeIngredients = ({ ingredientGroups, currentWidth, recipeId }: RecipeIngredientsProps) => {
+const RecipeIngredients = ({ instructionGroups, currentWidth, recipeId }: RecipeIngredientsProps) => {
   return (
-    <MultiColumnContent currentWidth={currentWidth} title={INGREDIENTS_SECTION_TITLE} recipeId={recipeId}>
+    <MultiColumnContent currentWidth={currentWidth} title={INSTRUCTIONS_SECTION_TITLE} recipeId={recipeId}>
       <Flex {...containerCss}>
-        {ingredientGroups.map((group, index) => {
-          const { title, ingredients } = group
+        {instructionGroups.map((group, index) => {
+          const { title, instructions } = group
 
           return (
             <Flex {...ingredientGroupCss} key={`${title}-${index}-${recipeId}`}>
@@ -28,25 +27,19 @@ const RecipeIngredients = ({ ingredientGroups, currentWidth, recipeId }: RecipeI
                   <Title title={title} variant={TitleVariant.MediumPale} />
                 </Flex>
               ) : null}
-              {ingredients.map((ingredient, i) => {
-                const { amount, unit, name } = ingredient
-                const isLastInGroup = i === ingredients.length - 1
+
+              {instructions.map((instruction, i) => {
+                const { id, content } = instruction
+                const isLastInGroup = i === instructions.length - 1
 
                 return (
-                  <React.Fragment key={`ingredient-row-${group.id}-${i}-${recipeId}`}>
+                  <React.Fragment key={`instruction-row-${group.id}-${id}-${recipeId}`}>
                     <Flex {...ingredientRowCss}>
                       <Flex {...checkboxCss}>
                         <CheckboxWithTheme isChecked={false} onChange={() => console.log('CHECK')} />
                       </Flex>
-                      <Flex {...amountAndUnitCss}>
-                        <Flex {...overFlowTextCss}>
-                          <Text>
-                            {amount} {unit}
-                          </Text>
-                        </Flex>
-                      </Flex>
                       <Flex {...overFlowTextCss}>
-                        <Text>{name}</Text>
+                        <Text>{content}</Text>
                       </Flex>
                     </Flex>
                     {isLastInGroup ? <div style={{ marginBottom: '20px' }} /> : null}

@@ -52,7 +52,12 @@ const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked }: SummaryRecipeP
           <div>{tagsCombined}</div>
         </div>
 
-        <RecipePropertyIcons isFavorite={isFavorite} ovenNeeded={ovenNeeded} justifyContent="start" />
+        <RecipePropertyIcons
+          isFavorite={isFavorite}
+          ovenNeeded={ovenNeeded}
+          hasTags={tags.length > 0}
+          justifyContent="start"
+        />
       </div>
     </div>
   )

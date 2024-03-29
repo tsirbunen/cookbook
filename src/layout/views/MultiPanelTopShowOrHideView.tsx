@@ -50,11 +50,9 @@ const main = css`
 `
 
 const topOuter = css`
-  height: 100%;
   position: sticky;
   top: ${HEADER_HEIGHT_WITH_TOOLS}px;
   z-index: ${recipesViewingManagementZIndex};
-  flex: 1;
   width: 100%;
 `
 
