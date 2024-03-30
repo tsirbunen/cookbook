@@ -25,7 +25,6 @@ const Photos = ({ title }: PhotosProps) => {
 
   return (
     <div css={containerCss}>
-      <Image src={src} alt={`Photo of recipe with title: ${title}`} css={imageCss} />
       {showSelectPhotoToDisplay ? (
         <div css={dotBoxCss}>
           <div css={dotRowCss}>
@@ -35,6 +34,18 @@ const Photos = ({ title }: PhotosProps) => {
           </div>
         </div>
       ) : null}
+      <div css={imageBoxCss}>
+        <Image src={src} alt={`Photo of recipe with title: ${title}`} css={imageCss} />
+      </div>
+      {/* {showSelectPhotoToDisplay ? (
+        <div css={dotBoxCss}>
+          <div css={dotRowCss}>
+            {photoUrls.map((_url, index) => (
+              <div key={index} css={dotCss(selectedPhotoIndex === index)} onClick={() => selectPhotoToDisplay(index)} />
+            ))}
+          </div>
+        </div>
+      ) : null} */}
     </div>
   )
 }
@@ -45,26 +56,33 @@ const DOT_SIZE = 15
 const DOT_SPACER = 3
 
 const containerCss = css`
-  margin-left: 10px;
-  margin-right: 10px;
+  /* margin-left: 10px; */
+  /* margin-right: 10px; */
+`
+const imageBoxCss = css`
+  /* margin-left: 10px; */
+  /* margin-right: 10px; */
+  position: relative;
+  top: -${DOT_SIZE + 2 * DOT_SPACER + 5}px;
 `
 
 const imageCss = css`
   object-fit: cover;
-  min-height: 200px;
-  max-height: 400px;
+  height: 500px;
   width: 100%;
-  border-radius: 0px 0px 20px 20px;
+  /* border-radius: 0px 0px 20px 20px; */
+  /* border-radius: 0px 0px 50% 50%; */
 `
 
 const dotBoxCss = css`
   position: relative;
-  top: -${DOT_SIZE + 2 * DOT_SPACER + 5}px;
+  top: ${DOT_SIZE}px;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   flex: 1;
   display: flex;
+  z-index: 100;
 `
 const dotRowCss = css`
   flex-direction: row;

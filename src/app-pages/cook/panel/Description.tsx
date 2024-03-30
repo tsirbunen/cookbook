@@ -1,11 +1,11 @@
 import { ChakraProps, Flex, Text } from '@chakra-ui/react'
 import { ColorCodes } from '../../../theme/theme'
 
-type RecipeDescriptionProps = {
+type DescriptionProps = {
   description: string
 }
 
-const RecipeDescription = ({ description }: RecipeDescriptionProps) => {
+const Description = ({ description }: DescriptionProps) => {
   return (
     <Flex {...containerCss}>
       <Text>{description}</Text>
@@ -13,7 +13,7 @@ const RecipeDescription = ({ description }: RecipeDescriptionProps) => {
   )
 }
 
-export default RecipeDescription
+export default Description
 
 const containerCss = {
   textAlign: 'center' as ChakraProps['textAlign'],

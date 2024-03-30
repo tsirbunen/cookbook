@@ -18,11 +18,11 @@ const RecipeTitle = ({ title }: RecipeTitleProps) => {
 export default RecipeTitle
 
 const container = css`
-  width: 100%;
   display: flex;
   flex-direction: column;
   margin-bottom: 5px;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 25px;
+  margin-right: 25px;
+  padding-top: 15px;
   text-align: center;
 `

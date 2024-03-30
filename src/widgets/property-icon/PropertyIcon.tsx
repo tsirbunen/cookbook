@@ -21,15 +21,16 @@ const propertyIcons: Record<PropertyVariant, { filled: IconType; empty?: IconTyp
 type PropertyIconProps = {
   isSelected: boolean
   property: PropertyVariant
+  isCentered?: boolean
 }
 
-const PropertyIcon = ({ property, isSelected }: PropertyIconProps) => {
+const PropertyIcon = ({ property, isSelected, isCentered = false }: PropertyIconProps) => {
   const icons = propertyIcons[property]
   const PropertyIcon = isSelected ? icons.filled : icons.empty
   if (!PropertyIcon) return null
 
   return (
-    <div css={containerCss(isSelected)}>
+    <div css={containerCss(isSelected, isCentered)}>
       <PropertyIcon fontSize="1.3em" strokeWidth="2" />
     </div>
   )
@@ -37,7 +38,7 @@ const PropertyIcon = ({ property, isSelected }: PropertyIconProps) => {
 
 export default PropertyIcon
 
-const containerCss = (isSelected: boolean) => css`
+const containerCss = (isSelected: boolean, isCentered: boolean) => css`
   width: 28px;
   height: 28px;
   background-color: ${isSelected ? ColorCodes.DARK : ColorCodes.DARK};
@@ -47,5 +48,6 @@ const containerCss = (isSelected: boolean) => css`
   justify-content: center;
   align-items: center;
   color: ${ColorCodes.VERY_PALE};
-  margin-right: 7px;
+  margin-right: ${isCentered ? 3 : 7}px;
+  margin-left: ${isCentered ? 3 : 0}px;
 `

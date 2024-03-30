@@ -12,11 +12,12 @@ type RecipePropertyIconsProps = {
 }
 
 const RecipePropertyIcons = ({ isFavorite, ovenNeeded, hasTags, justifyContent }: RecipePropertyIconsProps) => {
+  const isCentered = justifyContent === 'center'
   return (
     <div css={bottomContainer(justifyContent)}>
-      <PropertyIcon property={PropertyVariant.Favorite} isSelected={isFavorite} />
-      <PropertyIcon property={PropertyVariant.Oven} isSelected={ovenNeeded} />
-      <PropertyIcon property={PropertyVariant.Tag} isSelected={hasTags} />
+      <PropertyIcon property={PropertyVariant.Favorite} isSelected={isFavorite} isCentered={isCentered} />
+      <PropertyIcon property={PropertyVariant.Oven} isSelected={ovenNeeded} isCentered={isCentered} />
+      <PropertyIcon property={PropertyVariant.Tag} isSelected={hasTags} isCentered={isCentered} />
     </div>
   )
 }

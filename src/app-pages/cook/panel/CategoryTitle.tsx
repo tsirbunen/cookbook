@@ -4,11 +4,11 @@ import { css } from '@emotion/react'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
 import { ColorCodes } from '../../../theme/theme'
 
-type RecipeCategoryProps = {
+type CategoryTitleProps = {
   category: string
 }
 
-const RecipeCategory = ({ category }: RecipeCategoryProps) => {
+const CategoryTitle = ({ category }: CategoryTitleProps) => {
   return (
     <div css={container}>
       <Title title={category} variant={TitleVariant.Small} color={ColorCodes.MEDIUM} />
@@ -16,7 +16,7 @@ const RecipeCategory = ({ category }: RecipeCategoryProps) => {
   )
 }
 
-export default RecipeCategory
+export default CategoryTitle
 
 const container = css`
   width: 100%;

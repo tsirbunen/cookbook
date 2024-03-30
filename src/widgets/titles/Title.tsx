@@ -3,7 +3,6 @@ import { ColorCodes } from '../../theme/theme'
 
 export enum TitleVariant {
   Small = 'Small',
-
   Medium = 'Medium',
   MediumPale = 'MediumPale',
   MediumLeft = 'MediumLeft',

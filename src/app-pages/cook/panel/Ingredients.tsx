@@ -1,65 +1,65 @@
 import React, { useContext, useMemo } from 'react'
 import { ChakraProps, Flex, Text } from '@chakra-ui/react'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
-import { InstructionGroup } from '../../../types/graphql-schema-types.generated'
+import { IngredientGroup } from '../../../types/graphql-schema-types.generated'
 import CheckboxWithTheme, { CheckboxVariant } from '../../../theme/checkboxes/CheckboxWithTheme'
 import { ColorCodes } from '../../../theme/theme'
 import MultiColumnContent from './MultiColumnContent'
 import { CookingContext } from '../page/CookingProvider'
-type RecipeIngredientsProps = {
-  instructionGroups: InstructionGroup[]
+
+type IngredientsProps = {
+  ingredientGroups: IngredientGroup[]
   currentWidth: number | null
   recipeId: number
 }
 
-const INSTRUCTIONS_SECTION_TITLE = 'INSTRUCTIONS'
+const INGREDIENTS_SECTION_TITLE = 'INGREDIENTS'
 
-const RecipeInstructions = ({ instructionGroups, currentWidth, recipeId }: RecipeIngredientsProps) => {
-  const { cookingRecipes, instructionsDone, toggleInstructionDone } = useContext(CookingContext)
+const Ingredients = ({ ingredientGroups, currentWidth, recipeId }: IngredientsProps) => {
+  const { cookingRecipes, toggleIngredientAdded, ingredientsAdded } = useContext(CookingContext)
 
-  const isCookingRecipe = useMemo(() => {
-    return cookingRecipes.some((cookingRecipeData) => cookingRecipeData.recipe.id === recipeId)
-  }, [cookingRecipes])
   const showCheckboxes = useMemo(() => cookingRecipes.map((r) => r.recipe.id).includes(recipeId), [cookingRecipes])
 
   return (
-    <MultiColumnContent currentWidth={currentWidth} title={INSTRUCTIONS_SECTION_TITLE} recipeId={recipeId}>
-      <Flex {...containerCss}>
-        {instructionGroups.map((group, index) => {
-          const { title, instructions } = group
+    <MultiColumnContent currentWidth={currentWidth} title={INGREDIENTS_SECTION_TITLE} recipeId={recipeId}>
+      <Flex {...containerCss} key={`ingredients-columns-${recipeId}`}>
+        {ingredientGroups.map((group, index) => {
+          const { title, ingredients } = group
 
           return (
             <Flex {...ingredientGroupCss} key={`${title}-${index}-${recipeId}`}>
               {title ? (
-                <Flex marginBottom="5px">
+                <Flex marginBottom="5px" key={`ingredient-title-${title}-${recipeId}`}>
                   <Title title={title} variant={TitleVariant.MediumPale} />
                 </Flex>
               ) : null}
-
-              {instructions.map((instruction, i) => {
-                const { id, content } = instruction
-                const isLastInGroup = i === instructions.length - 1
-                const isChecked = instructionsDone.includes(instruction.id)
-                const showAsPale = isChecked && isCookingRecipe
+              {ingredients.map((ingredient, i) => {
+                const { amount, unit, name } = ingredient
+                const isLastInGroup = i === ingredients.length - 1
+                const ingredientId = ingredient.id
+                const isChecked = ingredientsAdded.includes(ingredientId)
 
                 return (
-                  <React.Fragment key={`instruction-row-${group.id}-${id}-${recipeId}`}>
+                  <React.Fragment key={`ingredient-row-${name}-${i}-${recipeId}`}>
                     <Flex {...ingredientRowCss}>
                       {showCheckboxes ? (
                         <Flex {...checkboxCss}>
                           <CheckboxWithTheme
-                            isChecked={showAsPale}
-                            onChange={() => toggleInstructionDone(instruction.id)}
-                            variant={CheckboxVariant.Pale}
+                            isChecked={isChecked}
+                            onChange={() => toggleIngredientAdded(ingredientId)}
+                            variant={isChecked ? CheckboxVariant.Pale : CheckboxVariant.Dark}
                           />
                         </Flex>
-                      ) : (
-                        <Flex {...indexCss}>
-                          <Text>{i + 1}</Text>
+                      ) : null}
+                      <Flex {...amountAndUnitCss(isChecked)}>
+                        <Flex {...overFlowTextCss}>
+                          <Text>
+                            {amount} {unit}
+                          </Text>
                         </Flex>
-                      )}
-                      <Flex {...overFlowTextCss(showAsPale)}>
-                        <Text>{content}</Text>
+                      </Flex>
+                      <Flex {...overFlowTextCss(isChecked)}>
+                        <Text>{name}</Text>
                       </Flex>
                     </Flex>
                     {isLastInGroup ? <div style={{ marginBottom: '20px' }} /> : null}
@@ -74,7 +74,7 @@ const RecipeInstructions = ({ instructionGroups, currentWidth, recipeId }: Recip
   )
 }
 
-export default RecipeInstructions
+export default Ingredients
 
 const containerCss = {
   flexDirection: 'column' as ChakraProps['flexDirection'],
@@ -100,17 +100,8 @@ const checkboxCss = {
   width: '35px'
 }
 
-const indexCss = {
-  width: '25px',
-  height: '25px',
-  backgroundColor: ColorCodes.PALE,
-  flexDirection: 'column' as ChakraProps['flexDirection'],
-  alignItems: 'center' as ChakraProps['alignItems'],
-  justifyContent: 'center' as ChakraProps['justifyContent'],
-  color: ColorCodes.DARK,
-  fontWeight: 'bold',
-  borderRadius: '50%',
-  marginRight: '5px'
+const amountAndUnitCss = (isPale: boolean) => {
+  return { width: '90px', color: isPale ? ColorCodes.SLIGHTLY_PALE : ColorCodes.DARK, fontWeight: 'bold' }
 }
 
 const overFlowTextCss = (isPale: boolean) => {

@@ -15,20 +15,12 @@ const dark = definePartsStyle({
     _checked: {
       color: VERY_PALE_COLOR,
       backgroundColor: VERY_DARK_COLOR,
-      borderColor: VERY_DARK_COLOR
-      // _disabled: {
-      //   background: PALE_COLOR,
-      //   color: VERY_PALE_COLOR,
-      //   borderColor: PALE_COLOR
-      // }
+      borderColor: VERY_DARK_COLOR,
+      _focus: { outline: 'none', backgroundColor: VERY_DARK_COLOR, borderColor: VERY_DARK_COLOR },
+      _hover: { outline: 'none', backgroundColor: VERY_DARK_COLOR, borderColor: VERY_DARK_COLOR }
     },
     _focus: { outline: 'none', backgroundColor: VERY_DARK_COLOR, borderColor: VERY_DARK_COLOR },
     _hover: { outline: 'none', backgroundColor: VERY_DARK_COLOR, borderColor: VERY_DARK_COLOR }
-    // _disabled: {
-    //   background: PALE_COLOR,
-    //   color: VERY_PALE_COLOR,
-    //   borderColor: PALE_COLOR
-    // }
   }
 })
 
@@ -43,7 +35,8 @@ const pale = definePartsStyle({
     _checked: {
       background: PALE_COLOR,
       color: VERY_PALE_COLOR,
-      borderColor: PALE_COLOR
+      borderColor: PALE_COLOR,
+      _focus: { outline: 'none', backgroundColor: PALE_COLOR, borderColor: PALE_COLOR }
     },
     _focus: { outline: 'none', backgroundColor: VERY_DARK_COLOR, borderColor: VERY_DARK_COLOR },
     _hover: { outline: 'none', backgroundColor: VERY_DARK_COLOR, borderColor: VERY_DARK_COLOR }

@@ -4,13 +4,14 @@ import { Recipe } from '../../../types/graphql-schema-types.generated'
 import RecipeTitle from './RecipeTitle'
 import Photos from './Photos'
 import RecipePropertyIcons from '../../../widgets/property-icon/RecipePropertyIcons'
-import RecipeIngredients from './RecipeIngredients'
+import Ingredients from './Ingredients'
 import { useWidthChangedObserver } from '../../../hooks/useWidthChangedObserver'
 import RecipeTags from './RecipeTags'
-import RecipeDescription from './RecipeDescription'
-import RecipeInstructions from './RecipeInstructions'
+import Description from './Description'
+import Instructions from './Instructions'
 import RecipeToggles from './RecipeToggles'
-import RecipeCategory from './RecipeCategory'
+import CategoryTitle from './CategoryTitle'
+import { ColorCodes } from '../../../theme/theme'
 
 type RecipePanelProps = {
   recipe?: Recipe
@@ -26,24 +27,24 @@ const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
   return (
     <div css={container} ref={elementRef}>
       <Photos title={recipe.title} />
-      <RecipeTitle title={recipe.title} />
-      {recipe.category ? <RecipeCategory category={recipe.category} /> : null}
-      <RecipePropertyIcons
-        isFavorite={isFavorite}
-        ovenNeeded={ovenNeeded}
-        hasTags={recipe.tags.length > 0}
-        justifyContent="center"
-      />
-      {recipe.tags ? <RecipeTags tags={recipe.tags} /> : null}
-      {recipe.description ? <RecipeDescription description={recipe.description} /> : null}
-      <RecipeToggles recipe={recipe} />
+      <div css={topCss}>
+        <RecipeTitle title={recipe.title} />
+        {recipe.category ? <CategoryTitle category={recipe.category} /> : null}
 
-      <RecipeIngredients ingredientGroups={recipe.ingredientGroups} currentWidth={currentWidth} recipeId={recipe.id} />
-      <RecipeInstructions
-        instructionGroups={recipe.instructionGroups}
-        currentWidth={currentWidth}
-        recipeId={recipe.id}
-      />
+        <div css={propertiesCss}>
+          <RecipePropertyIcons
+            isFavorite={isFavorite}
+            ovenNeeded={ovenNeeded}
+            hasTags={recipe.tags.length > 0}
+            justifyContent="center"
+          />
+        </div>
+        {recipe.tags ? <RecipeTags tags={recipe.tags} /> : null}
+        {recipe.description ? <Description description={recipe.description} /> : null}
+        <RecipeToggles recipe={recipe} />
+        <Ingredients ingredientGroups={recipe.ingredientGroups} currentWidth={currentWidth} recipeId={recipe.id} />
+        <Instructions instructionGroups={recipe.instructionGroups} currentWidth={currentWidth} recipeId={recipe.id} />
+      </div>
     </div>
   )
 }
@@ -52,5 +53,20 @@ export default CookRecipePanel
 
 const container = css`
   width: 100%;
-  margin-bottom: 50px;
+`
+
+const topCss = css`
+  width: 100%;
+  position: relative;
+  top: -120px;
+  border-radius: 100px 100px 0px 0px;
+  background-color: ${ColorCodes.BACKGROUND};
+`
+
+const propertiesCss = css`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-left: 5px;
+  margin-right: 5px;
 `
