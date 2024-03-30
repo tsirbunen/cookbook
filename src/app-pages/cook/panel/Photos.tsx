@@ -7,6 +7,7 @@ import falafel from '../../../assets/falafel.png'
 import dal from '../../../assets/dal.png'
 import korma from '../../../assets/korma.png'
 import { ColorCodes } from '../../../theme/theme'
+import { HEADER_HEIGHT_WITH_TOOLS } from '../../../constants/layout'
 
 type PhotosProps = {
   title: string
@@ -25,6 +26,11 @@ const Photos = ({ title }: PhotosProps) => {
 
   return (
     <div css={containerCss}>
+      <div css={imageBoxCss}>
+        <Image src={src} alt={`Photo of recipe with title: ${title}`} css={imageCss} />
+      </div>
+      <div css={headerImageStyle()} />
+
       {showSelectPhotoToDisplay ? (
         <div css={dotBoxCss}>
           <div css={dotRowCss}>
@@ -34,18 +40,6 @@ const Photos = ({ title }: PhotosProps) => {
           </div>
         </div>
       ) : null}
-      <div css={imageBoxCss}>
-        <Image src={src} alt={`Photo of recipe with title: ${title}`} css={imageCss} />
-      </div>
-      {/* {showSelectPhotoToDisplay ? (
-        <div css={dotBoxCss}>
-          <div css={dotRowCss}>
-            {photoUrls.map((_url, index) => (
-              <div key={index} css={dotCss(selectedPhotoIndex === index)} onClick={() => selectPhotoToDisplay(index)} />
-            ))}
-          </div>
-        </div>
-      ) : null} */}
     </div>
   )
 }
@@ -54,29 +48,34 @@ export default Photos
 
 const DOT_SIZE = 15
 const DOT_SPACER = 3
+const IMAGE_POSITION_TOP = -(DOT_SIZE + 2 * DOT_SPACER + 5)
+const HEADER_AND_SPACING = HEADER_HEIGHT_WITH_TOOLS + 50
 
-const containerCss = css`
-  /* margin-left: 10px; */
-  /* margin-right: 10px; */
+const headerImageStyle = () => css`
+  background-size: cover;
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.4) 20%, transparent 40%, rgba(0, 0, 0, 0));
+
+  position: absolute;
+  top: ${2 * IMAGE_POSITION_TOP + HEADER_AND_SPACING}px;
+  height: 500px;
+  width: 100%;
 `
+
+const containerCss = css``
 const imageBoxCss = css`
-  /* margin-left: 10px; */
-  /* margin-right: 10px; */
   position: relative;
-  top: -${DOT_SIZE + 2 * DOT_SPACER + 5}px;
+  top: ${IMAGE_POSITION_TOP}px;
 `
 
 const imageCss = css`
   object-fit: cover;
   height: 500px;
   width: 100%;
-  /* border-radius: 0px 0px 20px 20px; */
-  /* border-radius: 0px 0px 50% 50%; */
 `
 
 const dotBoxCss = css`
   position: relative;
-  top: ${DOT_SIZE}px;
+  top: ${-HEADER_AND_SPACING}px;
   flex-direction: row;
   align-items: center;
   justify-content: center;

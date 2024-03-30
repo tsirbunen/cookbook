@@ -12,6 +12,7 @@ export type CookingState = {
   timersByRecipeId: Record<number, TimerData>
   ingredientsAdded: number[]
   instructionsDone: number[]
+  multiColumnRecipes: number[]
 }
 
 const getInitialDisplayIndexes = (pickedRecipesCount: number, maxPanelsCount: number) => {
@@ -34,6 +35,7 @@ export const getInitialCookingState = (pickedRecipesCount: number, maxPanelsCoun
     cookingRecipes: [],
     timersByRecipeId: {},
     ingredientsAdded: [],
-    instructionsDone: []
+    instructionsDone: [],
+    multiColumnRecipes: []
   }
 }

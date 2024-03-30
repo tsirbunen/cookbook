@@ -19,7 +19,9 @@ type Cooking = {
   toggleIngredientAdded: (ingredientId: number) => void
   ingredientsAdded: number[]
   instructionsDone: number[]
+  multiColumnRecipes: number[]
   toggleInstructionDone: (instructionId: number) => void
+  toggleMultiColumn: (recipeId: number) => void
 }
 
 export type CookingContextType = {
@@ -57,6 +59,10 @@ const CookingProvider = ({ children }: { children: React.ReactNode }) => {
     dispatchCookingEvent({ type: DispatchCookingEvent.TOGGLE_INSTRUCTION_DONE, payload: { instructionId } })
   }
 
+  const toggleMultiColumn = (recipeId: number) => {
+    dispatchCookingEvent({ type: DispatchCookingEvent.TOGGLE_MULTI_COLUMN, payload: { recipeId } })
+  }
+
   return (
     <CookingContext.Provider
       value={{
@@ -67,10 +73,12 @@ const CookingProvider = ({ children }: { children: React.ReactNode }) => {
         timersByRecipeId: cookingState.timersByRecipeId,
         ingredientsAdded: cookingState.ingredientsAdded,
         instructionsDone: cookingState.instructionsDone,
+        multiColumnRecipes: cookingState.multiColumnRecipes,
         dispatchCookingEvent,
         toggleIsCookingRecipe,
         toggleIngredientAdded,
-        toggleInstructionDone
+        toggleInstructionDone,
+        toggleMultiColumn
       }}
     >
       {children}

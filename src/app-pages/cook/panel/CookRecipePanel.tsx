@@ -12,13 +12,21 @@ import Instructions from './Instructions'
 import RecipeToggles from './RecipeToggles'
 import CategoryTitle from './CategoryTitle'
 import { ColorCodes } from '../../../theme/theme'
+import { useContext, useMemo } from 'react'
+import { CookingContext } from '../page/CookingProvider'
 
 type RecipePanelProps = {
   recipe?: Recipe
 }
 
 const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
-  const { elementRef, currentWidth } = useWidthChangedObserver()
+  const { elementRef, canHaveTwoColumns } = useWidthChangedObserver()
+  const { multiColumnRecipes } = useContext(CookingContext)
+
+  const columnsCountToDisplay = useMemo(() => {
+    const multiColumnIsSelected = recipe ? multiColumnRecipes.some((id) => id === recipe.id) : false
+    return canHaveTwoColumns && multiColumnIsSelected ? 2 : 1
+  }, [canHaveTwoColumns, multiColumnRecipes])
 
   if (!recipe) return null
 
@@ -41,9 +49,17 @@ const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
         </div>
         {recipe.tags ? <RecipeTags tags={recipe.tags} /> : null}
         {recipe.description ? <Description description={recipe.description} /> : null}
-        <RecipeToggles recipe={recipe} />
-        <Ingredients ingredientGroups={recipe.ingredientGroups} currentWidth={currentWidth} recipeId={recipe.id} />
-        <Instructions instructionGroups={recipe.instructionGroups} currentWidth={currentWidth} recipeId={recipe.id} />
+        <RecipeToggles recipe={recipe} canHaveTwoColumns={canHaveTwoColumns} />
+        <Ingredients
+          ingredientGroups={recipe.ingredientGroups}
+          columnCount={columnsCountToDisplay}
+          recipeId={recipe.id}
+        />
+        <Instructions
+          instructionGroups={recipe.instructionGroups}
+          columnCount={columnsCountToDisplay}
+          recipeId={recipe.id}
+        />
       </div>
     </div>
   )

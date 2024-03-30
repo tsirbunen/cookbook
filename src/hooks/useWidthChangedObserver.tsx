@@ -1,6 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { MULTI_COLUMN_MIN_WIDTH } from '../constants/layout'
 
-export const useWidthChangedObserver = () => {
+type UseWidthChangedObserver = {
+  elementRef: React.RefObject<HTMLDivElement>
+
+  canHaveTwoColumns: boolean
+}
+
+export const useWidthChangedObserver = (): UseWidthChangedObserver => {
   const [currentWidth, setCurrentWidth] = useState<number | null>(null)
   const elementRef = useRef<HTMLDivElement | null>(null)
 
@@ -23,5 +30,7 @@ export const useWidthChangedObserver = () => {
     }
   }, [elementRef])
 
-  return { elementRef, currentWidth }
+  const canHaveTwoColumns = currentWidth !== null && currentWidth > MULTI_COLUMN_MIN_WIDTH
+
+  return { elementRef, canHaveTwoColumns }
 }

@@ -8,13 +8,13 @@ import MultiColumnContent from './MultiColumnContent'
 import { CookingContext } from '../page/CookingProvider'
 type RecipeIngredientsProps = {
   instructionGroups: InstructionGroup[]
-  currentWidth: number | null
+  columnCount: number
   recipeId: number
 }
 
 const INSTRUCTIONS_SECTION_TITLE = 'INSTRUCTIONS'
 
-const Instructions = ({ instructionGroups, currentWidth, recipeId }: RecipeIngredientsProps) => {
+const Instructions = ({ instructionGroups, columnCount, recipeId }: RecipeIngredientsProps) => {
   const { cookingRecipes, instructionsDone, toggleInstructionDone } = useContext(CookingContext)
 
   const isCookingRecipe = useMemo(() => {
@@ -23,7 +23,7 @@ const Instructions = ({ instructionGroups, currentWidth, recipeId }: RecipeIngre
   const showCheckboxes = useMemo(() => cookingRecipes.map((r) => r.recipe.id).includes(recipeId), [cookingRecipes])
 
   return (
-    <MultiColumnContent currentWidth={currentWidth} title={INSTRUCTIONS_SECTION_TITLE} recipeId={recipeId}>
+    <MultiColumnContent columnCount={columnCount} title={INSTRUCTIONS_SECTION_TITLE} recipeId={recipeId}>
       <Flex {...containerCss}>
         {instructionGroups.map((group, index) => {
           const { title, instructions } = group

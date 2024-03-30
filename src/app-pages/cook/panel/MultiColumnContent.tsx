@@ -4,16 +4,14 @@ import Title, { TitleVariant } from '../../../widgets/titles/Title'
 import { ColorCodes } from '../../../theme/theme'
 
 type MultiColumnContentProps = {
-  currentWidth: number | null
+  columnCount: number
   recipeId: number
   children: JSX.Element
   title: string
 }
 
-const MULTI_COLUMN_BREAKPOINT = 850
-
-const MultiColumnContent = ({ currentWidth, title, recipeId, children }: MultiColumnContentProps) => {
-  const columnCount = currentWidth && currentWidth > MULTI_COLUMN_BREAKPOINT ? 2 : 1
+const MultiColumnContent = ({ columnCount, title, recipeId, children }: MultiColumnContentProps) => {
+  // const columnCount = currentWidth && currentWidth > MULTI_COLUMN_BREAKPOINT ? 2 : 1
 
   return (
     <div style={{ ...outerCss }} key={`multi-column-${recipeId}`}>

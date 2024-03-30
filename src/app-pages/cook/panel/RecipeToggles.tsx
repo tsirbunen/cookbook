@@ -3,8 +3,12 @@
 import { css } from '@emotion/react'
 import Toggles from '../../../widgets/toggles/Toggles'
 import { useContext, useMemo } from 'react'
-import Toggle, { cookToggleProperty, cookingTimerToggleProperty } from '../../../widgets/toggles/Toggle'
-import { TbChefHat } from 'react-icons/tb'
+import Toggle, {
+  cookToggleProperty,
+  cookingTimerToggleProperty,
+  multiColumnToggleProperty
+} from '../../../widgets/toggles/Toggle'
+import { TbChefHat, TbColumns } from 'react-icons/tb'
 import { IoAlarmOutline } from 'react-icons/io5'
 import { cookTogglesZIndex } from '../../../constants/z-indexes'
 import { ColorCodes } from '../../../theme/theme'
@@ -15,14 +19,20 @@ import { differenceInSeconds } from 'date-fns'
 
 type RecipeTogglesProps = {
   recipe: Recipe
+  canHaveTwoColumns: boolean
 }
 
-const RecipeToggles = ({ recipe }: RecipeTogglesProps) => {
-  const { cookingRecipes, timersByRecipeId, toggleIsCookingRecipe } = useContext(CookingContext)
+const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
+  const { cookingRecipes, timersByRecipeId, toggleIsCookingRecipe, multiColumnRecipes, toggleMultiColumn } =
+    useContext(CookingContext)
 
   const isCooking = useMemo(() => {
     return cookingRecipes.some((cookingRecipeData) => cookingRecipeData.recipe.id === recipe.id)
   }, [cookingRecipes])
+
+  const isMultiColumn = useMemo(() => {
+    return multiColumnRecipes.some((recipeId) => recipeId === recipe.id)
+  }, [multiColumnRecipes])
 
   const recipeTimer = useMemo(() => {
     return timersByRecipeId[recipe.id]
@@ -37,6 +47,14 @@ const RecipeToggles = ({ recipe }: RecipeTogglesProps) => {
           Icon={TbChefHat}
           toggleProperty={cookToggleProperty}
         />
+        {canHaveTwoColumns ? (
+          <Toggle
+            isToggled={isMultiColumn}
+            toggle={() => toggleMultiColumn(recipe.id)}
+            Icon={TbColumns}
+            toggleProperty={multiColumnToggleProperty}
+          />
+        ) : null}
 
         <Toggle
           isToggled={!!recipeTimer}

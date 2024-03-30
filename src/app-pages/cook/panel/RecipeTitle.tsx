@@ -21,8 +21,8 @@ const container = css`
   display: flex;
   flex-direction: column;
   margin-bottom: 5px;
-  margin-left: 25px;
-  margin-right: 25px;
+  margin-left: 50px;
+  margin-right: 50px;
   padding-top: 15px;
   text-align: center;
 `

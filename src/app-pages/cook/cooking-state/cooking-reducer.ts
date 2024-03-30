@@ -10,7 +10,8 @@ export enum DispatchCookingEvent {
   UPDATE_DISPLAY_RECIPES_INDEXES = 'UPDATE_DISPLAY_RECIPES_INDEXES',
   TOGGLE_IS_COOKING_RECIPE = 'TOGGLE_IS_COOKING_RECIPE',
   TOGGLE_ADD_INGREDIENT = 'TOGGLE_ADD_INGREDIENT',
-  TOGGLE_INSTRUCTION_DONE = 'TOGGLE_INSTRUCTION_DONE'
+  TOGGLE_INSTRUCTION_DONE = 'TOGGLE_INSTRUCTION_DONE',
+  TOGGLE_MULTI_COLUMN = 'TOGGLE_MULTI_COLUMN'
 }
 
 export type DispatchCookingEventAction =
@@ -29,6 +30,7 @@ export type DispatchCookingEventAction =
   | { type: DispatchCookingEvent.TOGGLE_IS_COOKING_RECIPE; payload: { recipe: Recipe } }
   | { type: DispatchCookingEvent.TOGGLE_ADD_INGREDIENT; payload: { ingredientId: number } }
   | { type: DispatchCookingEvent.TOGGLE_INSTRUCTION_DONE; payload: { instructionId: number } }
+  | { type: DispatchCookingEvent.TOGGLE_MULTI_COLUMN; payload: { recipeId: number } }
 
 export const cookingReducer = (state: CookingState, action: DispatchCookingEventAction) => {
   switch (action.type) {
@@ -50,6 +52,8 @@ export const cookingReducer = (state: CookingState, action: DispatchCookingEvent
       return { ...state, ingredientsAdded: getUpdatedIdList(state.ingredientsAdded, action.payload.ingredientId) }
     case DispatchCookingEvent.TOGGLE_INSTRUCTION_DONE:
       return { ...state, instructionsDone: getUpdatedIdList(state.instructionsDone, action.payload.instructionId) }
+    case DispatchCookingEvent.TOGGLE_MULTI_COLUMN:
+      return { ...state, multiColumnRecipes: getUpdatedIdList(state.multiColumnRecipes, action.payload.recipeId) }
     default:
       throw new Error(`${JSON.stringify(action)} is not a cooking state reducer action!`)
   }
