@@ -47,11 +47,14 @@ export const theme = extendTheme({
         '*::-webkit-scrollbar': {
           // backgroundColor: PALE_COLOR,
           // width: `${SCROLL_BAR_WIDTH}px`
+          webkitAppearance: 'none',
           display: 'none'
         },
         '*::-webkit-scrollbar-thumb': {
           backgroundColor: MEDIUM_COLOR,
-          borderRadius: `${SCROLL_BAR_WIDTH}px`
+          borderRadius: `${SCROLL_BAR_WIDTH}px`,
+          webkitAppearance: 'none',
+          display: 'none'
         }
       },
       html: {
