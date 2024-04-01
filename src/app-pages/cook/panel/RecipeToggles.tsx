@@ -8,7 +8,7 @@ import Toggle, {
   cookingTimerToggleProperty,
   multiColumnToggleProperty
 } from '../../../widgets/toggles/Toggle'
-import { TbChefHat, TbColumns } from 'react-icons/tb'
+import { TbChefHat, TbColumns, TbStar, TbStarFilled } from 'react-icons/tb'
 import { IoAlarmOutline } from 'react-icons/io5'
 import { cookTogglesZIndex } from '../../../constants/z-indexes'
 import { ColorCodes } from '../../../theme/theme'
@@ -16,6 +16,7 @@ import { CookingContext } from '../page/CookingProvider'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
 import { TimerData } from '../../../types/types'
 import { differenceInSeconds } from 'date-fns'
+import { RecipesViewingContext } from '../../recipes/page/RecipesViewingProvider'
 
 type RecipeTogglesProps = {
   recipe: Recipe
@@ -23,6 +24,9 @@ type RecipeTogglesProps = {
 }
 
 const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
+  const { favoriteRecipeIds, toggleFavoriteRecipeId } = useContext(RecipesViewingContext)
+  console.log('toggles', { favoriteRecipeIds })
+
   const { cookingRecipes, timersByRecipeId, toggleIsCookingRecipe, multiColumnRecipes, toggleMultiColumn } =
     useContext(CookingContext)
 
@@ -38,6 +42,10 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
     return timersByRecipeId[recipe.id]
   }, [timersByRecipeId])
 
+  const isFavorite = useMemo(() => {
+    return favoriteRecipeIds.includes(recipe.id)
+  }, [favoriteRecipeIds])
+
   return (
     <div css={containerCss}>
       <Toggles>
@@ -45,6 +53,12 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
           isToggled={isCooking}
           toggle={() => toggleIsCookingRecipe(recipe)}
           Icon={TbChefHat}
+          toggleProperty={cookToggleProperty}
+        />
+        <Toggle
+          isToggled={isFavorite}
+          toggle={() => toggleFavoriteRecipeId(recipe.id)}
+          Icon={isFavorite ? TbStarFilled : TbStar}
           toggleProperty={cookToggleProperty}
         />
         {canHaveTwoColumns ? (

@@ -13,14 +13,15 @@ export type SummaryRecipeProps = {
   recipe: Recipe
   onPickRecipeChanged: () => void
   isPicked: boolean
+  isFavorite?: boolean
 }
 
 const imageWidth = 100
 const imageHeight = 110
 const borderRadius = 6
 
-const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked }: SummaryRecipeProps) => {
-  const { title, tags, isFavorite, category, ovenNeeded } = recipe
+const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked, isFavorite }: SummaryRecipeProps) => {
+  const { title, tags, category, ovenNeeded } = recipe
 
   const getImageRadii = () => {
     return `${borderRadius}px 0px 0px ${borderRadius}px`
@@ -53,7 +54,7 @@ const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked }: SummaryRecipeP
         </div>
 
         <RecipePropertyIcons
-          isFavorite={isFavorite}
+          isFavorite={isFavorite ?? false}
           ovenNeeded={ovenNeeded}
           hasTags={tags.length > 0}
           justifyContent="start"

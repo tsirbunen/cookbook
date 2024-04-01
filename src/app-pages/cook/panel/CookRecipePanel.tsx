@@ -14,6 +14,7 @@ import CategoryTitle from './CategoryTitle'
 import { ColorCodes } from '../../../theme/theme'
 import { useContext, useMemo } from 'react'
 import { CookingContext } from '../page/CookingProvider'
+import { RecipesViewingContext } from '../../recipes/page/RecipesViewingProvider'
 
 type RecipePanelProps = {
   recipe?: Recipe
@@ -22,6 +23,7 @@ type RecipePanelProps = {
 const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
   const { elementRef, canHaveTwoColumns } = useWidthChangedObserver()
   const { multiColumnRecipes } = useContext(CookingContext)
+  const { favoriteRecipeIds } = useContext(RecipesViewingContext)
 
   const columnsCountToDisplay = useMemo(() => {
     const multiColumnIsSelected = recipe ? multiColumnRecipes.some((id) => id === recipe.id) : false
@@ -30,7 +32,7 @@ const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
 
   if (!recipe) return null
 
-  const { isFavorite, ovenNeeded } = recipe
+  const { ovenNeeded } = recipe
 
   return (
     <div css={container} ref={elementRef}>
@@ -41,7 +43,7 @@ const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
 
         <div css={propertiesCss}>
           <RecipePropertyIcons
-            isFavorite={isFavorite}
+            isFavorite={favoriteRecipeIds.includes(recipe.id)}
             ovenNeeded={ovenNeeded}
             hasTags={recipe.tags.length > 0}
             justifyContent="center"

@@ -21,7 +21,7 @@ export type RecipesDisplayProps = {
   onPickRecipeChanged: (recipeId: number, category: string) => void
   mode: ViewRecipesMode
   showBackground: boolean
-
+  favoriteRecipeIds: number[]
   pickedRecipeIds: number[]
   canDragAndDrop: boolean
   onChangedRecipeOrder?: (newOrderOfIds: number[]) => void
@@ -32,8 +32,8 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
     recipes,
     mode,
     onPickRecipeChanged,
-
     showBackground,
+    favoriteRecipeIds,
     pickedRecipeIds,
     canDragAndDrop,
     onChangedRecipeOrder
@@ -76,6 +76,7 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
               onPickRecipeChanged={() => onPickRecipeChanged(recipeId, category ?? NO_CATEGORY_TITLE)}
               isPicked={isPicked}
               showBackground={showBackground}
+              isFavorite={favoriteRecipeIds.includes(recipeId)}
             />
           )
         })}

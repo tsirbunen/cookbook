@@ -21,7 +21,7 @@ export type RecipesViewElementProps = {
 }
 
 const RecipesContent = () => {
-  const { showRecipes, mode } = useContext(RecipesViewingContext)
+  const { showRecipes, mode, favoriteRecipeIds } = useContext(RecipesViewingContext)
   const { state, dispatch } = useContext(AppStateContext) as AppStateContextType
 
   const onPickRecipeChanged = (recipeId: number, category: string) => {
@@ -57,6 +57,7 @@ const RecipesContent = () => {
               pickedRecipeIds={pickedRecipeIds}
               canDragAndDrop={false}
               onChangedRecipeOrder={onRecipesOrderChanged}
+              favoriteRecipeIds={favoriteRecipeIds}
             />
           </React.Fragment>
         )
