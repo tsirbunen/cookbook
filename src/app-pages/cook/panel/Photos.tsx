@@ -25,12 +25,9 @@ const Photos = ({ title }: PhotosProps) => {
   const src = photoUrls[selectedPhotoIndex]
 
   return (
-    <div css={containerCss}>
-      <div css={imageBoxCss}>
-        <Image src={src} alt={`Photo of recipe with title: ${title}`} css={imageCss} />
-      </div>
-      <div css={headerImageStyle()} />
-
+    <div css={imageBoxCss}>
+      <Image src={src} alt={`Photo of recipe with title: ${title}`} css={imageCss} />
+      <div css={shadowGradientPhotoOverlayCss} />
       {showSelectPhotoToDisplay ? (
         <div css={dotBoxCss}>
           <div css={dotRowCss}>
@@ -48,34 +45,33 @@ export default Photos
 
 const DOT_SIZE = 15
 const DOT_SPACER = 3
-const IMAGE_POSITION_TOP = -(DOT_SIZE + 2 * DOT_SPACER + 5)
-const HEADER_AND_SPACING = HEADER_HEIGHT_WITH_TOOLS + 50
+const IMAGE_CONTAINER_HEIGHT = 500
+const DOT_BOX_TOP = -(IMAGE_CONTAINER_HEIGHT + HEADER_HEIGHT_WITH_TOOLS + 70)
 
-const headerImageStyle = () => css`
+const shadowGradientPhotoOverlayCss = css`
   background-size: cover;
-  background-image: linear-gradient(0deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.4) 20%, transparent 40%, rgba(0, 0, 0, 0));
-
-  position: absolute;
-  top: ${2 * IMAGE_POSITION_TOP + HEADER_AND_SPACING}px;
-  height: 500px;
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5) 30%, transparent 40%, transparent);
+  position: relative;
+  top: ${-IMAGE_CONTAINER_HEIGHT}px;
+  height: ${IMAGE_CONTAINER_HEIGHT}px;
   width: 100%;
 `
 
-const containerCss = css``
 const imageBoxCss = css`
   position: relative;
-  top: ${IMAGE_POSITION_TOP}px;
+  width: 100%;
+  height: ${IMAGE_CONTAINER_HEIGHT}px;
 `
 
 const imageCss = css`
   object-fit: cover;
-  height: 500px;
+  height: ${IMAGE_CONTAINER_HEIGHT}px;
   width: 100%;
 `
 
 const dotBoxCss = css`
   position: relative;
-  top: ${-HEADER_AND_SPACING}px;
+  top: ${DOT_BOX_TOP}px;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -97,7 +93,7 @@ const dotRowCss = css`
 `
 
 const dotCss = (isSelected: boolean) => css`
-  background-color: ${isSelected ? ColorCodes.PALE : ColorCodes.DARK};
+  background-color: ${isSelected ? ColorCodes.VERY_PALE : ColorCodes.MEDIUM};
   width: ${DOT_SIZE}px;
   height: ${DOT_SIZE}px;
   margin-left: ${DOT_SPACER}px;

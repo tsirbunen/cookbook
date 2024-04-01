@@ -76,6 +76,7 @@ const topCss = css`
   position: relative;
   top: -120px;
   border-radius: 100px 100px 0px 0px;
+  background-size: cover;
   background-color: ${ColorCodes.BACKGROUND};
 `
 
