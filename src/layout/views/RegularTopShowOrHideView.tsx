@@ -11,18 +11,23 @@ type RegularTopShowOrHideViewProps = {
   topShowOrHideContent: JSX.Element
   mainContent: JSX.Element
   isMultiPanel?: boolean
+  showFullHeightTools: boolean
 }
 
-const RegularTopShowOrHideView = ({ topShowOrHideContent, mainContent }: RegularTopShowOrHideViewProps) => {
+const RegularTopShowOrHideView = ({
+  topShowOrHideContent,
+  mainContent,
+  showFullHeightTools
+}: RegularTopShowOrHideViewProps) => {
   const { windowWidth, isNarrowHeader } = useContext(ViewSizeContext)
   const width = windowWidth.current - NAV_BAR_WIDTH
 
   return (
-    <div css={view}>
-      <div css={page(width, isNarrowHeader)}>
-        <div css={container}>
-          <div css={topOuter}>
-            <div css={topInner}>{topShowOrHideContent}</div>
+    <div css={viewCss}>
+      <div css={pageCss(width, isNarrowHeader)}>
+        <div css={containerCss(showFullHeightTools)} id={'GGG'}>
+          <div css={topOuterCss}>
+            <div css={topInnerCss(showFullHeightTools)}>{topShowOrHideContent}</div>
           </div>
           {mainContent}
         </div>
@@ -33,38 +38,35 @@ const RegularTopShowOrHideView = ({ topShowOrHideContent, mainContent }: Regular
 
 export default RegularTopShowOrHideView
 
-const view = css`
+const viewCss = css`
   height: 100%;
   width: 100%;
   display: flex;
-  flex: 1;
-  flex-direction: row;
   overflow-x: hidden;
 `
 
-const page = (width: number, isNarrowHeader: boolean) => {
+const pageCss = (width: number, isNarrowHeader: boolean) => {
   return css`
     display: flex;
     flex: 1;
-    width: 100%;
     flex-direction: column;
     justify-content: start;
-    align-items: 'start';
+    align-items: start;
     width: ${width - NAV_BAR_WIDTH}px;
     margin-top: ${isNarrowHeader ? HEADER_HEIGHT_WITH_TOOLS_DOUBLE_LINE : HEADER_HEIGHT_WITH_TOOLS}px;
   `
 }
 
-const container = css`
+const containerCss = (showFullHeightTools: boolean) => css`
   display: flex;
-  flex: 1;
+  flex: ${showFullHeightTools ? 1 : undefined};
   flex-direction: column;
   justify-content: start;
   align-items: start;
   width: 100%;
 `
 
-const topOuter = css`
+const topOuterCss = css`
   height: 100%;
   position: sticky;
   top: ${HEADER_HEIGHT_WITH_TOOLS}px;
@@ -73,7 +75,7 @@ const topOuter = css`
   width: 100%;
 `
 
-const topInner = css`
+const topInnerCss = (showFullHeightTools: boolean) => css`
   position: sticky;
   top: ${HEADER_HEIGHT_WITH_TOOLS}px;
   z-index: ${recipesViewingManagementZIndex};
@@ -82,8 +84,7 @@ const topInner = css`
   display: flex;
   flex-direction: column;
   justify-content: start;
-  box-shadow: 0 2px 6px -1px rgba(0, 0, 0, 0.24);
-  flex: 1;
-  height: 100%;
+  box-shadow: 0 2px 10px 1px rgba(0, 0, 0, 0.35);
+  height: ${showFullHeightTools ? '100%' : undefined};
   padding-right: 15px;
 `

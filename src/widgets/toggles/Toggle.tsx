@@ -1,4 +1,4 @@
-import { Flex } from '@chakra-ui/react'
+import { ChakraProps, Flex } from '@chakra-ui/react'
 import { IconType } from 'react-icons/lib'
 import ButtonWithTheme from '../../theme/buttons/ButtonWithTheme'
 import Badge from '../badge/Badge'
@@ -23,8 +23,13 @@ export type ToggleProps = {
 }
 
 const Toggle = ({ isToggled, toggle, Icon, count, isDisabled, toggleProperty }: ToggleProps) => {
+  const hasCountValue = count !== null && count !== undefined
+  let badgeContent
+  if (!hasCountValue) badgeContent = <Flex width={'10px'} />
+  else badgeContent = <Badge count={count!} />
+
   return (
-    <Flex {...toggleStyles} data-testid={toggleProperty}>
+    <Flex {...toggleStyles(hasCountValue)} data-testid={toggleProperty}>
       <ButtonWithTheme
         variant={ButtonVariant.SquareWithIcon}
         onClick={toggle}
@@ -34,18 +39,17 @@ const Toggle = ({ isToggled, toggle, Icon, count, isDisabled, toggleProperty }: 
         <Icon />
       </ButtonWithTheme>
 
-      {count !== undefined && count !== null ? (
-        <Badge count={count} />
-      ) : count === undefined ? (
-        <Flex width={`${BADGE_SIZE}px`} />
-      ) : null}
+      {badgeContent}
     </Flex>
   )
 }
 
-const toggleStyles = {
-  marginLeft: '0px',
-  marginRight: '0px'
+const toggleStyles = (hasCountValue: boolean) => {
+  return {
+    marginLeft: '0px',
+    marginRight: hasCountValue ? '10px' : '0px',
+    position: 'relative}' as ChakraProps['position']
+  }
 }
 
 export default Toggle

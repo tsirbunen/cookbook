@@ -5,7 +5,7 @@ import { HEADER_HEIGHT_WITH_TOOLS, HEADER_HEIGHT_WITH_TOOLS_DOUBLE_LINE, NAV_BAR
 import { recipesViewingManagementZIndex } from '../../constants/z-indexes'
 import { ColorCodes } from '../../theme/theme'
 import { ViewSizeContext } from '../view-size-service/ViewSizeProvider'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 
 type MultiPanelTopShowOrHideViewProps = {
   topShowOrHideContent: JSX.Element | null
@@ -21,42 +21,59 @@ const MultiPanelTopShowOrHideView = ({
   const { windowWidth, isNarrowHeader } = useContext(ViewSizeContext)
   const width = windowWidth.current - NAV_BAR_WIDTH
 
+  // useEffect(() => {
+  //   const preventDefault = (e: TouchEvent) => e.preventDefault()
+  //   if (window !== undefined) {
+  //     window.addEventListener('touchmove', preventDefault, {
+  //       passive: false
+  //     })
+
+  //     return () => window.removeEventListener('touchmove', preventDefault)
+  //   }
+  // }, [])
+
   return (
-    <div css={outer(width, isNarrowHeader)} data-testid={testId}>
+    <div css={outerCss(width, isNarrowHeader)} data-testid={testId}>
       {topShowOrHideContent ? (
-        <div css={topOuter}>
-          <div css={topInner}>{topShowOrHideContent}</div>
+        <div css={topOuterCss}>
+          <div css={topInnerCss}>{topShowOrHideContent}</div>
         </div>
       ) : null}
-      <div css={main}>{mainContent}</div>
+      <div css={mainCss}>{mainContent}</div>
     </div>
   )
 }
 
 export default MultiPanelTopShowOrHideView
 
-const outer = (width: number, isNarrowHeader: boolean) => css`
+const outerCss = (width: number, isNarrowHeader: boolean) => css`
   margin-top: ${isNarrowHeader ? HEADER_HEIGHT_WITH_TOOLS_DOUBLE_LINE : HEADER_HEIGHT_WITH_TOOLS}px;
   display: flex;
   flex-direction: column;
   width: ${width}px;
+  .is-scrollLocked {
+    overflow: hidden;
+  }
 `
 
-const main = css`
+const mainCss = css`
   display: flex;
   flex-direction: row;
   overflow-x: hidden;
   flex: 1;
+  .is-scrollLocked {
+    overflow: hidden;
+  }
 `
 
-const topOuter = css`
+const topOuterCss = css`
   position: sticky;
   top: ${HEADER_HEIGHT_WITH_TOOLS}px;
   z-index: ${recipesViewingManagementZIndex};
   width: 100%;
 `
 
-const topInner = css`
+const topInnerCss = css`
   position: sticky;
   top: ${HEADER_HEIGHT_WITH_TOOLS}px;
   z-index: ${recipesViewingManagementZIndex};
@@ -65,7 +82,7 @@ const topInner = css`
   display: flex;
   flex-direction: column;
   justify-content: start;
-  box-shadow: 0 2px 6px -1px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 2px 10px 1px rgba(0, 0, 0, 0.35);
   flex: 1;
   height: 100%;
   padding-right: 15px;

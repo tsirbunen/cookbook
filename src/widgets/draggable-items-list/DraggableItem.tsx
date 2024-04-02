@@ -13,6 +13,7 @@ type DraggableItemProps = {
   shouldStop: boolean
   onMoveBgColor: string
   handColor: string
+  itemsCount: number
 }
 
 const DraggableItem = ({
@@ -23,7 +24,8 @@ const DraggableItem = ({
   onItemMoved,
   shouldStop,
   onMoveBgColor,
-  handColor
+  handColor,
+  itemsCount
 }: DraggableItemProps) => {
   const [moveStartPosition, setMoveStartPosition] = React.useState({ x: 0, y: 0 })
   const [moveTranslateYStart, setMoveTranslateYStart] = React.useState(0)
@@ -77,12 +79,18 @@ const DraggableItem = ({
     if (!element || !isMoving) return
 
     const deltaY = deltas.clientY - moveStartPosition.y
+    const newTranslateY = deltaY + moveTranslateYStart
+    const isAllowed = newTranslateY >= 0 && newTranslateY <= itemHeight * (itemsCount - 1)
+    if (!isAllowed) onMoveEnd()
+
     element.style.zIndex = '1000'
     element.style.transform = `translate(${0}px, ${deltaY + moveTranslateYStart}px)`
     onItemMoved(currentItemIndex, deltaY, false)
   }
 
   const onMoveEnd = () => {
+    if (!isMoving) return
+
     setIsMoving(false)
     const ele = ref.current as unknown as HTMLDivElement
     if (!ele) return

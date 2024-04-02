@@ -17,7 +17,7 @@ import { RecipesViewingContext } from './RecipesViewingProvider'
  */
 const RecipesViewingPage = () => {
   const { isSplitView } = useContext(ViewSizeContext)
-  const { someFeatureIsToggled } = useContext(RecipesViewingContext)
+  const { someFeatureIsToggled, showFiltering } = useContext(RecipesViewingContext)
 
   const viewingManagement = <ViewingManagement />
   const actualRecipes = <RecipesContent />
@@ -27,7 +27,11 @@ const RecipesViewingPage = () => {
       {isSplitView ? (
         <SplitView splitContent={viewingManagement} mainContent={actualRecipes} hideSplit={!someFeatureIsToggled} />
       ) : (
-        <RegularTopShowOrHideView topShowOrHideContent={viewingManagement} mainContent={actualRecipes} />
+        <RegularTopShowOrHideView
+          topShowOrHideContent={viewingManagement}
+          mainContent={actualRecipes}
+          showFullHeightTools={showFiltering}
+        />
       )}
     </FilteringProvider>
   )

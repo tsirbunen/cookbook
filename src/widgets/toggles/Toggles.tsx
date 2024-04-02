@@ -22,7 +22,6 @@ const outerBoxCss = {
   alignItems: 'start',
   justifyContent: 'start',
   backgroundColor: ColorCodes.VERY_PALE,
-  margin: `0px 0px 10px 0px`,
   padding: '10px',
   borderRadius: '6px'
 }

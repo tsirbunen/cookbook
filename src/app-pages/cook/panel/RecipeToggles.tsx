@@ -25,7 +25,6 @@ type RecipeTogglesProps = {
 
 const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
   const { favoriteRecipeIds, toggleFavoriteRecipeId } = useContext(RecipesViewingContext)
-  console.log('toggles', { favoriteRecipeIds })
 
   const { cookingRecipes, timersByRecipeId, toggleIsCookingRecipe, multiColumnRecipes, toggleMultiColumn } =
     useContext(CookingContext)
@@ -54,12 +53,14 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
           toggle={() => toggleIsCookingRecipe(recipe)}
           Icon={TbChefHat}
           toggleProperty={cookToggleProperty}
+          count={null}
         />
         <Toggle
           isToggled={isFavorite}
           toggle={() => toggleFavoriteRecipeId(recipe.id)}
           Icon={isFavorite ? TbStarFilled : TbStar}
           toggleProperty={cookToggleProperty}
+          count={null}
         />
         {canHaveTwoColumns ? (
           <Toggle
@@ -67,6 +68,7 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
             toggle={() => toggleMultiColumn(recipe.id)}
             Icon={TbColumns}
             toggleProperty={multiColumnToggleProperty}
+            count={null}
           />
         ) : null}
 

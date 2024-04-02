@@ -35,6 +35,9 @@ const panel = (width?: number) =>
     overflow-x: hidden;
     align-items: start;
     justify-content: start;
+    .is-momentumScrollable {
+      -webkit-overflow-scrolling: touch;
+    }
   `
 
 export default Panel

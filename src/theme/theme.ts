@@ -55,6 +55,18 @@ export const theme = extendTheme({
           borderRadius: `${SCROLL_BAR_WIDTH}px`,
           webkitAppearance: 'none',
           display: 'none'
+        },
+        // '*::-webkit-overflow-scrolling': 'none',
+        '*::webkitOverflowScrolling': 'none',
+        '*::webkitScrollbarThumb': {
+          backgroundColor: MEDIUM_COLOR,
+          borderRadius: `${SCROLL_BAR_WIDTH}px`,
+          webkitAppearance: 'none',
+          display: 'none'
+        },
+        '*::webkitScrollbar': {
+          webkitAppearance: 'none',
+          display: 'none'
         }
       },
       html: {

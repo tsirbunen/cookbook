@@ -35,7 +35,7 @@ const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
   const { ovenNeeded } = recipe
 
   return (
-    <div css={container} ref={elementRef}>
+    <div css={containerCss} ref={elementRef}>
       <Photos title={recipe.title} />
       <div css={topCss}>
         <RecipeTitle title={recipe.title} />
@@ -69,7 +69,7 @@ const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
 
 export default CookRecipePanel
 
-const container = css`
+const containerCss = css`
   width: 100%;
 `
 

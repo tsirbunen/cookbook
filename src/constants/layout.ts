@@ -8,7 +8,7 @@ export const HEADER_HEIGHT_WITH_TOOLS = 80
 export const HEADER_HEIGHT_WITH_TOOLS_DOUBLE_LINE = 110
 export const NARROW_HEADER_BREAKPOINT = 625
 
-export const MIN_PANEL_WIDTH = 250
+export const MIN_PANEL_WIDTH = 300
 export const MAX_PANEL_WIDTH = 3000
 export const APP_MIN_WIDTH = 430
 export const APP_MIN_HEIGHT = 650

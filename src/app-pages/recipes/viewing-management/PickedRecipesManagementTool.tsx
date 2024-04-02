@@ -40,6 +40,7 @@ const PickedRecipesManagementTool = () => {
           pickedRecipeIds={pickedRecipes.map((recipe) => recipe.id)}
           canDragAndDrop={true}
           onChangedRecipeOrder={onChangedRecipeOrder}
+          favoriteRecipeIds={[]}
         />
       </Flex>
     </Flex>

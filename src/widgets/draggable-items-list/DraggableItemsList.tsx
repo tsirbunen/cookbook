@@ -119,6 +119,7 @@ const DraggableItemsList = ({
             onMoveBgColor={onMoveBgColor}
             handColor={handColor}
             draggableContent={item}
+            itemsCount={items.length}
           />
         )
       })}
