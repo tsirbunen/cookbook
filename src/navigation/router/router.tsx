@@ -102,7 +102,3 @@ export const navigationMenuItems: NavigationMenuItem[] = [
 export const getRouteLabelByPath = (path: string) => {
   return navigationMenuItems.find((item) => item.path === path)?.label
 }
-
-export const getPageHeaderHasToolsByPath = (path: string) => {
-  return navigationMenuItems.find((item) => item.path === path)?.headerHasTools
-}

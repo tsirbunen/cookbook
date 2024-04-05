@@ -47,7 +47,7 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
 
   return (
     <div css={containerCss}>
-      <Toggles>
+      <Toggles hasBackground={false}>
         <Toggle
           isToggled={isCooking}
           toggle={() => toggleIsCookingRecipe(recipe)}

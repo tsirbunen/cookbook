@@ -8,8 +8,8 @@ import NavigationBarItem from './NavigationBarItem'
 import { navigationMenuItems } from '../router/router'
 import { ViewSizeContext } from '../../layout/view-size-service/ViewSizeProvider'
 import { ColorCodes } from '../../theme/theme'
-import MenuIconWithoutAction from '../../widgets/header-with-optional-toggles/MenuIconWithoutAction'
-import { HEADER_HEIGHT_REGULAR, HEADER_HEIGHT_WITH_TOOLS, NAV_BAR_WIDTH } from '../../constants/layout'
+import MenuIconWithoutAction from './MenuIconWithoutAction'
+import { HEADER_HEIGHT_WITH_TOOLS, NAV_BAR_WIDTH } from '../../constants/layout'
 import { navigationBarZIndex } from '../../constants/z-indexes'
 
 type DrawerNavigatorProps = {
@@ -21,18 +21,16 @@ type DrawerNavigatorProps = {
  * is other than mobile.
  */
 const NavigationBar = ({ isTooSmallWindow }: DrawerNavigatorProps) => {
-  const { windowHeight, isHeaderWithTools, headerHeight } = useContext(ViewSizeContext)
+  const { windowHeight } = useContext(ViewSizeContext)
   const router = useRouter()
   const pathname = usePathname()
-  const isWithTools = isHeaderWithTools(pathname)
-  const height = isWithTools ? headerHeight : HEADER_HEIGHT_REGULAR
 
   if (isTooSmallWindow) return null
 
   return (
     <div css={outerContainer(windowHeight)}>
-      <div css={container(height)}>
-        <MenuIconWithoutAction height={height} />
+      <div css={container(HEADER_HEIGHT_WITH_TOOLS)}>
+        <MenuIconWithoutAction height={HEADER_HEIGHT_WITH_TOOLS} />
         {navigationMenuItems.map((menuItem) => {
           return (
             <NavigationBarItem

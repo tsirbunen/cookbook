@@ -1,14 +1,9 @@
 'use client'
 import { createContext, useCallback, useEffect, useState } from 'react'
-import { getPageHeaderHasToolsByPath } from '../../navigation/router/router'
 import {
   APP_MIN_HEIGHT,
   APP_MIN_WIDTH,
-  HEADER_HEIGHT_WITH_TOOLS,
-  HEADER_HEIGHT_WITH_TOOLS_DOUBLE_LINE,
-  HEADER_WITH_TOOLS_BREAKPOINT,
   MEDIUM_LARGE_BREAKPOINT,
-  NARROW_HEADER_BREAKPOINT,
   NARROW_MEDIUM_BREAKPOINT,
   SPLIT_VIEW_BREAKPOINT
 } from '../../constants/layout'
@@ -32,10 +27,6 @@ export type ViewSize = {
   maxPanelsCount: number
   isTooSmallWindow: boolean
   isSplitView: boolean
-  isHeaderWithTools: (path: string) => boolean
-  headerHeight: number
-  isDoubleLineHeader: boolean
-  isNarrowHeader: boolean
 }
 
 export const ViewSizeContext = createContext<ViewSize>({} as ViewSize)
@@ -72,15 +63,8 @@ const ViewSizeContextProvider = ({ children }: { children: React.ReactNode }) =>
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const isHeaderWithTools = (path: string) => {
-    return getPageHeaderHasToolsByPath(path) ?? false
-  }
-
   const isTooSmallWindow = maxPanelsCount === 0 || windowHeight < APP_MIN_HEIGHT
   const isSplitView = windowWidth.current >= SPLIT_VIEW_BREAKPOINT
-  const isDoubleLineHeader = windowWidth.current < HEADER_WITH_TOOLS_BREAKPOINT
-  const isNarrowHeader = windowWidth.current < NARROW_HEADER_BREAKPOINT
-  const headerHeight = isNarrowHeader ? HEADER_HEIGHT_WITH_TOOLS_DOUBLE_LINE : HEADER_HEIGHT_WITH_TOOLS
 
   return (
     <ViewSizeContext.Provider
@@ -90,11 +74,7 @@ const ViewSizeContextProvider = ({ children }: { children: React.ReactNode }) =>
         maxPanelsCount,
         windowHeight,
         isTooSmallWindow,
-        isSplitView,
-        isHeaderWithTools,
-        headerHeight,
-        isDoubleLineHeader,
-        isNarrowHeader
+        isSplitView
       }}
     >
       {children}

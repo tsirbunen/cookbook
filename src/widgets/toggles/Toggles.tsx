@@ -5,11 +5,12 @@ export const togglesTestId = 'toggles'
 
 type TogglesProps = {
   children?: JSX.Element | React.ReactNode
+  hasBackground: boolean
 }
 
-const Toggles = ({ children }: TogglesProps) => {
+const Toggles = ({ children, hasBackground }: TogglesProps) => {
   return (
-    <Flex {...outerBoxCss} data-testid={togglesTestId}>
+    <Flex {...outerBoxCss(hasBackground)} data-testid={togglesTestId}>
       <Flex {...togglesBoxCss}>{children}</Flex>
     </Flex>
   )
@@ -17,13 +18,15 @@ const Toggles = ({ children }: TogglesProps) => {
 
 export default Toggles
 
-const outerBoxCss = {
-  flexDirection: 'column' as ChakraProps['flexDirection'],
-  alignItems: 'start',
-  justifyContent: 'start',
-  backgroundColor: ColorCodes.VERY_PALE,
-  padding: '10px',
-  borderRadius: '6px'
+const outerBoxCss = (hasBackground: boolean) => {
+  return {
+    flexDirection: 'column' as ChakraProps['flexDirection'],
+    alignItems: 'start',
+    justifyContent: 'start',
+    backgroundColor: hasBackground ? ColorCodes.VERY_PALE : ColorCodes.BACKGROUND,
+    padding: '10px',
+    borderRadius: '6px'
+  }
 }
 
 const togglesBoxCss = {

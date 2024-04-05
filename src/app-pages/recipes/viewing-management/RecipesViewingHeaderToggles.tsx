@@ -28,7 +28,7 @@ const RecipesViewingHeaderToggles = () => {
   const pickedRecipesCount = Object.values(pickedRecipeIdsByCategory).flat().length
 
   return (
-    <Toggles>
+    <Toggles hasBackground={true}>
       <Toggle
         isToggled={showSelectMode}
         toggle={toggleShowSelectMode}

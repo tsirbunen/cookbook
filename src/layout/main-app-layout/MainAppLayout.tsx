@@ -9,7 +9,7 @@ import ErrorPage from '../../navigation/router/ErrorPage'
 import NavigationBar from '../../navigation/navigation-bar/NavigationBar'
 import { usePathname } from 'next/navigation'
 
-const tooSmallWindowMessage = 'Not available for mobile phones yet'
+const tooSmallWindowMessage = 'Not available for such a small window yet'
 const root = '/'
 
 type MainAppLayoutProps = {

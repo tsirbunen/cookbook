@@ -19,7 +19,7 @@ const NavigationBarItem = ({ menuItem, currentPath, navigateTo }: NavigationBarI
 
   return (
     <div key={menuItem.page} css={tabCss(isSelected)}>
-      <div css={itemContainer(isSelected)} onClick={navigateTo} data-testid={navigationBarDataTestId}>
+      <div css={itemContainer} onClick={navigateTo} data-testid={navigationBarDataTestId}>
         <div css={iconContainer}>
           <IconElement fontSize="1.75em" />
         </div>
@@ -31,7 +31,7 @@ const NavigationBarItem = ({ menuItem, currentPath, navigateTo }: NavigationBarI
 
 export default NavigationBarItem
 
-const selectedColor = ColorCodes.BACKGROUND
+const selectedColor = ColorCodes.VERY_PALE
 const notSelectedColor = ColorCodes.VERY_DARK
 
 const tabCss = (isSelected: boolean) => css`
@@ -40,9 +40,8 @@ const tabCss = (isSelected: boolean) => css`
   flex-direction: column;
   justify-content: start;
   align-items: start;
-  border-radius: ${isSelected ? '6px 0px 0px 6px' : '6px'};
-  width: ${NAV_BAR_WIDTH - (isSelected ? 4 : 8)}px;
-  /* width: 100%; */
+  border-radius: 6px;
+  width: ${NAV_BAR_WIDTH - 8}px;
   margin-left: 4px;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -57,7 +56,7 @@ const tabCss = (isSelected: boolean) => css`
   }
 `
 
-const itemContainer = (isSelected: boolean) => css`
+const itemContainer = css`
   flex-direction: column;
   justify-content: center;
   align-items: center;

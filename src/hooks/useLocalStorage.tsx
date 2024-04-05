@@ -26,10 +26,10 @@ export const useLocalStorage = (): UseLocalStorage => {
 
   useEffect(() => {
     if (!storageIsAvailable) return
-    setFavoriteRecipeIds(getValue(LocalStorageKeys.FAVORITE_RECIPE_IDS))
+    setFavoriteRecipeIds(getLocalStorageValue(LocalStorageKeys.FAVORITE_RECIPE_IDS) as number[])
   }, [])
 
-  const getValue = (key: string) => {
+  const getLocalStorageValue = (key: string): Array<string | number> => {
     const value = localStorage.getItem(key)
     if (!value) return []
     return JSON.parse(value)
@@ -38,16 +38,15 @@ export const useLocalStorage = (): UseLocalStorage => {
   const toggleValueForKey = (key: string, value: string | number) => {
     if (!storageIsAvailable) return
 
-    let updatedValue
-    const currentValue = localStorage.getItem(key)
-    if (!currentValue) {
-      updatedValue = JSON.stringify(value)
+    let updatedValue: Array<string | number>
+    const currentValue = getLocalStorageValue(key)
+    if (currentValue.length === 0) {
+      updatedValue = [value]
     } else {
-      updatedValue = JSON.parse(currentValue)
-      if (updatedValue.includes(value)) {
-        updatedValue = updatedValue.filter((item: string | number) => item !== value)
+      if (currentValue.includes(value)) {
+        updatedValue = currentValue.filter((item) => item !== value)
       } else {
-        updatedValue.push(value)
+        updatedValue = [...currentValue, value]
       }
     }
 
@@ -69,7 +68,7 @@ export const useLocalStorage = (): UseLocalStorage => {
     updateLocalValue(LocalStorageKeys.FAVORITE_RECIPE_IDS, [])
   }
 
-  const updateLocalValue = (key: string, value: string[] | number[] | null) => {
+  const updateLocalValue = (key: string, value: Array<string | number> | null) => {
     switch (key) {
       case LocalStorageKeys.FAVORITE_RECIPE_IDS:
         setFavoriteRecipeIds(value as number[])

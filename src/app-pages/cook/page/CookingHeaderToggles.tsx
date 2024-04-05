@@ -76,7 +76,7 @@ const CookingHeaderToggles = () => {
   const showToggleDisplayPreviousNext = displayPreviousNextOptions.length > 0
 
   return (
-    <Toggles>
+    <Toggles hasBackground={true}>
       <Toggle
         isToggled={showPickedRecipes}
         toggle={toggleShowPickedRecipes}

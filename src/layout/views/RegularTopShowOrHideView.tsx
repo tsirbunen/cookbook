@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import { HEADER_HEIGHT_WITH_TOOLS, HEADER_HEIGHT_WITH_TOOLS_DOUBLE_LINE, NAV_BAR_WIDTH } from '../../constants/layout'
+import { HEADER_HEIGHT_WITH_TOOLS, NAV_BAR_WIDTH } from '../../constants/layout'
 import { recipesViewingManagementZIndex } from '../../constants/z-indexes'
 import { ColorCodes } from '../../theme/theme'
 import { ViewSizeContext } from '../view-size-service/ViewSizeProvider'
@@ -19,12 +19,12 @@ const RegularTopShowOrHideView = ({
   mainContent,
   showFullHeightTools
 }: RegularTopShowOrHideViewProps) => {
-  const { windowWidth, isNarrowHeader } = useContext(ViewSizeContext)
+  const { windowWidth } = useContext(ViewSizeContext)
   const width = windowWidth.current - NAV_BAR_WIDTH
 
   return (
     <div css={viewCss}>
-      <div css={pageCss(width, isNarrowHeader)}>
+      <div css={pageCss(width)}>
         <div css={containerCss(showFullHeightTools)} id={'GGG'}>
           <div css={topOuterCss}>
             <div css={topInnerCss(showFullHeightTools)}>{topShowOrHideContent}</div>
@@ -45,7 +45,7 @@ const viewCss = css`
   overflow-x: hidden;
 `
 
-const pageCss = (width: number, isNarrowHeader: boolean) => {
+const pageCss = (width: number) => {
   return css`
     display: flex;
     flex: 1;
@@ -53,7 +53,7 @@ const pageCss = (width: number, isNarrowHeader: boolean) => {
     justify-content: start;
     align-items: start;
     width: ${width - NAV_BAR_WIDTH}px;
-    margin-top: ${isNarrowHeader ? HEADER_HEIGHT_WITH_TOOLS_DOUBLE_LINE : HEADER_HEIGHT_WITH_TOOLS}px;
+    margin-top: ${HEADER_HEIGHT_WITH_TOOLS}px;
   `
 }
 

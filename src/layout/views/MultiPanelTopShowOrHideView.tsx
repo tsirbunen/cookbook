@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import { HEADER_HEIGHT_WITH_TOOLS, HEADER_HEIGHT_WITH_TOOLS_DOUBLE_LINE, NAV_BAR_WIDTH } from '../../constants/layout'
+import { HEADER_HEIGHT_WITH_TOOLS, NAV_BAR_WIDTH } from '../../constants/layout'
 import { recipesViewingManagementZIndex } from '../../constants/z-indexes'
 import { ColorCodes } from '../../theme/theme'
 import { ViewSizeContext } from '../view-size-service/ViewSizeProvider'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 
 type MultiPanelTopShowOrHideViewProps = {
   topShowOrHideContent: JSX.Element | null
@@ -18,22 +18,11 @@ const MultiPanelTopShowOrHideView = ({
   mainContent,
   testId
 }: MultiPanelTopShowOrHideViewProps) => {
-  const { windowWidth, isNarrowHeader } = useContext(ViewSizeContext)
+  const { windowWidth } = useContext(ViewSizeContext)
   const width = windowWidth.current - NAV_BAR_WIDTH
 
-  // useEffect(() => {
-  //   const preventDefault = (e: TouchEvent) => e.preventDefault()
-  //   if (window !== undefined) {
-  //     window.addEventListener('touchmove', preventDefault, {
-  //       passive: false
-  //     })
-
-  //     return () => window.removeEventListener('touchmove', preventDefault)
-  //   }
-  // }, [])
-
   return (
-    <div css={outerCss(width, isNarrowHeader)} data-testid={testId}>
+    <div css={outerCss(width)} data-testid={testId}>
       {topShowOrHideContent ? (
         <div css={topOuterCss}>
           <div css={topInnerCss}>{topShowOrHideContent}</div>
@@ -46,8 +35,8 @@ const MultiPanelTopShowOrHideView = ({
 
 export default MultiPanelTopShowOrHideView
 
-const outerCss = (width: number, isNarrowHeader: boolean) => css`
-  margin-top: ${isNarrowHeader ? HEADER_HEIGHT_WITH_TOOLS_DOUBLE_LINE : HEADER_HEIGHT_WITH_TOOLS}px;
+const outerCss = (width: number) => css`
+  margin-top: ${HEADER_HEIGHT_WITH_TOOLS}px;
   display: flex;
   flex-direction: column;
   width: ${width}px;

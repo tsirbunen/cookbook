@@ -2,11 +2,11 @@
 
 import { usePathname } from 'next/navigation'
 import { getRouteLabelByPath } from '../../navigation/router/router'
-import { ViewSizeContext } from '../../layout/view-size-service/ViewSizeProvider'
-import { useContext } from 'react'
-import NarrowHeaderWithToggles from './NarrowHeaderWithToggles'
-import RegularHeaderWithToggles from './RegularHeaderWithToggles'
-import { HEADER_HEIGHT_REGULAR } from '../../constants/layout'
+import { HEADER_HEIGHT_WITH_TOOLS, NAV_BAR_WIDTH } from '../../constants/layout'
+import { css } from '@emotion/react'
+import { headerZIndex } from '../../constants/z-indexes'
+import { ColorCodes } from '../../theme/theme'
+import { APP_TITLE } from '../../constants/widgets'
 
 export const toolsElementId = 'toolsElementId'
 
@@ -18,14 +18,83 @@ export const toolsElementId = 'toolsElementId'
  * (i.e. toggles) related to page content.
  */
 const HeaderWithOptionalToggles = () => {
-  const { isNarrowHeader, isHeaderWithTools, headerHeight } = useContext(ViewSizeContext)
   const path = usePathname()
   const label = getRouteLabelByPath(path)
-  const noTools = !isHeaderWithTools(path)
-  const height = noTools ? HEADER_HEIGHT_REGULAR : headerHeight
 
-  if (isNarrowHeader) return <NarrowHeaderWithToggles label={label as string} height={height} />
-  return <RegularHeaderWithToggles label={label as string} height={height} />
+  return (
+    <div css={outerCss(HEADER_HEIGHT_WITH_TOOLS)}>
+      <div css={middleCss}>
+        <div css={innerCss}>
+          <div css={locationCss}>
+            <div css={titleCss}>{APP_TITLE}</div>
+            <div css={pageCss}>{label?.toUpperCase()}</div>
+          </div>
+          <div css={toolsCss}>
+            <div id={toolsElementId} />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default HeaderWithOptionalToggles
+
+const outerCss = (height: number) => css`
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  padding-left: ${NAV_BAR_WIDTH}px;
+  z-index: ${headerZIndex};
+  height: ${height}px;
+  background-color: ${ColorCodes.VERY_DARK};
+`
+
+const middleCss = css`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: space-between;
+`
+
+const innerCss = css`
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`
+
+const locationCss = css`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  margin-left: 10px;
+  width: 100%;
+  font-weight: bold;
+  padding-left: ${NAV_BAR_WIDTH};
+`
+
+const titleCss = css`
+  font-size: 1.2em;
+  color: ${ColorCodes.SLIGHTLY_PALE};
+  font-weight: bold;
+`
+
+const pageCss = css`
+  font-size: 1.4em;
+  color: ${ColorCodes.VERY_PALE};
+  margin-top: -5px;
+  font-weight: bold;
+`
+
+const toolsCss = css`
+  margin-right: 10px;
+`
