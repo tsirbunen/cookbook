@@ -7,8 +7,9 @@ import { APP_TITLE } from '../src/constants/widgets'
 
 export const launchPageTestId = 'cookbook-launch-page'
 export const startButtonTestId = 'start-button'
+
 const welcomeText = 'Welcome to'
-const startPage = '/recipes'
+const startPage = '/home'
 const startText = 'START'
 
 /**

@@ -1,15 +1,17 @@
 import React from 'react'
 import { IconType } from 'react-icons/lib'
 import { TbSettings, TbListDetails, TbBasket, TbWand, TbChefHat, TbStar } from 'react-icons/tb'
-
+import { IoHomeOutline } from 'react-icons/io5'
 import RecipesPage from '../../app-pages/recipes/page/RecipesViewingPage'
 import SettingsPage from '../../app-pages/settings/SettingsPage'
 import ShoppingPage from '../../app-pages/shopping/ShoppingPage'
 import FavoritesPage from '../../app-pages/favorites/FavoritesPage'
 import WizardPage from '../../app-pages/wizard/WizardPage'
 import CookPage from '../../app-pages/cook/page/CookPage'
+import HomePage from '../../app-pages/home/HomePage'
 
 export enum Page {
+  HOME = 'home',
   RECIPES = 'recipes',
   COOK = 'cook',
   WIZARD = 'wizard',
@@ -19,6 +21,7 @@ export enum Page {
 }
 
 export const pagePaths: Record<Page, string> = {
+  [Page.HOME]: '/home',
   [Page.RECIPES]: '/recipes',
   [Page.COOK]: '/cook',
   [Page.WIZARD]: '/wizard',
@@ -38,6 +41,14 @@ export type NavigationMenuItem = {
 }
 
 export const navigationMenuItems: NavigationMenuItem[] = [
+  {
+    page: Page.HOME,
+    label: 'home',
+    iconElement: IoHomeOutline,
+    path: '/home',
+    element: HomePage,
+    headerHasTools: true
+  },
   {
     page: Page.RECIPES,
     label: 'recipes',
@@ -60,7 +71,7 @@ export const navigationMenuItems: NavigationMenuItem[] = [
     iconElement: TbWand,
     path: '/wizard',
     element: WizardPage,
-    headerHasTools: false
+    headerHasTools: true
   },
   {
     page: Page.FAVORITES,
@@ -68,7 +79,7 @@ export const navigationMenuItems: NavigationMenuItem[] = [
     iconElement: TbStar,
     path: '/favorites',
     element: FavoritesPage,
-    headerHasTools: false
+    headerHasTools: true
   },
   {
     page: Page.SHOPPING,
@@ -76,7 +87,7 @@ export const navigationMenuItems: NavigationMenuItem[] = [
     iconElement: TbBasket,
     path: '/shopping',
     element: ShoppingPage,
-    headerHasTools: false
+    headerHasTools: true
   },
   {
     page: Page.SETTINGS,
@@ -84,7 +95,7 @@ export const navigationMenuItems: NavigationMenuItem[] = [
     iconElement: TbSettings,
     path: '/settings',
     element: SettingsPage,
-    headerHasTools: false
+    headerHasTools: true
   }
 ]
 

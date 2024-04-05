@@ -56,7 +56,7 @@ _Note 2:_ The cypress E2E tests are truly E2E only when run locally. For some re
 - E2E tests: **[Cypress testing](https://docs.cypress.io/guides/overview/why-cypress)** with a **[Cucumber-like](https://www.npmjs.com/package/@badeball/cypress-cucumber-preprocessor)**-experience
 - Component styling: **[@emotion/react](https://www.npmjs.com/package/@emotion/react)**
 - UI Component library: **[Chakra ui](https://chakra-ui.com)** (even though it did not seem to work too well together with @emotion/react if used in the same file)
-- Icons: React **[Tabler icons](https://react-icons.github.io/react-icons/icons/tb/)**
+- Icons: **[React icons](https://react-icons.github.io/react-icons/icons/tb/)**
 - Color theme: picked up from examples on **[Colors for designers](https://colorhunt.co/)**
 - App hosting: **[Vercel](https://vercel.com/)**
 
