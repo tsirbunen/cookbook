@@ -18,30 +18,35 @@ const NavigationBarItem = ({ menuItem, currentPath, navigateTo }: NavigationBarI
   const IconElement = menuItem.iconElement
 
   return (
-    <div key={menuItem.page} css={itemContainer(isSelected)} onClick={navigateTo} data-testid={navigationBarDataTestId}>
-      <div css={iconContainer}>
-        <IconElement fontSize="1.75em" />
+    <div key={menuItem.page} css={tabCss(isSelected)}>
+      <div css={itemContainer(isSelected)} onClick={navigateTo} data-testid={navigationBarDataTestId}>
+        <div css={iconContainer}>
+          <IconElement fontSize="1.75em" />
+        </div>
+        <div css={label}>{menuItem.label.toUpperCase()}</div>
       </div>
-      <div css={label}>{menuItem.label.toUpperCase()}</div>
     </div>
   )
 }
 
 export default NavigationBarItem
 
-const selectedColor = ColorCodes.VERY_PALE
+const selectedColor = ColorCodes.BACKGROUND
 const notSelectedColor = ColorCodes.VERY_DARK
 
-const itemContainer = (isSelected: boolean) => css`
+const tabCss = (isSelected: boolean) => css`
   margin-bottom: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 6px;
-  width: ${NAV_BAR_WIDTH - 8}px;
+  justify-content: start;
+  align-items: start;
+  border-radius: ${isSelected ? '6px 0px 0px 6px' : '6px'};
+  width: ${NAV_BAR_WIDTH - (isSelected ? 4 : 8)}px;
+  /* width: 100%; */
+  margin-left: 4px;
   padding-top: 10px;
   padding-bottom: 10px;
+
   background-color: ${isSelected ? selectedColor : notSelectedColor};
   &:hover {
     background-color: ${isSelected ? selectedColor : ColorCodes.MEDIUM};
@@ -50,6 +55,14 @@ const itemContainer = (isSelected: boolean) => css`
   &:hover {
     color: ${isSelected ? notSelectedColor : notSelectedColor};
   }
+`
+
+const itemContainer = (isSelected: boolean) => css`
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  width: ${NAV_BAR_WIDTH - 8}px;
 `
 
 const label = css`

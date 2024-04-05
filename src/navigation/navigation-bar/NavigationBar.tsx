@@ -55,8 +55,6 @@ const outerContainer = (windowHeight: number) => {
   return css`
     z-index: ${navigationBarZIndex};
     height: ${windowHeight - headerHeight}px;
-    background-color: ${ColorCodes.VERY_DARK};
-    border-right-color: ${ColorCodes.VERY_DARK};
     width: ${NAV_BAR_WIDTH}px;
   `
 }
@@ -64,7 +62,7 @@ const container = (headerHeight: number) => css`
   display: flex;
   flex-direction: column;
   justify-content: start;
-  align-items: center;
+  align-items: start;
   height: 100%;
   background-color: ${ColorCodes.VERY_DARK};
   top: ${headerHeight}px;
