@@ -38,6 +38,7 @@ const panel = (width?: number) =>
     .is-momentumScrollable {
       -webkit-overflow-scrolling: touch;
     }
+    overscroll-behavior: none;
   `
 
 export default Panel
