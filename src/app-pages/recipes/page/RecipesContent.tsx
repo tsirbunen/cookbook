@@ -8,11 +8,12 @@ import ScrollToTopButton from '../../../widgets/scroll-to-top-button/ScrollToTop
 import { AppStateContext, AppStateContextType } from '../../../state/StateContextProvider'
 import { Dispatch } from '../../../state/reducer'
 import { RecipesViewingContext } from './RecipesViewingProvider'
-import { NO_CATEGORY_TITLE } from '../../../constants/layout'
+import { HEADER_HEIGHT_WITH_TOOLS, NO_CATEGORY_TITLE } from '../../../constants/layout'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
 import RecipesDisplay from '../recipes-display/RecipesDisplay'
 
 export const recipesContentDataTestId = 'recipes-content'
+const SCROLL_TO_TARGET_ANCHOR_ID = 'content-top'
 
 export type RecipesViewElementProps = {
   recipes: Recipe[]
@@ -40,6 +41,11 @@ const RecipesContent = () => {
 
   return (
     <div css={outerCss(mode === ViewRecipesMode.PHOTOS)} data-testid={recipesContentDataTestId}>
+      <div
+        style={{ zIndex: 1000, position: 'relative', top: `-${HEADER_HEIGHT_WITH_TOOLS}px`, backgroundColor: 'orange' }}
+      >
+        <a id={SCROLL_TO_TARGET_ANCHOR_ID}></a>
+      </div>
       {recipesInCategories.map((recipeCategory) => {
         const title = recipeCategory.category.toUpperCase()
         const category = recipeCategory.category ?? NO_CATEGORY_TITLE
@@ -62,7 +68,7 @@ const RecipesContent = () => {
           </React.Fragment>
         )
       })}
-      <ScrollToTopButton />
+      <ScrollToTopButton targetAnchorId={SCROLL_TO_TARGET_ANCHOR_ID} />
     </div>
   )
 }

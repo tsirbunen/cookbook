@@ -8,41 +8,31 @@ import { scrollToTopZIndex } from '../../constants/z-indexes'
 
 const scrollToTopButtonId = 'scrollToTopButtonId'
 
-const ScrollToTopButton = () => {
-  const [isVisible, setIsVisible] = useState(false)
+const ScrollToTopButton = ({ targetAnchorId }: { targetAnchorId: string }) => {
+  const [display, setDisplay] = useState<'none' | 'float'>('none')
 
   const onScroll = () => {
-    console.log('scrolling')
-    // const button = document.getElementById(scrollToTopButtonId)
-    // if (button) {
-    //   console.log('button:', button)
-    //   const scrollY = window.scrollY
-    //   const display = scrollY > 10 ? 'float' : 'none'
-    //   if (button.style.display !== display) button.style.display = display
-    // }
+    const button = document.getElementById(scrollToTopButtonId)
+    if (button) setDisplay('float')
   }
 
   useEffect(() => {
-    const element = document.getElementById('GGG')
-    console.log('element:', !!element)
-    if (!element) return
-    element.addEventListener('scroll', onScroll)
-    // window.addEventListener('scroll', onScroll)
-    // return () => window.removeEventListener('scroll', onScroll)
-    // Note: We only want to add the event listener once!
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (window === undefined) return
+
+    window.addEventListener('wheel', onScroll)
+    window.addEventListener('touchmove', onScroll)
+
+    return () => {
+      window.removeEventListener('wheel', onScroll)
+      window.removeEventListener('touchmove', onScroll)
+    }
   }, [])
 
-  const onScrollToTop = () => {
-    document.body.scrollTop = 0 // For Safari
-    document.documentElement.scrollTop = 0 // For Chrome, Firefox, IE and Opera
-  }
-
-  if (!isVisible) return null
-
   return (
-    <div id={scrollToTopButtonId} css={buttonCss} onClick={onScrollToTop}>
-      <TbArrowBarToUp fontSize="2.0em" />
+    <div id={scrollToTopButtonId} css={buttonCss(display)}>
+      <a href={`#${targetAnchorId}`} onClick={() => setDisplay('none')}>
+        <TbArrowBarToUp fontSize="2.0em" />
+      </a>
     </div>
   )
 }
@@ -50,11 +40,9 @@ const ScrollToTopButton = () => {
 export default ScrollToTopButton
 
 const margin = 15
-const size = 40
 
-const buttonCss = css`
-  /* display: hidden; */
-  /* display: float; */
+const buttonCss = (display: 'none' | 'float') => css`
+  display: ${display};
   position: fixed;
   bottom: ${margin}px;
   right: ${margin}px;
@@ -63,13 +51,9 @@ const buttonCss = css`
   outline: none;
   background-color: ${ColorCodes.VERY_DARK};
   color: ${ColorCodes.VERY_PALE};
-  border-radius: ${size}px;
-  /* width: ${size}px; */
-  /* height: ${size}px; */
+  border-radius: 40px;
   padding: 5px;
   flex: 1;
-  flex-direction: column;
-  /* flex-wrap: wrap; */
   justify-content: center;
   align-items: center;
 `
