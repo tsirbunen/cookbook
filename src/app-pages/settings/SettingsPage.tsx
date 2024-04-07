@@ -1,12 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { Page } from '../../navigation/router/router'
+import { HEADER_HEIGHT_WITH_TOOLS } from '../../constants/layout'
+import SettingsItem from './SettingsItem'
+import SoundSettings from './SoundSettings'
+
+const soundSettingsTitle = 'Sound effects'
 
 const SettingsPage = () => {
   return (
     <div css={container} data-testid={`${Page.SETTINGS}-page`}>
-      <div>SETTINGS</div>
-      <p>Content coming later</p>
+      <SettingsItem title={soundSettingsTitle}>
+        <SoundSettings />
+      </SettingsItem>
     </div>
   )
 }
@@ -14,6 +20,11 @@ const SettingsPage = () => {
 export default SettingsPage
 
 const container = css`
-  margin-top: 30px;
-  margin-left: 30px;
+  margin-top: ${HEADER_HEIGHT_WITH_TOOLS}px;
+  margin-left: 25px;
+  margin-right: 25px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 `

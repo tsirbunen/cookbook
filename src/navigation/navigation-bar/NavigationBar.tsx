@@ -12,7 +12,7 @@ import MenuIconWithoutAction from './MenuIconWithoutAction'
 import { HEADER_HEIGHT_WITH_TOOLS, NAV_BAR_WIDTH } from '../../constants/layout'
 import { navigationBarZIndex } from '../../constants/z-indexes'
 
-type DrawerNavigatorProps = {
+type NavigationBarProps = {
   isTooSmallWindow: boolean
 }
 
@@ -20,7 +20,7 @@ type DrawerNavigatorProps = {
  * Permanent vertical navigation bar on the left. Intended to be used when app use mode
  * is other than mobile.
  */
-const NavigationBar = ({ isTooSmallWindow }: DrawerNavigatorProps) => {
+const NavigationBar = ({ isTooSmallWindow }: NavigationBarProps) => {
   const { windowHeight } = useContext(ViewSizeContext)
   const router = useRouter()
   const pathname = usePathname()

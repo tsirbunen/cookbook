@@ -5,6 +5,8 @@ import Image from 'next/image'
 import { ColorCodes } from '../../../theme/theme'
 import falafel from '../../../assets/falafel.png'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
+import { SoundServiceContext, SoundType } from '../../../sounds/SoundProvider'
+import { useContext } from 'react'
 
 export const photoRepresentationDataTestId = 'card-representation'
 
@@ -22,6 +24,14 @@ export type RecipeForPhotoCardProps = {
 }
 
 const PhotoCardRecipe = ({ recipe, onPickRecipeChanged, isPicked }: RecipeForPhotoCardProps) => {
+  const { playSound } = useContext(SoundServiceContext)
+
+  const toggleIsPickedWithSound = () => {
+    const soundType = isPicked ? SoundType.NEGATIVE : SoundType.POSITIVE
+    playSound(soundType)
+    onPickRecipeChanged()
+  }
+
   return (
     <div css={cardCss(isPicked)} data-testid={photoRepresentationDataTestId}>
       <Image
@@ -33,7 +43,7 @@ const PhotoCardRecipe = ({ recipe, onPickRecipeChanged, isPicked }: RecipeForPho
           height: IMAGE_HEIGHT,
           width: CARD_WIDTH
         }}
-        onClick={onPickRecipeChanged}
+        onClick={toggleIsPickedWithSound}
       />
       <div css={titleCss(isPicked)}>{recipe.title}</div>
     </div>

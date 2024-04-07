@@ -28,3 +28,7 @@ export type CookingRecipeData = {
   ingredientsAddedIds: number[]
   instructionsCompletedIds: number[]
 }
+
+export type Settings = {
+  soundsEnabled: boolean | null
+}

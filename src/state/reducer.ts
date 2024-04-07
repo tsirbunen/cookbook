@@ -6,13 +6,15 @@ import { AppState } from './StateContextProvider'
 export enum Dispatch {
   SET_RECIPES_AND_FILTERS = 'SET_RECIPES_AND_FILTERS',
   UPDATE_PICKED_RECIPES = 'UPDATE_PICKED_RECIPES',
-  CHANGE_RECIPES_ORDER = 'CHANGE_RECIPES_ORDER'
+  CHANGE_RECIPES_ORDER = 'CHANGE_RECIPES_ORDER',
+  TOGGLE_SOUNDS_ENABLED = 'TOGGLE_SOUNDS_ENABLED'
 }
 
 export type DispatchAction =
   | { type: Dispatch.SET_RECIPES_AND_FILTERS; payload: { recipes: RecipeCategory[]; filters: RecipesFilterValues } }
   | { type: Dispatch.UPDATE_PICKED_RECIPES; payload: { recipeId: number; category: string } }
   | { type: Dispatch.CHANGE_RECIPES_ORDER; payload: { newOrderOfIds: number[] } }
+  | { type: Dispatch.TOGGLE_SOUNDS_ENABLED; payload: { enabled: boolean } }
 
 export const reducer = (state: AppState, action: DispatchAction) => {
   switch (action.type) {
@@ -22,7 +24,14 @@ export const reducer = (state: AppState, action: DispatchAction) => {
       return updatePickedRecipes(state, action.payload)
     case Dispatch.CHANGE_RECIPES_ORDER:
       return updatePickedRecipesOrder(state, action.payload)
-
+    case Dispatch.TOGGLE_SOUNDS_ENABLED:
+      return {
+        ...state,
+        settings: {
+          ...state.settings,
+          soundsEnabled: action.payload.enabled
+        }
+      }
     default:
       throw new Error(`${JSON.stringify(action)} is not an app state reducer action!`)
   }

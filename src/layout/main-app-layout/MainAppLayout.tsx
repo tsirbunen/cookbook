@@ -2,7 +2,7 @@
 'use client'
 import { useContext } from 'react'
 import { css } from '@emotion/react'
-import HeaderWithOptionalToggles from '../../widgets/header-with-optional-toggles/HeaderWithOptionalToggles'
+import HeaderWithToggles from '../../widgets/header-with-optional-toggles/HeaderWithToggles'
 
 import { ViewSizeContext } from '../view-size-service/ViewSizeProvider'
 import ErrorPage from '../../navigation/router/ErrorPage'
@@ -24,6 +24,7 @@ type MainAppLayoutProps = {
  */
 const MainAppLayout = ({ children }: MainAppLayoutProps) => {
   const { isTooSmallWindow } = useContext(ViewSizeContext)
+
   const pathname = usePathname()
 
   if (isTooSmallWindow) {
@@ -36,7 +37,7 @@ const MainAppLayout = ({ children }: MainAppLayoutProps) => {
 
   return (
     <div css={app}>
-      <HeaderWithOptionalToggles />
+      <HeaderWithToggles />
 
       <div css={content}>
         <NavigationBar isTooSmallWindow={isTooSmallWindow} />

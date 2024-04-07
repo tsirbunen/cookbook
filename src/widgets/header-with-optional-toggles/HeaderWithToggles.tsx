@@ -17,7 +17,7 @@ export const toolsElementId = 'toolsElementId'
  * JSX content through createPortal. The content is expected to contain action buttons
  * (i.e. toggles) related to page content.
  */
-const HeaderWithOptionalToggles = () => {
+const HeaderWithToggles = () => {
   const path = usePathname()
   const label = getRouteLabelByPath(path)
 
@@ -38,7 +38,7 @@ const HeaderWithOptionalToggles = () => {
   )
 }
 
-export default HeaderWithOptionalToggles
+export default HeaderWithToggles
 
 const outerCss = (height: number) => css`
   display: flex;
@@ -84,7 +84,7 @@ const locationCss = css`
 
 const titleCss = css`
   font-size: 1.2em;
-  color: ${ColorCodes.SLIGHTLY_PALE};
+  color: ${ColorCodes.MEDIUM};
   font-weight: bold;
 `
 

@@ -38,6 +38,14 @@ const RecipesViewingProvider = dynamic(() => import('../src/app-pages/recipes/pa
   ssr: false
 })
 
+const SoundProvider = dynamic(() => import('../src/sounds/SoundProvider'), {
+  ssr: false
+})
+
+const LocalStorageProvider = dynamic(() => import('../src/state/LocalStorageProvider'), {
+  ssr: false
+})
+
 /**
  * This is a required top level element that enables modification of the initial HTML
  * returned from the server. Here the app components are wrapped with providers common to
@@ -53,19 +61,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={inter.className}>
         <AppStateContextProvider>
-          <ThemeProvider>
-            <ViewSizeContextProvider>
-              <GraphQLClientProvider>
-                <RecipeServiceProvider>
-                  <RecipesViewingProvider>
-                    <CookingProvider>
-                      <MainAppLayout>{children}</MainAppLayout>
-                    </CookingProvider>
-                  </RecipesViewingProvider>
-                </RecipeServiceProvider>
-              </GraphQLClientProvider>
-            </ViewSizeContextProvider>
-          </ThemeProvider>
+          <LocalStorageProvider>
+            <ThemeProvider>
+              <ViewSizeContextProvider>
+                <GraphQLClientProvider>
+                  <RecipeServiceProvider>
+                    <RecipesViewingProvider>
+                      <CookingProvider>
+                        <SoundProvider>
+                          <MainAppLayout>{children}</MainAppLayout>
+                        </SoundProvider>
+                      </CookingProvider>
+                    </RecipesViewingProvider>
+                  </RecipeServiceProvider>
+                </GraphQLClientProvider>
+              </ViewSizeContextProvider>
+            </ThemeProvider>
+          </LocalStorageProvider>
         </AppStateContextProvider>
       </body>
     </html>

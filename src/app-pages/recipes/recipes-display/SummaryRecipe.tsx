@@ -6,6 +6,8 @@ import { ColorCodes } from '../../../theme/theme'
 import falafel from '../../../assets/falafel.png'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
 import RecipePropertyIcons from '../../../widgets/property-icon/RecipePropertyIcons'
+import { SoundServiceContext, SoundType } from '../../../sounds/SoundProvider'
+import { useContext } from 'react'
 
 export const summaryRepresentationDataTestId = 'summary-representation'
 
@@ -21,12 +23,19 @@ const imageHeight = 110
 const borderRadius = 6
 
 const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked, isFavorite }: SummaryRecipeProps) => {
-  const { title, tags, category, ovenNeeded } = recipe
+  const { playSound } = useContext(SoundServiceContext)
+
+  const toggleIsPickedWithSound = () => {
+    const soundType = isPicked ? SoundType.NEGATIVE : SoundType.POSITIVE
+    playSound(soundType)
+    onPickRecipeChanged()
+  }
 
   const getImageRadii = () => {
     return `${borderRadius}px 0px 0px ${borderRadius}px`
   }
 
+  const { title, tags, category, ovenNeeded } = recipe
   const tagsCombined = tags.map((tag) => `#${tag.toUpperCase()}`).join(' ')
 
   return (
@@ -44,7 +53,7 @@ const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked, isFavorite }: Su
         />
       </div>
 
-      <div css={infoContainer} onClick={onPickRecipeChanged}>
+      <div css={infoContainer} onClick={toggleIsPickedWithSound}>
         <div css={categoryContainer(isPicked)}>{(category ?? '').toUpperCase()}</div>
 
         <div css={titleContainer(isPicked)}>{title}</div>

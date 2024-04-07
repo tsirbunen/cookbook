@@ -1,9 +1,9 @@
 'use client'
 
-import { createContext, useCallback, useContext, useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
 import { ViewRecipesMode } from '../viewing-management/ViewModeManagementTool'
-import { LocalStorageKeys, useLocalStorage } from '../../../hooks/useLocalStorage'
+import { LocalStorageContext, LocalStorageKeys } from '../../../state/LocalStorageProvider'
 
 type RecipesViewing = {
   mode: ViewRecipesMode
@@ -24,8 +24,6 @@ type RecipesViewing = {
 
 export const RecipesViewingContext = createContext<RecipesViewing>({} as RecipesViewing)
 
-// FAVORITE_RECIPE_IDS_LOCAL_STORAGE_KEY
-
 /**
  * This provider holds the state of what is displayed on the recipes viewing page:
  * what viewing management "tools" are displayed (if any) and if recipes are shown
@@ -33,7 +31,7 @@ export const RecipesViewingContext = createContext<RecipesViewing>({} as Recipes
  */
 const RecipesViewingProvider = ({ children }: { children: React.ReactNode }) => {
   const { isSplitView } = useContext(ViewSizeContext)
-  const { favoriteRecipeIds, toggleValueForKey } = useLocalStorage()
+  const { favoriteRecipeIds, toggleValueForKey } = useContext(LocalStorageContext)
   const [mode, setMode] = useState(ViewRecipesMode.PHOTOS)
   const [recipesAreHidden, setRecipesAreHidden] = useState(false)
   const [showSelectMode, setShowSelectMode] = useState(false)

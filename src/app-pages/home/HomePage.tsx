@@ -14,6 +14,6 @@ const HomePage = () => {
 export default HomePage
 
 const container = css`
-  margin-top: 30px;
+  margin-top: 100px;
   margin-left: 30px;
 `

@@ -16,6 +16,7 @@ import {
   VERY_PALE_COLOR
 } from '../constants/color-codes'
 import { SCROLL_BAR_WIDTH } from '../constants/layout'
+import { switchTheme } from './switch/switch-theme'
 
 export enum ColorCodes {
   BACKGROUND = BACKGROUND_COLOR,
@@ -90,6 +91,7 @@ export const theme = extendTheme({
     Checkbox: checkboxesTheme,
     Input: inputTheme,
     Button: buttonsTheme,
-    Textarea: textareaTheme
+    Textarea: textareaTheme,
+    Switch: switchTheme
   }
 })

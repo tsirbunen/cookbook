@@ -6,6 +6,8 @@ import { ColorCodes } from '../../../theme/theme'
 import CheckboxWithTheme from '../../../theme/checkboxes/CheckboxWithTheme'
 import TitleWithLink from '../../../widgets/titles/TitleWithLink'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
+import { SoundServiceContext, SoundType } from '../../../sounds/SoundProvider'
+import { useContext } from 'react'
 
 export const titleRepresentationDataTestId = 'title-representation'
 
@@ -20,11 +22,19 @@ export type TitleRecipeProps = {
 }
 
 const TitleRecipe = ({ recipe, isPicked, onPickRecipeChanged, showBackground }: TitleRecipeProps) => {
+  const { playSound } = useContext(SoundServiceContext)
+
+  const toggleIsPickedWithSound = () => {
+    const soundType = isPicked ? SoundType.NEGATIVE : SoundType.POSITIVE
+    playSound(soundType)
+    onPickRecipeChanged()
+  }
+
   const { title } = recipe
 
   return (
     <div css={outerCss(isPicked && showBackground)} data-testid={titleRepresentationDataTestId}>
-      <CheckboxWithTheme isChecked={isPicked} onChange={onPickRecipeChanged} />
+      <CheckboxWithTheme isChecked={isPicked} onChange={toggleIsPickedWithSound} />
 
       <TitleWithLink title={title} url="TODO" />
     </div>

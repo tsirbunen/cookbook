@@ -6,7 +6,7 @@ import { RecipesViewingContext } from './RecipesViewingProvider'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
 import PickedRecipesManagementTool from '../viewing-management/PickedRecipesManagementTool'
 import { createPortal } from 'react-dom'
-import { toolsElementId } from '../../../widgets/header-with-optional-toggles/HeaderWithOptionalToggles'
+import { toolsElementId } from '../../../widgets/header-with-optional-toggles/HeaderWithToggles'
 
 import { SPLIT_VIEW_WIDTH } from '../../../constants/layout'
 import RecipesViewingHeaderToggles from '../viewing-management/RecipesViewingHeaderToggles'

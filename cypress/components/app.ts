@@ -1,11 +1,5 @@
 import { Base } from './base'
 import { ViewMode } from '../../src/layout/view-size-service/ViewSizeProvider'
-import {
-  drawerButtonDataTestId,
-  drawerDataTestId,
-  drawerTitle
-} from '../../src/navigation/navigation-drawer/NavigationDrawer'
-import { drawerItemDataTestId } from '../../src/navigation/navigation-drawer/NavigationDrawerItem'
 import { navigationBarDataTestId } from '../../src/navigation/navigation-bar/NavigationBarItem'
 import { launchPageTestId, startButtonTestId } from '../../app/page'
 
@@ -42,27 +36,6 @@ export class App extends Base {
     cy.viewport(width, height)
     cy.debug()
     cy.window().its('innerWidth').should('equal', width)
-  }
-
-  openNavigationDrawer() {
-    cy.getByDataTestId(drawerButtonDataTestId).click()
-  }
-
-  navigationDrawerIsOpen() {
-    this.verifyIsVisible(drawerDataTestId)
-    this.verifyTextContentDoesExist(drawerTitle)
-  }
-
-  navigationDrawerIsClosed() {
-    this.verifyTextContentDoesNotExist(drawerTitle)
-  }
-
-  navigationDrawerIsNotAvailable() {
-    this.verifyDataTestIdDoesNotExist(drawerDataTestId)
-  }
-
-  tapNavigationDrawerItem(menuItem: string) {
-    cy.getByDataTestId(drawerItemDataTestId).filter(`:contains("${menuItem}")`).click()
   }
 
   pageIsVisible(page: string) {

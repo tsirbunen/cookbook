@@ -12,7 +12,7 @@ import React from 'react'
 import PickedRecipesManagementTool from '../../recipes/viewing-management/PickedRecipesManagementTool'
 import { RecipesViewingContext } from '../../recipes/page/RecipesViewingProvider'
 import { Page } from '../../../navigation/router/router'
-import { toolsElementId } from '../../../widgets/header-with-optional-toggles/HeaderWithOptionalToggles'
+import { toolsElementId } from '../../../widgets/header-with-optional-toggles/HeaderWithToggles'
 
 const CookPage = () => {
   const { maxPanelsCount } = useContext(ViewSizeContext)

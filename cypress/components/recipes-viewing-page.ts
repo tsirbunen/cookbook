@@ -14,8 +14,7 @@ import { recipesContentDataTestId } from '../../src/app-pages/recipes/page/Recip
 import {
   selectModeToggleProperty,
   pickedRecipesToggleProperty,
-  filteringToggleProperty,
-  startCookingToggleProperty
+  filteringToggleProperty
 } from '../../src/widgets/toggles/Toggle'
 
 const CLIENT = 'localhost'
@@ -24,15 +23,13 @@ const CLIENT_BASE_URL = `http://${CLIENT}:3000`
 const toolDataTestIdsByTool = {
   'select mode': viewModeManagementToolDataTestId,
   'picked recipes': pickedRecipesManagementToolDataTestId,
-  filtering: filteringManagementToolDataTestId,
-  'start cooking': ''
+  filtering: filteringManagementToolDataTestId
 }
 
 const toggleDataTestIdsByTool = {
   'select mode': selectModeToggleProperty,
   'picked recipes': pickedRecipesToggleProperty,
-  filtering: filteringToggleProperty,
-  'start cooking': startCookingToggleProperty
+  filtering: filteringToggleProperty
 }
 
 const recipeDisplayTestIdsByMode = {
