@@ -17,12 +17,9 @@ type TitleProps = {
 
 const Title = ({ title, variant, color }: TitleProps) => {
   const css = variantCssMap[variant]
+  if (color) css.color = color as ColorCodes
 
-  return (
-    <Text {...css} color={color}>
-      {title}
-    </Text>
-  )
+  return <Text {...css}>{title}</Text>
 }
 
 export default Title
@@ -36,8 +33,8 @@ const variantCssMap = {
   },
   [TitleVariant.MediumLeft]: {
     fontWeight: 'bold',
-    fontSize: '0.9em',
-    color: ColorCodes.VERY_DARK,
+    fontSize: '1.1em',
+    color: ColorCodes.DARK,
     margin: '10px 0px 5px 5px',
     width: '100%',
     justifyContent: 'start'

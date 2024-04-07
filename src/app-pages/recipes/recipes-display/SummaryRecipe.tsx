@@ -8,6 +8,7 @@ import { Recipe } from '../../../types/graphql-schema-types.generated'
 import RecipePropertyIcons from '../../../widgets/property-icon/RecipePropertyIcons'
 import { SoundServiceContext, SoundType } from '../../../sounds/SoundProvider'
 import { useContext } from 'react'
+import CustomDivider from '../../../widgets/divider/CustomDivider'
 
 export const summaryRepresentationDataTestId = 'summary-representation'
 
@@ -16,13 +17,15 @@ export type SummaryRecipeProps = {
   onPickRecipeChanged: () => void
   isPicked: boolean
   isFavorite?: boolean
+  isFirst?: boolean
 }
 
 const imageWidth = 100
 const imageHeight = 110
 const borderRadius = 6
+const isPickedBorderWidth = 10
 
-const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked, isFavorite }: SummaryRecipeProps) => {
+const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked, isFavorite, isFirst }: SummaryRecipeProps) => {
   const { playSound } = useContext(SoundServiceContext)
 
   const toggleIsPickedWithSound = () => {
@@ -31,43 +34,43 @@ const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked, isFavorite }: Su
     onPickRecipeChanged()
   }
 
-  const getImageRadii = () => {
-    return `${borderRadius}px 0px 0px ${borderRadius}px`
-  }
-
   const { title, tags, category, ovenNeeded } = recipe
   const tagsCombined = tags.map((tag) => `#${tag.toUpperCase()}`).join(' ')
 
   return (
-    <div css={container(isPicked)} data-testid={summaryRepresentationDataTestId}>
-      <div css={imageContainer}>
-        <Image
-          src={falafel}
-          alt={'Some image title'}
-          style={{
-            borderRadius: getImageRadii(),
-            objectFit: 'cover',
-            height: imageHeight,
-            width: imageWidth
-          }}
-        />
-      </div>
+    <div>
+      {isFirst ? null : <CustomDivider marginTop="0px" marginBottom="0px" />}
 
-      <div css={infoContainer} onClick={toggleIsPickedWithSound}>
-        <div css={categoryContainer(isPicked)}>{(category ?? '').toUpperCase()}</div>
-
-        <div css={titleContainer(isPicked)}>{title}</div>
-
-        <div css={tagsContainer(isPicked)}>
-          <div>{tagsCombined}</div>
+      <div css={container} data-testid={summaryRepresentationDataTestId}>
+        <div css={imageContainer(isPicked)} onClick={toggleIsPickedWithSound}>
+          <Image
+            src={falafel}
+            alt={'Some image title'}
+            style={{
+              borderRadius: `${borderRadius}px`,
+              objectFit: 'cover',
+              height: isPicked ? imageHeight - 2 * isPickedBorderWidth : imageHeight,
+              width: isPicked ? imageWidth - 2 * isPickedBorderWidth : imageWidth
+            }}
+          />
         </div>
 
-        <RecipePropertyIcons
-          isFavorite={isFavorite ?? false}
-          ovenNeeded={ovenNeeded}
-          hasTags={tags.length > 0}
-          justifyContent="start"
-        />
+        <div css={infoContainer} onClick={toggleIsPickedWithSound}>
+          <div css={categoryContainer}>{(category ?? '').toUpperCase()}</div>
+
+          <div css={titleContainer}>{title}</div>
+
+          <div css={tagsContainer}>
+            <div>{tagsCombined}</div>
+          </div>
+
+          <RecipePropertyIcons
+            isFavorite={isFavorite ?? false}
+            ovenNeeded={ovenNeeded}
+            hasTags={tags.length > 0}
+            justifyContent="start"
+          />
+        </div>
       </div>
     </div>
   )
@@ -75,24 +78,27 @@ const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked, isFavorite }: Su
 
 export default SummaryRecipe
 
-const container = (isPicked: boolean) => css`
+const container = css`
   display: flex;
   flex: 1;
   width: 100%;
   flex-direction: row;
   justify-content: start;
-  margin-bottom: 15px;
-  background-color: ${isPicked ? ColorCodes.VERY_DARK : 'transparent'};
-  border-radius: ${borderRadius}px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  border-radius: ${borderRadius}px;
+  padding-bottom: 10px;
   position: relative;
+  padding-top: 10px;
 `
 
-const imageContainer = css`
+const imageContainer = (isPicked: boolean) => css`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: ${imageWidth}px;
   height: ${imageHeight}px;
-  margin-right: 8px;
+  margin-right: 15px;
+  background-color: ${isPicked ? ColorCodes.VERY_DARK : 'transparent'};
+  border-radius: ${borderRadius}px;
 `
 
 const infoContainer = css`
@@ -103,8 +109,8 @@ const infoContainer = css`
   align-items: start;
 `
 
-const titleContainer = (isPicked: boolean) => css`
-  color: ${isPicked ? ColorCodes.VERY_PALE : ColorCodes.VERY_DARK};
+const titleContainer = css`
+  color: ${ColorCodes.VERY_DARK};
   font-weight: bold;
   font-size: 0.9em;
   margin-bottom: 5px;
@@ -119,14 +125,14 @@ const titleContainer = (isPicked: boolean) => css`
   }
 `
 
-const tagsContainer = (isPicked: boolean) => css`
-  color: ${isPicked ? ColorCodes.MEDIUM : ColorCodes.DARK};
+const tagsContainer = css`
+  color: ${ColorCodes.MEDIUM};
   font-size: 0.7em;
   font-weight: bold;
   margin-bottom: 5px;
 `
-const categoryContainer = (isPicked: boolean) => css`
-  color: ${isPicked ? ColorCodes.MEDIUM : ColorCodes.DARK};
+const categoryContainer = css`
+  color: ${ColorCodes.MEDIUM};
   font-size: 0.7em;
   font-weight: bold;
 `

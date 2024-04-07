@@ -17,6 +17,7 @@ import {
 } from '../constants/color-codes'
 import { SCROLL_BAR_WIDTH } from '../constants/layout'
 import { switchTheme } from './switch/switch-theme'
+import { accordionTheme } from './accordion/accordions-theme'
 
 export enum ColorCodes {
   BACKGROUND = BACKGROUND_COLOR,
@@ -88,10 +89,11 @@ export const theme = extendTheme({
     useSystemColorMode: false
   },
   components: {
+    Accordion: accordionTheme,
+    Button: buttonsTheme,
     Checkbox: checkboxesTheme,
     Input: inputTheme,
-    Button: buttonsTheme,
-    Textarea: textareaTheme,
-    Switch: switchTheme
+    Switch: switchTheme,
+    Textarea: textareaTheme
   }
 })

@@ -14,7 +14,7 @@ type PanelProps = {
  * a resizer element (in cases where an "onResize" callback is provided in props).
  * Panel has a vertical scroll bar (to enable scrolling this single panel only).
  */
-const Panel = ({ children, width, onResize }: PanelProps) => {
+const ResizablePanel = ({ children, width, onResize }: PanelProps) => {
   const panelCss = panel(width)
 
   return (
@@ -41,4 +41,4 @@ const panel = (width?: number) =>
     overscroll-behavior: none;
   `
 
-export default Panel
+export default ResizablePanel

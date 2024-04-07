@@ -79,7 +79,7 @@ const topInnerCss = (showFullHeightTools: boolean) => css`
   position: sticky;
   top: ${HEADER_HEIGHT_WITH_TOOLS}px;
   z-index: ${recipesViewingManagementZIndex};
-  background-color: ${ColorCodes.VERY_PALE};
+  background-color: ${ColorCodes.VERY_DARK};
   width: 100%;
   display: flex;
   flex-direction: column;

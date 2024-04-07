@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import Panel from '../layout-widgets/Panel'
+import ResizablePanel from './ResizablePanel'
 import { ViewSizeContext, WindowWidth } from '../view-size-service/ViewSizeProvider'
 import { MAX_PANEL_WIDTH, MIN_PANEL_WIDTH, NAV_BAR_WIDTH } from '../../constants/layout'
 
@@ -103,24 +103,28 @@ const MultiResizablePanelsView = (props: MultiResizablePanelsViewProps) => {
   return (
     // <div style={{ overflowX: 'hidden', flex: 1, flexDirection: 'row' }}>
     <>
-      <Panel width={leftPanelWidth} onResize={showLeftResizeElement ? onResizeLeftPanel : undefined} key={'panel-left'}>
+      <ResizablePanel
+        width={leftPanelWidth}
+        onResize={showLeftResizeElement ? onResizeLeftPanel : undefined}
+        key={'panel-left'}
+      >
         {leftContent}
-      </Panel>
+      </ResizablePanel>
 
       {middleContent ? (
-        <Panel
+        <ResizablePanel
           width={getMiddlePanelWidth(panelsCount)}
           onResize={showMiddleResizeElement ? onResizeMiddlePanel : undefined}
           key={'panel-middle'}
         >
           {middleContent}
-        </Panel>
+        </ResizablePanel>
       ) : null}
 
       {rightContent ? (
-        <Panel width={getRightPanelWidth(panelsCount)} key={'panel-right'}>
+        <ResizablePanel width={getRightPanelWidth(panelsCount)} key={'panel-right'}>
           {rightContent}
-        </Panel>
+        </ResizablePanel>
       ) : null}
     </>
     // </div>

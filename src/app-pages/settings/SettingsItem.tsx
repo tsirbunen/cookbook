@@ -1,6 +1,7 @@
-import { ChakraProps, Divider, Flex } from '@chakra-ui/react'
+import { ChakraProps, Flex } from '@chakra-ui/react'
 import Title, { TitleVariant } from '../../widgets/titles/Title'
-import { DARK_COLOR, MEDIUM_COLOR } from '../../constants/color-codes'
+import { DARK_COLOR } from '../../constants/color-codes'
+import CustomDivider from '../../widgets/divider/CustomDivider'
 
 type SettingsItemProps = {
   title: string
@@ -13,9 +14,7 @@ const SettingsItem = ({ title, children }: SettingsItemProps) => {
       <Flex {...titleCss}>
         <Title title={title} variant={TitleVariant.Medium} color={DARK_COLOR} />
       </Flex>
-      <Flex {...dividerContainerCss}>
-        <Divider {...dividerCss} />
-      </Flex>
+      <CustomDivider />
       {children}
     </Flex>
   )
@@ -35,16 +34,4 @@ const outerCss = {
 
 const titleCss = {
   marginBottom: '10px'
-}
-
-const dividerContainerCss = {
-  flexDirection: 'row' as ChakraProps['flexDirection'],
-  marginBottom: '10px',
-  width: '100%'
-}
-
-const dividerCss = {
-  borderColor: MEDIUM_COLOR,
-  borderWidth: '1.0px',
-  variant: 'dashed'
 }

@@ -77,6 +77,7 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
               isPicked={isPicked}
               showBackground={showBackground}
               isFavorite={favoriteRecipeIds.includes(recipeId)}
+              isFirst={index === 0}
             />
           )
         })}
@@ -102,6 +103,7 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
             onPickRecipeChanged={() => onPickRecipeChanged(recipeId, category ?? NO_CATEGORY_TITLE)}
             isPicked={isPicked}
             showBackground={showBackground}
+            isFirst={index === 0}
           />
         )
       })}
@@ -128,6 +130,8 @@ const summariesContainerCss = css`
   flex-direction: column;
   justify-content: start;
   width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
 `
 const titlesContainerCss = css`
   display: flex;
