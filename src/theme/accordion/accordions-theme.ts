@@ -1,6 +1,6 @@
 import { accordionAnatomy } from '@chakra-ui/anatomy'
 import { createMultiStyleConfigHelpers } from '@chakra-ui/react'
-import { DARK_COLOR, PALE_COLOR, VERY_DARK_COLOR, VERY_PALE_COLOR } from '../../constants/color-codes'
+import { PALE_COLOR, VERY_DARK_COLOR, VERY_PALE_COLOR } from '../../constants/color-codes'
 
 const { definePartsStyle, defineMultiStyleConfig } = createMultiStyleConfigHelpers(accordionAnatomy.keys)
 
@@ -15,7 +15,9 @@ const basic = definePartsStyle({
     border: 'none none dashed none',
     borderWidth: '0 0 2px 0',
     borderColor: PALE_COLOR,
-    _expanded: { background: VERY_PALE_COLOR, color: DARK_COLOR, borderStyle: 'none' }
+    _expanded: {
+      borderStyle: 'none'
+    }
   },
   icon: {
     border: 'none',

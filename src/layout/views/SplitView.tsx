@@ -70,5 +70,6 @@ const splitScrollable = (showScrollBar: boolean) => css`
   overflow: ${showScrollBar ? 'scroll' : undefined};
   overflow-x: hidden;
   box-shadow: 2px 0px 10px 1px rgba(0, 0, 0, 0.35);
-  padding-right: 15px;
+  padding-right: ${showScrollBar ? 15 : 0}px;
+  width: ${showScrollBar ? '100%' : '0px'};
 `
