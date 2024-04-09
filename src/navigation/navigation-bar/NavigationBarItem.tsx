@@ -33,6 +33,7 @@ export default NavigationBarItem
 
 const selectedColor = ColorCodes.VERY_PALE
 const notSelectedColor = ColorCodes.VERY_DARK
+export const NAVIGATION_BAR_ITEM_HEIGHT = 70
 
 const tabCss = (isSelected: boolean) => css`
   margin-bottom: 10px;
@@ -45,6 +46,7 @@ const tabCss = (isSelected: boolean) => css`
   margin-left: 4px;
   padding-top: 10px;
   padding-bottom: 10px;
+  height: ${NAVIGATION_BAR_ITEM_HEIGHT}px;
 
   background-color: ${isSelected ? selectedColor : notSelectedColor};
   &:hover {

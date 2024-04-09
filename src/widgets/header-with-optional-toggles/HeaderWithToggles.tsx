@@ -6,7 +6,7 @@ import { HEADER_HEIGHT_WITH_TOOLS, NAV_BAR_WIDTH } from '../../constants/layout'
 import { css } from '@emotion/react'
 import { headerZIndex } from '../../constants/z-indexes'
 import { ColorCodes } from '../../theme/theme'
-import { APP_TITLE } from '../../constants/widgets'
+import { APP_TITLE } from '../../constants/text-content'
 
 export const toolsElementId = 'toolsElementId'
 

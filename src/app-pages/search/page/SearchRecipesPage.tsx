@@ -1,11 +1,11 @@
 import { useContext } from 'react'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
 import RecipesContent from './RecipesContent'
-import ViewingManagement from './ViewingManagement'
+import SearchManagement from './SearchManagement'
 import FilteringProvider from './FilteringProvider'
 import SplitView from '../../../layout/views/SplitView'
 import RegularTopShowOrHideView from '../../../layout/views/RegularTopShowOrHideView'
-import { RecipesViewingContext } from './RecipesViewingProvider'
+import { RecipesViewingContext } from './SearchRecipesProvider'
 
 /**
  * This page displays the actual recipes and viewing management "tools" with which the user
@@ -15,11 +15,11 @@ import { RecipesViewingContext } from './RecipesViewingProvider'
  * and set filters. If the window width is large enough, the view management "tools" are displayed
  * on the left.
  */
-const RecipesViewingPage = () => {
+const SearchRecipesPage = () => {
   const { isSplitView } = useContext(ViewSizeContext)
   const { someFeatureIsToggled, showFiltering } = useContext(RecipesViewingContext)
 
-  const viewingManagement = <ViewingManagement />
+  const viewingManagement = <SearchManagement />
   const actualRecipes = <RecipesContent />
 
   return (
@@ -37,4 +37,4 @@ const RecipesViewingPage = () => {
   )
 }
 
-export default RecipesViewingPage
+export default SearchRecipesPage

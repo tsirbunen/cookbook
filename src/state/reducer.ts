@@ -1,4 +1,4 @@
-import { RecipesFilterValues } from '../app-pages/recipes/page/FilteringProvider'
+import { RecipesFilterValues } from '../app-pages/search/page/FilteringProvider'
 import { Recipe } from '../types/graphql-schema-types.generated'
 import { RecipeCategory } from '../types/types'
 import { AppState } from './StateContextProvider'

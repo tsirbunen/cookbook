@@ -3,7 +3,6 @@ import { IconType } from 'react-icons/lib'
 import ButtonWithTheme from '../../theme/buttons/ButtonWithTheme'
 import Badge from '../badge/Badge'
 import { ButtonVariant } from '../../theme/buttons/buttons-theme'
-import { BADGE_SIZE } from '../../constants/widgets'
 
 export const selectModeToggleProperty = 'selectMode'
 export const pickedRecipesToggleProperty = 'pickedRecipes'

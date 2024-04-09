@@ -7,7 +7,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import FormSubmitButtons from '../../../widgets/form-submit-buttons/FormSubmitButtons'
 import FormButtonsSelector from '../../../widgets/form-buttons-selector/FormButtonsSelector'
 import FormTextAreaSearch from '../../../widgets/form-textarea-search/FormTextAreaSearch'
-import { RecipesViewingContext } from '../page/RecipesViewingProvider'
+import { RecipesViewingContext } from '../page/SearchRecipesProvider'
 import { Category } from '../../../types/types'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
 

@@ -16,7 +16,7 @@ import { CookingContext } from '../page/CookingProvider'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
 import { TimerData } from '../../../types/types'
 import { differenceInSeconds } from 'date-fns'
-import { RecipesViewingContext } from '../../recipes/page/RecipesViewingProvider'
+import { RecipesViewingContext } from '../../search/page/SearchRecipesProvider'
 
 type RecipeTogglesProps = {
   recipe: Recipe

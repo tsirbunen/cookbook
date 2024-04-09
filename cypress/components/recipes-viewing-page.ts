@@ -3,14 +3,14 @@ import { togglesTestId } from '../../src/widgets/toggles/Toggles'
 import {
   ViewRecipesMode,
   viewModeManagementToolDataTestId
-} from '../../src/app-pages/recipes/viewing-management/ViewModeManagementTool'
-import { pickedRecipesManagementToolDataTestId } from '../../src/app-pages/recipes/viewing-management/PickedRecipesManagementTool'
-import { filteringManagementToolDataTestId } from '../../src/app-pages/recipes/viewing-management/FilteringManagementTool'
-import { photoRepresentationDataTestId } from '../../src/app-pages/recipes/recipes-display/PhotoCardRecipe'
-import { summaryRepresentationDataTestId } from '../../src/app-pages/recipes/recipes-display/SummaryRecipe'
-import { titleRepresentationDataTestId } from '../../src/app-pages/recipes/recipes-display/TitleRecipe'
+} from '../../src/app-pages/search/search-management/ViewModeManagementTool'
+import { pickedRecipesManagementToolDataTestId } from '../../src/app-pages/search/search-management/PickedRecipesManagementTool'
+import { filteringManagementToolDataTestId } from '../../src/app-pages/search/search-management/FilteringManagementTool'
+import { photoRepresentationDataTestId } from '../../src/app-pages/search/recipes-display/PhotoCardRecipe'
+import { summaryRepresentationDataTestId } from '../../src/app-pages/search/recipes-display/SummaryRecipe'
+import { titleRepresentationDataTestId } from '../../src/app-pages/search/recipes-display/TitleRecipe'
 import { cardRadioButtonSelectorDataTestId } from '../../src/widgets/card-radio-button-selector/CardRadioButtonSelector'
-import { recipesContentDataTestId } from '../../src/app-pages/recipes/page/RecipesContent'
+import { recipesContentDataTestId } from '../../src/app-pages/search/page/RecipesContent'
 import {
   selectModeToggleProperty,
   pickedRecipesToggleProperty,

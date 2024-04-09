@@ -21,10 +21,9 @@ Feature: Navigation
         Then the navigation bar is visible
 
         Examples:
-            | menu item | page      |
-            | cook      | cook      |
-            | wizard    | wizard    |
-            | settings  | settings  |
-            | shopping  | shopping  |
-            | favorites | favorites |
+            | menu item | page     |
+            | cook      | cook     |
+            | wizard    | wizard   |
+            | settings  | settings |
+            | shopping  | shopping |
 

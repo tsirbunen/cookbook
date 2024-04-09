@@ -1,7 +1,7 @@
 import { Flex, ChakraProps } from '@chakra-ui/react'
 import { ColorCodes } from '../../../theme/theme'
 
-import { RecipesViewingContext } from '../page/RecipesViewingProvider'
+import { RecipesViewingContext } from '../page/SearchRecipesProvider'
 import { useContext } from 'react'
 import CardRadioButtonSelector from '../../../widgets/card-radio-button-selector/CardRadioButtonSelector'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'

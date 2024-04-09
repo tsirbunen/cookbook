@@ -2,7 +2,7 @@ import { Base } from './base'
 import { formButtonsSelectorDataTestId } from '../../src/widgets/form-buttons-selector/FormButtonsSelector'
 import { formTextAreaSearchDataTestId } from '../../src/widgets/form-textarea-search/FormTextAreaSearch'
 import { formSubmitButtonsDataTestId } from '../../src/widgets/form-submit-buttons/FormSubmitButtons'
-import { photoRepresentationDataTestId } from '../../src/app-pages/recipes/recipes-display/PhotoCardRecipe'
+import { photoRepresentationDataTestId } from '../../src/app-pages/search/recipes-display/PhotoCardRecipe'
 
 export class RecipesFilterForm extends Base {
   verifyFormContainsElement(element: string) {

@@ -1,18 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import { useContext } from 'react'
 import { css } from '@emotion/react'
-import ViewModeManagementTool from '../viewing-management/ViewModeManagementTool'
-import { RecipesViewingContext } from './RecipesViewingProvider'
+import ViewModeManagementTool from '../search-management/ViewModeManagementTool'
+import { RecipesViewingContext } from './SearchRecipesProvider'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
-import PickedRecipesManagementTool from '../viewing-management/PickedRecipesManagementTool'
+import PickedRecipesManagementTool from '../search-management/PickedRecipesManagementTool'
 import { createPortal } from 'react-dom'
 import { toolsElementId } from '../../../widgets/header-with-optional-toggles/HeaderWithToggles'
 
 import { SPLIT_VIEW_WIDTH } from '../../../constants/layout'
-import RecipesViewingHeaderToggles from '../viewing-management/RecipesViewingHeaderToggles'
-import FilteringManagementTool from '../viewing-management/FilteringManagementTool'
+import RecipesViewingHeaderToggles from '../search-management/SearchRecipesHeaderToggles'
+import FilteringManagementTool from '../search-management/FilteringManagementTool'
 
-const ViewingManagement = () => {
+const SearchManagement = () => {
   const { isSplitView } = useContext(ViewSizeContext)
   const { showSelectMode, showPickedRecipes, showFiltering, someFeatureIsToggled } = useContext(RecipesViewingContext)
 
@@ -32,7 +32,7 @@ const ViewingManagement = () => {
   )
 }
 
-export default ViewingManagement
+export default SearchManagement
 
 const slitViewCss = (someFeatureIsToggled: boolean) => css`
   width: ${someFeatureIsToggled ? `${SPLIT_VIEW_WIDTH}` : '0'}px;

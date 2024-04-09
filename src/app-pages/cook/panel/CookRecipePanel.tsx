@@ -14,7 +14,7 @@ import CategoryTitle from './CategoryTitle'
 import { ColorCodes } from '../../../theme/theme'
 import { useContext, useMemo } from 'react'
 import { CookingContext } from '../page/CookingProvider'
-import { RecipesViewingContext } from '../../recipes/page/RecipesViewingProvider'
+import { RecipesViewingContext } from '../../search/page/SearchRecipesProvider'
 
 type RecipePanelProps = {
   recipe?: Recipe

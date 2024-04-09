@@ -2,7 +2,7 @@
 
 import React, { createContext, useReducer } from 'react'
 import { DispatchAction, reducer } from './reducer'
-import { RecipesFilterValues, getEmptyFilterValues } from '../app-pages/recipes/page/FilteringProvider'
+import { RecipesFilterValues, getEmptyFilterValues } from '../app-pages/search/page/FilteringProvider'
 import { RecipeCategory, Settings } from '../types/types'
 import { Recipe } from '../types/graphql-schema-types.generated'
 

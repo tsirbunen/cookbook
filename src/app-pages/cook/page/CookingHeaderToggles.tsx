@@ -10,7 +10,7 @@ import Toggle, { pickedRecipesToggleProperty } from '../../../widgets/toggles/To
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
 import { IconType } from 'react-icons'
 import { DispatchCookingEvent, DisplayDirection } from '../cooking-state/cooking-reducer'
-import { RecipesViewingContext } from '../../recipes/page/RecipesViewingProvider'
+import { RecipesViewingContext } from '../../search/page/SearchRecipesProvider'
 
 const displayCountOptionsAll = [
   { label: '1', value: 1, icon: TbColumns1 },

@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect } from 'react'
 import { useRecipeApi } from './useRecipeApi'
 import { AppStateContext, AppStateContextType } from '../state/StateContextProvider'
 import { Dispatch } from '../state/reducer'
-import { RecipesFilterValues, getEmptyFilterValues } from '../app-pages/recipes/page/FilteringProvider'
+import { RecipesFilterValues, getEmptyFilterValues } from '../app-pages/search/page/FilteringProvider'
 import { getFilteredCategorizedRecipes } from './utils'
 
 export type RecipeService = {

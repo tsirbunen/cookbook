@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic'
 
-const RecipesViewingPage = dynamic(() => import('../../src/app-pages/recipes/page/RecipesViewingPage'), {
+const SearchRecipesPage = dynamic(() => import('../../src/app-pages/search/page/SearchRecipesPage'), {
   ssr: false
 })
 
@@ -12,5 +12,5 @@ const RecipesViewingPage = dynamic(() => import('../../src/app-pages/recipes/pag
  * src/app-pages folder.
  */
 export default function Recipes() {
-  return <RecipesViewingPage />
+  return <SearchRecipesPage />
 }

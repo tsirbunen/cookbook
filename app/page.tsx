@@ -3,12 +3,13 @@
 import { Flex, Text, Button, ChakraProps } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import { ColorCodes } from '../src/theme/theme'
-import { APP_TITLE } from '../src/constants/widgets'
+import AppIntro from '../src/app-pages/home/AppIntro'
+import { APP_TITLE } from '../src/constants/text-content'
 
 export const launchPageTestId = 'cookbook-launch-page'
 export const startButtonTestId = 'start-button'
 
-const welcomeText = 'Welcome to'
+const welcomeText = 'Welcome to the'
 const startPage = '/home'
 const startText = 'START'
 
@@ -29,6 +30,9 @@ export default function Home() {
       <Flex {...innerCss}>
         <Text {...welcomeCss}>{welcomeText}</Text>
         <Text {...titleCss}>{APP_TITLE}</Text>
+        <Flex {...introCss}>
+          <AppIntro alignment="center" />
+        </Flex>
 
         <Button variant="mediumSizePale" onClick={startUsingApp} data-testid={startButtonTestId}>
           {startText}
@@ -56,9 +60,14 @@ const welcomeCss = {
   marginBottom: '10px'
 }
 
+const introCss = {
+  width: '450px',
+  textAlign: 'center' as ChakraProps['textAlign'],
+  marginBottom: '20px'
+}
+
 const titleCss = {
   fontSize: '1.75em',
   color: ColorCodes.DARK,
-  fontWeight: 'bold',
-  marginBottom: '20px'
+  fontWeight: '900'
 }

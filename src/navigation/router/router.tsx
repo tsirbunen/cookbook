@@ -1,31 +1,28 @@
 import React from 'react'
 import { IconType } from 'react-icons/lib'
-import { TbSettings, TbListDetails, TbBasket, TbWand, TbChefHat, TbStar } from 'react-icons/tb'
+import { TbSettings, TbBasket, TbWand, TbChefHat, TbSearch } from 'react-icons/tb'
 import { IoHomeOutline } from 'react-icons/io5'
-import RecipesPage from '../../app-pages/recipes/page/RecipesViewingPage'
+import RecipesPage from '../../app-pages/search/page/SearchRecipesPage'
 import SettingsPage from '../../app-pages/settings/SettingsPage'
 import ShoppingPage from '../../app-pages/shopping/ShoppingPage'
-import FavoritesPage from '../../app-pages/favorites/FavoritesPage'
 import WizardPage from '../../app-pages/wizard/WizardPage'
 import CookPage from '../../app-pages/cook/page/CookPage'
 import HomePage from '../../app-pages/home/HomePage'
 
 export enum Page {
   HOME = 'home',
-  RECIPES = 'recipes',
+  SEARCH = 'search',
   COOK = 'cook',
   WIZARD = 'wizard',
-  FAVORITES = 'favorites',
   SETTINGS = 'settings',
   SHOPPING = 'shopping'
 }
 
 export const pagePaths: Record<Page, string> = {
   [Page.HOME]: '/home',
-  [Page.RECIPES]: '/recipes',
+  [Page.SEARCH]: '/search',
   [Page.COOK]: '/cook',
   [Page.WIZARD]: '/wizard',
-  [Page.FAVORITES]: '/favorites',
   [Page.SETTINGS]: '/settings',
   [Page.SHOPPING]: '/shopping'
 }
@@ -50,10 +47,10 @@ export const navigationMenuItems: NavigationMenuItem[] = [
     headerHasTools: true
   },
   {
-    page: Page.RECIPES,
-    label: 'recipes',
-    iconElement: TbListDetails,
-    path: '/recipes',
+    page: Page.SEARCH,
+    label: 'search',
+    iconElement: TbSearch,
+    path: '/search',
     element: RecipesPage,
     headerHasTools: true
   },
@@ -71,14 +68,6 @@ export const navigationMenuItems: NavigationMenuItem[] = [
     iconElement: TbWand,
     path: '/wizard',
     element: WizardPage,
-    headerHasTools: true
-  },
-  {
-    page: Page.FAVORITES,
-    label: 'favorites',
-    iconElement: TbStar,
-    path: '/favorites',
-    element: FavoritesPage,
     headerHasTools: true
   },
   {

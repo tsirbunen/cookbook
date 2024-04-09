@@ -1,6 +1,6 @@
 import { ChakraProps, Flex } from '@chakra-ui/react'
 import { ColorCodes } from '../../theme/theme'
-import { BADGE_SIZE } from '../../constants/widgets'
+import { BADGE_SIZE } from '../../constants/layout'
 
 type BadgeProps = {
   count: number

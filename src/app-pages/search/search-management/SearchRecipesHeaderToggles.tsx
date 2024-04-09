@@ -1,16 +1,16 @@
 import { useContext } from 'react'
-import { TbCheckbox, TbTool, TbListDetails } from 'react-icons/tb'
+import { TbCheckbox, TbTool, TbSearch } from 'react-icons/tb'
 import Toggle, {
   filteringToggleProperty,
   pickedRecipesToggleProperty,
   selectModeToggleProperty
 } from '../../../widgets/toggles/Toggle'
 import { AppStateContext, AppStateContextType } from '../../../state/StateContextProvider'
-import { RecipesViewingContext } from '../page/RecipesViewingProvider'
+import { RecipesViewingContext } from '../page/SearchRecipesProvider'
 import { FiltersContext } from '../page/FilteringProvider'
 import Toggles from '../../../widgets/toggles/Toggles'
 
-const RecipesViewingHeaderToggles = () => {
+const SearchRecipesHeaderToggles = () => {
   const { state } = useContext(AppStateContext) as AppStateContextType
 
   const { appliedFiltersCount } = useContext(FiltersContext)
@@ -32,7 +32,7 @@ const RecipesViewingHeaderToggles = () => {
       <Toggle
         isToggled={showSelectMode}
         toggle={toggleShowSelectMode}
-        Icon={TbListDetails}
+        Icon={TbSearch}
         toggleProperty={selectModeToggleProperty}
       />
 
@@ -58,4 +58,4 @@ const RecipesViewingHeaderToggles = () => {
   )
 }
 
-export default RecipesViewingHeaderToggles
+export default SearchRecipesHeaderToggles

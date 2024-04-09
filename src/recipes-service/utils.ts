@@ -1,8 +1,8 @@
 import { Recipe } from '../types/graphql-schema-types.generated'
-import { NO_CATEGORY_TITLE } from '../constants/layout'
 import { RecipeCategory } from '../types/types'
 import { SearchMode } from '../widgets/form-textarea-search/FormTextAreaSearch'
-import { RecipesFilterValues } from '../app-pages/recipes/page/FilteringProvider'
+import { RecipesFilterValues } from '../app-pages/search/page/FilteringProvider'
+import { NO_CATEGORY_TITLE } from '../constants/text-content'
 
 export const getFilteredCategorizedRecipes = (allRecipes: Recipe[], filters?: RecipesFilterValues) => {
   let filteredRecipes: RecipeCategory[] = []

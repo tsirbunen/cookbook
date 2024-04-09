@@ -34,7 +34,7 @@ const CookingProvider = dynamic(() => import('../src/app-pages/cook/page/Cooking
   ssr: false
 })
 
-const RecipesViewingProvider = dynamic(() => import('../src/app-pages/recipes/page/RecipesViewingProvider'), {
+const SearchRecipesProvider = dynamic(() => import('../src/app-pages/search/page/SearchRecipesProvider'), {
   ssr: false
 })
 
@@ -66,13 +66,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <ViewSizeContextProvider>
                 <GraphQLClientProvider>
                   <RecipeServiceProvider>
-                    <RecipesViewingProvider>
+                    <SearchRecipesProvider>
                       <CookingProvider>
                         <SoundProvider>
                           <MainAppLayout>{children}</MainAppLayout>
                         </SoundProvider>
                       </CookingProvider>
-                    </RecipesViewingProvider>
+                    </SearchRecipesProvider>
                   </RecipeServiceProvider>
                 </GraphQLClientProvider>
               </ViewSizeContextProvider>

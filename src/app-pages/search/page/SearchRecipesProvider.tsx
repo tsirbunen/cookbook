@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState } from 'react'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
-import { ViewRecipesMode } from '../viewing-management/ViewModeManagementTool'
+import { ViewRecipesMode } from '../search-management/ViewModeManagementTool'
 import { LocalStorageContext, LocalStorageKeys } from '../../../state/LocalStorageProvider'
 
 type RecipesViewing = {
@@ -29,7 +29,7 @@ export const RecipesViewingContext = createContext<RecipesViewing>({} as Recipes
  * what viewing management "tools" are displayed (if any) and if recipes are shown
  * and in what mode (with what kind of styling).
  */
-const RecipesViewingProvider = ({ children }: { children: React.ReactNode }) => {
+const SearchRecipesProvider = ({ children }: { children: React.ReactNode }) => {
   const { isSplitView } = useContext(ViewSizeContext)
   const { favoriteRecipeIds, toggleValueForKey } = useContext(LocalStorageContext)
   const [mode, setMode] = useState(ViewRecipesMode.PHOTOS)
@@ -71,4 +71,4 @@ const RecipesViewingProvider = ({ children }: { children: React.ReactNode }) => 
   )
 }
 
-export default RecipesViewingProvider
+export default SearchRecipesProvider

@@ -1,6 +1,6 @@
 import { ReactElement } from 'react'
 import { range } from 'lodash'
-import { RELEVANT_OVERLAP_THRESHOLD } from '../../constants/widgets'
+import { RELEVANT_OVERLAP_THRESHOLD } from '../../constants/layout'
 
 export const getVisualIndexDeltas = (
   indexOfItem: number,
