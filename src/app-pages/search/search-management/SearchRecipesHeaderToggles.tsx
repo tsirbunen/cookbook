@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { TbCheckbox, TbTool, TbSearch } from 'react-icons/tb'
+import { TbCheckbox, TbTool, TbListDetails } from 'react-icons/tb'
 import Toggle, {
   filteringToggleProperty,
   pickedRecipesToggleProperty,
@@ -32,7 +32,7 @@ const SearchRecipesHeaderToggles = () => {
       <Toggle
         isToggled={showSelectMode}
         toggle={toggleShowSelectMode}
-        Icon={TbSearch}
+        Icon={TbListDetails}
         toggleProperty={selectModeToggleProperty}
       />
 

@@ -12,16 +12,19 @@ const basic = definePartsStyle({
     borderStyle: 'none'
   },
   button: {
-    border: 'none none dashed none',
-    borderWidth: '0 0 2px 0',
-    borderColor: PALE_COLOR,
+    // background: EXTREMELY_PALE_COLOR,
+    // border: 'solid none dashed none',
+    borderWidth: '2px 0 0px 0',
+    borderColor: VERY_PALE_COLOR,
     _expanded: {
-      borderStyle: 'none'
+      // borderStyle: 'none'
+      borderWidth: '2px 0 0px 0'
     }
   },
   icon: {
+    opacity: 1,
     border: 'none',
-    background: VERY_PALE_COLOR,
+    background: PALE_COLOR,
     borderRadius: 'full',
     color: DARK_COLOR,
     fontSize: '30px'

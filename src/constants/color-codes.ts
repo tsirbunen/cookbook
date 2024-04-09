@@ -1,4 +1,5 @@
 export const BACKGROUND_COLOR = '#E5E5E5'
+export const EXTREMELY_PALE_COLOR = '#DEDDD9'
 export const VERY_PALE_COLOR = '#c7c6c1'
 export const PALE_COLOR = '#afada9'
 export const SLIGHTLY_PALE_COLOR = '#9C9C9C'
