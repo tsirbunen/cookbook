@@ -12,12 +12,11 @@ const basic = definePartsStyle({
     borderStyle: 'none'
   },
   button: {
-    // background: EXTREMELY_PALE_COLOR,
-    // border: 'solid none dashed none',
+    borderStyle: 'dashed none none none',
     borderWidth: '2px 0 0px 0',
     borderColor: VERY_PALE_COLOR,
     _expanded: {
-      // borderStyle: 'none'
+      borderStyle: 'dashed none none none',
       borderWidth: '2px 0 0px 0'
     }
   },

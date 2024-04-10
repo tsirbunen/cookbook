@@ -40,9 +40,6 @@ const outerCss = (width: number) => css`
   display: flex;
   flex-direction: column;
   width: ${width}px;
-  .is-scrollLocked {
-    overflow: hidden;
-  }
 `
 
 const mainCss = css`

@@ -5,10 +5,11 @@ import SummaryRecipe from './SummaryRecipe'
 import TitleRecipe from './TitleRecipe'
 import { ViewRecipesMode } from '../search-management/ViewModeManagementTool'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
-import { NO_CATEGORY_TITLE } from '../../../constants/layout'
+
 import { useEffect, useState } from 'react'
 import { ColorCodes } from '../../../theme/theme'
 import DraggableItemsList from '../../../widgets/draggable-items-list/DraggableItemsList'
+import { NO_CATEGORY_TITLE } from '../../../constants/text-content'
 
 const recipesElementsByMode = {
   PHOTOS: PhotoCardRecipe,
