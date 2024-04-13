@@ -1,7 +1,7 @@
 Feature: View mode management
 
     Background:
-        Given one has navigated to the COOKBOOK app page "recipes"
+        Given one has navigated to the COOKBOOK app page "search"
 
     Scenario: One changes the viewing mode to see different recipe representations
         When one toggles the toggle for tool "select mode"

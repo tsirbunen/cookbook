@@ -8,6 +8,48 @@
       "when": 1703835444366,
       "tag": "0000_aspiring_blue_blade",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1712726839114,
+      "tag": "0001_deep_proteus",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1712899511210,
+      "tag": "0002_small_wong",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1712982222604,
+      "tag": "0003_majestic_owl",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1712982697423,
+      "tag": "0004_mute_hellfire_club",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1712990870734,
+      "tag": "0005_acoustic_wallow",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1712992509847,
+      "tag": "0006_romantic_hammerhead",
+      "breakpoints": true
     }
   ]
 }

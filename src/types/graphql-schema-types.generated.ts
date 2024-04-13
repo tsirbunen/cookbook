@@ -14,14 +14,6 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
-export enum Category {
-  Breakfast = 'BREAKFAST',
-  Brunch = 'BRUNCH',
-  Dinner = 'DINNER',
-  Lunch = 'LUNCH',
-  Snack = 'SNACK'
-}
-
 export type Ingredient = {
   __typename?: 'Ingredient';
   amount?: Maybe<Scalars['Float']['output']>;
@@ -42,7 +34,6 @@ export type Instruction = {
   __typename?: 'Instruction';
   content: Scalars['String']['output'];
   id: Scalars['Int']['output'];
-  ingredientReferenceIds: Array<Maybe<Scalars['Int']['output']>>;
   previousInstructionId?: Maybe<Scalars['Int']['output']>;
 };
 
@@ -58,6 +49,13 @@ export type Mutation = {
   pingMutation?: Maybe<Scalars['String']['output']>;
 };
 
+export type Photo = {
+  __typename?: 'Photo';
+  id: Scalars['Int']['output'];
+  isMainPhoto: Scalars['Boolean']['output'];
+  url: Scalars['String']['output'];
+};
+
 export type Query = {
   __typename?: 'Query';
   allRecipes: Array<Recipe>;
@@ -66,15 +64,19 @@ export type Query = {
 
 export type Recipe = {
   __typename?: 'Recipe';
-  category?: Maybe<Category>;
+  category?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['String']['output']>;
-  extraImageUrls: Array<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   ingredientGroups: Array<IngredientGroup>;
   instructionGroups: Array<InstructionGroup>;
-  isFavorite: Scalars['Boolean']['output'];
-  mainImageUrl?: Maybe<Scalars['String']['output']>;
   ovenNeeded: Scalars['Boolean']['output'];
-  tags: Array<Scalars['String']['output']>;
+  photos?: Maybe<Array<Photo>>;
+  tags?: Maybe<Array<Tag>>;
   title: Scalars['String']['output'];
+};
+
+export type Tag = {
+  __typename?: 'Tag';
+  id: Scalars['Int']['output'];
+  tag: Scalars['String']['output'];
 };

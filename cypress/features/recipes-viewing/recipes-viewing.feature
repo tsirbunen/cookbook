@@ -1,7 +1,7 @@
 Feature: Viewing recipes
 
     Background:
-        Given one has navigated to the COOKBOOK app page "recipes"
+        Given one has navigated to the COOKBOOK app page "search"
 
     Scenario: One toggles the viewing management tools open and close in different use modes
         Given use mode is "<mode>"

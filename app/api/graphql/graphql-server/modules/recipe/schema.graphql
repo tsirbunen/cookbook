@@ -1,9 +1,3 @@
-type IngredientGroup {
-  id: Int!
-  title: String
-  ingredients: [Ingredient!]!
-}
-
 type Ingredient {
   id: Int!
   name: String!
@@ -12,36 +6,42 @@ type Ingredient {
   previousIngredientId: Int
 }
 
-type InstructionGroup {
+type IngredientGroup {
   id: Int!
   title: String
-  instructions: [Instruction!]!
+  ingredients: [Ingredient!]!
 }
 
 type Instruction {
   id: Int!
   content: String!
   previousInstructionId: Int
-  ingredientReferenceIds: [Int]!
 }
 
-enum Category {
-  BREAKFAST
-  LUNCH
-  DINNER
-  BRUNCH
-  SNACK
+type InstructionGroup {
+  id: Int!
+  title: String
+  instructions: [Instruction!]!
+}
+
+type Photo {
+  id: Int!
+  url: String!
+  isMainPhoto: Boolean!
+}
+
+type Tag {
+  id: Int!
+  tag: String!
 }
 
 type Recipe {
   id: Int!
   title: String!
   description: String
-  mainImageUrl: String
-  extraImageUrls: [String!]!
-  tags: [String!]!
-  isFavorite: Boolean!
-  category: Category
+  photos: [Photo!]
+  tags: [Tag!]
+  category: String
   ovenNeeded: Boolean!
   ingredientGroups: [IngredientGroup!]!
   instructionGroups: [InstructionGroup!]!

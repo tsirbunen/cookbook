@@ -6,6 +6,7 @@ import FilteringProvider from './FilteringProvider'
 import SplitView from '../../../layout/views/SplitView'
 import RegularTopShowOrHideView from '../../../layout/views/RegularTopShowOrHideView'
 import { RecipesViewingContext } from './SearchRecipesProvider'
+import { Page } from '../../../navigation/router/router'
 
 /**
  * This page displays the actual recipes and viewing management "tools" with which the user
@@ -18,19 +19,25 @@ import { RecipesViewingContext } from './SearchRecipesProvider'
 const SearchRecipesPage = () => {
   const { isSplitView } = useContext(ViewSizeContext)
   const { someFeatureIsToggled, showFiltering } = useContext(RecipesViewingContext)
-
+  const searchPageTestId = `${Page.SEARCH}-page`
   const viewingManagement = <SearchManagement />
   const actualRecipes = <RecipesContent />
 
   return (
     <FilteringProvider>
       {isSplitView ? (
-        <SplitView splitContent={viewingManagement} mainContent={actualRecipes} hideSplit={!someFeatureIsToggled} />
+        <SplitView
+          splitContent={viewingManagement}
+          mainContent={actualRecipes}
+          hideSplit={!someFeatureIsToggled}
+          testId={searchPageTestId}
+        />
       ) : (
         <RegularTopShowOrHideView
           topShowOrHideContent={viewingManagement}
           mainContent={actualRecipes}
           showFullHeightTools={showFiltering}
+          testId={searchPageTestId}
         />
       )}
     </FilteringProvider>

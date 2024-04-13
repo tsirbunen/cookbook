@@ -1,7 +1,7 @@
 Feature: Filtering management
 
     Background:
-        Given one has navigated to the COOKBOOK app page "recipes"
+        Given one has navigated to the COOKBOOK app page "search"
         Then "more than" "2" recipes are displayed
 
 
@@ -19,7 +19,7 @@ Feature: Filtering management
         Then "exactly" "0" recipes are displayed
         Then the number of set filters shown in toggle badge is "0"
         When one clicks the category button "SNACK"
-        When one clicks the category button "BRUNCH"
+        When one clicks the category button "DESSERT"
         Then the number of set filters shown in toggle badge is "0"
         When one submits the form
         Then the number of set filters shown in toggle badge is "1"
@@ -33,7 +33,7 @@ Feature: Filtering management
 
     Scenario: One can filter recipes by ingredients
         When one toggles the toggle for tool "filtering"
-        When one enters text "blueberry" into the ingredients text input area
+        When one enters text "BLUEBERRY" into the ingredients text input area
         When one submits the form
         Then the number of set filters shown in toggle badge is "1"
         Then "exactly" "1" recipes are displayed
@@ -47,7 +47,8 @@ Feature: Filtering management
     Scenario: One can filter recipes by multiple filters
         When one toggles the toggle for tool "filtering"
         When one clicks the category button "SNACK"
-        When one enters text "cypress" into the ingredients text input area
+        When one clicks the category button "DESSERT"
+        When one enters text "BLUEBERRY" into the ingredients text input area
         When one submits the form
         Then the number of set filters shown in toggle badge is "2"
         Then "exactly" "1" recipes are displayed

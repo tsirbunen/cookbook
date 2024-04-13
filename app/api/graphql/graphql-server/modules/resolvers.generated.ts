@@ -5,9 +5,11 @@ import    { IngredientGroup } from './recipe/resolvers/IngredientGroup';
 import    { Instruction } from './recipe/resolvers/Instruction';
 import    { InstructionGroup } from './recipe/resolvers/InstructionGroup';
 import    { pingMutation as Mutation_pingMutation } from './mutation/resolvers/Mutation/pingMutation';
+import    { Photo } from './recipe/resolvers/Photo';
 import    { allRecipes as Query_allRecipes } from './recipe/resolvers/Query/allRecipes';
 import    { pingQuery as Query_pingQuery } from './query/resolvers/Query/pingQuery';
 import    { Recipe } from './recipe/resolvers/Recipe';
+import    { Tag } from './recipe/resolvers/Tag';
     export const resolvers: Resolvers = {
       Query: { allRecipes: Query_allRecipes,pingQuery: Query_pingQuery },
       Mutation: { pingMutation: Mutation_pingMutation },
@@ -16,5 +18,7 @@ import    { Recipe } from './recipe/resolvers/Recipe';
 IngredientGroup: IngredientGroup,
 Instruction: Instruction,
 InstructionGroup: InstructionGroup,
-Recipe: Recipe
+Photo: Photo,
+Recipe: Recipe,
+Tag: Tag
     }

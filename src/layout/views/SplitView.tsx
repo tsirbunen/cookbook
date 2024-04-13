@@ -9,11 +9,12 @@ type SplitViewProps = {
   splitContent: JSX.Element
   mainContent: JSX.Element
   hideSplit: boolean
+  testId?: string
 }
 
-const SplitView = ({ splitContent, mainContent, hideSplit }: SplitViewProps) => {
+const SplitView = ({ splitContent, mainContent, hideSplit, testId }: SplitViewProps) => {
   return (
-    <div css={view}>
+    <div css={view} data-testid={testId}>
       <div css={container}>
         <div css={splitOuter}>
           <div css={splitScrollable(!hideSplit)}>{splitContent}</div>

@@ -22,6 +22,7 @@ Feature: Navigation
 
         Examples:
             | menu item | page     |
+            | search    | search   |
             | cook      | cook     |
             | wizard    | wizard   |
             | settings  | settings |

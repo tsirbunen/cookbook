@@ -1,0 +1,1 @@
+ALTER TABLE "photos" RENAME COLUMN "is_main_image" TO "is_main_photo";

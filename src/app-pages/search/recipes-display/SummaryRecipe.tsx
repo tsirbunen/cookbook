@@ -35,7 +35,9 @@ const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked, isFavorite, isFi
   }
 
   const { title, tags, category, ovenNeeded } = recipe
-  const tagsCombined = tags.map((tag) => `#${tag.toUpperCase()}`).join(' ')
+  const tagsCombined = (tags ?? []).map(({ tag }) => `#${tag.toUpperCase()}`).join(' ')
+
+  console.log(recipe)
 
   return (
     <div>
@@ -67,7 +69,7 @@ const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked, isFavorite, isFi
           <RecipePropertyIcons
             isFavorite={isFavorite ?? false}
             ovenNeeded={ovenNeeded}
-            hasTags={tags.length > 0}
+            hasTags={tags ? tags.length > 0 : false}
             justifyContent="start"
           />
         </div>

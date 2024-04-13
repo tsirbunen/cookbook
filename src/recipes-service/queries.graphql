@@ -18,7 +18,6 @@ fragment InstructionEntity on Instruction {
   id
   content
   previousInstructionId
-  ingredientReferenceIds
 }
 
 fragment InstructionGroupEntity on InstructionGroup {
@@ -33,10 +32,15 @@ fragment RecipeEntity on Recipe {
   id
   title
   description
-  mainImageUrl
-  extraImageUrls
-  tags
-  isFavorite
+  photos {
+    id
+    url
+    isMainPhoto
+  }
+  tags {
+    id
+    tag
+  }
   category
   ovenNeeded
   ingredientGroups {

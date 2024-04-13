@@ -12,18 +12,20 @@ type RegularTopShowOrHideViewProps = {
   mainContent: JSX.Element
   isMultiPanel?: boolean
   showFullHeightTools: boolean
+  testId?: string
 }
 
 const RegularTopShowOrHideView = ({
   topShowOrHideContent,
   mainContent,
-  showFullHeightTools
+  showFullHeightTools,
+  testId
 }: RegularTopShowOrHideViewProps) => {
   const { windowWidth } = useContext(ViewSizeContext)
   const width = windowWidth.current - NAV_BAR_WIDTH
 
   return (
-    <div css={viewCss}>
+    <div css={viewCss} data-testid={testId}>
       <div css={pageCss(width)}>
         <div css={containerCss(showFullHeightTools)} id={'GGG'}>
           <div css={topOuterCss}>

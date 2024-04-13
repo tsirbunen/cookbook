@@ -15,13 +15,6 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
-export type Category =
-  | 'BREAKFAST'
-  | 'BRUNCH'
-  | 'DINNER'
-  | 'LUNCH'
-  | 'SNACK';
-
 export type Ingredient = {
   __typename?: 'Ingredient';
   amount?: Maybe<Scalars['Float']['output']>;
@@ -42,7 +35,6 @@ export type Instruction = {
   __typename?: 'Instruction';
   content: Scalars['String']['output'];
   id: Scalars['Int']['output'];
-  ingredientReferenceIds: Array<Maybe<Scalars['Int']['output']>>;
   previousInstructionId?: Maybe<Scalars['Int']['output']>;
 };
 
@@ -58,6 +50,13 @@ export type Mutation = {
   pingMutation?: Maybe<Scalars['String']['output']>;
 };
 
+export type Photo = {
+  __typename?: 'Photo';
+  id: Scalars['Int']['output'];
+  isMainPhoto: Scalars['Boolean']['output'];
+  url: Scalars['String']['output'];
+};
+
 export type Query = {
   __typename?: 'Query';
   allRecipes: Array<Recipe>;
@@ -66,17 +65,21 @@ export type Query = {
 
 export type Recipe = {
   __typename?: 'Recipe';
-  category?: Maybe<Category>;
+  category?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['String']['output']>;
-  extraImageUrls: Array<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   ingredientGroups: Array<IngredientGroup>;
   instructionGroups: Array<InstructionGroup>;
-  isFavorite: Scalars['Boolean']['output'];
-  mainImageUrl?: Maybe<Scalars['String']['output']>;
   ovenNeeded: Scalars['Boolean']['output'];
-  tags: Array<Scalars['String']['output']>;
+  photos?: Maybe<Array<Photo>>;
+  tags?: Maybe<Array<Tag>>;
   title: Scalars['String']['output'];
+};
+
+export type Tag = {
+  __typename?: 'Tag';
+  id: Scalars['Int']['output'];
+  tag: Scalars['String']['output'];
 };
 
 
@@ -150,7 +153,6 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Category: Category;
   Ingredient: ResolverTypeWrapper<Ingredient>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
@@ -159,9 +161,11 @@ export type ResolversTypes = {
   Instruction: ResolverTypeWrapper<Instruction>;
   InstructionGroup: ResolverTypeWrapper<InstructionGroup>;
   Mutation: ResolverTypeWrapper<{}>;
+  Photo: ResolverTypeWrapper<Photo>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Query: ResolverTypeWrapper<{}>;
   Recipe: ResolverTypeWrapper<Recipe>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  Tag: ResolverTypeWrapper<Tag>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -174,9 +178,11 @@ export type ResolversParentTypes = {
   Instruction: Instruction;
   InstructionGroup: InstructionGroup;
   Mutation: {};
+  Photo: Photo;
+  Boolean: Scalars['Boolean']['output'];
   Query: {};
   Recipe: Recipe;
-  Boolean: Scalars['Boolean']['output'];
+  Tag: Tag;
 };
 
 export type IngredientResolvers<ContextType = any, ParentType extends ResolversParentTypes['Ingredient'] = ResolversParentTypes['Ingredient']> = {
@@ -198,7 +204,6 @@ export type IngredientGroupResolvers<ContextType = any, ParentType extends Resol
 export type InstructionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Instruction'] = ResolversParentTypes['Instruction']> = {
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  ingredientReferenceIds?: Resolver<Array<Maybe<ResolversTypes['Int']>>, ParentType, ContextType>;
   previousInstructionId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -214,23 +219,34 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   pingMutation?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
+export type PhotoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Photo'] = ResolversParentTypes['Photo']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  isMainPhoto?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   allRecipes?: Resolver<Array<ResolversTypes['Recipe']>, ParentType, ContextType>;
   pingQuery?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
 export type RecipeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Recipe'] = ResolversParentTypes['Recipe']> = {
-  category?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType>;
+  category?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  extraImageUrls?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   ingredientGroups?: Resolver<Array<ResolversTypes['IngredientGroup']>, ParentType, ContextType>;
   instructionGroups?: Resolver<Array<ResolversTypes['InstructionGroup']>, ParentType, ContextType>;
-  isFavorite?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  mainImageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   ovenNeeded?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  tags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  photos?: Resolver<Maybe<Array<ResolversTypes['Photo']>>, ParentType, ContextType>;
+  tags?: Resolver<Maybe<Array<ResolversTypes['Tag']>>, ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type TagResolvers<ContextType = any, ParentType extends ResolversParentTypes['Tag'] = ResolversParentTypes['Tag']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  tag?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -240,7 +256,9 @@ export type Resolvers<ContextType = any> = {
   Instruction?: InstructionResolvers<ContextType>;
   InstructionGroup?: InstructionGroupResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  Photo?: PhotoResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Recipe?: RecipeResolvers<ContextType>;
+  Tag?: TagResolvers<ContextType>;
 };
 

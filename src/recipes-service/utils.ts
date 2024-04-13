@@ -5,18 +5,22 @@ import { RecipesFilterValues } from '../app-pages/search/page/FilteringProvider'
 import { NO_CATEGORY_TITLE } from '../constants/text-content'
 
 export const getFilteredCategorizedRecipes = (allRecipes: Recipe[], filters?: RecipesFilterValues) => {
-  let filteredRecipes: RecipeCategory[] = []
+  let filteredRecipes
+
+  // TODO: Add possibility to filter AND or OR!
 
   if (filters?.categories?.length) {
     const categoriesToInclude = filters.categories
-    allRecipes = allRecipes.filter((r) => r.category && categoriesToInclude.includes(r.category))
+    filteredRecipes = allRecipes.filter((r) => r.category && categoriesToInclude.includes(r.category))
+  } else {
+    filteredRecipes = allRecipes
   }
 
   if (filters?.ingredients.searchTerm.length) {
     const wordsToContain = filters.ingredients.searchTerm.split(' ').map((w) => w.toLowerCase())
 
     const filterFn = filters.ingredients.searchMode === SearchMode.AND ? 'every' : 'some'
-    allRecipes = allRecipes.filter((r) => {
+    filteredRecipes = filteredRecipes.filter((r) => {
       return r.ingredientGroups[filterFn]((g) => {
         return g.ingredients.some((i) => {
           return wordsToContain.some((w) => {
@@ -27,13 +31,12 @@ export const getFilteredCategorizedRecipes = (allRecipes: Recipe[], filters?: Re
     })
   }
 
-  if (!allRecipes) {
+  if (!filteredRecipes) {
     throw new Error('No recipes')
   }
 
-  filteredRecipes = arrangeRecipesInCategories(allRecipes)
-
-  return filteredRecipes
+  const filteredRecipesInCategories: RecipeCategory[] = arrangeRecipesInCategories(filteredRecipes)
+  return filteredRecipesInCategories
 }
 
 export const arrangeRecipesInCategories = (recipes: Recipe[]) => {

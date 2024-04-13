@@ -1,11 +1,13 @@
 import { Recipe } from './graphql-schema-types.generated'
 
+// TODO: extract all categories from database!
 export enum Category {
   'BREAKFAST' = 'BREAKFAST',
   'LUNCH' = 'LUNCH',
   'DINNER' = 'DINNER',
   'BRUNCH' = 'BRUNCH',
-  'SNACK' = 'SNACK'
+  'SNACK' = 'SNACK',
+  'DESSERT' = 'DESSERT'
 }
 
 export type RecipeCategory = {
