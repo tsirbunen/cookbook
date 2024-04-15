@@ -43,6 +43,10 @@ fragment RecipeEntity on Recipe {
   }
   category
   ovenNeeded
+  language {
+    id
+    language
+  }
   ingredientGroups {
     ...IngredientGroupEntity
   }

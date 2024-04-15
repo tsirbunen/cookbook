@@ -1,7 +1,13 @@
 import { NextResponse } from 'next/server'
 
 import { database } from '../graphql/graphql-server/database/config/config'
-import { photos, recipes, recipesToTags, tags } from '../graphql/graphql-server/database/database-schemas/recipes'
+import {
+  languages,
+  photos,
+  recipes,
+  recipesToTags,
+  tags
+} from '../graphql/graphql-server/database/database-schemas/recipes'
 import { getDatabaseTableTestInputs } from './test-recipes-migration-data'
 import { ingredientGroups, ingredients } from '../graphql/graphql-server/database/database-schemas/ingredients'
 import { instructionGroups, instructions } from '../graphql/graphql-server/database/database-schemas/instructions'
@@ -18,6 +24,7 @@ export async function POST(_request: Request) {
 
 const performTestDataMigrations = async () => {
   const {
+    languageInputs,
     recipeInputs,
     photoInputs,
     tagInputs,
@@ -29,6 +36,7 @@ const performTestDataMigrations = async () => {
   } = getDatabaseTableTestInputs()
 
   await database.transaction(async (trx) => {
+    await trx.insert(languages).values(languageInputs).returning()
     await trx.insert(recipes).values(recipeInputs).returning()
     await trx.insert(photos).values(photoInputs).returning()
     await trx.insert(tags).values(tagInputs).returning()

@@ -35,6 +35,11 @@ type Tag {
   tag: String!
 }
 
+type Language {
+  id: Int!
+  language: String!
+}
+
 type Recipe {
   id: Int!
   title: String!
@@ -43,6 +48,7 @@ type Recipe {
   tags: [Tag!]
   category: String
   ovenNeeded: Boolean!
+  language: Language!
   ingredientGroups: [IngredientGroup!]!
   instructionGroups: [InstructionGroup!]!
 }

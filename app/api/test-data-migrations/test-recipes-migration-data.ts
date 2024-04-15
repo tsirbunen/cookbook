@@ -31,7 +31,8 @@ export const getDatabaseTableTestInputs = () => {
       title: recipe.title,
       description: recipe.description,
       category: recipe.category,
-      ovenNeeded: recipe.ovenNeeded
+      ovenNeeded: recipe.ovenNeeded,
+      languageId: 1
     })
 
     photoInputs.push({
@@ -89,7 +90,8 @@ export const getDatabaseTableTestInputs = () => {
     instructionGroupInputs,
     photoInputs,
     tagInputs,
-    recipesToTagsInputs
+    recipesToTagsInputs,
+    languageInputs: testLanguageInput
   }
 }
 
@@ -105,10 +107,11 @@ export const getTestDataForCypressGitHubActionsTests = () => {
       photos.push({ url: recipe.extraImageUrls![0], isMainPhoto: false, recipeId: recipe.id })
     }
 
-    return { ...rest, tags, photos }
+    return { ...rest, tags, photos, language: { ...testLanguageInput[0], id: 1 } }
   })
 }
 
+export const testLanguageInput = [{ language: 'English' }]
 export const testTagsInput = ['test-tag', 'cypress-tag']
 
 export const testRecipesToTagsInput: Record<number, number[]> = {

@@ -45,6 +45,12 @@ export type InstructionGroup = {
   title?: Maybe<Scalars['String']['output']>;
 };
 
+export type Language = {
+  __typename?: 'Language';
+  id: Scalars['Int']['output'];
+  language: Scalars['String']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   pingMutation?: Maybe<Scalars['String']['output']>;
@@ -70,6 +76,7 @@ export type Recipe = {
   id: Scalars['Int']['output'];
   ingredientGroups: Array<IngredientGroup>;
   instructionGroups: Array<InstructionGroup>;
+  language: Language;
   ovenNeeded: Scalars['Boolean']['output'];
   photos?: Maybe<Array<Photo>>;
   tags?: Maybe<Array<Tag>>;
@@ -160,6 +167,7 @@ export type ResolversTypes = {
   IngredientGroup: ResolverTypeWrapper<IngredientGroup>;
   Instruction: ResolverTypeWrapper<Instruction>;
   InstructionGroup: ResolverTypeWrapper<InstructionGroup>;
+  Language: ResolverTypeWrapper<Language>;
   Mutation: ResolverTypeWrapper<{}>;
   Photo: ResolverTypeWrapper<Photo>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
@@ -177,6 +185,7 @@ export type ResolversParentTypes = {
   IngredientGroup: IngredientGroup;
   Instruction: Instruction;
   InstructionGroup: InstructionGroup;
+  Language: Language;
   Mutation: {};
   Photo: Photo;
   Boolean: Scalars['Boolean']['output'];
@@ -215,6 +224,12 @@ export type InstructionGroupResolvers<ContextType = any, ParentType extends Reso
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type LanguageResolvers<ContextType = any, ParentType extends ResolversParentTypes['Language'] = ResolversParentTypes['Language']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  language?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   pingMutation?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
@@ -237,6 +252,7 @@ export type RecipeResolvers<ContextType = any, ParentType extends ResolversParen
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   ingredientGroups?: Resolver<Array<ResolversTypes['IngredientGroup']>, ParentType, ContextType>;
   instructionGroups?: Resolver<Array<ResolversTypes['InstructionGroup']>, ParentType, ContextType>;
+  language?: Resolver<ResolversTypes['Language'], ParentType, ContextType>;
   ovenNeeded?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   photos?: Resolver<Maybe<Array<ResolversTypes['Photo']>>, ParentType, ContextType>;
   tags?: Resolver<Maybe<Array<ResolversTypes['Tag']>>, ParentType, ContextType>;
@@ -255,6 +271,7 @@ export type Resolvers<ContextType = any> = {
   IngredientGroup?: IngredientGroupResolvers<ContextType>;
   Instruction?: InstructionResolvers<ContextType>;
   InstructionGroup?: InstructionGroupResolvers<ContextType>;
+  Language?: LanguageResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Photo?: PhotoResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;

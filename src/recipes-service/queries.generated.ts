@@ -10,12 +10,12 @@ export type InstructionEntityFragment = { __typename?: 'Instruction', id: number
 
 export type InstructionGroupEntityFragment = { __typename?: 'InstructionGroup', id: number, title?: string | null, instructions: Array<{ __typename?: 'Instruction', id: number, content: string, previousInstructionId?: number | null }> };
 
-export type RecipeEntityFragment = { __typename?: 'Recipe', id: number, title: string, description?: string | null, category?: string | null, ovenNeeded: boolean, photos?: Array<{ __typename?: 'Photo', id: number, url: string, isMainPhoto: boolean }> | null, tags?: Array<{ __typename?: 'Tag', id: number, tag: string }> | null, ingredientGroups: Array<{ __typename?: 'IngredientGroup', id: number, title?: string | null, ingredients: Array<{ __typename?: 'Ingredient', id: number, name: string, amount?: number | null, unit?: string | null, previousIngredientId?: number | null }> }>, instructionGroups: Array<{ __typename?: 'InstructionGroup', id: number, title?: string | null, instructions: Array<{ __typename?: 'Instruction', id: number, content: string, previousInstructionId?: number | null }> }> };
+export type RecipeEntityFragment = { __typename?: 'Recipe', id: number, title: string, description?: string | null, category?: string | null, ovenNeeded: boolean, photos?: Array<{ __typename?: 'Photo', id: number, url: string, isMainPhoto: boolean }> | null, tags?: Array<{ __typename?: 'Tag', id: number, tag: string }> | null, language: { __typename?: 'Language', id: number, language: string }, ingredientGroups: Array<{ __typename?: 'IngredientGroup', id: number, title?: string | null, ingredients: Array<{ __typename?: 'Ingredient', id: number, name: string, amount?: number | null, unit?: string | null, previousIngredientId?: number | null }> }>, instructionGroups: Array<{ __typename?: 'InstructionGroup', id: number, title?: string | null, instructions: Array<{ __typename?: 'Instruction', id: number, content: string, previousInstructionId?: number | null }> }> };
 
 export type AllRecipesQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type AllRecipesQuery = { __typename?: 'Query', allRecipes: Array<{ __typename?: 'Recipe', id: number, title: string, description?: string | null, category?: string | null, ovenNeeded: boolean, photos?: Array<{ __typename?: 'Photo', id: number, url: string, isMainPhoto: boolean }> | null, tags?: Array<{ __typename?: 'Tag', id: number, tag: string }> | null, ingredientGroups: Array<{ __typename?: 'IngredientGroup', id: number, title?: string | null, ingredients: Array<{ __typename?: 'Ingredient', id: number, name: string, amount?: number | null, unit?: string | null, previousIngredientId?: number | null }> }>, instructionGroups: Array<{ __typename?: 'InstructionGroup', id: number, title?: string | null, instructions: Array<{ __typename?: 'Instruction', id: number, content: string, previousInstructionId?: number | null }> }> }> };
+export type AllRecipesQuery = { __typename?: 'Query', allRecipes: Array<{ __typename?: 'Recipe', id: number, title: string, description?: string | null, category?: string | null, ovenNeeded: boolean, photos?: Array<{ __typename?: 'Photo', id: number, url: string, isMainPhoto: boolean }> | null, tags?: Array<{ __typename?: 'Tag', id: number, tag: string }> | null, language: { __typename?: 'Language', id: number, language: string }, ingredientGroups: Array<{ __typename?: 'IngredientGroup', id: number, title?: string | null, ingredients: Array<{ __typename?: 'Ingredient', id: number, name: string, amount?: number | null, unit?: string | null, previousIngredientId?: number | null }> }>, instructionGroups: Array<{ __typename?: 'InstructionGroup', id: number, title?: string | null, instructions: Array<{ __typename?: 'Instruction', id: number, content: string, previousInstructionId?: number | null }> }> }> };
 
 export const IngredientEntityFragmentDoc = gql`
     fragment IngredientEntity on Ingredient {
@@ -67,6 +67,10 @@ export const RecipeEntityFragmentDoc = gql`
   }
   category
   ovenNeeded
+  language {
+    id
+    language
+  }
   ingredientGroups {
     ...IngredientGroupEntity
   }

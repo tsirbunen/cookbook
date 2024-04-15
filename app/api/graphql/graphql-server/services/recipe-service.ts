@@ -8,6 +8,7 @@ export const getAllRecipes = async () => {
   const allRecipesRaw = await database.query.recipes.findMany({
     with: {
       photos: true,
+      language: true,
       recipesToTags: { with: { tags: true } },
       ingredientGroups: { with: { ingredients: true } },
       instructionGroups: { with: { instructions: true } }

@@ -8,7 +8,8 @@ export const recipes = pgTable('recipes', {
   title: varchar('title', { length: 250 }).notNull(),
   description: varchar('description', { length: 500 }),
   category: varchar('category', { length: 100 }),
-  ovenNeeded: boolean('oven_needed')
+  ovenNeeded: boolean('oven_needed'),
+  languageId: integer('language_id').references((): AnyPgColumn => languages.id)
 })
 
 export const recipePhotoRelations = relations(recipes, ({ many }) => ({
@@ -17,6 +18,10 @@ export const recipePhotoRelations = relations(recipes, ({ many }) => ({
 
 export const recipeTagRelations = relations(recipes, ({ many }) => ({
   recipesToTags: many(recipesToTags)
+}))
+
+export const recipeLanguageRelations = relations(recipes, ({ one }) => ({
+  language: one(languages, { fields: [recipes.languageId], references: [languages.id] })
 }))
 
 export const recipeIngredientGroupRelations = relations(recipes, ({ many }) => ({
@@ -36,6 +41,15 @@ export const photos = pgTable('photos', {
 
 export const photoRelations = relations(photos, ({ one }) => ({
   recipe: one(recipes, { fields: [photos.recipeId], references: [recipes.id] })
+}))
+
+export const languages = pgTable('languages', {
+  id: serial('id').primaryKey(),
+  language: varchar('url', { length: 150 }).notNull()
+})
+
+export const languageRelations = relations(languages, ({ many }) => ({
+  recipes: many(recipes)
 }))
 
 export const recipesToTags = pgTable('recipes_to_tags', {

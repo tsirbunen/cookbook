@@ -44,6 +44,12 @@ export type InstructionGroup = {
   title?: Maybe<Scalars['String']['output']>;
 };
 
+export type Language = {
+  __typename?: 'Language';
+  id: Scalars['Int']['output'];
+  language: Scalars['String']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   pingMutation?: Maybe<Scalars['String']['output']>;
@@ -69,6 +75,7 @@ export type Recipe = {
   id: Scalars['Int']['output'];
   ingredientGroups: Array<IngredientGroup>;
   instructionGroups: Array<InstructionGroup>;
+  language: Language;
   ovenNeeded: Scalars['Boolean']['output'];
   photos?: Maybe<Array<Photo>>;
   tags?: Maybe<Array<Tag>>;
