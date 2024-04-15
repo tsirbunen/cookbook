@@ -1,8 +1,9 @@
 import { ChakraProps, Flex, Text } from '@chakra-ui/react'
 import { ColorCodes } from '../../../theme/theme'
+import { Tag } from '../../../types/graphql-schema-types.generated'
 
 type RecipeTagsProps = {
-  tags: string[]
+  tags: Tag[]
 }
 
 const HASHTAG = '#'
@@ -11,7 +12,7 @@ const RecipeTags = ({ tags }: RecipeTagsProps) => {
   return (
     <Flex {...outerCss}>
       <Flex {...innerCss}>
-        {tags.map((tag, index) => {
+        {tags.map(({ tag }, index) => {
           return (
             <Flex key={`${index}-${tag}`} {...tagCss}>
               <Text {...textCss}>

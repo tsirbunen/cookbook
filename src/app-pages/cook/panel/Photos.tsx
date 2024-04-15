@@ -43,10 +43,10 @@ const Photos = ({ title }: PhotosProps) => {
 
 export default Photos
 
-const DOT_SIZE = 15
+const DOT_SIZE = 25
 const DOT_SPACER = 3
 const IMAGE_CONTAINER_HEIGHT = 500
-const DOT_BOX_TOP = -(IMAGE_CONTAINER_HEIGHT + HEADER_HEIGHT_WITH_TOOLS + 70)
+const DOT_BOX_TOP = -(IMAGE_CONTAINER_HEIGHT + HEADER_HEIGHT_WITH_TOOLS + 85)
 
 const shadowGradientPhotoOverlayCss = css`
   background-size: cover;
@@ -88,7 +88,7 @@ const dotRowCss = css`
   padding: ${DOT_SPACER}px;
   border-radius: 20px;
   &:hover {
-    transform: scale(1.25);
+    transform: scale(1.15);
   }
 `
 
@@ -101,6 +101,6 @@ const dotCss = (isSelected: boolean) => css`
   border-radius: 50%;
   &:hover {
     background-color: ${ColorCodes.VERY_PALE};
-    transform: scale(1.25);
+    transform: scale(1.15);
   }
 `

@@ -31,7 +31,7 @@ const Instructions = ({ instructionGroups, columnCount, recipeId }: RecipeIngred
           return (
             <Flex {...ingredientGroupCss} key={`${title}-${index}-${recipeId}`}>
               {title ? (
-                <Flex marginBottom="5px">
+                <Flex marginBottom="5px" key={`title-${title}-${index}-${recipeId}`}>
                   <Title title={title} variant={TitleVariant.MediumPale} />
                 </Flex>
               ) : null}

@@ -32,11 +32,11 @@ const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
 
   if (!recipe) return null
 
-  const { ovenNeeded } = recipe
+  const { title, ovenNeeded, tags } = recipe
 
   return (
     <div css={containerCss} ref={elementRef}>
-      <Photos title={recipe.title} />
+      <Photos title={title} />
       <div css={topCss}>
         <RecipeTitle title={recipe.title} />
         {recipe.category ? <CategoryTitle category={recipe.category} /> : null}
@@ -45,11 +45,11 @@ const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
           <RecipePropertyIcons
             isFavorite={favoriteRecipeIds.includes(recipe.id)}
             ovenNeeded={ovenNeeded}
-            hasTags={recipe.tags.length > 0}
+            hasTags={tags?.length ? tags?.length > 0 : false}
             justifyContent="center"
           />
         </div>
-        {recipe.tags ? <RecipeTags tags={recipe.tags} /> : null}
+        {recipe.tags ? <RecipeTags tags={tags!} /> : null}
         {recipe.description ? <Description description={recipe.description} /> : null}
         <RecipeToggles recipe={recipe} canHaveTwoColumns={canHaveTwoColumns} />
         <Ingredients
