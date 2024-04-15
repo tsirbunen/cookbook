@@ -10,6 +10,12 @@ export enum Category {
   'DESSERT' = 'DESSERT'
 }
 
+// TODO: extract all languages from database!
+export enum LanguageOption {
+  'ENGLISH' = 'ENGLISH',
+  'SUOMI' = 'SUOMI'
+}
+
 export type RecipeCategory = {
   category: string
   recipes: Recipe[]
@@ -17,6 +23,7 @@ export type RecipeCategory = {
 
 export enum FilterableRecipeProperty {
   categories = 'categories',
+  languages = 'languages',
   ingredients = 'ingredients'
 }
 

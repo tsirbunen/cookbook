@@ -5,15 +5,17 @@ import { RecipesFilterValues } from '../app-pages/search/page/FilteringProvider'
 import { NO_CATEGORY_TITLE } from '../constants/text-content'
 
 export const getFilteredCategorizedRecipes = (allRecipes: Recipe[], filters?: RecipesFilterValues) => {
-  let filteredRecipes
+  let filteredRecipes = allRecipes
 
   // TODO: Add possibility to filter AND or OR!
 
   if (filters?.categories?.length) {
     const categoriesToInclude = filters.categories
-    filteredRecipes = allRecipes.filter((r) => r.category && categoriesToInclude.includes(r.category))
-  } else {
-    filteredRecipes = allRecipes
+    filteredRecipes = filteredRecipes.filter((r) => r.category && categoriesToInclude.includes(r.category))
+  }
+
+  if (filters?.languages?.length) {
+    filteredRecipes = filteredRecipes.filter((r) => filters.languages.includes(r.language.language.toUpperCase()))
   }
 
   if (filters?.ingredients.searchTerm.length) {

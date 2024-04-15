@@ -8,7 +8,7 @@ import FormSubmitButtons from '../../../widgets/form-submit-buttons/FormSubmitBu
 import FormButtonsSelector from '../../../widgets/form-buttons-selector/FormButtonsSelector'
 import FormTextAreaSearch from '../../../widgets/form-textarea-search/FormTextAreaSearch'
 import { RecipesViewingContext } from '../page/SearchRecipesProvider'
-import { Category } from '../../../types/types'
+import { Category, LanguageOption } from '../../../types/types'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
 
 export const filteringManagementToolDataTestId = 'filtering-management-tool'
@@ -18,6 +18,7 @@ const applyFiltersLabel = 'Apply filters'
 const applyChangesLabel = 'Apply changes'
 const clearFormLabel = 'Clear form'
 const categoriesLabel = 'categories'
+const languagesLabel = 'languages'
 const ingredientsLabel = 'ingredients'
 const ingredientsPlaceholder = 'Type here ingredients...'
 
@@ -69,6 +70,13 @@ const FilteringManagementTool = () => {
           name={'categories'}
           control={control}
           options={Object.values(Category)}
+        />
+
+        <FormButtonsSelector
+          label={languagesLabel}
+          name={'languages'}
+          control={control}
+          options={Object.values(LanguageOption)}
         />
 
         <FormTextAreaSearch

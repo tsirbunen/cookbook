@@ -14,7 +14,7 @@ export const getAllRecipes = async () => {
       instructionGroups: { with: { instructions: true } }
     }
   })
-  console.log(allRecipesRaw)
+  // console.log(allRecipesRaw)
 
   const allRecipes = allRecipesRaw.map((recipe) => {
     const { recipesToTags, ...rest } = recipe as DBRecipeWithTags

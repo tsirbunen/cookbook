@@ -8,6 +8,7 @@ import { FormButtonsSelectorValue } from '../../../widgets/form-buttons-selector
 
 export interface RecipesFilterValues {
   [FilterableRecipeProperty.categories]: FormButtonsSelectorValue
+  [FilterableRecipeProperty.languages]: FormButtonsSelectorValue
   [FilterableRecipeProperty.ingredients]: TextAreaSearchValues
 }
 
@@ -37,6 +38,7 @@ const FilteringProvider = ({ children }: { children: React.ReactNode }) => {
     const appliedFilters = state.filters
     let count = 0
     if (appliedFilters.categories.length) count += 1
+    if (appliedFilters.languages.length) count += 1
     if (appliedFilters.ingredients.searchTerm.length) count += 1
     if (filterValues.ingredients.searchMode && appliedFilters.ingredients.searchMode !== defaultSearchMode) {
       count += 1
@@ -54,6 +56,7 @@ const FilteringProvider = ({ children }: { children: React.ReactNode }) => {
 
   const filtersHaveValues = () => {
     if (filterValues.categories.length) return true
+    if (filterValues.languages.length) return true
     if (filterValues.ingredients.searchMode && filterValues.ingredients.searchMode !== defaultSearchMode) return true
     if (filterValues.ingredients.searchTerm.length) return true
     return false
@@ -64,6 +67,9 @@ const FilteringProvider = ({ children }: { children: React.ReactNode }) => {
 
     const categoriesHaveChanged = xor(appliedFilters.categories, filterValues.categories).length > 0
     if (categoriesHaveChanged) return true
+
+    const languagesHaveChanged = xor(appliedFilters.languages, filterValues.languages).length > 0
+    if (languagesHaveChanged) return true
 
     const ingredientsHaveChanged =
       appliedFilters.ingredients.searchMode !== filterValues.ingredients.searchMode ||
@@ -98,6 +104,7 @@ export default FilteringProvider
 export const getEmptyFilterValues = (): RecipesFilterValues => {
   return {
     categories: [],
+    languages: [],
     ingredients: { searchTerm: '', searchMode: undefined }
   }
 }

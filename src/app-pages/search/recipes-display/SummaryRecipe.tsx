@@ -20,8 +20,8 @@ export type SummaryRecipeProps = {
   isFirst?: boolean
 }
 
-const imageWidth = 100
-const imageHeight = 110
+const imageWidth = 110
+const imageHeight = 120
 const borderRadius = 6
 const isPickedBorderWidth = 10
 
@@ -34,10 +34,8 @@ const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked, isFavorite, isFi
     onPickRecipeChanged()
   }
 
-  const { title, tags, category, ovenNeeded } = recipe
+  const { title, tags, category, ovenNeeded, language } = recipe
   const tagsCombined = (tags ?? []).map(({ tag }) => `#${tag.toUpperCase()}`).join(' ')
-
-  console.log(recipe)
 
   return (
     <div>
@@ -72,6 +70,8 @@ const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked, isFavorite, isFi
             hasTags={tags ? tags.length > 0 : false}
             justifyContent="start"
           />
+
+          <div css={languageCss}>{language?.language.toUpperCase()}</div>
         </div>
       </div>
     </div>
@@ -133,8 +133,19 @@ const tagsContainer = css`
   font-weight: bold;
   margin-bottom: 5px;
 `
+
 const categoryContainer = css`
   color: ${ColorCodes.MEDIUM};
   font-size: 0.7em;
   font-weight: bold;
+`
+
+const languageCss = css`
+  color: ${ColorCodes.SLIGHTLY_DARK};
+  font-size: 0.7em;
+  font-weight: bold;
+  background-color: ${ColorCodes.VERY_PALE};
+  margin-top: 8px;
+  border-radius: 4px;
+  padding: 1px 3px;
 `
