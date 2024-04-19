@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation'
 import { getRouteLabelByPath } from '../../navigation/router/router'
-import { HEADER_HEIGHT_WITH_TOOLS, NAV_BAR_WIDTH } from '../../constants/layout'
+import { HEADER_HEIGHT, NAV_BAR_WIDTH } from '../../constants/layout'
 import { css } from '@emotion/react'
 import { headerZIndex } from '../../constants/z-indexes'
 import { ColorCodes } from '../../theme/theme'
@@ -22,7 +22,7 @@ const HeaderWithToggles = () => {
   const label = getRouteLabelByPath(path)
 
   return (
-    <div css={outerCss(HEADER_HEIGHT_WITH_TOOLS)}>
+    <div css={outerCss(HEADER_HEIGHT)}>
       <div css={middleCss}>
         <div css={innerCss}>
           <div css={locationCss}>

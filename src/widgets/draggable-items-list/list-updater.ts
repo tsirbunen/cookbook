@@ -34,6 +34,19 @@ export class ListUpdater {
     this.updatedOriginalKeyOrder = [...originalKeyOrder]
   }
 
+  calculatedUpdatedValues() {
+    this.findDeletedAndNewCurrentKeys()
+    this.findDeletedItemKeys()
+    this.findAddedItems()
+
+    if (this.noItemsAddedOrRemoved()) return false
+
+    this.removeDeletedItems()
+    this.appendAddedItems()
+    this.updateKeysOrder()
+    return true
+  }
+
   findDeletedAndNewCurrentKeys() {
     const newCurrentKeys = this.itemsList.current.map((i) => i.key)
     this.newCurrentKeys = newCurrentKeys as string[]

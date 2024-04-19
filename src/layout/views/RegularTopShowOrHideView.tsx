@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import { HEADER_HEIGHT_WITH_TOOLS, NAV_BAR_WIDTH } from '../../constants/layout'
+import { HEADER_HEIGHT, NAV_BAR_WIDTH } from '../../constants/layout'
 import { recipesViewingManagementZIndex } from '../../constants/z-indexes'
 import { ColorCodes } from '../../theme/theme'
 import { ViewSizeContext } from '../view-size-service/ViewSizeProvider'
@@ -55,7 +55,7 @@ const pageCss = (width: number) => {
     justify-content: start;
     align-items: start;
     width: ${width - NAV_BAR_WIDTH}px;
-    margin-top: ${HEADER_HEIGHT_WITH_TOOLS}px;
+    margin-top: ${HEADER_HEIGHT}px;
   `
 }
 
@@ -71,7 +71,7 @@ const containerCss = (showFullHeightTools: boolean) => css`
 const topOuterCss = css`
   height: 100%;
   position: sticky;
-  top: ${HEADER_HEIGHT_WITH_TOOLS}px;
+  top: ${HEADER_HEIGHT}px;
   z-index: ${recipesViewingManagementZIndex};
   flex: 1;
   width: 100%;
@@ -79,7 +79,7 @@ const topOuterCss = css`
 
 const topInnerCss = (showFullHeightTools: boolean) => css`
   position: sticky;
-  top: ${HEADER_HEIGHT_WITH_TOOLS}px;
+  top: ${HEADER_HEIGHT}px;
   z-index: ${recipesViewingManagementZIndex};
   background-color: ${ColorCodes.VERY_DARK};
   width: 100%;

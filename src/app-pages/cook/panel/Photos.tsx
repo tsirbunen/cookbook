@@ -7,7 +7,7 @@ import falafel from '../../../assets/falafel.png'
 import dal from '../../../assets/dal.png'
 import korma from '../../../assets/korma.png'
 import { ColorCodes } from '../../../theme/theme'
-import { HEADER_HEIGHT_WITH_TOOLS } from '../../../constants/layout'
+import { HEADER_HEIGHT } from '../../../constants/layout'
 
 type PhotosProps = {
   title: string
@@ -46,7 +46,7 @@ export default Photos
 const DOT_SIZE = 25
 const DOT_SPACER = 3
 const IMAGE_CONTAINER_HEIGHT = 500
-const DOT_BOX_TOP = -(IMAGE_CONTAINER_HEIGHT + HEADER_HEIGHT_WITH_TOOLS + 85)
+const DOT_BOX_TOP = -(IMAGE_CONTAINER_HEIGHT + HEADER_HEIGHT + 85)
 
 const shadowGradientPhotoOverlayCss = css`
   background-size: cover;

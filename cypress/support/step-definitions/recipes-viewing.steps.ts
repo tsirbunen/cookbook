@@ -1,6 +1,5 @@
 import { When, Then, Given } from '@badeball/cypress-cucumber-preprocessor'
 import { App } from '../../components/app'
-import { ViewMode } from '../../../src/layout/view-size-service/ViewSizeProvider'
 import { RecipesViewingPage } from '../../components/recipes-viewing-page'
 import { ViewRecipesMode } from '../../../src/app-pages/search/search-management/ViewModeManagementTool'
 
@@ -8,7 +7,7 @@ const app = new App()
 const recipesViewingPage = new RecipesViewingPage()
 
 Given('use mode is {string}', (mode: string) => {
-  app.setViewMode(mode as ViewMode)
+  app.setViewMode(mode as 'MEDIUM' | 'WIDE')
 })
 
 Given('one has navigated to the COOKBOOK app page {string}', (page: string) => {

@@ -14,9 +14,9 @@ import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvi
 export const filteringManagementToolDataTestId = 'filtering-management-tool'
 
 const filteringTitle = 'Filtering'
-const applyFiltersLabel = 'Apply filters'
-const applyChangesLabel = 'Apply changes'
-const clearFormLabel = 'Clear form'
+export const applyFiltersLabel = 'Apply filters'
+export const applyChangesLabel = 'Apply changes'
+export const clearFormLabel = 'Clear form'
 const categoriesLabel = 'categories'
 const languagesLabel = 'languages'
 const ingredientsLabel = 'ingredients'

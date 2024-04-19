@@ -37,11 +37,10 @@ export const reducer = (state: AppState, action: DispatchAction) => {
   }
 }
 
-const updatePickedRecipes = (state: AppState, payload: { recipeId: number; category: string }) => {
+export const updatePickedRecipes = (state: AppState, payload: { recipeId: number; category: string }) => {
   const { recipeId, category } = payload
   const pickedCategoryRecipeIds = state.pickedRecipeIdsByCategory[category] ?? []
   const shouldRemove = pickedCategoryRecipeIds.includes(recipeId)
-
   const updatedIds = shouldRemove
     ? pickedCategoryRecipeIds.filter((id) => id !== recipeId)
     : [...pickedCategoryRecipeIds, recipeId]

@@ -9,7 +9,7 @@ import { navigationMenuItems } from '../router/router'
 import { ViewSizeContext } from '../../layout/view-size-service/ViewSizeProvider'
 import { ColorCodes } from '../../theme/theme'
 import MenuIconWithoutAction from './MenuIconWithoutAction'
-import { HEADER_HEIGHT_WITH_TOOLS, NAV_BAR_WIDTH } from '../../constants/layout'
+import { HEADER_HEIGHT, NAV_BAR_WIDTH } from '../../constants/layout'
 import { navigationBarZIndex } from '../../constants/z-indexes'
 
 type NavigationBarProps = {
@@ -29,8 +29,8 @@ const NavigationBar = ({ isTooSmallWindow }: NavigationBarProps) => {
 
   return (
     <div css={outerContainer(windowHeight)}>
-      <div css={container(HEADER_HEIGHT_WITH_TOOLS)}>
-        <MenuIconWithoutAction height={HEADER_HEIGHT_WITH_TOOLS} />
+      <div css={container(HEADER_HEIGHT)}>
+        <MenuIconWithoutAction height={HEADER_HEIGHT} />
         {navigationMenuItems.map((menuItem) => {
           return (
             <NavigationBarItem
@@ -49,7 +49,7 @@ const NavigationBar = ({ isTooSmallWindow }: NavigationBarProps) => {
 export default NavigationBar
 
 const outerContainer = (windowHeight: number) => {
-  const headerHeight = HEADER_HEIGHT_WITH_TOOLS
+  const headerHeight = HEADER_HEIGHT
   return css`
     z-index: ${navigationBarZIndex};
     height: ${windowHeight - headerHeight}px;

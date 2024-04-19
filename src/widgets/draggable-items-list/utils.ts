@@ -48,7 +48,6 @@ export const getUpdatedVisualIndexOrder = (visualIndexChanges: number[], current
     const item = currentVisualIndexOrder[i]
     updatedVisualIndexOrder[i + change] = item
   }
-
   return updatedVisualIndexOrder
 }
 
@@ -58,7 +57,6 @@ export const getUpdatedTranslateYs = (itemsCount: number, visualIndexOrder: numb
     const item = visualIndexOrder[i]
     updatedTranslateYs[item] = i * itemHeight
   }
-
   return updatedTranslateYs
 }
 

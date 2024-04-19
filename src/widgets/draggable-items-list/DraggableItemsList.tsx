@@ -10,7 +10,7 @@ import {
   getUpdatedTranslateYs,
   getUpdatedVisualIndexOrder,
   getVisualIndexDeltas
-} from './helpers'
+} from './utils'
 import { ListUpdater } from './list-updater'
 
 export type ItemListData = { current: ReactElement[]; previous: ReactElement[] }
@@ -50,7 +50,7 @@ const DraggableItemsList = ({
   }, [items])
 
   useEffect(() => {
-    const listUpdateCalculator = new ListUpdater(
+    const listUpdater = new ListUpdater(
       itemsList,
       currentVisualIndexOrder,
       translateYs,
@@ -60,15 +60,8 @@ const DraggableItemsList = ({
       itemHeight
     )
 
-    listUpdateCalculator.findDeletedAndNewCurrentKeys()
-    listUpdateCalculator.findDeletedItemKeys()
-    listUpdateCalculator.findAddedItems()
-
-    if (listUpdateCalculator.noItemsAddedOrRemoved()) return
-
-    listUpdateCalculator.removeDeletedItems()
-    listUpdateCalculator.appendAddedItems()
-    listUpdateCalculator.updateKeysOrder()
+    const didCalculate = listUpdater.calculatedUpdatedValues()
+    if (!didCalculate) return
 
     const {
       updatedDraggableItemsInOrder,
@@ -76,7 +69,7 @@ const DraggableItemsList = ({
       updatedCurrentIndexOrder,
       updatedKeyOrder,
       updatedOriginalKeyOrder
-    } = listUpdateCalculator.getUpdatedValues()
+    } = listUpdater.getUpdatedValues()
 
     setDraggableItemsInOrder(updatedDraggableItemsInOrder)
     setTranslateYs(updatedTranslateYs)

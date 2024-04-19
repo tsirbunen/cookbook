@@ -1,5 +1,4 @@
 import { Base } from './base'
-import { ViewMode } from '../../src/layout/view-size-service/ViewSizeProvider'
 import { navigationBarDataTestId } from '../../src/navigation/navigation-bar/NavigationBarItem'
 import { launchPageTestId, startButtonTestId } from '../../app/page'
 
@@ -7,11 +6,8 @@ const CLIENT = 'localhost'
 const CLIENT_BASE_URL = `http://${CLIENT}:3000`
 
 const viewPortWindowWidthHeightPairs = {
-  MOBILE: [400, 750],
-  NARROW: [500, 750],
   MEDIUM: [650, 750],
-  WIDE: [900, 750],
-  VERY_WIDE: [1400, 750]
+  WIDE: [1400, 750]
 }
 
 export class App extends Base {
@@ -24,14 +20,14 @@ export class App extends Base {
     this.verifyIsVisible(launchPageTestId)
   }
 
-  startUsingApp(mode: ViewMode) {
+  startUsingApp(mode: 'MEDIUM' | 'WIDE') {
     cy.getByDataTestId(startButtonTestId).click()
     // Note: We must wait for the dynamically loaded items to catch up!
     cy.wait(350)
     this.setViewMode(mode)
   }
 
-  setViewMode(mode: ViewMode) {
+  setViewMode(mode: 'MEDIUM' | 'WIDE') {
     const [width, height] = viewPortWindowWidthHeightPairs[mode]
     cy.viewport(width, height)
     cy.debug()

@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import { HEADER_HEIGHT_WITH_TOOLS, NAV_BAR_WIDTH } from '../../constants/layout'
+import { HEADER_HEIGHT, NAV_BAR_WIDTH } from '../../constants/layout'
 import { recipesViewingManagementZIndex } from '../../constants/z-indexes'
 import { ColorCodes } from '../../theme/theme'
 import { ViewSizeContext } from '../view-size-service/ViewSizeProvider'
@@ -36,7 +36,7 @@ const MultiPanelTopShowOrHideView = ({
 export default MultiPanelTopShowOrHideView
 
 const outerCss = (width: number) => css`
-  margin-top: ${HEADER_HEIGHT_WITH_TOOLS}px;
+  margin-top: ${HEADER_HEIGHT}px;
   display: flex;
   flex-direction: column;
   width: ${width}px;
@@ -54,14 +54,14 @@ const mainCss = css`
 
 const topOuterCss = css`
   position: sticky;
-  top: ${HEADER_HEIGHT_WITH_TOOLS}px;
+  top: ${HEADER_HEIGHT}px;
   z-index: ${recipesViewingManagementZIndex};
   width: 100%;
 `
 
 const topInnerCss = css`
   position: sticky;
-  top: ${HEADER_HEIGHT_WITH_TOOLS}px;
+  top: ${HEADER_HEIGHT}px;
   z-index: ${recipesViewingManagementZIndex};
   background-color: ${ColorCodes.VERY_PALE};
   width: 100%;

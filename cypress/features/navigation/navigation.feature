@@ -9,10 +9,10 @@ Feature: Navigation
         Then the navigation bar is visible
 
         Examples:
-            | mode      |
-            | MEDIUM    |
-            | WIDE      |
-            | VERY_WIDE |
+            | mode   |
+            | MEDIUM |
+            | WIDE   |
+
 
     Scenario: One can navigate from start page (recipes) to other pages in different modes
         Given one has started using the app in "MEDIUM" mode

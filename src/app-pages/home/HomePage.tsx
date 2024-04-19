@@ -2,7 +2,7 @@
 import { css } from '@emotion/react'
 import { Page } from '../../navigation/router/router'
 import ContentInfoItem from './ContentInfoItem'
-import { HEADER_HEIGHT_WITH_TOOLS } from '../../constants/layout'
+import { HEADER_HEIGHT } from '../../constants/layout'
 import { NAVIGATION_BAR_ITEM_HEIGHT } from '../../navigation/navigation-bar/NavigationBarItem'
 import AppIntro from './AppIntro'
 
@@ -33,7 +33,7 @@ const contentItems = [
 ]
 
 const outerCss = css`
-  margin-top: ${HEADER_HEIGHT_WITH_TOOLS}px;
+  margin-top: ${HEADER_HEIGHT}px;
   margin-left: 15px;
   width: 530px;
 `

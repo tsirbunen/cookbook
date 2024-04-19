@@ -5,7 +5,7 @@ import ScrollToTopButton from '../../../widgets/scroll-to-top-button/ScrollToTop
 import { AppStateContext, AppStateContextType } from '../../../state/StateContextProvider'
 import { Dispatch } from '../../../state/reducer'
 import { RecipesViewingContext } from './SearchRecipesProvider'
-import { HEADER_HEIGHT_WITH_TOOLS } from '../../../constants/layout'
+import { HEADER_HEIGHT } from '../../../constants/layout'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
 import RecipesDisplay from '../recipes-display/RecipesDisplay'
 import { DARK_COLOR } from '../../../constants/color-codes'
@@ -42,7 +42,7 @@ const RecipesContent = () => {
 
   return (
     <Flex {...outerCss} data-testid={recipesContentDataTestId}>
-      <div style={{ zIndex: 1000, position: 'relative', top: `-${HEADER_HEIGHT_WITH_TOOLS}px` }}>
+      <div style={{ zIndex: 1000, position: 'relative', top: `-${HEADER_HEIGHT}px` }}>
         <a id={SCROLL_TO_TARGET_ANCHOR_ID}></a>
       </div>
       {recipesInCategories.map((recipeCategory) => {

@@ -1,6 +1,5 @@
 import { When, Then, Given } from '@badeball/cypress-cucumber-preprocessor'
 import { App } from '../../components/app'
-import { ViewMode } from '../../../src/layout/view-size-service/ViewSizeProvider'
 
 const app = new App()
 
@@ -13,7 +12,7 @@ Then('the welcome page is visible', () => {
 })
 
 Given('one has started using the app in {string} mode', (mode: string) => {
-  app.startUsingApp(mode as ViewMode)
+  app.startUsingApp(mode as 'MEDIUM' | 'WIDE')
 })
 
 Then('the navigation bar is not available', () => {

@@ -2,7 +2,7 @@
 
 import React, { createContext, useReducer } from 'react'
 import { DispatchAction, reducer } from './reducer'
-import { RecipesFilterValues, getEmptyFilterValues } from '../app-pages/search/page/FilteringProvider'
+import { RecipesFilterValues } from '../app-pages/search/page/FilteringProvider'
 import { RecipeCategory, Settings } from '../types/types'
 import { Recipe } from '../types/graphql-schema-types.generated'
 
@@ -21,7 +21,11 @@ export type AppState = {
 
 const initialAppState = {
   recipes: [],
-  filters: getEmptyFilterValues(),
+  filters: {
+    categories: [],
+    languages: [],
+    ingredients: { searchTerm: '', searchMode: undefined }
+  },
   pickedRecipeIdsByCategory: {},
   pickedRecipes: [],
   settings: {

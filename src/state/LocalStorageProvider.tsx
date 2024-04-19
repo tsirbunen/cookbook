@@ -24,12 +24,7 @@ const LocalStorageProvider = ({ children }: { children: React.ReactNode }) => {
   const [favoriteRecipeIds, setFavoriteRecipeIds] = useState<number[]>([])
   const [soundsAreEnabled, setSoundsAreEnabled] = useState<boolean>(false)
 
-  const storageIsAvailable = () => {
-    return typeof window !== 'undefined' && !!localStorage
-  }
-
   useEffect(() => {
-    if (!storageIsAvailable) return
     setFavoriteRecipeIds(getLocalStorageArrayValue(LocalStorageKeys.FAVORITE_RECIPE_IDS) as number[])
     setSoundsAreEnabled(getLocalStorageBooleanValue(LocalStorageKeys.SOUNDS_ARE_ENABLED) as boolean)
   }, [])
@@ -51,12 +46,11 @@ const LocalStorageProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const updateLocalStorageBooleanValue = (key: LocalStorageKeys, newValue: boolean) => {
-    if (!storageIsAvailable) return
     localStorage.setItem(key, JSON.stringify(newValue))
   }
 
   const updateLocalStorageArrayValue = (key: LocalStorageKeys, newValue: string | number | boolean) => {
-    if (!storageIsAvailable) return []
+    ;[]
 
     let updatedValue: Array<string | number | boolean>
     const currentValue = getLocalStorageArrayValue(key)
@@ -92,8 +86,6 @@ const LocalStorageProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const clearValueForKey = (key: LocalStorageKeys) => {
-    if (!storageIsAvailable) return
-
     localStorage.removeItem(key)
     switch (key) {
       case LocalStorageKeys.FAVORITE_RECIPE_IDS:
@@ -108,8 +100,6 @@ const LocalStorageProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const clearWholeStorage = () => {
-    if (!storageIsAvailable) return
-
     localStorage.clear()
     setFavoriteRecipeIds([])
     setSoundsAreEnabled(false)
