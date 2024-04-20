@@ -19,7 +19,7 @@ export type AppState = {
   settings: Settings
 }
 
-const initialAppState = {
+export const initialAppState = {
   recipes: [],
   filters: {
     categories: [],

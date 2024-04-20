@@ -10,6 +10,7 @@ Feature: Filtering management
         Then the form contains the following elements:
             | element               |
             | categories selection  |
+            | languages selection   |
             | ingredients selection |
             | action buttons        |
 
@@ -18,8 +19,8 @@ Feature: Filtering management
         When one toggles the toggle for tool "filtering"
         Then "exactly" "0" recipes are displayed
         Then the number of set filters shown in toggle badge is "0"
-        When one clicks the category button "SNACK"
-        When one clicks the category button "DESSERT"
+        When one clicks the "category" button "SNACK"
+        When one clicks the "category" button "DESSERT"
         Then the number of set filters shown in toggle badge is "0"
         When one submits the form
         Then the number of set filters shown in toggle badge is "1"
@@ -46,8 +47,8 @@ Feature: Filtering management
 
     Scenario: One can filter recipes by multiple filters
         When one toggles the toggle for tool "filtering"
-        When one clicks the category button "SNACK"
-        When one clicks the category button "DESSERT"
+        When one clicks the "category" button "SNACK"
+        When one clicks the "category" button "DESSERT"
         When one enters text "BLUEBERRY" into the ingredients text input area
         When one submits the form
         Then the number of set filters shown in toggle badge is "2"

@@ -7,11 +7,12 @@ export const toggleSoundsLabel = 'Toggle sounds'
 export const addFavoriteLabel = 'Add favorite'
 export const removeFavoriteLabel = 'Remove favorite'
 export const clearAllLabel = 'Clear all'
+export const clearSoundsLabel = 'Clear sounds'
 
 const LocalStorageTestConsumer = () => {
   const [soundsAreOn, setSoundsAreOn] = useState<boolean>(false)
   const [favoriteRecipeIds, setFavoriteRecipeIds] = useState<number[]>([])
-  const { toggleValueForKey, soundsAreEnabled, clearWholeStorage } = useContext(LocalStorageContext)
+  const { toggleValueForKey, soundsAreEnabled, clearWholeStorage, clearValueForKey } = useContext(LocalStorageContext)
 
   return (
     <div>
@@ -53,6 +54,15 @@ const LocalStorageTestConsumer = () => {
         }}
       >
         {clearAllLabel}
+      </button>
+
+      <button
+        onClick={() => {
+          clearValueForKey(LocalStorageKeys.SOUNDS_ARE_ENABLED)
+          setSoundsAreOn(false)
+        }}
+      >
+        {clearSoundsLabel}
       </button>
     </div>
   )

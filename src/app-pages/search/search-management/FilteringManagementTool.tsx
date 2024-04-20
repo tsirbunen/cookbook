@@ -25,8 +25,15 @@ const ingredientsPlaceholder = 'Type here ingredients...'
 const FilteringManagementTool = () => {
   const { toggleShowFiltering, toggleHideRecipes } = useContext(RecipesViewingContext)
   const { isSplitView } = useContext(ViewSizeContext)
-  const { applyFilters, clearFilters, updateLocalFilters, initialValues, filtersHaveValues, filtersHaveChanges } =
-    useContext(FiltersContext)
+  const {
+    applyFilters,
+    clearFilters,
+    updateLocalFilters,
+    initialValues,
+    filtersHaveValues,
+    filtersHaveChanges,
+    hasStoredFilters
+  } = useContext(FiltersContext)
   const { handleSubmit, control, watch, reset, formState } = useForm<RecipesFilterValues>({
     defaultValues: initialValues
   })
@@ -58,7 +65,7 @@ const FilteringManagementTool = () => {
   const hasChanges = filtersHaveChanges()
   const clearIsDisabled = (!hasValuesToClear && !hasChanges) || isSubmitting
   const submitIsDisabled = !hasChanges || isSubmitting
-  const applyLabel = hasChanges ? applyChangesLabel : applyFiltersLabel
+  const applyLabel = hasChanges ? (!hasStoredFilters ? applyFiltersLabel : applyChangesLabel) : applyFiltersLabel
 
   return (
     <Flex {...outerStyle} data-testid={filteringManagementToolDataTestId}>

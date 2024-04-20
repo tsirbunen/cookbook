@@ -13,16 +13,13 @@ Feature: Viewing recipes
         Then management tool "<tool>" "<isFinally>" visible
 
         Examples:
-            | mode      | tool           | isBefore | isAfter | isFinally |
-            | MEDIUM    | select mode    | is not   | is      | is not    |
-            | WIDE      | select mode    | is not   | is      | is not    |
-            | VERY_WIDE | select mode    | is not   | is      | is not    |
-            | MEDIUM    | picked recipes | is not   | is      | is not    |
-            | WIDE      | picked recipes | is not   | is      | is not    |
-            | VERY_WIDE | picked recipes | is not   | is      | is not    |
-            | MEDIUM    | filtering      | is not   | is      | is not    |
-            | WIDE      | filtering      | is not   | is      | is not    |
-            | VERY_WIDE | filtering      | is not   | is      | is not    |
+            | mode   | tool           | isBefore | isAfter | isFinally |
+            | MEDIUM | select mode    | is not   | is      | is not    |
+            | WIDE   | select mode    | is not   | is      | is not    |
+            | MEDIUM | picked recipes | is not   | is      | is not    |
+            | WIDE   | picked recipes | is not   | is      | is not    |
+            | MEDIUM | filtering      | is not   | is      | is not    |
+            | WIDE   | filtering      | is not   | is      | is not    |
 
 
     Scenario: Several viewing managenent tools can be opened simultaneously
@@ -35,7 +32,7 @@ Feature: Viewing recipes
         Then all viewing management tools are "visible"
 
         Examples:
-            | mode      |
-            | MEDIUM    |
-            | WIDE      |
-            | VERY_WIDE |
+            | mode   |
+            | MEDIUM |
+            | WIDE   |
+

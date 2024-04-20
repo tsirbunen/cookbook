@@ -3,6 +3,12 @@ export class Base {
     cy.getByDataTestId(dataTestId).should('be.visible')
   }
 
+  verifyAreVisible(dataTestId: string) {
+    cy.getByDataTestId(dataTestId).each(($el) => {
+      cy.wrap($el).should('be.visible')
+    })
+  }
+
   verifyIsNotVisible(dataTestId: string) {
     cy.getByDataTestId(dataTestId).should('not.be.visible')
   }

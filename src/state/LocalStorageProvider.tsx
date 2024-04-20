@@ -91,7 +91,7 @@ const LocalStorageProvider = ({ children }: { children: React.ReactNode }) => {
       case LocalStorageKeys.FAVORITE_RECIPE_IDS:
         setFavoriteRecipeIds([])
         return
-      case LocalStorageKeys.FAVORITE_RECIPE_IDS:
+      case LocalStorageKeys.SOUNDS_ARE_ENABLED:
         setSoundsAreEnabled(false)
         return
       default:

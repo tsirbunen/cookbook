@@ -3,12 +3,17 @@ import { formButtonsSelectorDataTestId } from '../../src/widgets/form-buttons-se
 import { formTextAreaSearchDataTestId } from '../../src/widgets/form-textarea-search/FormTextAreaSearch'
 import { formSubmitButtonsDataTestId } from '../../src/widgets/form-submit-buttons/FormSubmitButtons'
 import { photoRepresentationDataTestId } from '../../src/app-pages/search/recipes-display/PhotoCardRecipe'
+import { filteringManagementToolDataTestId } from '../../src/app-pages/search/search-management/FilteringManagementTool'
 
 export class RecipesFilterForm extends Base {
   verifyFormContainsElement(element: string) {
     let dataTestId
     let label
+
     if (element === 'categories selection') {
+      dataTestId = formButtonsSelectorDataTestId
+      label = 'categories'.toUpperCase()
+    } else if (element === 'languages selection') {
       dataTestId = formButtonsSelectorDataTestId
       label = 'categories'.toUpperCase()
     } else if (element === 'ingredients selection') {
@@ -18,19 +23,19 @@ export class RecipesFilterForm extends Base {
       dataTestId = formSubmitButtonsDataTestId
     }
 
-    this.verifyIsVisible(dataTestId)
+    this.verifyAreVisible(dataTestId)
 
     if (label) {
-      cy.getByDataTestId(dataTestId).within(() => {
-        cy.contains(label)
-      })
+      cy.getByDataTestId(filteringManagementToolDataTestId).should('contain', label)
     }
   }
 
   clickFormCategoryButton(buttonLabel: string) {
-    cy.getByDataTestId(formButtonsSelectorDataTestId).within(() => {
-      cy.contains(buttonLabel).click()
-    })
+    cy.getByDataTestId(formButtonsSelectorDataTestId)
+      .first()
+      .within(() => {
+        cy.contains(buttonLabel).click()
+      })
   }
 
   submitForm() {

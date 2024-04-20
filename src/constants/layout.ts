@@ -4,7 +4,6 @@ export const SPLIT_VIEW_BREAKPOINT = 1250
 export const HEADER_HEIGHT = 75
 
 export const MIN_PANEL_WIDTH = 300
-export const MAX_PANEL_WIDTH = 3000
 export const APP_MIN_WIDTH = 625
 export const APP_MIN_HEIGHT = 650
 export const SCROLL_BAR_WIDTH = 5

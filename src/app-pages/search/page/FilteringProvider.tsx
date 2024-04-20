@@ -20,6 +20,7 @@ type RecipesFiltering = {
   filtersHaveChanges: () => boolean
   appliedFiltersCount: number
   updateLocalFilters: (newValues: RecipesFilterValues) => void
+  hasStoredFilters: boolean
 }
 
 export const FiltersContext = createContext<RecipesFiltering>({} as RecipesFiltering)
@@ -54,14 +55,6 @@ const FilteringProvider = ({ children }: { children: React.ReactNode }) => {
     setFilterValues(getEmptyFilterValues())
   }
 
-  const filtersHaveValues = () => {
-    if (filterValues.categories.length) return true
-    if (filterValues.languages.length) return true
-    if (filterValues.ingredients.searchMode && filterValues.ingredients.searchMode !== defaultSearchMode) return true
-    if (filterValues.ingredients.searchTerm.length) return true
-    return false
-  }
-
   const filtersHaveChanges = () => {
     const appliedFilters = state.filters
 
@@ -89,9 +82,10 @@ const FilteringProvider = ({ children }: { children: React.ReactNode }) => {
         applyFilters,
         appliedFiltersCount,
         clearFilters,
-        filtersHaveValues,
+        filtersHaveValues: () => filtersHaveValues(filterValues),
         filtersHaveChanges,
-        updateLocalFilters
+        updateLocalFilters,
+        hasStoredFilters: filtersHaveValues(state.filters)
       }}
     >
       {children}
@@ -107,4 +101,12 @@ export const getEmptyFilterValues = (): RecipesFilterValues => {
     languages: [],
     ingredients: { searchTerm: '', searchMode: undefined }
   }
+}
+
+const filtersHaveValues = (filterValues: RecipesFilterValues) => {
+  if (filterValues.categories.length) return true
+  if (filterValues.languages.length) return true
+  if (filterValues.ingredients.searchMode && filterValues.ingredients.searchMode !== defaultSearchMode) return true
+  if (filterValues.ingredients.searchTerm.length) return true
+  return false
 }

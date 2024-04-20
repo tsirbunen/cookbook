@@ -11,7 +11,8 @@ import LocalStorageTestConsumer, {
   areNotEnabled,
   clearAllLabel,
   addFavoriteLabel,
-  removeFavoriteLabel
+  removeFavoriteLabel,
+  clearSoundsLabel
 } from './LocalStorageTestConsumer'
 
 global.localStorage = new LocalStorageMock()
@@ -92,6 +93,24 @@ describe('Local storage provider', () => {
       const clearAllButton = screen.getByText(clearAllLabel)
       act(() => fireEvent.click(clearAllButton))
       expect(localStorage.length).toBe(0)
+    })
+
+    it('single key', async () => {
+      render(
+        <LocalStorageProvider>
+          <LocalStorageTestConsumer />
+        </LocalStorageProvider>
+      )
+
+      const toggleSoundsButton = screen.getByText(toggleSoundsLabel)
+      act(() => fireEvent.click(toggleSoundsButton))
+      const addFavoritesButton = screen.getByText(addFavoriteLabel)
+      act(() => fireEvent.click(addFavoritesButton))
+      expect(localStorage.length).toBe(2)
+
+      const clearSoundsButton = screen.getByText(clearSoundsLabel)
+      act(() => fireEvent.click(clearSoundsButton))
+      expect(localStorage.length).toBe(1)
     })
   })
 })

@@ -7,7 +7,7 @@ import {
   getSmallerAbsoluteValue,
   panelWidthsAreAllowed
 } from '../utils'
-import { MAX_PANEL_WIDTH, MIN_PANEL_WIDTH, NAV_BAR_WIDTH } from '../../../constants/layout'
+import { MIN_PANEL_WIDTH, NAV_BAR_WIDTH } from '../../../constants/layout'
 
 describe('Resizable panels view calculations:', () => {
   describe('panelWidthsAreAllowed should return correct result', () => {
