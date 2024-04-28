@@ -31,12 +31,20 @@ To run the app in **`DEBUG`** mode, select option "Full stack" in RUN AND DEBUG 
 
 ### Tests
 
+##### TEST FILES
+
+Unit/component test files have been placed to a **\_\_tests\_\_**-folder next to the code that they test.
+Cypress tests are in a folder of their own.
+
 ##### TEST DATA
 
-Add test data to database. Open a GraphQL Client (for example **[Altair](https://altairgraphql.dev/)**) and send a POST request to http://localhost:3000/api/test-data-migrations to migrate test data to locally running database. Note: The database needs to be empty!
+Add test data to database. Open a GraphQL Client (for example **[Altair](https://altairgraphql.dev/)**) and send a POST request to http://localhost:3000/api/test-data-migrations to migrate test data to locally running database. Note: The database needs to be empty to start with!
 
-**Unit and React Component/Hook test** files have been placed into **\_\_tests\_\_** -folders next to the code they test. To run these tests, use either
-&nbsp;&nbsp;&nbsp;&nbsp; **`npm run test`** or **`npm run test:watch`**
+##### RUNNING TESTS
+
+**Unit and React Component/Hook test** files have been placed into **\_\_tests\_\_** -folders next to the code they test. To run these tests for ui or api, use
+&nbsp;&nbsp;&nbsp;&nbsp; **`npm run test:ui`** or **`npm run test:ui:watch`**
+&nbsp;&nbsp;&nbsp;&nbsp; **`npm run test:api`** or **`npm run test:api:watch`**
 
 **E2E feature test files** can be triggered manually (one by one) with live viewing. First start the application in one shell (as described above) and then run in another shell
 &nbsp;&nbsp;&nbsp;&nbsp; **`npm run cypress:open`**
@@ -44,7 +52,7 @@ Add test data to database. Open a GraphQL Client (for example **[Altair](https:/
 Alternatively, E2E tests can be run without live viewing (but with the application running in the background) with
 &nbsp;&nbsp;&nbsp;&nbsp; **`npm run cypress:run`**
 
-Neither the unit/component nor the E2E tests cover all the code on their own. Instead they have been designed to **complement** each other. For example, there are unit tests for the individual form components (like the search text input), but for forms (like the recipes filtering form) there are E2E tests. Writing integration tests for "higher order" components like forms, pages, and even the whole app was skipped in favor of the E2E tests because: (1) E2E tests were seen confirmatory of intended functionality anyway, (2) E2E tests were considered easier to maintain (final desired features and functionality were clear already in the beginning, whereas the detailed implementation was not), and (3) E2E tests did not require mocking for example React contexts, meaning there was less opportunity for tests introducing "artificial" errors.
+Neither the unit/component nor the E2E tests cover all the code on their own. Instead they have been designed to **complement** each other. For example, there are unit tests for some small functions and individual form components (like the search text area input), and there are E2E tests for within app navigation.
 
 _Note 1:_ If the cypress tests fail, it might be that the waiting time is not long enough for the dynamic page components to catch up. In that case, increase the waiting time.
 _Note 2:_ The cypress E2E tests are truly E2E only when run locally. For some reason (related to the ApolloNextAppProvider) the Apollo Client could not be made to work in GitHub Actions testing environment and therefore in GitHub test flow the hook using Apollo Client to fetch data from api is replaced with a mock.
@@ -61,7 +69,6 @@ _Note 2:_ The cypress E2E tests are truly E2E only when run locally. For some re
 - Component styling: **[@emotion/react](https://www.npmjs.com/package/@emotion/react)**
 - UI Component library: **[Chakra ui](https://chakra-ui.com)** (even though it did not seem to work too well together with @emotion/react if used in the same file)
 - Icons: **[React icons](https://react-icons.github.io/react-icons/icons/tb/)**
-- Color theme: picked up from examples on **[Colors for designers](https://colorhunt.co/)**
 - App hosting: **[Vercel](https://vercel.com/)**
 
 ### Database
@@ -168,7 +175,7 @@ cookbook/
 | **graphql/**       | The api route named graphql is in the api folder in a folder with the same name (i.e. _graphql_). The folder contains a file named route.ts (required by Next.js)                                                                                                                                                                                                                                                                                      |
 | route.ts           | The file containing the route handler. In this project, the handler returns a Yoga request handler                                                                                                                                                                                                                                                                                                                                                     |
 | **cypress/**       | Cypress E2E testing related files                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| \***\*tests**/\*\* | These folders (that are scattered around) contain test files that test the code nearby.                                                                                                                                                                                                                                                                                                                                                                |
+| **\_\_tests\_\_**  | These folders (that are scattered around) contain test files that test the code nearby.                                                                                                                                                                                                                                                                                                                                                                |
 | **src/app-layout** |                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 
 ### File structure

@@ -1,0 +1,1 @@
+ALTER TABLE "languages" RENAME COLUMN "url" TO "language";

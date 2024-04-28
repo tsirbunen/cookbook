@@ -1,16 +1,13 @@
 import { NextResponse } from 'next/server'
 
 import { database } from '../graphql/graphql-server/database/config/config'
-import {
-  languages,
-  photos,
-  recipes,
-  recipesToTags,
-  tags
-} from '../graphql/graphql-server/database/database-schemas/recipes'
 import { getDatabaseTableTestInputs } from './test-recipes-migration-data'
 import { ingredientGroups, ingredients } from '../graphql/graphql-server/database/database-schemas/ingredients'
 import { instructionGroups, instructions } from '../graphql/graphql-server/database/database-schemas/instructions'
+import { languages } from '../graphql/graphql-server/database/database-schemas/languages'
+import { photos } from '../graphql/graphql-server/database/database-schemas/photos'
+import { recipes } from '../graphql/graphql-server/database/database-schemas/recipes'
+import { tags, recipesToTags } from '../graphql/graphql-server/database/database-schemas/tags'
 
 export async function POST(_request: Request) {
   try {

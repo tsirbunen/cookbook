@@ -8,6 +8,7 @@ type PanelProps = {
   width: number
   onResize?: (deltaX: number) => void
 }
+// FIXME: How about changing the resizer to a "pad" similar in Altair?
 
 /**
  * Column container with limited width for child components. Optionally contains

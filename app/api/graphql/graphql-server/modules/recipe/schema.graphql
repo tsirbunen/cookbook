@@ -3,7 +3,13 @@ type Ingredient {
   name: String!
   amount: Float
   unit: String
-  previousIngredientId: Int
+  previousId: Int
+}
+
+input IngredientInput {
+  name: String!
+  amount: Float
+  unit: String
 }
 
 type IngredientGroup {
@@ -12,10 +18,15 @@ type IngredientGroup {
   ingredients: [Ingredient!]!
 }
 
+input IngredientGroupInput {
+  title: String
+  ingredients: [IngredientInput!]
+}
+
 type Instruction {
   id: Int!
   content: String!
-  previousInstructionId: Int
+  previousId: Int
 }
 
 type InstructionGroup {
@@ -24,8 +35,18 @@ type InstructionGroup {
   instructions: [Instruction!]!
 }
 
+input InstructionGroupInput {
+  title: String
+  instructions: [String!]
+}
+
 type Photo {
   id: Int!
+  url: String!
+  isMainPhoto: Boolean!
+}
+
+input PhotoInput {
   url: String!
   isMainPhoto: Boolean!
 }
@@ -53,6 +74,22 @@ type Recipe {
   instructionGroups: [InstructionGroup!]!
 }
 
+input RecipeInput {
+  title: String!
+  description: String
+  photos: [PhotoInput!]
+  tags: [String!]
+  language: String!
+  category: String
+  ovenNeeded: Boolean!
+  ingredientGroups: [IngredientGroupInput!]
+  instructionGroups: [InstructionGroupInput!]
+}
+
 extend type Query {
   allRecipes: [Recipe!]!
+}
+
+extend type Mutation {
+  createRecipe(recipeInput: RecipeInput!): Recipe
 }

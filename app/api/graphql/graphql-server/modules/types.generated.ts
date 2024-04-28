@@ -6,6 +6,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -20,7 +21,7 @@ export type Ingredient = {
   amount?: Maybe<Scalars['Float']['output']>;
   id: Scalars['Int']['output'];
   name: Scalars['String']['output'];
-  previousIngredientId?: Maybe<Scalars['Int']['output']>;
+  previousId?: Maybe<Scalars['Int']['output']>;
   unit?: Maybe<Scalars['String']['output']>;
 };
 
@@ -31,11 +32,22 @@ export type IngredientGroup = {
   title?: Maybe<Scalars['String']['output']>;
 };
 
+export type IngredientGroupInput = {
+  ingredients?: InputMaybe<Array<IngredientInput>>;
+  title?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type IngredientInput = {
+  amount?: InputMaybe<Scalars['Float']['input']>;
+  name: Scalars['String']['input'];
+  unit?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Instruction = {
   __typename?: 'Instruction';
   content: Scalars['String']['output'];
   id: Scalars['Int']['output'];
-  previousInstructionId?: Maybe<Scalars['Int']['output']>;
+  previousId?: Maybe<Scalars['Int']['output']>;
 };
 
 export type InstructionGroup = {
@@ -43,6 +55,11 @@ export type InstructionGroup = {
   id: Scalars['Int']['output'];
   instructions: Array<Instruction>;
   title?: Maybe<Scalars['String']['output']>;
+};
+
+export type InstructionGroupInput = {
+  instructions?: InputMaybe<Array<Scalars['String']['input']>>;
+  title?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Language = {
@@ -53,7 +70,13 @@ export type Language = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createRecipe?: Maybe<Recipe>;
   pingMutation?: Maybe<Scalars['String']['output']>;
+};
+
+
+export type MutationcreateRecipeArgs = {
+  recipeInput: RecipeInput;
 };
 
 export type Photo = {
@@ -61,6 +84,11 @@ export type Photo = {
   id: Scalars['Int']['output'];
   isMainPhoto: Scalars['Boolean']['output'];
   url: Scalars['String']['output'];
+};
+
+export type PhotoInput = {
+  isMainPhoto: Scalars['Boolean']['input'];
+  url: Scalars['String']['input'];
 };
 
 export type Query = {
@@ -81,6 +109,18 @@ export type Recipe = {
   photos?: Maybe<Array<Photo>>;
   tags?: Maybe<Array<Tag>>;
   title: Scalars['String']['output'];
+};
+
+export type RecipeInput = {
+  category?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  ingredientGroups?: InputMaybe<Array<IngredientGroupInput>>;
+  instructionGroups?: InputMaybe<Array<InstructionGroupInput>>;
+  language: Scalars['String']['input'];
+  ovenNeeded: Scalars['Boolean']['input'];
+  photos?: InputMaybe<Array<PhotoInput>>;
+  tags?: InputMaybe<Array<Scalars['String']['input']>>;
+  title: Scalars['String']['input'];
 };
 
 export type Tag = {
@@ -165,14 +205,19 @@ export type ResolversTypes = {
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   IngredientGroup: ResolverTypeWrapper<IngredientGroup>;
+  IngredientGroupInput: IngredientGroupInput;
+  IngredientInput: IngredientInput;
   Instruction: ResolverTypeWrapper<Instruction>;
   InstructionGroup: ResolverTypeWrapper<InstructionGroup>;
+  InstructionGroupInput: InstructionGroupInput;
   Language: ResolverTypeWrapper<Language>;
   Mutation: ResolverTypeWrapper<{}>;
   Photo: ResolverTypeWrapper<Photo>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  PhotoInput: PhotoInput;
   Query: ResolverTypeWrapper<{}>;
   Recipe: ResolverTypeWrapper<Recipe>;
+  RecipeInput: RecipeInput;
   Tag: ResolverTypeWrapper<Tag>;
 };
 
@@ -183,14 +228,19 @@ export type ResolversParentTypes = {
   Int: Scalars['Int']['output'];
   String: Scalars['String']['output'];
   IngredientGroup: IngredientGroup;
+  IngredientGroupInput: IngredientGroupInput;
+  IngredientInput: IngredientInput;
   Instruction: Instruction;
   InstructionGroup: InstructionGroup;
+  InstructionGroupInput: InstructionGroupInput;
   Language: Language;
   Mutation: {};
   Photo: Photo;
   Boolean: Scalars['Boolean']['output'];
+  PhotoInput: PhotoInput;
   Query: {};
   Recipe: Recipe;
+  RecipeInput: RecipeInput;
   Tag: Tag;
 };
 
@@ -198,7 +248,7 @@ export type IngredientResolvers<ContextType = any, ParentType extends ResolversP
   amount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  previousIngredientId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  previousId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   unit?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -213,7 +263,7 @@ export type IngredientGroupResolvers<ContextType = any, ParentType extends Resol
 export type InstructionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Instruction'] = ResolversParentTypes['Instruction']> = {
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  previousInstructionId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  previousId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -231,6 +281,7 @@ export type LanguageResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createRecipe?: Resolver<Maybe<ResolversTypes['Recipe']>, ParentType, ContextType, RequireFields<MutationcreateRecipeArgs, 'recipeInput'>>;
   pingMutation?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 

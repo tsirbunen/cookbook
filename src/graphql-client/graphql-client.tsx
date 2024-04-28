@@ -7,7 +7,8 @@ import {
   NextSSRApolloClient
 } from '@apollo/experimental-nextjs-app-support/ssr'
 
-const URI = process.env.NEXT_PUBLIC_API_URI
+const URI =
+  process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_API_URI : process.env.NEXT_PUBLIC_API_URI_LOCAL
 
 // Note: This source was used to get the apollo client up and running:
 // https://github.com/apollographql/apollo-client-nextjs

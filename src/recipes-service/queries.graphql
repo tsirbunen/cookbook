@@ -3,7 +3,7 @@ fragment IngredientEntity on Ingredient {
   name
   amount
   unit
-  previousIngredientId
+  previousId
 }
 
 fragment IngredientGroupEntity on IngredientGroup {
@@ -17,7 +17,7 @@ fragment IngredientGroupEntity on IngredientGroup {
 fragment InstructionEntity on Instruction {
   id
   content
-  previousInstructionId
+  previousId
 }
 
 fragment InstructionGroupEntity on InstructionGroup {

@@ -1,7 +1,7 @@
 import { RecipesFilterValues } from '../app-pages/search/page/FilteringProvider'
-import { Recipe } from '../types/graphql-schema-types.generated'
 import { RecipeCategory } from '../types/types'
 import { AppState } from './StateContextProvider'
+import { produce } from 'immer'
 
 export enum Dispatch {
   SET_RECIPES_AND_FILTERS = 'SET_RECIPES_AND_FILTERS',
@@ -16,51 +16,61 @@ export type DispatchAction =
   | { type: Dispatch.CHANGE_RECIPES_ORDER; payload: { newOrderOfIds: number[] } }
   | { type: Dispatch.TOGGLE_SOUNDS_ENABLED; payload: { enabled: boolean } }
 
-export const reducer = (state: AppState, action: DispatchAction) => {
-  switch (action.type) {
+export const reducer = produce((draft: AppState, { type, payload }: DispatchAction) => {
+  switch (type) {
     case Dispatch.SET_RECIPES_AND_FILTERS:
-      return { ...state, recipes: action.payload.recipes, filters: action.payload.filters }
+      setRecipesAndFilters(draft, payload)
+      break
     case Dispatch.UPDATE_PICKED_RECIPES:
-      return updatePickedRecipes(state, action.payload)
+      updatePickedRecipes(draft, payload)
+      break
     case Dispatch.CHANGE_RECIPES_ORDER:
-      return updatePickedRecipesOrder(state, action.payload)
+      updatePickedRecipesOrder(draft, payload)
+      break
     case Dispatch.TOGGLE_SOUNDS_ENABLED:
-      return {
-        ...state,
-        settings: {
-          ...state.settings,
-          soundsEnabled: action.payload.enabled
-        }
-      }
+      toggleSoundsAreEnabled(draft, payload)
+      break
     default:
-      throw new Error(`${JSON.stringify(action)} is not an app state reducer action!`)
+      throw new Error(`${JSON.stringify(type)} is not an app state reducer action type!`)
+  }
+})
+
+const setRecipesAndFilters = (
+  draft: AppState,
+  payload: { recipes: RecipeCategory[]; filters: RecipesFilterValues }
+) => {
+  draft.recipes = payload.recipes
+  draft.filters = payload.filters
+}
+
+const toggleSoundsAreEnabled = (draft: AppState, payload: { enabled: boolean }) => {
+  draft.settings.soundsEnabled = payload.enabled
+}
+
+export const updatePickedRecipes = (draft: AppState, payload: { recipeId: number; category: string }) => {
+  const { recipeId, category } = payload
+  const recipe = draft.recipes
+    .filter((recipeCategory) => recipeCategory.category === category)[0]
+    .recipes.find((recipe) => recipe.id === recipeId)
+
+  if (!recipe) return
+
+  const shouldRemove = (draft.pickedRecipeIdsByCategory[category] ?? []).includes(recipeId)
+  if (shouldRemove) {
+    draft.pickedRecipeIdsByCategory[category] = draft.pickedRecipeIdsByCategory[category].filter(
+      (id) => id !== recipeId
+    )
+    draft.pickedRecipes = draft.pickedRecipes.filter((r) => r.id !== recipeId)
+  } else {
+    draft.pickedRecipeIdsByCategory[category] ??= []
+    draft.pickedRecipeIdsByCategory[category].push(recipeId)
+    draft.pickedRecipes.push(recipe)
   }
 }
 
-export const updatePickedRecipes = (state: AppState, payload: { recipeId: number; category: string }) => {
-  const { recipeId, category } = payload
-  const pickedCategoryRecipeIds = state.pickedRecipeIdsByCategory[category] ?? []
-  const shouldRemove = pickedCategoryRecipeIds.includes(recipeId)
-  const updatedIds = shouldRemove
-    ? pickedCategoryRecipeIds.filter((id) => id !== recipeId)
-    : [...pickedCategoryRecipeIds, recipeId]
-
-  const updatedPickedCategoryIds = { ...state.pickedRecipeIdsByCategory }
-  updatedPickedCategoryIds[category] = updatedIds
-
-  const recipe = state.recipes
-    .filter((recipeCategory) => recipeCategory.category === category)[0]
-    .recipes.find((recipe) => recipe.id === recipeId)
-  const updatedPickedRecipes = (
-    shouldRemove ? state.pickedRecipes.filter((r) => r.id !== recipeId) : [...state.pickedRecipes, recipe]
-  ) as Recipe[]
-
-  return { ...state, pickedRecipeIdsByCategory: updatedPickedCategoryIds, pickedRecipes: updatedPickedRecipes }
-}
-
 // FIXME: CHANGE STATE SO THAT FINDING RECIPES IS EASIER!!!
-const updatePickedRecipesOrder = (state: AppState, payload: { newOrderOfIds: number[] }) => {
-  const allRecipes = state.recipes.flatMap((recipeCategory) => recipeCategory.recipes)
+const updatePickedRecipesOrder = (draft: AppState, payload: { newOrderOfIds: number[] }) => {
+  const allRecipes = draft.recipes.flatMap((recipeCategory) => recipeCategory.recipes)
 
   const recipesInOrder = []
   for (const id of payload.newOrderOfIds) {
@@ -69,6 +79,5 @@ const updatePickedRecipesOrder = (state: AppState, payload: { newOrderOfIds: num
       recipesInOrder.push(recipe)
     }
   }
-
-  return { ...state, pickedRecipes: recipesInOrder }
+  draft.pickedRecipes = recipesInOrder
 }

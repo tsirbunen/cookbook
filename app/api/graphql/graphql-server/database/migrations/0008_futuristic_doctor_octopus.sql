@@ -1,0 +1,1 @@
+ALTER TABLE "recipes" ALTER COLUMN "oven_needed" SET NOT NULL;

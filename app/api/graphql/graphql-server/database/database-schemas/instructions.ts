@@ -19,13 +19,13 @@ export const instructionGroupInstructionRelations = relations(instructionGroups,
 export const instructions = pgTable('instructions', {
   id: serial('id').primaryKey(),
   content: varchar('content', { length: 350 }).notNull(),
-  previousInstructionId: integer('previous_instruction_id').references((): AnyPgColumn => instructions.id),
-  instructionGroupId: integer('instruction_group_id').references((): AnyPgColumn => instructionGroups.id)
+  previousId: integer('previous_id').references((): AnyPgColumn => instructions.id),
+  groupId: integer('group_id').references((): AnyPgColumn => instructionGroups.id)
 })
 
 export const instructionRelations = relations(instructions, ({ one }) => ({
   instructionGroup: one(instructionGroups, {
-    fields: [instructions.instructionGroupId],
+    fields: [instructions.groupId],
     references: [instructionGroups.id]
   })
 }))

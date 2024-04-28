@@ -14,6 +14,8 @@ import { RecipesViewingContext } from '../../search/page/SearchRecipesProvider'
 import { Page } from '../../../navigation/router/router'
 import { toolsElementId } from '../../../widgets/header-with-optional-toggles/HeaderWithToggles'
 
+//  TODO: Lisää mahdollisuus valita, kuinka moninkertaisena ainesten määrät näytetään
+//  ja mahdollisuus 0.5X ja 2X ja perustuen siihen, että tätä tiettyä on näin paljon, paljonko muita silloin tulee
 const CookPage = () => {
   const { maxPanelsCount } = useContext(ViewSizeContext)
   const { pickedRecipes, displayConfig } = useContext(CookingContext)

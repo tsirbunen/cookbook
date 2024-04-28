@@ -1,3 +1,8 @@
+import * as dotenv from 'dotenv'
+dotenv.config()
+
+const isProduction = process.env.NODE_ENV === 'production'
+
 import { createYoga, createSchema } from 'graphql-yoga'
 import { typeDefs } from './graphql-server/modules/typeDefs.generated'
 import { resolvers } from './graphql-server/modules/resolvers.generated'
@@ -7,7 +12,7 @@ const { handleRequest } = createYoga({
   graphqlEndpoint: '/api/graphql',
   fetchAPI: { Response },
   cors: {
-    origin: process.env.NEXT_PUBLIC_ORIGIN,
+    origin: isProduction ? process.env.NEXT_PUBLIC_ORIGIN : process.env.NEXT_PUBLIC_ORIGIN_LOCAL,
     credentials: true,
     methods: ['POST', 'GET', 'OPTIONS']
   }

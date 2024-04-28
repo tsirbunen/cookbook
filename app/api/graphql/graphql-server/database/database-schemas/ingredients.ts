@@ -16,15 +16,16 @@ export const ingredientGroupIngredientRelations = relations(ingredientGroups, ({
   ingredients: many(ingredients)
 }))
 
+// FIXME: Should a range be allowed for the amount?
 export const ingredients = pgTable('ingredients', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 350 }).notNull(),
   amount: real('amount'),
   unit: varchar('unit', { length: 100 }),
-  previousIngredientId: integer('previous_ingredient_id').references((): AnyPgColumn => ingredients.id),
-  ingredientGroupId: integer('ingredient_group_id').references((): AnyPgColumn => ingredientGroups.id)
+  previousId: integer('previous_id').references((): AnyPgColumn => ingredients.id),
+  groupId: integer('group_id').references((): AnyPgColumn => ingredientGroups.id)
 })
 
 export const ingredientRelations = relations(ingredients, ({ one }) => ({
-  ingredientGroup: one(ingredientGroups, { fields: [ingredients.ingredientGroupId], references: [ingredientGroups.id] })
+  ingredientGroup: one(ingredientGroups, { fields: [ingredients.groupId], references: [ingredientGroups.id] })
 }))

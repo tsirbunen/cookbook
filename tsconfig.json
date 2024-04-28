@@ -22,6 +22,14 @@
     ],
     "types": ["node", "jest"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "./jest.setup.ts", "./jest.config.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "./jest.setup.ts",
+    "jest.config.ui.ts",
+    "jest.config.api.ts"
+  ],
   "exclude": ["node_modules", "**/*.generated.*"]
 }

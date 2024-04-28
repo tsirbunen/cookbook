@@ -19,7 +19,7 @@ export type Ingredient = {
   amount?: Maybe<Scalars['Float']['output']>;
   id: Scalars['Int']['output'];
   name: Scalars['String']['output'];
-  previousIngredientId?: Maybe<Scalars['Int']['output']>;
+  previousId?: Maybe<Scalars['Int']['output']>;
   unit?: Maybe<Scalars['String']['output']>;
 };
 
@@ -30,11 +30,22 @@ export type IngredientGroup = {
   title?: Maybe<Scalars['String']['output']>;
 };
 
+export type IngredientGroupInput = {
+  ingredients?: InputMaybe<Array<IngredientInput>>;
+  title?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type IngredientInput = {
+  amount?: InputMaybe<Scalars['Float']['input']>;
+  name: Scalars['String']['input'];
+  unit?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Instruction = {
   __typename?: 'Instruction';
   content: Scalars['String']['output'];
   id: Scalars['Int']['output'];
-  previousInstructionId?: Maybe<Scalars['Int']['output']>;
+  previousId?: Maybe<Scalars['Int']['output']>;
 };
 
 export type InstructionGroup = {
@@ -42,6 +53,11 @@ export type InstructionGroup = {
   id: Scalars['Int']['output'];
   instructions: Array<Instruction>;
   title?: Maybe<Scalars['String']['output']>;
+};
+
+export type InstructionGroupInput = {
+  instructions?: InputMaybe<Array<Scalars['String']['input']>>;
+  title?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Language = {
@@ -52,7 +68,13 @@ export type Language = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createRecipe?: Maybe<Recipe>;
   pingMutation?: Maybe<Scalars['String']['output']>;
+};
+
+
+export type MutationCreateRecipeArgs = {
+  recipeInput: RecipeInput;
 };
 
 export type Photo = {
@@ -60,6 +82,11 @@ export type Photo = {
   id: Scalars['Int']['output'];
   isMainPhoto: Scalars['Boolean']['output'];
   url: Scalars['String']['output'];
+};
+
+export type PhotoInput = {
+  isMainPhoto: Scalars['Boolean']['input'];
+  url: Scalars['String']['input'];
 };
 
 export type Query = {
@@ -80,6 +107,18 @@ export type Recipe = {
   photos?: Maybe<Array<Photo>>;
   tags?: Maybe<Array<Tag>>;
   title: Scalars['String']['output'];
+};
+
+export type RecipeInput = {
+  category?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  ingredientGroups?: InputMaybe<Array<IngredientGroupInput>>;
+  instructionGroups?: InputMaybe<Array<InstructionGroupInput>>;
+  language: Scalars['String']['input'];
+  ovenNeeded: Scalars['Boolean']['input'];
+  photos?: InputMaybe<Array<PhotoInput>>;
+  tags?: InputMaybe<Array<Scalars['String']['input']>>;
+  title: Scalars['String']['input'];
 };
 
 export type Tag = {
