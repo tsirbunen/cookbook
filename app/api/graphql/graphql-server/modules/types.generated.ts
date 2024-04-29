@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 export type Maybe<T> = T | null | undefined;
 export type InputMaybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -14,6 +14,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  File: { input: any; output: any; }
 };
 
 export type Ingredient = {
@@ -118,7 +119,8 @@ export type RecipeInput = {
   instructionGroups?: InputMaybe<Array<InstructionGroupInput>>;
   language: Scalars['String']['input'];
   ovenNeeded: Scalars['Boolean']['input'];
-  photos?: InputMaybe<Array<PhotoInput>>;
+  photoFiles?: InputMaybe<Array<Scalars['File']['input']>>;
+  photoIdentifiers?: InputMaybe<Array<Scalars['String']['input']>>;
   tags?: InputMaybe<Array<Scalars['String']['input']>>;
   title: Scalars['String']['input'];
 };
@@ -200,6 +202,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  File: ResolverTypeWrapper<Scalars['File']['output']>;
   Ingredient: ResolverTypeWrapper<Ingredient>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
@@ -223,6 +226,7 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  File: Scalars['File']['output'];
   Ingredient: Ingredient;
   Float: Scalars['Float']['output'];
   Int: Scalars['Int']['output'];
@@ -243,6 +247,10 @@ export type ResolversParentTypes = {
   RecipeInput: RecipeInput;
   Tag: Tag;
 };
+
+export interface FileScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['File'], any> {
+  name: 'File';
+}
 
 export type IngredientResolvers<ContextType = any, ParentType extends ResolversParentTypes['Ingredient'] = ResolversParentTypes['Ingredient']> = {
   amount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
@@ -318,6 +326,7 @@ export type TagResolvers<ContextType = any, ParentType extends ResolversParentTy
 };
 
 export type Resolvers<ContextType = any> = {
+  File?: GraphQLScalarType;
   Ingredient?: IngredientResolvers<ContextType>;
   IngredientGroup?: IngredientGroupResolvers<ContextType>;
   Instruction?: InstructionResolvers<ContextType>;

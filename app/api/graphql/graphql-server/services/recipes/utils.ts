@@ -1,7 +1,12 @@
+import * as dotenv from 'dotenv'
+dotenv.config()
+
 import { eq } from 'drizzle-orm'
 import { recipes } from '../../database/database-schemas/recipes'
 import { DatabaseType, RecipeSelectDBExpanded, RecipeInsert } from '../../database/inferred-types/inferred-types'
 import { Recipe } from '../../modules/types.generated'
+
+const photoUrlBase = process.env.SUPABASE_S3_ENDPOINT
 
 export const getRecipeExpandedById = async (id: number, trx: DatabaseType): Promise<Recipe | undefined> => {
   const recipeRaw = (await trx.query.recipes.findFirst({
@@ -38,10 +43,16 @@ const getRecipeFullExpansions = () => {
 }
 
 export const formatRecipeTagRelationsToTags = (recipeExpanded: RecipeSelectDBExpanded): Recipe => {
-  const { recipesToTags, ...rest } = recipeExpanded
+  const { recipesToTags, photos, ...rest } = recipeExpanded
 
   return {
     ...rest,
+    photos: photos
+      ? photos.map((photo) => {
+          return { ...photo, url: `${photoUrlBase}/${photo.url}` }
+        })
+      : [],
+
     tags: recipesToTags.map((recipeToTags) => recipeToTags.tags).flat()
   }
 }

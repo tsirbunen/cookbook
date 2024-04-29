@@ -1,6 +1,7 @@
 /* This file was automatically generated. DO NOT UPDATE MANUALLY. */
     import type   { Resolvers } from './types.generated';
-    import    { Ingredient } from './recipe/resolvers/Ingredient';
+    import    { File } from './mutation/resolvers/File';
+import    { Ingredient } from './recipe/resolvers/Ingredient';
 import    { IngredientGroup } from './recipe/resolvers/IngredientGroup';
 import    { Instruction } from './recipe/resolvers/Instruction';
 import    { InstructionGroup } from './recipe/resolvers/InstructionGroup';
@@ -16,7 +17,8 @@ import    { Tag } from './recipe/resolvers/Tag';
       Query: { allRecipes: Query_allRecipes,pingQuery: Query_pingQuery },
       Mutation: { createRecipe: Mutation_createRecipe,pingMutation: Mutation_pingMutation },
       
-      Ingredient: Ingredient,
+      File: File,
+Ingredient: Ingredient,
 IngredientGroup: IngredientGroup,
 Instruction: Instruction,
 InstructionGroup: InstructionGroup,

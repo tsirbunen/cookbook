@@ -5,7 +5,9 @@ import { relations } from 'drizzle-orm'
 export const ingredientGroups = pgTable('ingredient_groups', {
   id: serial('id').primaryKey(),
   title: varchar('title', { length: 250 }),
-  recipeId: integer('recipe_id').references((): AnyPgColumn => recipes.id)
+  recipeId: integer('recipe_id')
+    .notNull()
+    .references((): AnyPgColumn => recipes.id)
 })
 
 export const ingredientGroupRecipeRelations = relations(ingredientGroups, ({ one }) => ({
@@ -23,7 +25,9 @@ export const ingredients = pgTable('ingredients', {
   amount: real('amount'),
   unit: varchar('unit', { length: 100 }),
   previousId: integer('previous_id').references((): AnyPgColumn => ingredients.id),
-  groupId: integer('group_id').references((): AnyPgColumn => ingredientGroups.id)
+  groupId: integer('group_id')
+    .notNull()
+    .references((): AnyPgColumn => ingredientGroups.id)
 })
 
 export const ingredientRelations = relations(ingredients, ({ one }) => ({

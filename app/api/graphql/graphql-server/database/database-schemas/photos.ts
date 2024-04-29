@@ -6,7 +6,9 @@ export const photos = pgTable('photos', {
   id: serial('id').primaryKey(),
   url: varchar('url', { length: 500 }).notNull(),
   isMainPhoto: boolean('is_main_photo').notNull(),
-  recipeId: integer('recipe_id').references((): AnyPgColumn => recipes.id)
+  recipeId: integer('recipe_id')
+    .notNull()
+    .references((): AnyPgColumn => recipes.id)
 })
 
 export const photoRelations = relations(photos, ({ one }) => ({

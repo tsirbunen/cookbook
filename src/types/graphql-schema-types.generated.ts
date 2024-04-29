@@ -12,6 +12,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  File: { input: any; output: any; }
 };
 
 export type Ingredient = {
@@ -116,7 +117,8 @@ export type RecipeInput = {
   instructionGroups?: InputMaybe<Array<InstructionGroupInput>>;
   language: Scalars['String']['input'];
   ovenNeeded: Scalars['Boolean']['input'];
-  photos?: InputMaybe<Array<PhotoInput>>;
+  photoFiles?: InputMaybe<Array<Scalars['File']['input']>>;
+  photoIdentifiers?: InputMaybe<Array<Scalars['String']['input']>>;
   tags?: InputMaybe<Array<Scalars['String']['input']>>;
   title: Scalars['String']['input'];
 };

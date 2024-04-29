@@ -15,6 +15,9 @@ const nextConfig = {
     // !! WARN !!
     ignoreBuildErrors: true
   },
+  images: {
+    domains: ['zsqhuviyhskmcdfbjynw.supabase.co']
+  },
   async headers() {
     return [
       {

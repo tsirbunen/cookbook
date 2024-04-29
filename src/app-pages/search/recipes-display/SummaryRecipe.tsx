@@ -1,14 +1,14 @@
+/* eslint-disable @next/next/no-img-element */
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import Image from 'next/image'
 import { ColorCodes } from '../../../theme/theme'
-import falafel from '../../../assets/falafel.png'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
 import RecipePropertyIcons from '../../../widgets/property-icon/RecipePropertyIcons'
 import { SoundServiceContext, SoundType } from '../../../sounds/SoundProvider'
 import { useContext } from 'react'
 import CustomDivider from '../../../widgets/divider/CustomDivider'
+import ImageWithFallback, { FallbackIcon } from '../../../widgets/image-with-fallback/ImageWithFallback'
 
 export const summaryRepresentationDataTestId = 'summary-representation'
 
@@ -34,7 +34,9 @@ const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked, isFavorite, isFi
     onPickRecipeChanged()
   }
 
-  const { title, tags, category, ovenNeeded, language } = recipe
+  const { title, tags, category, ovenNeeded, language, photos } = recipe
+  const mainPhotoUrl = (photos ?? []).find((photo) => photo.isMainPhoto)?.url
+
   const tagsCombined = (tags ?? []).map(({ tag }) => `#${tag.toUpperCase()}`).join(' ')
 
   return (
@@ -43,15 +45,13 @@ const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked, isFavorite, isFi
 
       <div css={container} data-testid={summaryRepresentationDataTestId}>
         <div css={imageContainer(isPicked)} onClick={toggleIsPickedWithSound}>
-          <Image
-            src={falafel}
-            alt={'Some image title'}
-            style={{
-              borderRadius: `${borderRadius}px`,
-              objectFit: 'cover',
-              height: isPicked ? imageHeight - 2 * isPickedBorderWidth : imageHeight,
-              width: isPicked ? imageWidth - 2 * isPickedBorderWidth : imageWidth
-            }}
+          <ImageWithFallback
+            mainPhotoUrl={mainPhotoUrl}
+            fallbackIcon={FallbackIcon.FOOD}
+            borderRadius={`${borderRadius}px`}
+            imageHeight={isPicked ? imageHeight - 2 * isPickedBorderWidth : imageHeight}
+            imageWidth={isPicked ? imageWidth - 2 * isPickedBorderWidth : imageWidth}
+            imageAlt={recipe.title}
           />
         </div>
 

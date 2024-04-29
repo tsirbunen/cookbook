@@ -77,7 +77,8 @@ type Recipe {
 input RecipeInput {
   title: String!
   description: String
-  photos: [PhotoInput!]
+  photoFiles: [File!]
+  photoIdentifiers: [String!]
   tags: [String!]
   language: String!
   category: String

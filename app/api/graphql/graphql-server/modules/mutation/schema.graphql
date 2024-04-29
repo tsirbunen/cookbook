@@ -1,3 +1,5 @@
+scalar File
+
 type Mutation {
   pingMutation: String
 }

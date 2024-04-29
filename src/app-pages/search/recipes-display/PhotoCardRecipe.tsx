@@ -1,18 +1,17 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import Image from 'next/image'
 import { ColorCodes } from '../../../theme/theme'
-import falafel from '../../../assets/falafel.png'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
 import { SoundServiceContext, SoundType } from '../../../sounds/SoundProvider'
 import { useContext } from 'react'
+import ImageWithFallback, { FallbackIcon } from '../../../widgets/image-with-fallback/ImageWithFallback'
 
 export const photoRepresentationDataTestId = 'card-representation'
 
 const CARD_HEIGHT = 195
 const SPACING = 10
-const BORDER_RADIUS = 6
+const BORDER_RADIUS = 8
 const IMAGE_HEIGHT = 150
 const CARD_WIDTH = 170
 
@@ -20,7 +19,6 @@ export type RecipeForPhotoCardProps = {
   recipe: Recipe
   onPickRecipeChanged: () => void
   isPicked: boolean
-  photoUrl?: string
 }
 
 const PhotoCardRecipe = ({ recipe, onPickRecipeChanged, isPicked }: RecipeForPhotoCardProps) => {
@@ -32,18 +30,18 @@ const PhotoCardRecipe = ({ recipe, onPickRecipeChanged, isPicked }: RecipeForPho
     onPickRecipeChanged()
   }
 
+  const mainPhotoUrl = (recipe.photos ?? []).find((photo) => photo.isMainPhoto)?.url
+
   return (
     <div css={cardCss(isPicked)} data-testid={photoRepresentationDataTestId}>
-      <Image
-        src={falafel}
-        alt={'Some image title'}
-        style={{
-          borderRadius: '6px 6px 0px 0px',
-          objectFit: 'cover',
-          height: IMAGE_HEIGHT,
-          width: CARD_WIDTH
-        }}
+      <ImageWithFallback
+        mainPhotoUrl={mainPhotoUrl}
+        fallbackIcon={FallbackIcon.FOOD}
+        borderRadius={`${BORDER_RADIUS}px ${BORDER_RADIUS}px 0px 0px`}
+        imageHeight={IMAGE_HEIGHT}
+        imageWidth={CARD_WIDTH}
         onClick={toggleIsPickedWithSound}
+        imageAlt={recipe.title}
       />
       <div css={titleCss(isPicked)}>{recipe.title}</div>
     </div>

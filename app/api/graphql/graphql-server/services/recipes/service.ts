@@ -1,3 +1,6 @@
+import * as dotenv from 'dotenv'
+dotenv.config()
+
 import { database } from '../../database/config/config'
 import { handleFindExistingOrCreateNewLanguage } from '../languages/utils'
 import { handleFindExistingOrCreateNewTags } from '../tags/utils'
@@ -5,6 +8,7 @@ import { getAllRecipesExpanded, getRecipeExpandedById, handleCreateNewRecipe } f
 import { handleCreateIngredients } from '../ingredients/utils'
 import { handleCreateInstructions } from '../instructions/utils'
 import { IngredientGroupInput, InstructionGroupInput, Recipe, RecipeInput } from '../../modules/types.generated'
+import { handlePhotoIdentifiers } from '../photos/service'
 
 export const getAllRecipes = async (): Promise<Recipe[]> => {
   return await getAllRecipesExpanded(database)
@@ -17,6 +21,11 @@ export const createNewRecipe = async (input: RecipeInput) => {
     const languageId = await handleFindExistingOrCreateNewLanguage(trx, language)
     const newRecipeId = await handleCreateNewRecipe(trx, { title, description, category, ovenNeeded, languageId })
     await handleFindExistingOrCreateNewTags(trx, newRecipeId, tags)
+    if (input.photoIdentifiers) {
+      await handlePhotoIdentifiers(trx, input.photoIdentifiers, newRecipeId)
+    } else if (input.photoFiles) {
+      // FIXME: Create this! And check that only identifiers or files are passed, not both
+    }
     await handleCreateIngredients(trx, ingredientGroups as IngredientGroupInput[], newRecipeId)
     await handleCreateInstructions(trx, instructionGroups as InstructionGroupInput[], newRecipeId)
 

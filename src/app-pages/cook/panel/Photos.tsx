@@ -1,37 +1,44 @@
+/* eslint-disable @next/next/no-img-element */
 /** @jsxImportSource @emotion/react */
 
 import React from 'react'
-import Image from 'next/image'
 import { css } from '@emotion/react'
-import falafel from '../../../assets/falafel.png'
-import dal from '../../../assets/dal.png'
-import korma from '../../../assets/korma.png'
 import { ColorCodes } from '../../../theme/theme'
 import { HEADER_HEIGHT } from '../../../constants/layout'
+import ImageWithFallback, { FallbackIcon } from '../../../widgets/image-with-fallback/ImageWithFallback'
+import { Photo } from '../../../types/graphql-schema-types.generated'
 
 type PhotosProps = {
   title: string
+  photos: Photo[]
 }
 
-const Photos = ({ title }: PhotosProps) => {
+const Photos = ({ title, photos }: PhotosProps) => {
   const [selectedPhotoIndex, setSelectedPhotoIndex] = React.useState(0)
-  const photoUrls = [falafel, dal, korma]
 
   const selectPhotoToDisplay = (index: number) => {
     setSelectedPhotoIndex(index)
   }
 
-  const showSelectPhotoToDisplay = photoUrls.length > 1
-  const src = photoUrls[selectedPhotoIndex]
+  const showSelectPhotoToDisplay = photos.length > 1
+  const mainPhotoUrl = (photos ?? []).find((photo) => photo.isMainPhoto)?.url
+  const photoUrlToDisplay =
+    photos[selectedPhotoIndex]?.url !== undefined ? photos[selectedPhotoIndex]?.url : mainPhotoUrl
 
   return (
     <div css={imageBoxCss}>
-      <Image src={src} alt={`Photo of recipe with title: ${title}`} css={imageCss} />
+      <ImageWithFallback
+        mainPhotoUrl={photoUrlToDisplay}
+        fallbackIcon={FallbackIcon.FOOD}
+        imageHeight={IMAGE_CONTAINER_HEIGHT}
+        imageWidth="100%"
+        imageAlt={title}
+      />
       <div css={shadowGradientPhotoOverlayCss} />
       {showSelectPhotoToDisplay ? (
         <div css={dotBoxCss}>
           <div css={dotRowCss}>
-            {photoUrls.map((_url, index) => (
+            {photos.map((_url, index) => (
               <div key={index} css={dotCss(selectedPhotoIndex === index)} onClick={() => selectPhotoToDisplay(index)} />
             ))}
           </div>
@@ -50,7 +57,14 @@ const DOT_BOX_TOP = -(IMAGE_CONTAINER_HEIGHT + HEADER_HEIGHT + 85)
 
 const shadowGradientPhotoOverlayCss = css`
   background-size: cover;
-  background-image: linear-gradient(0deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5) 30%, transparent 40%, transparent);
+  background-image: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 0.8) 20%,
+    rgba(0, 0, 0, 0.1) 50%,
+    transparent 60%,
+    transparent
+  );
   position: relative;
   top: ${-IMAGE_CONTAINER_HEIGHT}px;
   height: ${IMAGE_CONTAINER_HEIGHT}px;
@@ -61,12 +75,6 @@ const imageBoxCss = css`
   position: relative;
   width: 100%;
   height: ${IMAGE_CONTAINER_HEIGHT}px;
-`
-
-const imageCss = css`
-  object-fit: cover;
-  height: ${IMAGE_CONTAINER_HEIGHT}px;
-  width: 100%;
 `
 
 const dotBoxCss = css`
