@@ -14,8 +14,12 @@ let options
 
 const isProduction = process.env.NODE_ENV === 'production'
 let client: postgres.Sql
+// const connectionString = process.env.DATABASE_CONNECTION_STRING ?? ''
+// console.log('connectionString', connectionString)
+// client = postgres(connectionString)
 
 if (isProduction) {
+  console.log('ENV IS PRODUCTION!')
   const connectionString = process.env.DATABASE_CONNECTION_STRING
   if (!connectionString) throw new Error('DATABASE_CONNECTION_STRING is missing!')
 
