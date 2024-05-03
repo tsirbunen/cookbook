@@ -27,12 +27,13 @@ jobs:
   unit_component_and_e2e_testing:
     needs: [build_app_image_and_push_to_container_registry]
     runs-on: ubuntu-latest
+    container: node:latest
 
     services:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_HOST: postgres
+          POSTGRES_HOST: localhost
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_PORT: 5432
@@ -44,7 +45,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-      localhost:
+      app:
         image: ghcr.io/${{ github.actor }}/app:latest
         credentials:
           username: ${{ github.actor }}

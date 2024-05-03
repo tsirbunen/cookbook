@@ -11,8 +11,8 @@
     "cypress:open": "cypress open",
     "cypress:run": "cypress run  --reporter mochawesome",
     "generate:types": "graphql-codegen --config graphql-codegen.yml",
-    "test:ui": "jest --config=jest.config.ui.ts --runInBand",
-    "test:api": "jest --config=jest.config.api.ts --runInBand",
+    "test:ui": "jest --config=jest.config.ui.ts --runInBand --silent=false",
+    "test:api": "jest --config=jest.config.api.ts --runInBand --silent=false",
     "test:ui:watch": "jest --watch --config=jest.config.ui.ts --runInBand",
     "test:api:watch": "jest --watch --config=jest.config.api.ts --runInBand",
     "lint": "next lint"
