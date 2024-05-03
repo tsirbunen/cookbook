@@ -10,7 +10,7 @@ import * as languageSchema from '../database-schemas/languages'
 import * as tagSchema from '../database-schemas/tags'
 import * as photosSchema from '../database-schemas/photos'
 
-let options
+// let options
 
 const isProduction = process.env.NODE_ENV === 'production'
 let client: postgres.Sql
@@ -23,7 +23,7 @@ if (isProduction) {
   client = postgres(connectionString)
 } else {
   const options = {
-    host: 'postgres', //'localhost',
+    host: 'localhost',
     port: 5432,
     user: 'postgres',
     password: 'postgres',
@@ -44,4 +44,4 @@ const database = drizzle(client, {
   }
 })
 
-export { options, database, client }
+export { database, client }
