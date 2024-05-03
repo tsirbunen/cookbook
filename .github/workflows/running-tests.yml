@@ -24,7 +24,7 @@ jobs:
           tags: |
             ghcr.io/${{ github.actor }}/app:latest
 
-  unit_component_and_e2e_testing:
+  unit_and_component_testing:
     needs: [build_app_image_and_push_to_container_registry]
     runs-on: ubuntu-latest
     container: node:latest
@@ -62,31 +62,77 @@ jobs:
         with:
           node-version: '20.x'
       - run: npm install
-      - run: npm run migrations:local
+      - run: env IS_GITHUB=true  npm run migrations:local
 
       # - name: Run unit tests for ui
       #   run: npm run test:ui
 
       - name: Run unit tests for api
-        run: npm run test:api:github
+        run: env IS_GITHUB=true  npm run test:api
 
-      # - name: Replace GraphQL client using hook with a mock
-      #   run: mv ./src/test-utils/useRecipeApi.tsx ./src/recipes-service/useRecipeApi.tsx
+  e2e_testing:
+    needs: [unit_and_component_testing]
+    runs-on: ubuntu-latest
+    # container: node:latest
 
-      # - name: Run cypress tests
-      #   uses: cypress-io/github-action@v6
-      #   with:
-      #     project: ./
-      #     browser: chrome
-      #     build: npm run build
-      #     start: npm run start
-      #     wait-on: 'http://localhost:3000'
-      #   env:
-      #     POSTGRES_HOST: localhost
-      #     POSTGRES_PORT: 5432
-      #     POSTGRES_USER: postgres
-      #     POSTGRES_PASSWORD: postgres
-      #     POSTGRES_DB: postgres
-      #     NEXT_PUBLIC_API_URI_LOCAL: https://localhost:3000/api/graphql
-      #     NEXT_PUBLIC_ORIGIN_LOCAL: https://localhost:3000
-      #     DATABASE_CONNECTION_STRING: postgresql://postgres:postgres@localhost:5432/postgres
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          # POSTGRES_HOST: localhost
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_PORT: 5432
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      # app:
+      #   image: ghcr.io/${{ github.actor }}/app:latest
+      #   credentials:
+      #     username: ${{ github.actor }}
+      #     password: ${{ secrets.GITHUB_TOKEN }}
+      #   ports:
+      #     - 3000:3000
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Use Node.js to run migrations to database
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+      - run: npm install
+      - run: npm run migrations:local
+
+      # - name: Run unit tests for ui
+      #   run: npm run test:ui
+
+      # - name: Run unit tests for api
+      #   run: npm run test:api:github
+
+      - name: Replace GraphQL client using hook with a mock
+        run: mv ./src/test-utils/useRecipeApi.tsx ./src/recipes-service/useRecipeApi.tsx
+
+      - name: Run cypress tests
+        uses: cypress-io/github-action@v6
+        with:
+          project: ./
+          browser: chrome
+          build: npm run build
+          start: npm run start
+          wait-on: 'http://localhost:3000'
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+          NEXT_PUBLIC_API_URI_LOCAL: https://localhost:3000/api/graphql
+          NEXT_PUBLIC_ORIGIN_LOCAL: https://localhost:3000
+          DATABASE_CONNECTION_STRING: postgresql://postgres:postgres@localhost:5432/postgres
