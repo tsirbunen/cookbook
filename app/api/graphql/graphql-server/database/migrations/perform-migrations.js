@@ -17,7 +17,7 @@ const performMigrations = async () => {
     client = postgres(connectionString)
   } else {
     const options = {
-      host: 'localhost',
+      host: 'postgres', // 'localhost',
       port: 5432,
       user: 'postgres',
       password: 'postgres',
