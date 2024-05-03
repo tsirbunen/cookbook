@@ -13,6 +13,7 @@
     "generate:types": "graphql-codegen --config graphql-codegen.yml",
     "test:ui": "jest --config=jest.config.ui.ts --runInBand --silent=false",
     "test:api": "jest --config=jest.config.api.ts --runInBand --silent=false",
+    "test:api:github": "env IS_GITHUB=true jest --config=jest.config.api.ts --runInBand --silent=false",
     "test:ui:watch": "jest --watch --config=jest.config.ui.ts --runInBand",
     "test:api:watch": "jest --watch --config=jest.config.api.ts --runInBand",
     "lint": "next lint"

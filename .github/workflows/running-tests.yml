@@ -68,7 +68,7 @@ jobs:
       #   run: npm run test:ui
 
       - name: Run unit tests for api
-        run: npm run test:api
+        run: npm run test:api:github
 
       # - name: Replace GraphQL client using hook with a mock
       #   run: mv ./src/test-utils/useRecipeApi.tsx ./src/recipes-service/useRecipeApi.tsx
