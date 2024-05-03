@@ -20,10 +20,10 @@ if (isProduction) {
 
   client = postgres(connectionString)
 } else {
-  const isGithubTest = !!process.env.IS_GITHUB
-  console.log('ENV IS NOT PRODUCTION!', isGithubTest ? 'IS GITHUB TEST' : 'IS LOCAL')
+  // const isGithubTest = !!process.env.IS_GITHUB
+  // console.log('ENV IS NOT PRODUCTION!', isGithubTest ? 'IS GITHUB TEST' : 'IS LOCAL')
   const options = {
-    host: isGithubTest ? 'postgres' : 'localhost',
+    host: Boolean(process.env.IS_GITHUB) ? 'postgres' : 'localhost',
     port: 5432,
     user: 'postgres',
     password: 'postgres',
