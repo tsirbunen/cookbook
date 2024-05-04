@@ -16,8 +16,6 @@ const performMigrations = async () => {
 
     client = postgres(connectionString)
   } else {
-    // const isGithubTest = !!process.env.IS_GITHUB
-    // console.log('ENV IS NOT PRODUCTION!', isGithubTest ? 'IS GITHUB TEST' : 'IS LOCAL')
     const options = {
       host: Boolean(process.env.IS_GITHUB) ? 'postgres' : 'localhost',
       port: 5432,

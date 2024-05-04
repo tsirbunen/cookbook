@@ -14,14 +14,11 @@ const isProduction = process.env.NODE_ENV === 'production'
 let client: postgres.Sql
 
 if (isProduction) {
-  console.log('ENV IS PRODUCTION!')
   const connectionString = process.env.DATABASE_CONNECTION_STRING
   if (!connectionString) throw new Error('DATABASE_CONNECTION_STRING is missing!')
 
   client = postgres(connectionString)
 } else {
-  // const isGithubTest = !!process.env.IS_GITHUB
-  // console.log('ENV IS NOT PRODUCTION!', isGithubTest ? 'IS GITHUB TEST' : 'IS LOCAL')
   const options = {
     host: Boolean(process.env.IS_GITHUB) ? 'postgres' : 'localhost',
     port: 5432,
