@@ -54,6 +54,7 @@ export const cookingReducer = produce((draft: CookingState, action: DispatchCook
       break
     case DispatchCookingEvent.TOGGLE_MULTI_COLUMN:
       draft.multiColumnRecipes = getUpdatedIdList(draft.multiColumnRecipes, action.payload.recipeId)
+      break
     default:
       throw new Error(`${JSON.stringify(action)} is not a cooking state reducer action!`)
   }

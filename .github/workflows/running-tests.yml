@@ -74,24 +74,22 @@ jobs:
   cypress_ui_testing:
     needs: [jest_unit_and_component_testing]
     runs-on: ubuntu-latest
-    # Bring the databasse back and stop using mock once ApolloNextAppProvider
-    # can be made to work in cypress testing in GitHub actions
-    # services:
-    #   postgres:
-    #     image: postgres:latest
-    #     env:
-    #       POSTGRES_HOST: localhost
-    #       POSTGRES_USER: postgres
-    #       POSTGRES_PASSWORD: postgres
-    #       POSTGRES_PORT: 5432
-    #       POSTGRES_DB: postgres
-    #     ports:
-    #       - 5432:5432
-    #     options: >-
-    #       --health-cmd pg_isready
-    #       --health-interval 10s
-    #       --health-timeout 5s
-    #       --health-retries 5
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_PORT: 5432
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Checkout code
@@ -104,6 +102,7 @@ jobs:
       - run: npm install
       - run: npm run migrations:local
 
+      # FIXME: Remove this once the ApolloNextAppProvider can be made to work with the cypress tests!
       - name: Replace GraphQL client using hook with a mock
         run: mv ./src/test-utils/useRecipeApi.tsx ./src/recipes-service/useRecipeApi.tsx
 
@@ -115,14 +114,12 @@ jobs:
           build: npm run build
           start: npm run start
           wait-on: 'http://localhost:3000'
-        # Bring the databasse back and stop using mock once ApolloNextAppProvider
-        # can be made to work in cypress testing in GitHub actions
-        # env:
-        #   POSTGRES_HOST: localhost
-        #   POSTGRES_PORT: 5432
-        #   POSTGRES_USER: postgres
-        #   POSTGRES_PASSWORD: postgres
-        #   POSTGRES_DB: postgres
-        #   NEXT_PUBLIC_API_URI_LOCAL: https://localhost:3000/api/graphql
-        #   NEXT_PUBLIC_ORIGIN_LOCAL: https://localhost:3000
-        #   DATABASE_CONNECTION_STRING: postgresql://postgres:postgres@localhost:5432/postgres
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+          NEXT_PUBLIC_API_URI_LOCAL: https://localhost:3000/api/graphql
+          NEXT_PUBLIC_ORIGIN_LOCAL: https://localhost:3000
+          DATABASE_CONNECTION_STRING: postgresql://postgres:postgres@localhost:5432/postgres
