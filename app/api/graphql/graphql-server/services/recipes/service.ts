@@ -16,10 +16,10 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
 
 export const createNewRecipe = async (input: RecipeInput) => {
   const newlyCreatedRecipe = await database.transaction(async (trx) => {
-    const { title, description, category, ovenNeeded, ingredientGroups, instructionGroups, tags, language } = input
+    const { title, description, ovenNeeded, ingredientGroups, instructionGroups, tags, language } = input
 
     const languageId = await handleFindExistingOrCreateNewLanguage(trx, language)
-    const newRecipeId = await handleCreateNewRecipe(trx, { title, description, category, ovenNeeded, languageId })
+    const newRecipeId = await handleCreateNewRecipe(trx, { title, description, ovenNeeded, languageId })
     await handleFindExistingOrCreateNewTags(trx, newRecipeId, tags)
     if (input.photoIdentifiers) {
       await handlePhotoIdentifiers(trx, input.photoIdentifiers, newRecipeId)

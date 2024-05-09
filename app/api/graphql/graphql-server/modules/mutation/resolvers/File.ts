@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { GraphQLScalarType } from 'graphql'
 export const File = new GraphQLScalarType({
   name: 'File',

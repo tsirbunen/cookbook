@@ -24,8 +24,7 @@ const SearchRecipesHeaderToggles = () => {
     toggleShowFiltering
   } = useContext(RecipesViewingContext)
 
-  const pickedRecipeIdsByCategory = state.pickedRecipeIdsByCategory
-  const pickedRecipesCount = Object.values(pickedRecipeIdsByCategory).flat().length
+  const pickedRecipesCount = state.pickedRecipeIds.length
 
   return (
     <Toggles hasBackground={true}>

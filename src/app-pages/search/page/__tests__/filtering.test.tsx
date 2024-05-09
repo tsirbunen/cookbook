@@ -4,7 +4,6 @@ import { expect } from '@jest/globals'
 import { render, screen, fireEvent, act } from '@testing-library/react'
 import { TestAppStateContextProvider } from '../../../../test-utils/TestStateContextProvider'
 import TestRecipeServiceProvider, {
-  NO_CATEGORIES,
   NO_INGREDIENTS,
   NO_LANGUAGES,
   TEST_PREFIX
@@ -19,14 +18,12 @@ import { formTextAreaSearchDataTestId } from '../../../../widgets/form-textarea-
 import TestSearchRecipesProvider from '../../../../test-utils/TestSearchRecipesProvider'
 import { AppState } from '../../../../state/StateContextProvider'
 
-const category = 'DINNER'
 const language = 'ENGLISH'
 const ingredient = 'BLUEBERRY'
-const changedCategory = 'BREAKFAST'
 const changedIngredient = 'STRAWBERRY'
-const noFiltersTexts = [NO_CATEGORIES, NO_LANGUAGES, NO_INGREDIENTS]
-const testTextDisplays = [category, language, ingredient].map((text) => `${TEST_PREFIX}-${text}`)
-const changedTextDisplays = [changedCategory, language, changedIngredient].map((text) => `${TEST_PREFIX}-${text}`)
+const noFiltersTexts = [NO_LANGUAGES, NO_INGREDIENTS]
+const testTextDisplays = [language, ingredient].map((text) => `${TEST_PREFIX}-${text}`)
+const changedTextDisplays = [language, changedIngredient].map((text) => `${TEST_PREFIX}-${text}`)
 
 describe('FilteringProvider and FilteringManagementTool', () => {
   it('enable setting multiple filters and storing the selected filter values', async () => {
@@ -36,7 +33,7 @@ describe('FilteringProvider and FilteringManagementTool', () => {
       expect(screen.getByText(text)).toBeInTheDocument()
     })
 
-    clickFormButtonWithLabel(category)
+    // clickFormButtonWithLabel(category)
     clickFormButtonWithLabel(language)
     addTextToTextArea(ingredient, formTextAreaSearchDataTestId)
     await clickApplyButton(applyFiltersLabel)
@@ -48,7 +45,7 @@ describe('FilteringProvider and FilteringManagementTool', () => {
 
   it('enable clearing selected filter values', async () => {
     const initialFilterValues = {
-      categories: [category],
+      // categories: [category],
       languages: [language],
       ingredients: { searchTerm: ingredient, searchMode: undefined }
     }
@@ -69,15 +66,14 @@ describe('FilteringProvider and FilteringManagementTool', () => {
 
   it('enable changing selected filter values', async () => {
     const initialFilterValues = {
-      categories: [category],
       languages: [language],
       ingredients: { searchTerm: ingredient, searchMode: undefined }
     }
 
     render(getFilteringProviderAndManagementToolToRender({ initialFilterValues }))
 
-    clickFormButtonWithLabel(category)
-    clickFormButtonWithLabel(changedCategory)
+    // clickFormButtonWithLabel(category)
+    // clickFormButtonWithLabel(changedCategory)
 
     const ingredientsComponent = screen.getByTestId(formTextAreaSearchDataTestId)
     let trashButton

@@ -34,7 +34,7 @@ const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked, isFavorite, isFi
     onPickRecipeChanged()
   }
 
-  const { title, tags, category, ovenNeeded, language, photos } = recipe
+  const { title, tags, ovenNeeded, language, photos } = recipe
   const mainPhotoUrl = (photos ?? []).find((photo) => photo.isMainPhoto)?.url
 
   const tagsCombined = (tags ?? []).map(({ tag }) => `#${tag.toUpperCase()}`).join(' ')
@@ -56,8 +56,6 @@ const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked, isFavorite, isFi
         </div>
 
         <div css={infoContainer} onClick={toggleIsPickedWithSound}>
-          <div css={categoryContainer}>{(category ?? '').toUpperCase()}</div>
-
           <div css={titleContainer}>{title}</div>
 
           <div css={tagsContainer}>
@@ -132,12 +130,6 @@ const tagsContainer = css`
   font-size: 0.7em;
   font-weight: bold;
   margin-bottom: 5px;
-`
-
-const categoryContainer = css`
-  color: ${ColorCodes.MEDIUM};
-  font-size: 0.7em;
-  font-weight: bold;
 `
 
 const languageCss = css`

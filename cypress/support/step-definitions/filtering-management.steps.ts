@@ -16,9 +16,9 @@ Then('the number of set filters shown in toggle badge is {string}', (count: stri
   recipesViewingPage.countInToggleBadge(count, 'filtering')
 })
 
-When('one clicks the {string} button {string}', (category: string, buttonLabel: string) => {
-  recipesFilterForm.clickFormCategoryButton(buttonLabel)
-})
+// When('one clicks the {string} button {string}', (category: string, buttonLabel: string) => {
+//   recipesFilterForm.clickFormCategoryButton(buttonLabel)
+// })
 
 When('one submits the form', () => {
   recipesFilterForm.submitForm()

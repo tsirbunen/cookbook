@@ -92,13 +92,13 @@ export type PhotoInput = {
 
 export type Query = {
   __typename?: 'Query';
+  allLanguages: Array<Language>;
   allRecipes: Array<Recipe>;
   pingQuery?: Maybe<Scalars['String']['output']>;
 };
 
 export type Recipe = {
   __typename?: 'Recipe';
-  category?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   ingredientGroups: Array<IngredientGroup>;
@@ -111,7 +111,6 @@ export type Recipe = {
 };
 
 export type RecipeInput = {
-  category?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   ingredientGroups?: InputMaybe<Array<IngredientGroupInput>>;
   instructionGroups?: InputMaybe<Array<InstructionGroupInput>>;

@@ -94,13 +94,13 @@ export type PhotoInput = {
 
 export type Query = {
   __typename?: 'Query';
+  allLanguages: Array<Language>;
   allRecipes: Array<Recipe>;
   pingQuery?: Maybe<Scalars['String']['output']>;
 };
 
 export type Recipe = {
   __typename?: 'Recipe';
-  category?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   ingredientGroups: Array<IngredientGroup>;
@@ -113,7 +113,6 @@ export type Recipe = {
 };
 
 export type RecipeInput = {
-  category?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   ingredientGroups?: InputMaybe<Array<IngredientGroupInput>>;
   instructionGroups?: InputMaybe<Array<InstructionGroupInput>>;
@@ -301,12 +300,12 @@ export type PhotoResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  allLanguages?: Resolver<Array<ResolversTypes['Language']>, ParentType, ContextType>;
   allRecipes?: Resolver<Array<ResolversTypes['Recipe']>, ParentType, ContextType>;
   pingQuery?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
 export type RecipeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Recipe'] = ResolversParentTypes['Recipe']> = {
-  category?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   ingredientGroups?: Resolver<Array<ResolversTypes['IngredientGroup']>, ParentType, ContextType>;

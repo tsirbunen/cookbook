@@ -67,7 +67,6 @@ type Recipe {
   description: String
   photos: [Photo!]
   tags: [Tag!]
-  category: String
   ovenNeeded: Boolean!
   language: Language!
   ingredientGroups: [IngredientGroup!]!
@@ -81,7 +80,6 @@ input RecipeInput {
   photoIdentifiers: [String!]
   tags: [String!]
   language: String!
-  category: String
   ovenNeeded: Boolean!
   ingredientGroups: [IngredientGroupInput!]
   instructionGroups: [InstructionGroupInput!]
@@ -89,6 +87,7 @@ input RecipeInput {
 
 extend type Query {
   allRecipes: [Recipe!]!
+  allLanguages: [Language!]!
 }
 
 extend type Mutation {

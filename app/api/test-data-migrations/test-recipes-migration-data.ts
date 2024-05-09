@@ -32,9 +32,8 @@ export const getDatabaseTableTestInputs = () => {
     recipeInputs.push({
       title: recipe.title,
       description: recipe.description,
-      category: recipe.category,
       ovenNeeded: recipe.ovenNeeded,
-      languageId: 1
+      languageId: recipe.language ? 2 : 1
     })
 
     photoInputs.push({
@@ -100,7 +99,7 @@ export const getDatabaseTableTestInputs = () => {
 export const getTestDataForCypressGitHubActionsTests = () => {
   return testRecipesInput.map((recipe) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { mainImageUrl, extraImageUrls, ...rest } = recipe
+    const { mainImageUrl, extraImageUrls, language, ...rest } = recipe
     const tags = testRecipesToTagsInput[recipe.id].map((tagId) => {
       return { id: tagId, tag: testTagsInput[tagId - 1] }
     })
@@ -108,12 +107,12 @@ export const getTestDataForCypressGitHubActionsTests = () => {
     if (recipe.id === 1) {
       photos.push({ url: recipe.extraImageUrls![0], isMainPhoto: false, recipeId: recipe.id })
     }
-
-    return { ...rest, tags, photos, language: { ...testLanguageInput[0], id: 1 } }
+    const languageForRecipe = language ? testLanguageInput[1] : testLanguageInput[0]
+    return { ...rest, tags, photos, language: { ...languageForRecipe } }
   })
 }
 
-export const testLanguageInput = [{ language: 'English' }]
+export const testLanguageInput = [{ language: 'English' }, { language: 'Swedish' }]
 export const testTagsInput = ['test-tag', 'cypress-tag']
 
 export const testRecipesToTagsInput: Record<number, number[]> = {
@@ -131,7 +130,6 @@ export const testRecipesInput = [
     description: 'Test recipe 1 description',
     mainImageUrl: 'https://test-recipe-1-image-url.com',
     extraImageUrls: ['https://test-recipe-1-image-url-2.com'],
-    category: 'SNACK',
     ovenNeeded: false,
     ingredientGroups: [
       {
@@ -184,8 +182,8 @@ export const testRecipesInput = [
     title: 'Test recipe 2 title',
     description: 'Test recipe 2 description',
     mainImageUrl: 'https://test-recipe-2-image-url.com',
-    category: 'DESSERT',
     ovenNeeded: true,
+    language: 'Swedish',
     ingredientGroups: [
       {
         title: 'Test recipe 2 ingredient group 1 title',
@@ -236,7 +234,6 @@ export const testRecipesInput = [
     title: 'Test recipe 3 title',
     description: 'Test recipe 3 description',
     mainImageUrl: 'https://test-recipe-3-image-url.com',
-    category: 'DINNER',
     ovenNeeded: true,
     ingredientGroups: [
       {
@@ -264,7 +261,6 @@ export const testRecipesInput = [
     title: 'Test recipe 4 title',
     description: 'Test recipe 4 description',
     mainImageUrl: 'https://test-recipe-4-image-url.com',
-    category: 'DINNER',
     ovenNeeded: true,
     ingredientGroups: [
       {
@@ -292,7 +288,6 @@ export const testRecipesInput = [
     title: 'Test recipe 5 title',
     description: 'Test recipe 5 description',
     mainImageUrl: 'https://test-recipe-5-image-url.com',
-    category: 'DINNER',
     ovenNeeded: true,
     ingredientGroups: [
       {

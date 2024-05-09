@@ -10,12 +10,9 @@ export class RecipesFilterForm extends Base {
     let dataTestId
     let label
 
-    if (element === 'categories selection') {
+    if (element === 'languages selection') {
       dataTestId = formButtonsSelectorDataTestId
-      label = 'categories'.toUpperCase()
-    } else if (element === 'languages selection') {
-      dataTestId = formButtonsSelectorDataTestId
-      label = 'categories'.toUpperCase()
+      label = 'languages'.toUpperCase()
     } else if (element === 'ingredients selection') {
       dataTestId = formTextAreaSearchDataTestId
       label = 'ingredients'.toUpperCase()
@@ -30,13 +27,13 @@ export class RecipesFilterForm extends Base {
     }
   }
 
-  clickFormCategoryButton(buttonLabel: string) {
-    cy.getByDataTestId(formButtonsSelectorDataTestId)
-      .first()
-      .within(() => {
-        cy.contains(buttonLabel).click()
-      })
-  }
+  // clickFormCategoryButton(buttonLabel: string) {
+  //   cy.getByDataTestId(formButtonsSelectorDataTestId)
+  //     .first()
+  //     .within(() => {
+  //       cy.contains(buttonLabel).click()
+  //     })
+  // }
 
   submitForm() {
     cy.getByDataTestId(formSubmitButtonsDataTestId).within(() => {

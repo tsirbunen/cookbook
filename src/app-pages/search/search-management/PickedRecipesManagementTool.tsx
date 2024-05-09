@@ -15,8 +15,8 @@ const pickRecipesTitle = 'Picked recipes'
 const PickedRecipesManagementTool = () => {
   const { state, dispatch } = useContext(AppStateContext) as AppStateContextType
 
-  const updatePickedRecipes = (recipeId: number, category: string) => {
-    dispatch({ type: Dispatch.UPDATE_PICKED_RECIPES, payload: { recipeId, category } })
+  const updatePickedRecipes = (recipeId: number) => {
+    dispatch({ type: Dispatch.UPDATE_PICKED_RECIPES, payload: { recipeId } })
   }
 
   const onChangedRecipeOrder = (newOrderOfIds: number[]) => {

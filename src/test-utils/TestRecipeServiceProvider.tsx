@@ -26,19 +26,13 @@ const TestRecipeServiceProvider = ({
 export default TestRecipeServiceProvider
 
 export const TEST_PREFIX = 'test-prefix'
-export const NO_CATEGORIES = 'NO_CATEGORIES'
 export const NO_LANGUAGES = 'NO_LANGUAGES'
 export const NO_INGREDIENTS = 'NO_INGREDIENTS'
 
 const TestFilteringProviderUser = ({ filterValues }: { filterValues: RecipesFilterValues }) => {
-  const { categories, languages, ingredients } = filterValues
+  const { languages, ingredients } = filterValues
   return (
     <div>
-      {categories.length === 0 ? <div>{NO_CATEGORIES}</div> : null}
-      {categories.map((category: string) => (
-        <div key={category}> {`${TEST_PREFIX}-${category}`}</div>
-      ))}
-
       {languages.length === 0 ? <div>{NO_LANGUAGES}</div> : null}
       {languages.map((language: string) => (
         <div key={language}> {`${TEST_PREFIX}-${language}`}</div>

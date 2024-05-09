@@ -2,6 +2,10 @@
   "recipeInput": {
     "title": "Maximum delicious dal",
     "tags": "soup",
+    "photoIdentifiers": [
+      "dal.png",
+      "korma.png"
+    ],
     "ovenNeeded": false,
     "language": "English",
     "ingredientGroups": [

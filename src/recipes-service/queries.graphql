@@ -41,7 +41,6 @@ fragment RecipeEntity on Recipe {
     id
     tag
   }
-  category
   ovenNeeded
   language {
     id
@@ -58,5 +57,12 @@ fragment RecipeEntity on Recipe {
 query AllRecipes {
   allRecipes {
     ...RecipeEntity
+  }
+}
+
+query AllLanguages {
+  allLanguages {
+    id
+    language
   }
 }

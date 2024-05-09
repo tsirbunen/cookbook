@@ -9,7 +9,6 @@ import { Recipe } from '../../../types/graphql-schema-types.generated'
 import { useEffect, useState } from 'react'
 import { ColorCodes } from '../../../theme/theme'
 import DraggableItemsList from '../../../widgets/draggable-items-list/DraggableItemsList'
-import { NO_CATEGORY_TITLE } from '../../../constants/text-content'
 
 const recipesElementsByMode = {
   PHOTOS: PhotoCardRecipe,
@@ -19,7 +18,7 @@ const recipesElementsByMode = {
 
 export type RecipesDisplayProps = {
   recipes: Recipe[]
-  onPickRecipeChanged: (recipeId: number, category: string) => void
+  onPickRecipeChanged: (recipeId: number) => void
   mode: ViewRecipesMode
   showBackground: boolean
   favoriteRecipeIds: number[]
@@ -66,7 +65,6 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
       <div css={recipesCss}>
         {recipes.map((recipe, index) => {
           const recipeId = recipe.id
-          const category = recipe.category ?? NO_CATEGORY_TITLE
           const isPicked = pickedRecipeIds.includes(recipe.id)
 
           return (
@@ -74,7 +72,7 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
               key={createElementKey(index, recipeId)}
               recipe={recipe}
               index={index}
-              onPickRecipeChanged={() => onPickRecipeChanged(recipeId, category ?? NO_CATEGORY_TITLE)}
+              onPickRecipeChanged={() => onPickRecipeChanged(recipeId)}
               isPicked={isPicked}
               showBackground={showBackground}
               isFavorite={favoriteRecipeIds.includes(recipeId)}
@@ -93,7 +91,6 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
       onConfirmNewOrder={onConfirmNewOrder}
       items={recipesInOrder.map((recipe, index) => {
         const recipeId = recipe.id
-        const category = recipe.category ?? NO_CATEGORY_TITLE
         const isPicked = pickedRecipeIds.includes(recipe.id)
 
         return (
@@ -101,7 +98,7 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
             key={`title-${recipeId}`}
             recipe={recipe}
             index={index}
-            onPickRecipeChanged={() => onPickRecipeChanged(recipeId, category ?? NO_CATEGORY_TITLE)}
+            onPickRecipeChanged={() => onPickRecipeChanged(recipeId)}
             isPicked={isPicked}
             showBackground={showBackground}
             isFirst={index === 0}
@@ -120,13 +117,16 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
 export default RecipesDisplay
 
 const photosContainerCss = css`
+  margin-left: 12px;
   display: flex;
   flex-wrap: wrap;
   justify-content: start;
   width: 100%;
+  margin-top: 10px;
 `
 
 const summariesContainerCss = css`
+  margin-left: 5px;
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -142,6 +142,7 @@ const titlesContainerCss = css`
   align-items: start;
   width: 100%;
   margin-left: 8px;
+  margin-top: 10px;
 `
 
 const cssByMode: Record<ViewRecipesMode, SerializedStyles> = {

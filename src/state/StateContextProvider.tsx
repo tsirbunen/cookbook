@@ -3,7 +3,7 @@
 import React, { createContext, useReducer } from 'react'
 import { DispatchAction, reducer } from './reducer'
 import { RecipesFilterValues } from '../app-pages/search/page/FilteringProvider'
-import { RecipeCategory, Settings } from '../types/types'
+import { Settings } from '../types/types'
 import { Recipe } from '../types/graphql-schema-types.generated'
 
 export type AppStateContextType = {
@@ -12,21 +12,23 @@ export type AppStateContextType = {
 }
 
 export type AppState = {
-  recipes: RecipeCategory[]
+  recipesById: Record<string, Recipe>
+  recipes: Recipe[]
   filters: RecipesFilterValues
-  pickedRecipeIdsByCategory: Record<string, number[]>
+  pickedRecipeIds: number[]
   pickedRecipes: Recipe[]
   settings: Settings
 }
 
 export const initialAppState = {
+  recipesById: {},
   recipes: [],
   filters: {
     categories: [],
     languages: [],
     ingredients: { searchTerm: '', searchMode: undefined }
   },
-  pickedRecipeIdsByCategory: {},
+  pickedRecipeIds: [],
   pickedRecipes: [],
   settings: {
     soundsEnabled: null

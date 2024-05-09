@@ -10,7 +10,6 @@ export const recipes = pgTable('recipes', {
   id: serial('id').primaryKey(),
   title: varchar('title', { length: 250 }).notNull(),
   description: varchar('description', { length: 500 }),
-  category: varchar('category', { length: 100 }),
   ovenNeeded: boolean('oven_needed').notNull(),
   languageId: integer('language_id').references((): AnyPgColumn => languages.id)
 })

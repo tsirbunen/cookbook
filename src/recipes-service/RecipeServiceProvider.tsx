@@ -5,10 +5,12 @@ import { useRecipeApi } from './useRecipeApi'
 import { AppStateContext, AppStateContextType } from '../state/StateContextProvider'
 import { Dispatch } from '../state/reducer'
 import { RecipesFilterValues, getEmptyFilterValues } from '../app-pages/search/page/FilteringProvider'
-import { getFilteredCategorizedRecipes } from './utils'
+import { getFilteredRecipes } from './utils'
+import { Language } from '../types/graphql-schema-types.generated'
 
 export type RecipeService = {
   filterRecipes: (filters: RecipesFilterValues) => Promise<void>
+  allLanguages?: Language[]
 }
 
 export const RecipeServiceContext = createContext<RecipeService>({} as RecipeService)
@@ -23,14 +25,13 @@ export const RecipeServiceContext = createContext<RecipeService>({} as RecipeSer
  */
 const RecipeServiceProvider = ({ children }: { children: React.ReactNode }) => {
   const { dispatch } = useContext(AppStateContext) as AppStateContextType
-  const { allRecipes } = useRecipeApi()
+  const { allRecipes, allLanguages } = useRecipeApi()
 
   useEffect(() => {
     if (allRecipes !== undefined) {
-      const filteredRecipes = getFilteredCategorizedRecipes(allRecipes)
       dispatch({
         type: Dispatch.SET_RECIPES_AND_FILTERS,
-        payload: { recipes: filteredRecipes, filters: getEmptyFilterValues() }
+        payload: { recipes: getFilteredRecipes(allRecipes), filters: getEmptyFilterValues() }
       })
     }
   }, [allRecipes])
@@ -38,11 +39,13 @@ const RecipeServiceProvider = ({ children }: { children: React.ReactNode }) => {
   const filterRecipes = async (filters: RecipesFilterValues) => {
     if (!allRecipes?.length) return
 
-    const filteredRecipes = getFilteredCategorizedRecipes(allRecipes, filters)
+    const filteredRecipes = getFilteredRecipes(allRecipes, filters)
     dispatch({ type: Dispatch.SET_RECIPES_AND_FILTERS, payload: { recipes: filteredRecipes, filters } })
   }
 
-  return <RecipeServiceContext.Provider value={{ filterRecipes }}>{children}</RecipeServiceContext.Provider>
+  return (
+    <RecipeServiceContext.Provider value={{ filterRecipes, allLanguages }}>{children}</RecipeServiceContext.Provider>
+  )
 }
 
 export default RecipeServiceProvider

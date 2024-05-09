@@ -8,7 +8,7 @@ export const verifyTableRowCountsInDatabase = async (testInput: RecipeInput) => 
   const tagsCount = await getTableRowCountInDatabase('tags')
   expect(tagsCount).toBe(testInput.tags?.length ?? 0)
   const photosCount = await getTableRowCountInDatabase('photos')
-  expect(photosCount).toBe(testInput.photos?.length ?? 0)
+  expect(photosCount).toBe(testInput.photoIdentifiers?.length ?? 0)
   const languagesCount = await getTableRowCountInDatabase('languages')
   expect(languagesCount).toBe(1)
   const ingredientGroupsCount = await getTableRowCountInDatabase('ingredient_groups')

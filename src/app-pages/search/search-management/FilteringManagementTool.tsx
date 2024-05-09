@@ -8,8 +8,8 @@ import FormSubmitButtons from '../../../widgets/form-submit-buttons/FormSubmitBu
 import FormButtonsSelector from '../../../widgets/form-buttons-selector/FormButtonsSelector'
 import FormTextAreaSearch from '../../../widgets/form-textarea-search/FormTextAreaSearch'
 import { RecipesViewingContext } from '../page/SearchRecipesProvider'
-import { Category, LanguageOption } from '../../../types/types'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
+import { RecipeServiceContext } from '../../../recipes-service/RecipeServiceProvider'
 
 export const filteringManagementToolDataTestId = 'filtering-management-tool'
 
@@ -19,7 +19,6 @@ const filteringTitle = 'Filtering'
 export const applyFiltersLabel = 'Apply filters'
 export const applyChangesLabel = 'Apply changes'
 export const clearFormLabel = 'Clear form'
-const categoriesLabel = 'categories'
 const languagesLabel = 'languages'
 const ingredientsLabel = 'ingredients'
 const ingredientsPlaceholder = 'Type here ingredients...'
@@ -36,6 +35,8 @@ const FilteringManagementTool = () => {
     filtersHaveChanges,
     hasStoredFilters
   } = useContext(FiltersContext)
+  const { allLanguages } = useContext(RecipeServiceContext)
+
   const { handleSubmit, control, watch, reset, formState } = useForm<RecipesFilterValues>({
     defaultValues: initialValues
   })
@@ -69,24 +70,14 @@ const FilteringManagementTool = () => {
   const submitIsDisabled = !hasChanges || isSubmitting
   const applyLabel = hasChanges ? (!hasStoredFilters ? applyFiltersLabel : applyChangesLabel) : applyFiltersLabel
 
+  const languageOptions = allLanguages?.map((language) => language.language) || []
+
   return (
     <Flex {...outerStyle} data-testid={filteringManagementToolDataTestId}>
       <Title title={filteringTitle.toUpperCase()} variant={TitleVariant.MediumRegular} />
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormButtonsSelector
-          label={categoriesLabel}
-          name={'categories'}
-          control={control}
-          options={Object.values(Category)}
-        />
-
-        <FormButtonsSelector
-          label={languagesLabel}
-          name={'languages'}
-          control={control}
-          options={Object.values(LanguageOption)}
-        />
+        <FormButtonsSelector label={languagesLabel} name={'languages'} control={control} options={languageOptions} />
 
         <FormTextAreaSearch
           label={ingredientsLabel}
