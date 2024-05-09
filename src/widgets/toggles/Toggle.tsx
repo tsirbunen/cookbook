@@ -10,44 +10,66 @@ export const filteringToggleProperty = 'filtering'
 export const cookToggleProperty = 'cook'
 export const addedIngredientToggleProperty = 'addedIngredient'
 export const multiColumnToggleProperty = 'multiColumn'
+export const ingredientScalingToggleProperty = 'ingredientScaling'
 export const cookingTimerToggleProperty = 'cookingTimer'
 
 export type ToggleProps = {
   isToggled: boolean
   toggle: () => void
   Icon: IconType
-  count?: number | null
+  count?: number | null | string
   isDisabled?: boolean
   toggleProperty: string
+  children?: JSX.Element
 }
 
-const Toggle = ({ isToggled, toggle, Icon, count, isDisabled, toggleProperty }: ToggleProps) => {
+const Toggle = ({ isToggled, toggle, Icon, count, isDisabled, toggleProperty, children }: ToggleProps) => {
   const hasCountValue = count !== null && count !== undefined
   let badgeContent
   if (!hasCountValue) badgeContent = <Flex width={'10px'} />
   else badgeContent = <Badge count={count!} />
 
   return (
-    <Flex {...toggleStyles(hasCountValue)} data-testid={toggleProperty}>
-      <ButtonWithTheme
-        variant={ButtonVariant.SquareWithIcon}
-        onClick={toggle}
-        isToggled={isToggled}
-        isDisabled={isDisabled}
-      >
-        <Icon />
-      </ButtonWithTheme>
+    <Flex {...outerCss(!!children)}>
+      <Flex {...toggleStyles(hasCountValue, !!children)} data-testid={toggleProperty}>
+        <ButtonWithTheme
+          variant={ButtonVariant.SquareWithIcon}
+          onClick={toggle}
+          isToggled={isToggled}
+          isDisabled={isDisabled}
+        >
+          <Icon />
+        </ButtonWithTheme>
 
-      {badgeContent}
+        {badgeContent}
+      </Flex>
+
+      {children ?? null}
     </Flex>
   )
 }
 
-const toggleStyles = (hasCountValue: boolean) => {
+const toggleStyles = (hasCountValue: boolean, isCentered: boolean) => {
+  if (isCentered) {
+    return {
+      marginLeft: '0px',
+      marginRight: hasCountValue ? '10px' : '0px',
+      flexDirection: 'column' as ChakraProps['flexDirection'],
+      alignItems: 'center'
+    }
+  }
   return {
     marginLeft: '0px',
     marginRight: hasCountValue ? '10px' : '0px',
-    position: 'relative}' as ChakraProps['position']
+    position: 'relative' as ChakraProps['position']
+  }
+}
+
+const outerCss = (addMargin: boolean) => {
+  return {
+    flexDirection: 'column' as ChakraProps['flexDirection'],
+    alignItems: 'center',
+    marginRight: addMargin ? '10px' : '0px'
   }
 }
 

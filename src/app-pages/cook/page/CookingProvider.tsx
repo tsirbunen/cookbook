@@ -5,7 +5,7 @@ import { AppStateContext, AppStateContextType } from '../../../state/StateContex
 import { Recipe } from '../../../types/graphql-schema-types.generated'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
 import { DispatchCookingEvent, DispatchCookingEventAction, cookingReducer } from '../cooking-state/cooking-reducer'
-import { CookingRecipeData, TimerData } from '../../../types/types'
+import { CookingRecipeData, ScalingData, TimerData } from '../../../types/types'
 import { CookingState, DisplayConfig, getInitialCookingState } from '../cooking-state/cooking-state'
 
 type Cooking = {
@@ -16,12 +16,18 @@ type Cooking = {
   cookingRecipes: CookingRecipeData[]
   timersByRecipeId: Record<number, TimerData>
   toggleIsCookingRecipe: (recipe: Recipe) => void
-  toggleIngredientAdded: (ingredientId: number) => void
+  toggleIngredient: (recipeId: number, ingredientId: number) => void
   ingredientsAdded: number[]
   instructionsDone: number[]
   multiColumnRecipes: number[]
-  toggleInstructionDone: (instructionId: number) => void
+  toggleInstruction: (recipeId: number, instructionId: number) => void
   toggleMultiColumn: (recipeId: number) => void
+  scalingByRecipeId: Record<number, ScalingData>
+  scaleRecipe: (recipeId: number, scalingData: ScalingData) => void
+  toggleIsScaling: (recipeId: number) => void
+  isScalingRecipeIds: number[]
+  onlyMetricRecipeIds: number[]
+  toggleOnlyMetric: (recipeId: number) => void
 }
 
 export type CookingContextType = {
@@ -51,16 +57,28 @@ const CookingProvider = ({ children }: { children: React.ReactNode }) => {
     dispatchCookingEvent({ type: DispatchCookingEvent.TOGGLE_IS_COOKING_RECIPE, payload: { recipe } })
   }
 
-  const toggleIngredientAdded = (ingredientId: number) => {
-    dispatchCookingEvent({ type: DispatchCookingEvent.TOGGLE_ADD_INGREDIENT, payload: { ingredientId } })
+  const toggleIngredient = (recipeId: number, ingredientId: number) => {
+    dispatchCookingEvent({ type: DispatchCookingEvent.TOGGLE_ADD_INGREDIENT, payload: { recipeId, ingredientId } })
   }
 
-  const toggleInstructionDone = (instructionId: number) => {
-    dispatchCookingEvent({ type: DispatchCookingEvent.TOGGLE_INSTRUCTION_DONE, payload: { instructionId } })
+  const toggleInstruction = (recipeId: number, instructionId: number) => {
+    dispatchCookingEvent({ type: DispatchCookingEvent.TOGGLE_INSTRUCTION_DONE, payload: { recipeId, instructionId } })
   }
 
   const toggleMultiColumn = (recipeId: number) => {
     dispatchCookingEvent({ type: DispatchCookingEvent.TOGGLE_MULTI_COLUMN, payload: { recipeId } })
+  }
+
+  const scaleRecipe = (recipeId: number, scalingData: ScalingData) => {
+    dispatchCookingEvent({ type: DispatchCookingEvent.SCALE_RECIPE, payload: { recipeId, scalingData } })
+  }
+
+  const toggleIsScaling = (recipeId: number) => {
+    dispatchCookingEvent({ type: DispatchCookingEvent.TOGGLE_IS_SCALING, payload: { recipeId } })
+  }
+
+  const toggleOnlyMetric = (recipeId: number) => {
+    dispatchCookingEvent({ type: DispatchCookingEvent.TOGGLE_ONLY_METRIC, payload: { recipeId } })
   }
 
   return (
@@ -74,11 +92,17 @@ const CookingProvider = ({ children }: { children: React.ReactNode }) => {
         ingredientsAdded: cookingState.ingredientsAdded,
         instructionsDone: cookingState.instructionsDone,
         multiColumnRecipes: cookingState.multiColumnRecipes,
+        scalingByRecipeId: cookingState.scalingByRecipeId,
+        isScalingRecipeIds: cookingState.isScalingRecipeIds,
+        onlyMetricRecipeIds: cookingState.onlyMetricRecipeIds,
         dispatchCookingEvent,
         toggleIsCookingRecipe,
-        toggleIngredientAdded,
-        toggleInstructionDone,
-        toggleMultiColumn
+        toggleIngredient,
+        toggleInstruction,
+        toggleMultiColumn,
+        scaleRecipe,
+        toggleIsScaling,
+        toggleOnlyMetric
       }}
     >
       {children}

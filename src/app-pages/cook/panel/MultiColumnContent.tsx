@@ -7,25 +7,42 @@ type MultiColumnContentProps = {
   columnCount: number
   recipeId: number
   children: JSX.Element
-  title: string
+  title?: string
+  isCentered?: boolean
 }
 
-const MultiColumnContent = ({ columnCount, title, recipeId, children }: MultiColumnContentProps) => {
-  // const columnCount = currentWidth && currentWidth > MULTI_COLUMN_BREAKPOINT ? 2 : 1
-
+const MultiColumnContent = ({
+  columnCount,
+  title,
+  recipeId,
+  children,
+  isCentered = false
+}: MultiColumnContentProps) => {
   return (
-    <div style={{ ...outerCss }} key={`multi-column-${recipeId}`}>
-      <Flex {...titleAndDividerCss}>
-        <Title title={title} variant={TitleVariant.MediumPale} />
-        <Divider {...dividerCss} />
-      </Flex>
+    <Flex {...columnsContainerCss(isCentered)}>
+      <div style={{ ...outerCss(!!title) }} key={`multi-column-${recipeId}`}>
+        {title ? (
+          <Flex {...titleAndDividerCss}>
+            <Title title={title} variant={TitleVariant.MediumPale} />
+            <Divider {...dividerCss} />
+          </Flex>
+        ) : null}
 
-      <div style={{ ...columnsCss(columnCount) }}>{children}</div>
-    </div>
+        <div style={{ ...columnsCss(columnCount) }}>{children}</div>
+      </div>
+    </Flex>
   )
 }
 
 export default MultiColumnContent
+
+const columnsContainerCss = (isCentered: boolean) => {
+  return {
+    flexDirection: 'column' as ChakraProps['flexDirection'],
+    flex: 1,
+    alignItems: isCentered ? ('center' as ChakraProps['alignItems']) : undefined
+  }
+}
 
 const columnsCss = (columnCount: number) => {
   return {
@@ -38,10 +55,12 @@ const columnsCss = (columnCount: number) => {
   }
 }
 
-const outerCss = {
-  marginTop: '30px',
-  marginLeft: '5px',
-  marginRight: '5px'
+const outerCss = (hasTopMargin: boolean) => {
+  return {
+    marginTop: hasTopMargin ? '30px' : '0px',
+    marginLeft: '5px',
+    marginRight: '5px'
+  }
 }
 
 const titleAndDividerCss = {

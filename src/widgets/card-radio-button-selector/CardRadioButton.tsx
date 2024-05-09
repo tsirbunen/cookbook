@@ -15,12 +15,20 @@ type CardRadioButtonProps = {
   selectValue: () => void
   roundBordersOnSide: RoundedBordersOnSide
   icon?: IconType
+  fontSize?: string
 }
 
 const borderRadius = '6px'
 const iconSize = '30px'
 
-const CardRadioButton = ({ label, isSelected, selectValue, roundBordersOnSide, icon }: CardRadioButtonProps) => {
+const CardRadioButton = ({
+  label,
+  isSelected,
+  selectValue,
+  roundBordersOnSide,
+  icon,
+  fontSize
+}: CardRadioButtonProps) => {
   const backgroundColor = isSelected ? ColorCodes.VERY_DARK : ColorCodes.MEDIUM
   const labelColor = ColorCodes.PALE
 
@@ -44,6 +52,7 @@ const CardRadioButton = ({ label, isSelected, selectValue, roundBordersOnSide, i
       size={size}
       backgroundColor={backgroundColor}
       color={labelColor}
+      fontSize={fontSize}
       padding={'3px 8px 3px 8px'}
       _hover={{
         backgroundColor: isSelected ? backgroundColor : ColorCodes.DARK,

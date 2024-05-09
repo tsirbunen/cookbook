@@ -16,13 +16,15 @@ type CardRadioButtonSelectorProps<T> = {
   currentValue?: T
   selectValue: (newValue: T) => void
   noMargin?: boolean
+  fontSize?: string
 }
 
 const CardRadioButtonSelector = <T,>({
   options,
   currentValue,
   selectValue,
-  noMargin
+  noMargin,
+  fontSize
 }: CardRadioButtonSelectorProps<T>) => {
   const getRoundBordersOnSide = (index: number, optionsCount: number) => {
     if (index === 0 && optionsCount === 1) return RoundedBordersOnSide.BOTH
@@ -46,6 +48,7 @@ const CardRadioButtonSelector = <T,>({
               selectValue={() => selectValue(option.value)}
               roundBordersOnSide={getRoundBordersOnSide(index, optionsCount)}
               icon={option.icon}
+              fontSize={fontSize}
             />
             {showDividerOnRight ? <Divider orientation="vertical" /> : null}
           </Fragment>

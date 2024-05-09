@@ -5,6 +5,10 @@
       "soup"
     ],
     "ovenNeeded": false,
+    "photoIdentifiers": [
+      "falafel.png",
+      "korma.png"
+    ],
     "language": "English",
     "ingredientGroups": [
       {

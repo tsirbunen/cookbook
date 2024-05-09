@@ -3,7 +3,7 @@ import { ColorCodes } from '../../theme/theme'
 import { BADGE_SIZE } from '../../constants/layout'
 
 type BadgeProps = {
-  count: number
+  count: number | string
 }
 
 const Badge = ({ count }: BadgeProps) => {

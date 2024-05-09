@@ -3,7 +3,6 @@ import { MULTI_COLUMN_MIN_WIDTH } from '../constants/layout'
 
 type UseWidthChangedObserver = {
   elementRef: React.RefObject<HTMLDivElement>
-
   canHaveTwoColumns: boolean
 }
 

@@ -4,6 +4,10 @@
     "tags": "soup",
     "ovenNeeded": false,
     "language": "English",
+    "photoIdentifiers": [
+      "dal.png",
+      "korma.png"
+    ],
     "ingredientGroups": [
       {
         "title": "sauce",

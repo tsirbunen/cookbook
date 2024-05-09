@@ -4,13 +4,12 @@ import { Recipe } from '../../../types/graphql-schema-types.generated'
 import RecipeTitle from './RecipeTitle'
 import Photos from './Photos'
 import RecipePropertyIcons from '../../../widgets/property-icon/RecipePropertyIcons'
-import Ingredients from './Ingredients'
+import Ingredients from './ingredients-and-scaling/Ingredients'
 import { useWidthChangedObserver } from '../../../hooks/useWidthChangedObserver'
 import RecipeTags from './RecipeTags'
 import Description from './Description'
 import Instructions from './Instructions'
-import RecipeToggles from './RecipeToggles'
-import CategoryTitle from './CategoryTitle'
+import RecipeToggles from './recipe-toggles/RecipeToggles'
 import { ColorCodes } from '../../../theme/theme'
 import { useContext, useMemo } from 'react'
 import { CookingContext } from '../page/CookingProvider'
@@ -36,10 +35,9 @@ const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
 
   return (
     <div css={containerCss} ref={elementRef}>
-      {<Photos title={title} photos={photos ?? []} />}
+      <Photos title={title} photos={photos ?? []} />
       <div css={topCss}>
         <RecipeTitle title={recipe.title} />
-        {recipe.category ? <CategoryTitle category={recipe.category} /> : null}
 
         <div css={propertiesCss}>
           <RecipePropertyIcons
@@ -49,14 +47,17 @@ const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
             justifyContent="center"
           />
         </div>
+
         {recipe.tags ? <RecipeTags tags={tags!} /> : null}
         {recipe.description ? <Description description={recipe.description} /> : null}
+
         <RecipeToggles recipe={recipe} canHaveTwoColumns={canHaveTwoColumns} />
         <Ingredients
           ingredientGroups={recipe.ingredientGroups}
           columnCount={columnsCountToDisplay}
           recipeId={recipe.id}
         />
+
         <Instructions
           instructionGroups={recipe.instructionGroups}
           columnCount={columnsCountToDisplay}

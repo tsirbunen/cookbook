@@ -16,7 +16,8 @@ const Description = ({ description }: DescriptionProps) => {
 export default Description
 
 const containerCss = {
-  textAlign: 'center' as ChakraProps['textAlign'],
+  flexDirection: 'column' as ChakraProps['flexDirection'],
+  alignItems: 'center' as ChakraProps['alignItems'],
   margin: '10px 20px 0px 20px',
   fontWeight: 'semibold',
   color: ColorCodes.MEDIUM

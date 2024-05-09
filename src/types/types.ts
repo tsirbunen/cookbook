@@ -41,3 +41,13 @@ export type CookingRecipeData = {
 export type Settings = {
   soundsEnabled: boolean | null
 }
+
+export type ScaledIngredientData = {
+  amount: number
+  unit: string
+}
+
+export type ScalingData = {
+  multiplier: number
+  ingredientId?: number
+}

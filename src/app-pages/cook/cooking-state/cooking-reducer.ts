@@ -1,24 +1,23 @@
 import { MAX_ALLOWED_PANELS_COUNT } from '../../../constants/layout'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
+import { ScalingData } from '../../../types/types'
 import { DisplayConfig, CookingState } from './cooking-state'
 import { produce } from 'immer'
 
 export type DisplayDirection = 'previous' | 'next'
 export enum DispatchCookingEvent {
-  UPDATE_DISPLAY_CONFIG = 'UPDATE_DISPLAY_CONFIG',
   UPDATE_DISPLAY_RECIPES_COUNT = 'UPDATE_DISPLAY_RECIPES_COUNT',
   UPDATE_DISPLAY_RECIPES_INDEXES = 'UPDATE_DISPLAY_RECIPES_INDEXES',
   TOGGLE_IS_COOKING_RECIPE = 'TOGGLE_IS_COOKING_RECIPE',
   TOGGLE_ADD_INGREDIENT = 'TOGGLE_ADD_INGREDIENT',
   TOGGLE_INSTRUCTION_DONE = 'TOGGLE_INSTRUCTION_DONE',
-  TOGGLE_MULTI_COLUMN = 'TOGGLE_MULTI_COLUMN'
+  TOGGLE_MULTI_COLUMN = 'TOGGLE_MULTI_COLUMN',
+  SCALE_RECIPE = 'SCALE_RECIPE',
+  TOGGLE_ONLY_METRIC = 'TOGGLE_ONLY_METRIC',
+  TOGGLE_IS_SCALING = 'TOGGLE_IS_SCALING'
 }
 
 export type DispatchCookingEventAction =
-  | {
-      type: DispatchCookingEvent.UPDATE_DISPLAY_CONFIG
-      payload: DisplayConfig
-    }
   | {
       type: DispatchCookingEvent.UPDATE_DISPLAY_RECIPES_COUNT
       payload: { newValue?: number; maxPanelsCount: number; pickedRecipesCount: number }
@@ -28,15 +27,18 @@ export type DispatchCookingEventAction =
       payload: { moveDirection: 'previous' | 'next'; pickedRecipesCount: number }
     }
   | { type: DispatchCookingEvent.TOGGLE_IS_COOKING_RECIPE; payload: { recipe: Recipe } }
-  | { type: DispatchCookingEvent.TOGGLE_ADD_INGREDIENT; payload: { ingredientId: number } }
-  | { type: DispatchCookingEvent.TOGGLE_INSTRUCTION_DONE; payload: { instructionId: number } }
+  | { type: DispatchCookingEvent.TOGGLE_ADD_INGREDIENT; payload: { recipeId: number; ingredientId: number } }
+  | { type: DispatchCookingEvent.TOGGLE_INSTRUCTION_DONE; payload: { recipeId: number; instructionId: number } }
   | { type: DispatchCookingEvent.TOGGLE_MULTI_COLUMN; payload: { recipeId: number } }
+  | {
+      type: DispatchCookingEvent.SCALE_RECIPE
+      payload: { recipeId: number; scalingData: ScalingData }
+    }
+  | { type: DispatchCookingEvent.TOGGLE_ONLY_METRIC; payload: { recipeId: number } }
+  | { type: DispatchCookingEvent.TOGGLE_IS_SCALING; payload: { recipeId: number } }
 
 export const cookingReducer = produce((draft: CookingState, action: DispatchCookingEventAction) => {
   switch (action.type) {
-    case DispatchCookingEvent.UPDATE_DISPLAY_CONFIG:
-      draft.displayConfig = action.payload
-      break
     case DispatchCookingEvent.UPDATE_DISPLAY_RECIPES_COUNT:
       draft.displayConfig = getUpdatedDisplayConfigAfterCountChanged(draft.displayConfig, action.payload)
       break
@@ -55,10 +57,24 @@ export const cookingReducer = produce((draft: CookingState, action: DispatchCook
     case DispatchCookingEvent.TOGGLE_MULTI_COLUMN:
       draft.multiColumnRecipes = getUpdatedIdList(draft.multiColumnRecipes, action.payload.recipeId)
       break
+    case DispatchCookingEvent.SCALE_RECIPE:
+      updateScaling(draft, action.payload)
+      break
+    case DispatchCookingEvent.TOGGLE_ONLY_METRIC:
+      draft.onlyMetricRecipeIds = getUpdatedIdList(draft.onlyMetricRecipeIds, action.payload.recipeId)
+      break
+    case DispatchCookingEvent.TOGGLE_IS_SCALING:
+      draft.isScalingRecipeIds = getUpdatedIdList(draft.isScalingRecipeIds, action.payload.recipeId)
+      break
     default:
       throw new Error(`${JSON.stringify(action)} is not a cooking state reducer action!`)
   }
 })
+
+const updateScaling = (draft: CookingState, payload: { scalingData: ScalingData; recipeId: number }) => {
+  const { scalingData, recipeId } = payload
+  draft.scalingByRecipeId[recipeId] = scalingData
+}
 
 const getUpdatedIdList = (list: number[], targetId: number) => {
   let updatedList = [...list]
