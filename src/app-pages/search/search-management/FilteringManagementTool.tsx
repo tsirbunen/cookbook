@@ -9,7 +9,7 @@ import FormButtonsSelector from '../../../widgets/form-buttons-selector/FormButt
 import FormTextAreaSearch from '../../../widgets/form-textarea-search/FormTextAreaSearch'
 import { RecipesViewingContext } from '../page/SearchRecipesProvider'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
-import { RecipeServiceContext } from '../../../recipes-service/RecipeServiceProvider'
+import { ApiServiceContext } from '../../../api-service/ApiServiceProvider'
 
 export const filteringManagementToolDataTestId = 'filtering-management-tool'
 
@@ -35,7 +35,7 @@ const FilteringManagementTool = () => {
     filtersHaveChanges,
     hasStoredFilters
   } = useContext(FiltersContext)
-  const { allLanguages } = useContext(RecipeServiceContext)
+  const { allLanguages } = useContext(ApiServiceContext)
 
   const { handleSubmit, control, watch, reset, formState } = useForm<RecipesFilterValues>({
     defaultValues: initialValues

@@ -10,7 +10,7 @@ import {
 
 import { ApolloError, useQuery } from '@apollo/client'
 
-type UseRecipeApi = {
+type UseApi = {
   allRecipesError: ApolloError | undefined
   allRecipesLoading: boolean
   allRecipes: Recipe[] | undefined
@@ -20,9 +20,9 @@ type UseRecipeApi = {
 }
 
 /**
- * The useRecipeApi hook handles all the conversation with the api server for recipe data.
+ * The useApi hook handles all the conversation with the api server for recipe data.
  */
-export const useRecipeApi = (): UseRecipeApi => {
+export const useApi = (): UseApi => {
   const {
     error: allRecipesError,
     loading: allRecipesLoading,

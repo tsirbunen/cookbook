@@ -5,7 +5,6 @@ import SummaryRecipe from './SummaryRecipe'
 import TitleRecipe from './TitleRecipe'
 import { ViewRecipesMode } from '../search-management/ViewModeManagementTool'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
-
 import { useEffect, useState } from 'react'
 import { ColorCodes } from '../../../theme/theme'
 import DraggableItemsList from '../../../widgets/draggable-items-list/DraggableItemsList'
@@ -116,31 +115,31 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
 
 export default RecipesDisplay
 
-const photosContainerCss = css`
-  margin-left: 12px;
+const commonCss = css`
   display: flex;
-  flex-wrap: wrap;
-  justify-content: start;
   width: 100%;
+  justify-content: start;
+  padding-right: 15px;
+`
+
+const photosContainerCss = css`
+  ${commonCss}
+  margin-left: 12px;
+  flex-wrap: wrap;
   margin-top: 10px;
 `
 
 const summariesContainerCss = css`
+  ${commonCss}
   margin-left: 5px;
-  display: flex;
   flex-direction: column;
-  justify-content: start;
-  width: 100%;
   padding-left: 10px;
-  padding-right: 10px;
 `
 const titlesContainerCss = css`
-  display: flex;
+  ${commonCss}
   flex: 1;
   flex-direction: column;
-  justify-content: start;
   align-items: start;
-  width: 100%;
   margin-left: 8px;
   margin-top: 10px;
 `

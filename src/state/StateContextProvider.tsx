@@ -12,7 +12,6 @@ export type AppStateContextType = {
 }
 
 export type AppState = {
-  recipesById: Record<string, Recipe>
   recipes: Recipe[]
   filters: RecipesFilterValues
   pickedRecipeIds: number[]
@@ -21,7 +20,6 @@ export type AppState = {
 }
 
 export const initialAppState = {
-  recipesById: {},
   recipes: [],
   filters: {
     categories: [],

@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { RecipesFilterValues } from '../app-pages/search/page/FilteringProvider'
-import { RecipeServiceContext } from '../recipes-service/RecipeServiceProvider'
+import { ApiServiceContext } from '../api-service/ApiServiceProvider'
 
-const TestRecipeServiceProvider = ({
+const TestApiServiceProvider = ({
   filterValues,
   children
 }: {
@@ -16,14 +16,14 @@ const TestRecipeServiceProvider = ({
   }
 
   return (
-    <RecipeServiceContext.Provider value={{ filterRecipes }}>
+    <ApiServiceContext.Provider value={{ filterRecipes }}>
       {children}
       <TestFilteringProviderUser filterValues={testValues} />
-    </RecipeServiceContext.Provider>
+    </ApiServiceContext.Provider>
   )
 }
 
-export default TestRecipeServiceProvider
+export default TestApiServiceProvider
 
 export const TEST_PREFIX = 'test-prefix'
 export const NO_LANGUAGES = 'NO_LANGUAGES'

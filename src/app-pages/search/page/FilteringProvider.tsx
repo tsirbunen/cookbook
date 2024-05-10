@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react'
-import { RecipeServiceContext } from '../../../recipes-service/RecipeServiceProvider'
+import { ApiServiceContext } from '../../../api-service/ApiServiceProvider'
 import { AppStateContext, AppStateContextType } from '../../../state/StateContextProvider'
 import { SearchMode, TextAreaSearchValues } from '../../../widgets/form-textarea-search/FormTextAreaSearch'
 import { xor } from 'lodash'
@@ -27,7 +27,7 @@ const defaultSearchMode = SearchMode.OR
 
 const FilteringProvider = ({ children }: { children: React.ReactNode }) => {
   const { state } = useContext(AppStateContext) as AppStateContextType
-  const { filterRecipes } = useContext(RecipeServiceContext)
+  const { filterRecipes } = useContext(ApiServiceContext)
   const [filterValues, setFilterValues] = useState<RecipesFilterValues>(state.filters)
 
   const updateLocalFilters = (newValues: RecipesFilterValues) => {

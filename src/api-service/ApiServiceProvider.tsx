@@ -1,31 +1,31 @@
 'use client'
 
 import { createContext, useContext, useEffect } from 'react'
-import { useRecipeApi } from './useRecipeApi'
+import { useApi } from './useApi'
 import { AppStateContext, AppStateContextType } from '../state/StateContextProvider'
 import { Dispatch } from '../state/reducer'
 import { RecipesFilterValues, getEmptyFilterValues } from '../app-pages/search/page/FilteringProvider'
 import { getFilteredRecipes } from './utils'
 import { Language } from '../types/graphql-schema-types.generated'
 
-export type RecipeService = {
+export type ApiService = {
   filterRecipes: (filters: RecipesFilterValues) => Promise<void>
   allLanguages?: Language[]
 }
 
-export const RecipeServiceContext = createContext<RecipeService>({} as RecipeService)
+export const ApiServiceContext = createContext<ApiService>({} as ApiService)
 
 /**
  * This provider is responsible for performing all communication with the api through
- * the useRecipeApi hook. When the app loads, this provider orchestrates fetching recipes
+ * the useApi hook. When the app loads, this provider orchestrates fetching recipes
  * from the api (using the hook) and stores the recipes to state. Later, if, for example,
  * some filters are applied or a new recipe is created or an old recipe is updated,
  * this provider orchestrates the necessary actions.
  * Note: This provider does not store data. App state provider is for that purpose.
  */
-const RecipeServiceProvider = ({ children }: { children: React.ReactNode }) => {
+const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
   const { dispatch } = useContext(AppStateContext) as AppStateContextType
-  const { allRecipes, allLanguages } = useRecipeApi()
+  const { allRecipes, allLanguages } = useApi()
 
   useEffect(() => {
     if (allRecipes !== undefined) {
@@ -43,9 +43,7 @@ const RecipeServiceProvider = ({ children }: { children: React.ReactNode }) => {
     dispatch({ type: Dispatch.SET_RECIPES_AND_FILTERS, payload: { recipes: filteredRecipes, filters } })
   }
 
-  return (
-    <RecipeServiceContext.Provider value={{ filterRecipes, allLanguages }}>{children}</RecipeServiceContext.Provider>
-  )
+  return <ApiServiceContext.Provider value={{ filterRecipes, allLanguages }}>{children}</ApiServiceContext.Provider>
 }
 
-export default RecipeServiceProvider
+export default ApiServiceProvider

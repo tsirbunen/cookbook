@@ -2,7 +2,7 @@ import '@testing-library/jest-dom/jest-globals'
 import '@testing-library/jest-dom'
 import { expect } from '@jest/globals'
 import { render, screen, fireEvent, act } from '@testing-library/react'
-import TestRecipeServiceProvider from '../../../../test-utils/TestRecipeServiceProvider'
+import TestApiServiceProvider from '../../../../test-utils/TestApiServiceProvider'
 import { getEmptyFilterValues } from '../FilteringProvider'
 
 import SearchRecipesProvider from '../SearchRecipesProvider'
@@ -100,11 +100,11 @@ describe('SearchRecipesProvider', () => {
 const getSearchRecipesProviderToRender = () => {
   return (
     <LocalStorageProvider>
-      <TestRecipeServiceProvider filterValues={getEmptyFilterValues()}>
+      <TestApiServiceProvider filterValues={getEmptyFilterValues()}>
         <SearchRecipesProvider>
           <SearchRecipesProviderTestUser />
         </SearchRecipesProvider>
-      </TestRecipeServiceProvider>
+      </TestApiServiceProvider>
     </LocalStorageProvider>
   )
 }

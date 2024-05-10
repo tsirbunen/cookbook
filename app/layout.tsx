@@ -26,7 +26,7 @@ const MainAppLayout = dynamic(() => import('../src/layout/main-app-layout/MainAp
   ssr: false
 })
 
-const RecipeServiceProvider = dynamic(() => import('../src/recipes-service/RecipeServiceProvider'), {
+const ApiServiceProvider = dynamic(() => import('../src/api-service/ApiServiceProvider'), {
   ssr: false
 })
 
@@ -65,7 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <ThemeProvider>
               <ViewSizeContextProvider>
                 <GraphQLClientProvider>
-                  <RecipeServiceProvider>
+                  <ApiServiceProvider>
                     <SearchRecipesProvider>
                       <CookingProvider>
                         <SoundProvider>
@@ -73,7 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         </SoundProvider>
                       </CookingProvider>
                     </SearchRecipesProvider>
-                  </RecipeServiceProvider>
+                  </ApiServiceProvider>
                 </GraphQLClientProvider>
               </ViewSizeContextProvider>
             </ThemeProvider>

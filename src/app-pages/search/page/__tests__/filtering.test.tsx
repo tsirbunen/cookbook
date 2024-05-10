@@ -3,11 +3,11 @@ import '@testing-library/jest-dom'
 import { expect } from '@jest/globals'
 import { render, screen, fireEvent, act } from '@testing-library/react'
 import { TestAppStateContextProvider } from '../../../../test-utils/TestStateContextProvider'
-import TestRecipeServiceProvider, {
+import TestApiServiceProvider, {
   NO_INGREDIENTS,
   NO_LANGUAGES,
   TEST_PREFIX
-} from '../../../../test-utils/TestRecipeServiceProvider'
+} from '../../../../test-utils/TestApiServiceProvider'
 import FilteringProvider, { RecipesFilterValues, getEmptyFilterValues } from '../FilteringProvider'
 import FilteringManagementTool, {
   applyChangesLabel,
@@ -106,13 +106,13 @@ const getFilteringProviderAndManagementToolToRender = ({
         } as unknown as AppState
       }
     >
-      <TestRecipeServiceProvider filterValues={initialFilterValues}>
+      <TestApiServiceProvider filterValues={initialFilterValues}>
         <TestSearchRecipesProvider>
           <FilteringProvider>
             <FilteringManagementTool />
           </FilteringProvider>
         </TestSearchRecipesProvider>
-      </TestRecipeServiceProvider>
+      </TestApiServiceProvider>
     </TestAppStateContextProvider>
   )
 }
