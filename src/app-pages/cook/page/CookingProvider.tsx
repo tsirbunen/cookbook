@@ -15,7 +15,7 @@ type Cooking = {
   dispatchCookingEvent: Dispatch<DispatchCookingEventAction>
   cookingRecipes: CookingRecipeData[]
   timersByRecipeId: Record<number, TimerData>
-  toggleIsCookingRecipe: (recipe: Recipe) => void
+  toggleIsCookingRecipe: (recipeId: number) => void
   toggleIngredient: (recipeId: number, ingredientId: number) => void
   ingredientsAdded: number[]
   instructionsDone: number[]
@@ -28,6 +28,7 @@ type Cooking = {
   isScalingRecipeIds: number[]
   onlyMetricRecipeIds: number[]
   toggleOnlyMetric: (recipeId: number) => void
+  clearAllRecipeSettings: (recipeId: number) => void
 }
 
 export type CookingContextType = {
@@ -53,7 +54,9 @@ const CookingProvider = ({ children }: { children: React.ReactNode }) => {
     })
   }, [pickedRecipes])
 
-  const toggleIsCookingRecipe = (recipe: Recipe) => {
+  const toggleIsCookingRecipe = (recipeId: number) => {
+    const recipe = pickedRecipes.find((pickedRecipe) => pickedRecipe.id === recipeId)
+    if (!recipe) return
     dispatchCookingEvent({ type: DispatchCookingEvent.TOGGLE_IS_COOKING_RECIPE, payload: { recipe } })
   }
 
@@ -81,6 +84,13 @@ const CookingProvider = ({ children }: { children: React.ReactNode }) => {
     dispatchCookingEvent({ type: DispatchCookingEvent.TOGGLE_ONLY_METRIC, payload: { recipeId } })
   }
 
+  const clearAllRecipeSettings = (recipeId: number) => {
+    const recipe = pickedRecipes.find((pickedRecipe) => pickedRecipe.id === recipeId)
+    if (!recipe) return
+    console.log('CLEAR ALL reicpe', recipe.id)
+    dispatchCookingEvent({ type: DispatchCookingEvent.CLEAR_ALL_RECIPE_SETTINGS, payload: { recipe } })
+  }
+
   return (
     <CookingContext.Provider
       value={{
@@ -102,7 +112,8 @@ const CookingProvider = ({ children }: { children: React.ReactNode }) => {
         toggleMultiColumn,
         scaleRecipe,
         toggleIsScaling,
-        toggleOnlyMetric
+        toggleOnlyMetric,
+        clearAllRecipeSettings
       }}
     >
       {children}

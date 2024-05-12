@@ -14,7 +14,8 @@ export enum DispatchCookingEvent {
   TOGGLE_MULTI_COLUMN = 'TOGGLE_MULTI_COLUMN',
   SCALE_RECIPE = 'SCALE_RECIPE',
   TOGGLE_ONLY_METRIC = 'TOGGLE_ONLY_METRIC',
-  TOGGLE_IS_SCALING = 'TOGGLE_IS_SCALING'
+  TOGGLE_IS_SCALING = 'TOGGLE_IS_SCALING',
+  CLEAR_ALL_RECIPE_SETTINGS = 'CLEAR_ALL_RECIPE_SETTINGS'
 }
 
 export type DispatchCookingEventAction =
@@ -36,6 +37,7 @@ export type DispatchCookingEventAction =
     }
   | { type: DispatchCookingEvent.TOGGLE_ONLY_METRIC; payload: { recipeId: number } }
   | { type: DispatchCookingEvent.TOGGLE_IS_SCALING; payload: { recipeId: number } }
+  | { type: DispatchCookingEvent.CLEAR_ALL_RECIPE_SETTINGS; payload: { recipe: Recipe } }
 
 export const cookingReducer = produce((draft: CookingState, action: DispatchCookingEventAction) => {
   switch (action.type) {
@@ -66,10 +68,35 @@ export const cookingReducer = produce((draft: CookingState, action: DispatchCook
     case DispatchCookingEvent.TOGGLE_IS_SCALING:
       draft.isScalingRecipeIds = getUpdatedIdList(draft.isScalingRecipeIds, action.payload.recipeId)
       break
+    case DispatchCookingEvent.CLEAR_ALL_RECIPE_SETTINGS:
+      clearAllRecipeSettings(draft, action.payload)
+      break
     default:
       throw new Error(`${JSON.stringify(action)} is not a cooking state reducer action!`)
   }
 })
+
+const clearAllRecipeSettings = (draft: CookingState, { recipe }: { recipe: Recipe }) => {
+  const recipeId = recipe.id
+  draft.cookingRecipes = draft.cookingRecipes.filter((data) => data.recipe.id !== recipeId)
+  delete draft.scalingByRecipeId[recipeId]
+  delete draft.timersByRecipeId[recipeId]
+  draft.multiColumnRecipes = draft.multiColumnRecipes.filter((id) => id !== recipeId)
+  draft.isScalingRecipeIds = draft.isScalingRecipeIds.filter((id) => id !== recipeId)
+  draft.onlyMetricRecipeIds = draft.onlyMetricRecipeIds.filter((id) => id !== recipeId)
+
+  const ingredientIdsToDelete = recipe.ingredientGroups.reduce((acc, group) => {
+    acc.push(...group.ingredients.map((ingredient) => ingredient.id))
+    return acc
+  }, [] as number[])
+  draft.ingredientsAdded = draft.ingredientsAdded.filter((id) => !ingredientIdsToDelete.includes(id))
+
+  const instructionIdsToDelete = recipe.instructionGroups.reduce((acc, group) => {
+    acc.push(...group.instructions.map((instruction) => instruction.id))
+    return acc
+  }, [] as number[])
+  draft.instructionsDone = draft.instructionsDone.filter((id) => !instructionIdsToDelete.includes(id))
+}
 
 const updateScaling = (draft: CookingState, payload: { scalingData: ScalingData; recipeId: number }) => {
   const { scalingData, recipeId } = payload

@@ -1,12 +1,12 @@
 import { Language, Recipe, Tag } from '../types/graphql-schema-types.generated'
 import { ApolloError, useQuery } from '@apollo/client'
-import { AllRecipesDocument, AllRecipesQuery, AllRecipesQueryVariables } from './graphql-queries/AllRecipes.generated'
+import { AllRecipesDocument, AllRecipesQuery, AllRecipesQueryVariables } from './graphql-queries/allRecipes.generated'
 import {
   AllLanguagesDocument,
   AllLanguagesQuery,
   AllLanguagesQueryVariables
-} from './graphql-queries/AllLanguages.generated'
-import { AllTagsDocument, AllTagsQuery, AllTagsQueryVariables } from './graphql-queries/AllTags.generated'
+} from './graphql-queries/allLanguages.generated'
+import { AllTagsDocument, AllTagsQuery, AllTagsQueryVariables } from './graphql-queries/allTags.generated'
 
 type UseApi = {
   allRecipesData: {

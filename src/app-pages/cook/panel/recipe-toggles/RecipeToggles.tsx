@@ -13,6 +13,7 @@ import { TbChefHat, TbColumns, TbStar, TbStarFilled } from 'react-icons/tb'
 import { IoAlarmOutline } from 'react-icons/io5'
 import { FaBalanceScale } from 'react-icons/fa'
 import { TbRulerMeasure } from 'react-icons/tb'
+import { TbWashDrycleanOff } from 'react-icons/tb'
 import { cookTogglesZIndex } from '../../../../constants/z-indexes'
 import { CookingContext } from '../../page/CookingProvider'
 import { Recipe } from '../../../../types/graphql-schema-types.generated'
@@ -37,9 +38,22 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
     scalingByRecipeId,
     toggleIsScaling,
     onlyMetricRecipeIds,
+    ingredientsAdded,
+    instructionsDone,
     isScalingRecipeIds,
-    toggleOnlyMetric
+    toggleOnlyMetric,
+    clearAllRecipeSettings
   } = useContext(CookingContext)
+  console.log({
+    onlyMetricRecipeIds,
+    ingredientsAdded,
+    instructionsDone,
+    scalingByRecipeId,
+    multiColumnRecipes,
+    cookingRecipes,
+    timersByRecipeId,
+    isScalingRecipeIds
+  })
 
   const isCooking = useMemo(() => {
     return cookingRecipes.some((cookingRecipeData) => cookingRecipeData.recipe.id === recipe.id)
@@ -69,18 +83,11 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
     return onlyMetricRecipeIds.some((recipeId) => recipeId === recipe.id)
   }, [onlyMetricRecipeIds])
 
+  const hasSomethingToClear = isCooking || isScaling || isMultiColumn || hasOnlyMetric || !!recipeTimer
+
   return (
     <div css={containerCss}>
       <Toggles hasBackground={false}>
-        <Toggle
-          isToggled={isCooking}
-          toggle={() => toggleIsCookingRecipe(recipe)}
-          Icon={TbChefHat}
-          toggleProperty={cookToggleProperty}
-          isDisabled={isScaling}
-          count={null}
-        />
-
         <Toggle
           isToggled={isFavorite}
           toggle={() => toggleFavoriteRecipeId(recipe.id)}
@@ -97,6 +104,15 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
             count={null}
           />
         ) : null}
+        <Toggle
+          isToggled={!!recipeTimer}
+          toggle={() => console.log()}
+          Icon={IoAlarmOutline}
+          toggleProperty={cookingTimerToggleProperty}
+          count={null}
+        >
+          {recipeTimer ? <CountDown timer={recipeTimer} /> : undefined}
+        </Toggle>
 
         <Toggle
           isToggled={isScaling}
@@ -116,15 +132,24 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
           toggleProperty={ingredientScalingToggleProperty}
           count={null}
         />
+        {
+          <Toggle
+            isToggled={hasSomethingToClear}
+            toggle={() => clearAllRecipeSettings(recipe.id)}
+            Icon={TbWashDrycleanOff}
+            toggleProperty={cookToggleProperty}
+            isDisabled={!hasSomethingToClear}
+            count={null}
+          />
+        }
         <Toggle
-          isToggled={!!recipeTimer}
-          toggle={() => console.log()}
-          Icon={IoAlarmOutline}
-          toggleProperty={cookingTimerToggleProperty}
+          isToggled={isCooking}
+          toggle={() => toggleIsCookingRecipe(recipe.id)}
+          Icon={TbChefHat}
+          toggleProperty={cookToggleProperty}
+          isDisabled={isScaling}
           count={null}
-        >
-          {recipeTimer ? <CountDown timer={recipeTimer} /> : undefined}
-        </Toggle>
+        />
       </Toggles>
     </div>
   )
