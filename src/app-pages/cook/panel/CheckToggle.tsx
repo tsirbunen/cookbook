@@ -1,4 +1,3 @@
-import { Flex } from '@chakra-ui/react'
 import CheckboxWithTheme, { CheckboxVariant } from '../../../theme/checkboxes/CheckboxWithTheme'
 
 type CheckToggleProps = {
@@ -8,18 +7,19 @@ type CheckToggleProps = {
 
 const CheckToggle = ({ isChecked, onChange }: CheckToggleProps) => {
   return (
-    <Flex {...checkboxCss}>
+    <div {...checkboxCss}>
       <CheckboxWithTheme
         isChecked={isChecked}
         onChange={onChange}
         variant={isChecked ? CheckboxVariant.Pale : CheckboxVariant.Dark}
       />
-    </Flex>
+    </div>
   )
 }
 
 export default CheckToggle
 
 const checkboxCss = {
-  width: '35px'
+  width: '35px',
+  breakinside: 'avoid'
 }

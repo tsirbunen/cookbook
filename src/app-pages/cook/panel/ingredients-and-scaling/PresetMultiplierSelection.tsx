@@ -1,14 +1,11 @@
 import React from 'react'
 import { ChakraProps, Flex, Text } from '@chakra-ui/react'
 import CardRadioButtonSelector from '../../../../widgets/card-radio-button-selector/CardRadioButtonSelector'
+import { ColorCodes } from '../../../../theme/theme'
 
-const PRESET_INFO = 'Either multiply all by a preset value'
-const INGREDIENT_AS_BASE_INFO = 'Or specify an amount of an ingredient to use as the scaling base'
-const X_LABEL = 'X'
 const MULTIPLIER_FONT_SIZE = '1.1rem'
-
-const presetValues = [0.5, 1, 1.5, 2, 3, 4]
-const presetMultipliers = presetValues.map((value) => ({ label: value.toString(), value }))
+const presetValues = ['0.5 X', '1 X', '1.5 X', '2 X', '3 X', '4 X', '5 X']
+const presetMultipliers = presetValues.map((value) => ({ label: value, value: parseFloat(value.replace(' X', '')) }))
 
 type PresetMultiplierSelectionProps = {
   selectPresetMultiplier: (value: number) => void
@@ -18,9 +15,6 @@ type PresetMultiplierSelectionProps = {
 const PresetMultiplierSelection = ({ selectPresetMultiplier, presetMultiplier }: PresetMultiplierSelectionProps) => {
   return (
     <Flex {...containerCss}>
-      <Flex {...presetInfoCss}>
-        <Text>{PRESET_INFO}</Text>
-      </Flex>
       <Flex {...selectorCss}>
         <CardRadioButtonSelector
           options={presetMultipliers}
@@ -29,13 +23,12 @@ const PresetMultiplierSelection = ({ selectPresetMultiplier, presetMultiplier }:
           noMargin
           fontSize={MULTIPLIER_FONT_SIZE}
         />
-        <Flex {...xLabelCss}>
-          <Text>{X_LABEL}</Text>
-        </Flex>
       </Flex>
 
-      <Flex {...ingredientAsBaseInfoCss}>
-        <Text>{INGREDIENT_AS_BASE_INFO}</Text>
+      <Flex {...orDividerCss}>
+        <Flex {...shortLineCss} />
+        <Text>OR</Text>
+        <Flex {...shortLineCss} />
       </Flex>
     </Flex>
   )
@@ -50,27 +43,29 @@ const containerCss = {
 }
 
 const selectorCss = {
+  marginTop: '10px',
   flexDirection: 'row' as ChakraProps['flexDirection'],
   alignItems: 'center' as ChakraProps['alignItems'],
   justifyContent: 'start' as ChakraProps['justifyContent'],
   flex: 1
 }
 
-const xLabelCss = {
-  marginLeft: '10px',
+const shortLineCss = {
+  marginRight: '15px',
+  marginLeft: '15px',
+  backgroundColor: ColorCodes.MEDIUM,
+  height: '1.5px',
+  width: '100px',
+  flexDirection: 'column' as ChakraProps['flexDirection'],
+  alignItems: 'center' as ChakraProps['alignItems']
+}
+
+const orDividerCss = {
+  marginTop: '10px',
+  flexDirection: 'row' as ChakraProps['flexDirection'],
   fontWeight: 'bold',
-  fontSize: '1.35rem'
-}
-
-const presetInfoCss = {
-  fontWeight: 'semibold',
-  marginRight: '10px',
-  marginBottom: '10px',
-  marginTop: '10px'
-}
-
-const ingredientAsBaseInfoCss = {
-  fontWeight: 'semibold',
-  marginRight: '10px',
-  marginTop: '30px'
+  color: ColorCodes.DARK,
+  flex: 1,
+  alignItems: 'center' as ChakraProps['alignItems'],
+  justifyContent: 'center' as ChakraProps['justifyContent']
 }

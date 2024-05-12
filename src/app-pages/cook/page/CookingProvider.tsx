@@ -87,7 +87,6 @@ const CookingProvider = ({ children }: { children: React.ReactNode }) => {
   const clearAllRecipeSettings = (recipeId: number) => {
     const recipe = pickedRecipes.find((pickedRecipe) => pickedRecipe.id === recipeId)
     if (!recipe) return
-    console.log('CLEAR ALL reicpe', recipe.id)
     dispatchCookingEvent({ type: DispatchCookingEvent.CLEAR_ALL_RECIPE_SETTINGS, payload: { recipe } })
   }
 

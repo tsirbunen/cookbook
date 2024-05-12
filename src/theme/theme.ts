@@ -40,6 +40,14 @@ export const theme = extendTheme({
         success: ColorCodes.SUCCESS,
         error: ColorCodes.ERROR,
         overscrollBehavior: 'none',
+        // Note: These are to prevent elements turning blue when for example resizing panels
+        WebkitTapHighlightColor: 'transparent',
+        WebkitTouchCallout: 'none',
+        WebkitUserSelect: 'none',
+        KhtmlUserSelect: 'none',
+        MozUserSelect: 'none',
+        MsUserSelect: 'none',
+        UserSelect: 'none',
         // overscrollBehavior: 'contain'
         // NOTE: MDN documents advice to use these, but they do not work so
         // using the webkit-scrollbar instead...

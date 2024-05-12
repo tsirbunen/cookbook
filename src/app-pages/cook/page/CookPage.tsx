@@ -13,6 +13,7 @@ import PickedRecipesManagementTool from '../../search/search-management/PickedRe
 import { RecipesViewingContext } from '../../search/page/SearchRecipesProvider'
 import { Page } from '../../../navigation/router/router'
 import { toolsElementId } from '../../../widgets/header-with-optional-toggles/HeaderWithToggles'
+import { ColorCodes } from '../../../theme/theme'
 
 const CookPage = () => {
   const { maxPanelsCount } = useContext(ViewSizeContext)
@@ -67,9 +68,11 @@ const CookPage = () => {
 export default CookPage
 
 const toolsCss = css`
-  padding-right: 15px;
+  padding-right: 10px;
 `
 
 const boxCss = css`
   padding-left: 10px;
+  padding-bottom: 10px;
+  background-color: ${ColorCodes.VERY_DARK};
 `

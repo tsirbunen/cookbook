@@ -9,7 +9,7 @@ type ButtonWithThemeProps = {
 }
 
 const InputWithTheme = ({ variant, value, isDisabled, onChange }: ButtonWithThemeProps) => {
-  return <Input variant={variant} isDisabled={isDisabled} value={value} onChange={onChange} size={'sm'}></Input>
+  return <Input variant={variant} isDisabled={isDisabled} value={value} onChange={onChange} size={'xs'}></Input>
 }
 
 export default InputWithTheme

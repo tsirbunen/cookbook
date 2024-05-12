@@ -57,6 +57,7 @@ const topOuterCss = css`
   top: ${HEADER_HEIGHT}px;
   z-index: ${recipesViewingManagementZIndex};
   width: 100%;
+  margin-right: 5px;
 `
 
 const topInnerCss = css`
@@ -71,5 +72,5 @@ const topInnerCss = css`
   box-shadow: 0 2px 10px 1px rgba(0, 0, 0, 0.35);
   flex: 1;
   height: 100%;
-  padding-right: 15px;
+  /* padding-right: 15px; */
 `

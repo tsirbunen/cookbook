@@ -38,22 +38,10 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
     scalingByRecipeId,
     toggleIsScaling,
     onlyMetricRecipeIds,
-    ingredientsAdded,
-    instructionsDone,
     isScalingRecipeIds,
     toggleOnlyMetric,
     clearAllRecipeSettings
   } = useContext(CookingContext)
-  console.log({
-    onlyMetricRecipeIds,
-    ingredientsAdded,
-    instructionsDone,
-    scalingByRecipeId,
-    multiColumnRecipes,
-    cookingRecipes,
-    timersByRecipeId,
-    isScalingRecipeIds
-  })
 
   const isCooking = useMemo(() => {
     return cookingRecipes.some((cookingRecipeData) => cookingRecipeData.recipe.id === recipe.id)

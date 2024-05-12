@@ -53,7 +53,7 @@ const outerCss = {
   flexDirection: 'column' as ChakraProps['flexDirection'],
   backgroundColor: ColorCodes.PALE,
   borderRadius: '6px',
-  margin: '10px 0px 10px 5px',
+  margin: '10px 10px 10px 0px',
   width: '100%',
   paddingRight: '10px'
 }

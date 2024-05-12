@@ -7,46 +7,52 @@ import { InputVariant } from '../../../../theme/inputs/inputs-theme'
 import { SelectedScalingIngredient } from './Ingredients'
 import { nameCss } from './common-styles'
 
-type ScalingIngredientProps = {
+type IngredientRowProps = {
   ingredient: Ingredient
   presetMultiplier: number | undefined
   setIngredientBaseAmount: (ingredientId: number, newAmount: string, originalAmount: number) => void
   selectedIngredient: SelectedScalingIngredient | undefined
+  isScaling: boolean
+  showAsPale: boolean
 }
 
-const ScalingIngredient = ({
+const IngredientRow = ({
   ingredient,
   setIngredientBaseAmount,
   selectedIngredient,
-  presetMultiplier
-}: ScalingIngredientProps) => {
+  presetMultiplier,
+  isScaling,
+  showAsPale
+}: IngredientRowProps) => {
   const { id, amount: originalAmount, unit, name } = ingredient
   const isSelected = selectedIngredient?.id === id
   const amount = getAmount(id, selectedIngredient, presetMultiplier, originalAmount)
 
   return (
-    <Flex {...unitAndAmountBoxCss}>
+    <Flex {...outerCss}>
       <Flex {...amountCss(false)}>
-        {amount || amount === '' ? (
+        {isScaling && (amount || amount === '') ? (
           <InputWithTheme
             value={amount}
             variant={isSelected ? InputVariant.Selected : InputVariant.Pale}
             isDisabled={false}
             onChange={(event) => setIngredientBaseAmount(id, event.target.value, originalAmount ?? 1)}
           ></InputWithTheme>
+        ) : amount || amount === '' ? (
+          <Text>{amount}</Text>
         ) : null}
       </Flex>
-      <Flex {...unitCss(false)}>
+      <Flex {...unitCss(showAsPale)}>
         <Text>{unit}</Text>
       </Flex>
-      <Flex {...nameCss(false)}>
+      <Flex {...nameCss(showAsPale)}>
         <Text>{name}</Text>
       </Flex>
     </Flex>
   )
 }
 
-export default ScalingIngredient
+export default IngredientRow
 
 const getAmount = (
   id: number,
@@ -81,14 +87,14 @@ export const getRoundedIngredientAmount = (amount: number): number => {
   return parseFloat(amount.toFixed(2))
 }
 
-const unitAndAmountBoxCss = {
+const outerCss = {
   flexDirection: 'row' as ChakraProps['flexDirection'],
-  alignItems: 'center' as ChakraProps['alignItems']
+  alignItems: 'start' as ChakraProps['alignItems']
 }
 
 const amountCss = (isPale: boolean) => {
   return {
-    width: '80px',
+    width: '60px',
     marginRight: '10px',
     color: isPale ? ColorCodes.SLIGHTLY_PALE : ColorCodes.DARK,
     fontWeight: 'bold'
