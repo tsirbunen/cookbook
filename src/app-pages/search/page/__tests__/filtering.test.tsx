@@ -17,8 +17,11 @@ import FilteringManagementTool, {
 import { formTextAreaSearchDataTestId } from '../../../../widgets/form-textarea-search/FormTextAreaSearch'
 import TestSearchRecipesProvider from '../../../../test-utils/TestSearchRecipesProvider'
 import { AppState } from '../../../../state/StateContextProvider'
+import { Language, Tag } from '../../../../types/graphql-schema-types.generated'
 
 const language = 'ENGLISH'
+const tag = 'VEGETARIAN'
+const changedTag = 'VEGAN'
 const ingredient = 'BLUEBERRY'
 const changedIngredient = 'STRAWBERRY'
 const noFiltersTexts = [NO_LANGUAGES, NO_INGREDIENTS]
@@ -27,14 +30,20 @@ const changedTextDisplays = [language, changedIngredient].map((text) => `${TEST_
 
 describe('FilteringProvider and FilteringManagementTool', () => {
   it('enable setting multiple filters and storing the selected filter values', async () => {
-    render(getFilteringProviderAndManagementToolToRender({ initialFilterValues: getEmptyFilterValues() }))
+    render(
+      getFilteringProviderAndManagementToolToRender({
+        initialFilterValues: getEmptyFilterValues(),
+        languages: [{ language: language, id: 1 }],
+        tags: [{ tag: tag, id: 1 }]
+      })
+    )
 
     noFiltersTexts.forEach((text) => {
       expect(screen.getByText(text)).toBeInTheDocument()
     })
 
-    // clickFormButtonWithLabel(category)
     clickFormButtonWithLabel(language)
+    clickFormButtonWithLabel(tag)
     addTextToTextArea(ingredient, formTextAreaSearchDataTestId)
     await clickApplyButton(applyFiltersLabel)
 
@@ -45,12 +54,18 @@ describe('FilteringProvider and FilteringManagementTool', () => {
 
   it('enable clearing selected filter values', async () => {
     const initialFilterValues = {
-      // categories: [category],
       languages: [language],
+      tags: [tag],
       ingredients: { searchTerm: ingredient, searchMode: undefined }
     }
 
-    render(getFilteringProviderAndManagementToolToRender({ initialFilterValues }))
+    render(
+      getFilteringProviderAndManagementToolToRender({
+        initialFilterValues,
+        languages: [{ language: language, id: 1 }],
+        tags: [{ tag: tag, id: 1 }]
+      })
+    )
 
     testTextDisplays.forEach((text) => {
       expect(screen.getByText(text)).toBeInTheDocument()
@@ -67,13 +82,23 @@ describe('FilteringProvider and FilteringManagementTool', () => {
   it('enable changing selected filter values', async () => {
     const initialFilterValues = {
       languages: [language],
+      tags: [tag],
       ingredients: { searchTerm: ingredient, searchMode: undefined }
     }
 
-    render(getFilteringProviderAndManagementToolToRender({ initialFilterValues }))
+    render(
+      getFilteringProviderAndManagementToolToRender({
+        initialFilterValues,
+        languages: [{ language: language, id: 1 }],
+        tags: [
+          { tag: tag, id: 1 },
+          { tag: changedTag, id: 2 }
+        ]
+      })
+    )
 
-    // clickFormButtonWithLabel(category)
-    // clickFormButtonWithLabel(changedCategory)
+    clickFormButtonWithLabel(tag)
+    clickFormButtonWithLabel(changedTag)
 
     const ingredientsComponent = screen.getByTestId(formTextAreaSearchDataTestId)
     let trashButton
@@ -94,14 +119,20 @@ describe('FilteringProvider and FilteringManagementTool', () => {
 })
 
 const getFilteringProviderAndManagementToolToRender = ({
-  initialFilterValues
+  initialFilterValues,
+  languages,
+  tags
 }: {
   initialFilterValues: RecipesFilterValues
+  languages: Language[]
+  tags: Tag[]
 }) => {
   return (
     <TestAppStateContextProvider
       initialState={
         {
+          languages,
+          tags,
           filters: initialFilterValues
         } as unknown as AppState
       }

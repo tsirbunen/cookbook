@@ -62,7 +62,7 @@ const splitOuter = css`
   flex-direction: column;
   z-index: ${recipesViewingManagementZIndex};
   flex: 1;
-  background-color: ${ColorCodes.VERY_PALE};
+  background-color: ${ColorCodes.VERY_DARK};
   display: flex;
 `
 

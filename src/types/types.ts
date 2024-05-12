@@ -3,6 +3,7 @@ import { Recipe } from './graphql-schema-types.generated'
 export enum FilterableRecipeProperty {
   categories = 'categories',
   languages = 'languages',
+  tags = 'tags',
   ingredients = 'ingredients'
 }
 

@@ -1,5 +1,5 @@
 import { RecipesFilterValues } from '../app-pages/search/page/FilteringProvider'
-import { Recipe } from '../types/graphql-schema-types.generated'
+import { Language, Recipe, Tag } from '../types/graphql-schema-types.generated'
 import { AppState } from './StateContextProvider'
 import { produce } from 'immer'
 
@@ -7,7 +7,9 @@ export enum Dispatch {
   SET_RECIPES_AND_FILTERS = 'SET_RECIPES_AND_FILTERS',
   UPDATE_PICKED_RECIPES = 'UPDATE_PICKED_RECIPES',
   CHANGE_RECIPES_ORDER = 'CHANGE_RECIPES_ORDER',
-  TOGGLE_SOUNDS_ENABLED = 'TOGGLE_SOUNDS_ENABLED'
+  TOGGLE_SOUNDS_ENABLED = 'TOGGLE_SOUNDS_ENABLED',
+  SET_TAGS = 'SET_TAGS',
+  SET_LANGUAGES = 'SET_LANGUAGES'
 }
 
 export type DispatchAction =
@@ -15,11 +17,14 @@ export type DispatchAction =
   | { type: Dispatch.UPDATE_PICKED_RECIPES; payload: { recipeId: number } }
   | { type: Dispatch.CHANGE_RECIPES_ORDER; payload: { newOrderOfIds: number[] } }
   | { type: Dispatch.TOGGLE_SOUNDS_ENABLED; payload: { enabled: boolean } }
+  | { type: Dispatch.SET_TAGS; payload: { tags: Tag[] } }
+  | { type: Dispatch.SET_LANGUAGES; payload: { languages: Language[] } }
 
 export const reducer = produce((draft: AppState, { type, payload }: DispatchAction) => {
   switch (type) {
     case Dispatch.SET_RECIPES_AND_FILTERS:
-      setRecipesAndFilters(draft, payload)
+      draft.recipes = payload.recipes
+      draft.filters = payload.filters
       break
     case Dispatch.UPDATE_PICKED_RECIPES:
       updatePickedRecipes(draft, payload)
@@ -28,21 +33,18 @@ export const reducer = produce((draft: AppState, { type, payload }: DispatchActi
       updatePickedRecipesOrder(draft, payload)
       break
     case Dispatch.TOGGLE_SOUNDS_ENABLED:
-      toggleSoundsAreEnabled(draft, payload)
+      draft.settings.soundsEnabled = payload.enabled
+      break
+    case Dispatch.SET_TAGS:
+      draft.tags = payload.tags
+      break
+    case Dispatch.SET_LANGUAGES:
+      draft.languages = payload.languages
       break
     default:
       throw new Error(`${JSON.stringify(type)} is not an app state reducer action type!`)
   }
 })
-
-const setRecipesAndFilters = (draft: AppState, payload: { recipes: Recipe[]; filters: RecipesFilterValues }) => {
-  draft.recipes = payload.recipes
-  draft.filters = payload.filters
-}
-
-const toggleSoundsAreEnabled = (draft: AppState, payload: { enabled: boolean }) => {
-  draft.settings.soundsEnabled = payload.enabled
-}
 
 export const updatePickedRecipes = (draft: AppState, payload: { recipeId: number }) => {
   const { recipeId } = payload

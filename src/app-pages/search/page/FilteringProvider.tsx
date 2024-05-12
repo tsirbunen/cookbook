@@ -8,10 +8,13 @@ import { FormButtonsSelectorValue } from '../../../widgets/form-buttons-selector
 
 export interface RecipesFilterValues {
   [FilterableRecipeProperty.languages]: FormButtonsSelectorValue
+  [FilterableRecipeProperty.tags]: FormButtonsSelectorValue
   [FilterableRecipeProperty.ingredients]: TextAreaSearchValues
 }
 
 type RecipesFiltering = {
+  languages: string[]
+  tags: string[]
   initialValues: RecipesFilterValues
   applyFilters: () => void
   clearFilters: () => void
@@ -38,6 +41,7 @@ const FilteringProvider = ({ children }: { children: React.ReactNode }) => {
     const appliedFilters = state.filters
     let count = 0
     if (appliedFilters.languages.length) count += 1
+    if (appliedFilters.tags.length) count += 1
     if (appliedFilters.ingredients.searchTerm.length) count += 1
     if (filterValues.ingredients.searchMode && appliedFilters.ingredients.searchMode !== defaultSearchMode) {
       count += 1
@@ -59,6 +63,9 @@ const FilteringProvider = ({ children }: { children: React.ReactNode }) => {
     const languagesHaveChanged = xor(appliedFilters.languages, filterValues.languages).length > 0
     if (languagesHaveChanged) return true
 
+    const tagsHaveChanged = xor(appliedFilters.tags, filterValues.tags).length > 0
+    if (tagsHaveChanged) return true
+
     const ingredientsHaveChanged =
       appliedFilters.ingredients.searchMode !== filterValues.ingredients.searchMode ||
       appliedFilters.ingredients.searchTerm !== filterValues.ingredients.searchTerm
@@ -73,6 +80,8 @@ const FilteringProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <FiltersContext.Provider
       value={{
+        languages: state.languages.map((language) => language.language),
+        tags: state.tags.map((tag) => tag.tag),
         initialValues,
         applyFilters,
         appliedFiltersCount,
@@ -93,12 +102,14 @@ export default FilteringProvider
 export const getEmptyFilterValues = (): RecipesFilterValues => {
   return {
     languages: [],
+    tags: [],
     ingredients: { searchTerm: '', searchMode: undefined }
   }
 }
 
 const filtersHaveValues = (filterValues: RecipesFilterValues) => {
   if (filterValues.languages.length) return true
+  if (filterValues.tags.length) return true
   if (filterValues.ingredients.searchMode && filterValues.ingredients.searchMode !== defaultSearchMode) return true
   if (filterValues.ingredients.searchTerm.length) return true
   return false

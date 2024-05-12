@@ -1,46 +1,42 @@
-import { Language, Recipe } from '../types/graphql-schema-types.generated'
+import { Language, Recipe, Tag } from '../types/graphql-schema-types.generated'
+import { ApolloError, useQuery } from '@apollo/client'
+import { AllRecipesDocument, AllRecipesQuery, AllRecipesQueryVariables } from './graphql-queries/AllRecipes.generated'
 import {
   AllLanguagesDocument,
   AllLanguagesQuery,
-  AllLanguagesQueryVariables,
-  AllRecipesDocument,
-  AllRecipesQuery,
-  AllRecipesQueryVariables
-} from './queries.generated'
-
-import { ApolloError, useQuery } from '@apollo/client'
+  AllLanguagesQueryVariables
+} from './graphql-queries/AllLanguages.generated'
+import { AllTagsDocument, AllTagsQuery, AllTagsQueryVariables } from './graphql-queries/AllTags.generated'
 
 type UseApi = {
-  allRecipesError: ApolloError | undefined
-  allRecipesLoading: boolean
-  allRecipes: Recipe[] | undefined
-  allLanguagesError: ApolloError | undefined
-  allLanguagesLoading: boolean
-  allLanguages: Language[] | undefined
+  allRecipesData: {
+    error?: ApolloError
+    loading: boolean
+    data?: { allRecipes: Recipe[] }
+  }
+  allLanguagesData: {
+    error?: ApolloError
+    loading: boolean
+    data?: { allLanguages: Language[] }
+  }
+  allTagsData: {
+    error?: ApolloError
+    loading: boolean
+    data?: { allTags: Tag[] }
+  }
 }
 
 /**
- * The useApi hook handles all the conversation with the api server for recipe data.
+ * The useApi hook handles all the conversation with the api server.
  */
 export const useApi = (): UseApi => {
-  const {
-    error: allRecipesError,
-    loading: allRecipesLoading,
-    data: allRecipesData
-  } = useQuery<AllRecipesQuery, AllRecipesQueryVariables>(AllRecipesDocument)
-
-  const {
-    error: allLanguagesError,
-    loading: allLanguagesLoading,
-    data: allLanguagesData
-  } = useQuery<AllLanguagesQuery, AllLanguagesQueryVariables>(AllLanguagesDocument)
+  const allRecipesData = useQuery<AllRecipesQuery, AllRecipesQueryVariables>(AllRecipesDocument)
+  const allLanguagesData = useQuery<AllLanguagesQuery, AllLanguagesQueryVariables>(AllLanguagesDocument)
+  const allTagsData = useQuery<AllTagsQuery, AllTagsQueryVariables>(AllTagsDocument)
 
   return {
-    allRecipesError,
-    allRecipesLoading,
-    allRecipes: allRecipesData?.allRecipes,
-    allLanguagesError,
-    allLanguagesLoading,
-    allLanguages: allLanguagesData?.allLanguages
+    allRecipesData,
+    allLanguagesData,
+    allTagsData
   }
 }

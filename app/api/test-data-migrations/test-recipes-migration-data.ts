@@ -113,10 +113,13 @@ export const getTestDataForCypressGitHubActionsTests = () => {
 }
 
 export const testLanguageInput = [{ language: 'English' }, { language: 'Swedish' }]
-export const testTagsInput = ['test-tag', 'cypress-tag']
+const testTagAll = 'test-tag-all'
+const testTag1 = 'test-tag-1'
+const testTag2 = 'test-tag-2'
+export const testTagsInput = [testTagAll, testTag1, testTag2]
 
 export const testRecipesToTagsInput: Record<number, number[]> = {
-  1: [1, 2],
+  1: [1, 2, 3],
   2: [1, 2],
   3: [1],
   4: [1],

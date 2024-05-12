@@ -6,11 +6,9 @@ import { AppStateContext, AppStateContextType } from '../state/StateContextProvi
 import { Dispatch } from '../state/reducer'
 import { RecipesFilterValues, getEmptyFilterValues } from '../app-pages/search/page/FilteringProvider'
 import { getFilteredRecipes } from './utils'
-import { Language } from '../types/graphql-schema-types.generated'
 
 export type ApiService = {
   filterRecipes: (filters: RecipesFilterValues) => Promise<void>
-  allLanguages?: Language[]
 }
 
 export const ApiServiceContext = createContext<ApiService>({} as ApiService)
@@ -25,25 +23,43 @@ export const ApiServiceContext = createContext<ApiService>({} as ApiService)
  */
 const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
   const { dispatch } = useContext(AppStateContext) as AppStateContextType
-  const { allRecipes, allLanguages } = useApi()
+  const { allRecipesData, allLanguagesData, allTagsData } = useApi()
 
   useEffect(() => {
-    if (allRecipes !== undefined) {
+    if (allRecipesData.data?.allRecipes !== undefined) {
       dispatch({
         type: Dispatch.SET_RECIPES_AND_FILTERS,
-        payload: { recipes: getFilteredRecipes(allRecipes), filters: getEmptyFilterValues() }
+        payload: { recipes: getFilteredRecipes(allRecipesData.data.allRecipes), filters: getEmptyFilterValues() }
       })
     }
-  }, [allRecipes])
+  }, [allRecipesData.data])
+
+  useEffect(() => {
+    if (allLanguagesData.data?.allLanguages !== undefined) {
+      dispatch({
+        type: Dispatch.SET_LANGUAGES,
+        payload: { languages: allLanguagesData.data.allLanguages }
+      })
+    }
+  }, [allLanguagesData.data])
+
+  useEffect(() => {
+    if (allTagsData.data?.allTags !== undefined) {
+      dispatch({
+        type: Dispatch.SET_TAGS,
+        payload: { tags: allTagsData.data.allTags }
+      })
+    }
+  }, [allTagsData.data])
 
   const filterRecipes = async (filters: RecipesFilterValues) => {
-    if (!allRecipes?.length) return
+    if (!allRecipesData.data?.allRecipes.length) return
 
-    const filteredRecipes = getFilteredRecipes(allRecipes, filters)
+    const filteredRecipes = getFilteredRecipes(allRecipesData.data.allRecipes, filters)
     dispatch({ type: Dispatch.SET_RECIPES_AND_FILTERS, payload: { recipes: filteredRecipes, filters } })
   }
 
-  return <ApiServiceContext.Provider value={{ filterRecipes, allLanguages }}>{children}</ApiServiceContext.Provider>
+  return <ApiServiceContext.Provider value={{ filterRecipes }}>{children}</ApiServiceContext.Provider>
 }
 
 export default ApiServiceProvider

@@ -6,9 +6,15 @@ export const getFilteredRecipes = (allRecipes: Recipe[], filters?: RecipesFilter
   let filteredRecipes = allRecipes
 
   if (filters?.languages?.length) {
-    filteredRecipes = filteredRecipes.filter((r) =>
-      filters.languages.map((language) => language.toUpperCase()).includes(r.language.language.toUpperCase())
-    )
+    const languages = filters.languages.map((language) => language.toUpperCase())
+    filteredRecipes = filteredRecipes.filter(({ language }) => languages.includes(language.language.toUpperCase()))
+  }
+
+  if (filters?.tags?.length) {
+    const tags = filters.tags.map((tag) => tag.toUpperCase())
+    filteredRecipes = filteredRecipes.filter(({ tags: recipeTags }) => {
+      return (recipeTags ?? []).some(({ tag }) => tags.includes(tag.toUpperCase()))
+    })
   }
 
   if (filters?.ingredients.searchTerm.length) {

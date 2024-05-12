@@ -88,6 +88,7 @@ input RecipeInput {
 extend type Query {
   allRecipes: [Recipe!]!
   allLanguages: [Language!]!
+  allTags: [Tag!]!
 }
 
 extend type Mutation {

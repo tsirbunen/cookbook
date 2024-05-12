@@ -59,10 +59,3 @@ query AllRecipes {
     ...RecipeEntity
   }
 }
-
-query AllLanguages {
-  allLanguages {
-    id
-    language
-  }
-}

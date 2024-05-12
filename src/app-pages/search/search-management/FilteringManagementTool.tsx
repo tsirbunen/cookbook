@@ -9,7 +9,6 @@ import FormButtonsSelector from '../../../widgets/form-buttons-selector/FormButt
 import FormTextAreaSearch from '../../../widgets/form-textarea-search/FormTextAreaSearch'
 import { RecipesViewingContext } from '../page/SearchRecipesProvider'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
-import { ApiServiceContext } from '../../../api-service/ApiServiceProvider'
 
 export const filteringManagementToolDataTestId = 'filtering-management-tool'
 
@@ -20,6 +19,7 @@ export const applyFiltersLabel = 'Apply filters'
 export const applyChangesLabel = 'Apply changes'
 export const clearFormLabel = 'Clear form'
 const languagesLabel = 'languages'
+const tagsLabel = 'tags'
 const ingredientsLabel = 'ingredients'
 const ingredientsPlaceholder = 'Type here ingredients...'
 
@@ -33,9 +33,10 @@ const FilteringManagementTool = () => {
     initialValues,
     filtersHaveValues,
     filtersHaveChanges,
-    hasStoredFilters
+    hasStoredFilters,
+    languages,
+    tags
   } = useContext(FiltersContext)
-  const { allLanguages } = useContext(ApiServiceContext)
 
   const { handleSubmit, control, watch, reset, formState } = useForm<RecipesFilterValues>({
     defaultValues: initialValues
@@ -70,14 +71,13 @@ const FilteringManagementTool = () => {
   const submitIsDisabled = !hasChanges || isSubmitting
   const applyLabel = hasChanges ? (!hasStoredFilters ? applyFiltersLabel : applyChangesLabel) : applyFiltersLabel
 
-  const languageOptions = allLanguages?.map((language) => language.language) || []
-
   return (
     <Flex {...outerStyle} data-testid={filteringManagementToolDataTestId}>
       <Title title={filteringTitle.toUpperCase()} variant={TitleVariant.MediumRegular} />
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormButtonsSelector label={languagesLabel} name={'languages'} control={control} options={languageOptions} />
+        <FormButtonsSelector label={languagesLabel} name={'languages'} control={control} options={languages} />
+        <FormButtonsSelector label={tagsLabel} name={'tags'} control={control} options={tags} />
 
         <FormTextAreaSearch
           label={ingredientsLabel}

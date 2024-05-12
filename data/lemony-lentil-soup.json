@@ -2,14 +2,16 @@
   "recipeInput": {
     "title": "Lemony lentil soup",
     "tags": [
-      "soup"
+      "soup",
+      "vegetarian",
+      "vegan"
     ],
     "ovenNeeded": false,
     "photoIdentifiers": [
       "falafel.png",
       "korma.png"
     ],
-    "language": "English",
+    "language": "Suomi",
     "ingredientGroups": [
       {
         "ingredients": [

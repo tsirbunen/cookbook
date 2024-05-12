@@ -94,6 +94,7 @@ export type Query = {
   __typename?: 'Query';
   allLanguages: Array<Language>;
   allRecipes: Array<Recipe>;
+  allTags: Array<Tag>;
   pingQuery?: Maybe<Scalars['String']['output']>;
 };
 

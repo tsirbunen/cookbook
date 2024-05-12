@@ -96,6 +96,7 @@ export type Query = {
   __typename?: 'Query';
   allLanguages: Array<Language>;
   allRecipes: Array<Recipe>;
+  allTags: Array<Tag>;
   pingQuery?: Maybe<Scalars['String']['output']>;
 };
 
@@ -302,6 +303,7 @@ export type PhotoResolvers<ContextType = any, ParentType extends ResolversParent
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   allLanguages?: Resolver<Array<ResolversTypes['Language']>, ParentType, ContextType>;
   allRecipes?: Resolver<Array<ResolversTypes['Recipe']>, ParentType, ContextType>;
+  allTags?: Resolver<Array<ResolversTypes['Tag']>, ParentType, ContextType>;
   pingQuery?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
