@@ -96,7 +96,7 @@ export const getDatabaseTableTestInputs = () => {
   }
 }
 
-export const getTestDataForCypressGitHubActionsTests = () => {
+export const getTestRecipesForCypressGitHubActionsTests = () => {
   return testRecipesInput.map((recipe) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { mainImageUrl, extraImageUrls, language, ...rest } = recipe
@@ -109,6 +109,18 @@ export const getTestDataForCypressGitHubActionsTests = () => {
     }
     const languageForRecipe = language ? testLanguageInput[1] : testLanguageInput[0]
     return { ...rest, tags, photos, language: { ...languageForRecipe } }
+  })
+}
+
+export const getTestLanguagesForCypressGitHubActionsTests = () => {
+  return testLanguageInput.map((language, index) => {
+    return { ...language, id: index + 1 }
+  })
+}
+
+export const getTestTagsForCypressGitHubActionsTests = () => {
+  return testTagsInput.map((tag, index) => {
+    return { tag, id: index + 1 }
   })
 }
 

@@ -1,20 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { ApolloError } from '@apollo/client'
 import { useState } from 'react'
-import { getTestDataForCypressGitHubActionsTests } from '../../app/api/test-data-migrations/test-recipes-migration-data'
+import {
+  getTestRecipesForCypressGitHubActionsTests,
+  getTestLanguagesForCypressGitHubActionsTests,
+  getTestTagsForCypressGitHubActionsTests
+} from '../../app/api/test-data-migrations/test-recipes-migration-data'
 
-type UseApi = {
-  queryError: ApolloError | undefined
-  queryLoading: boolean
-  allRecipes: any
-}
-
-export const useApi = (): UseApi => {
-  const [allRecipes] = useState(getTestDataForCypressGitHubActionsTests())
+export const useApi = () => {
+  const [allRecipes] = useState(getTestRecipesForCypressGitHubActionsTests())
+  const [allLanguages] = useState(getTestLanguagesForCypressGitHubActionsTests())
+  const [allTags] = useState(getTestTagsForCypressGitHubActionsTests())
   return {
-    queryError: undefined,
-    queryLoading: false,
-    allRecipes
+    allRecipesData: { error: undefined, loading: false, data: { allRecipes } },
+    allLanguagesData: { error: undefined, loading: false, data: { allLanguages } },
+    allTagsData: { error: undefined, loading: false, data: { allTags } }
   }
 }
