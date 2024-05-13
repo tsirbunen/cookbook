@@ -8,7 +8,7 @@ import {
 } from './graphql-queries/allLanguages.generated'
 import { AllTagsDocument, AllTagsQuery, AllTagsQueryVariables } from './graphql-queries/allTags.generated'
 
-type UseApi = {
+export type UseApi = {
   allRecipesData: {
     error?: ApolloError
     loading: boolean

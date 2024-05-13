@@ -4,6 +4,7 @@ import { MULTI_COLUMN_MIN_WIDTH } from '../constants/layout'
 type UseWidthChangedObserver = {
   elementRef: React.RefObject<HTMLDivElement>
   canHaveTwoColumns: boolean
+  panelWidth: number | null
 }
 
 export const useWidthChangedObserver = (): UseWidthChangedObserver => {
@@ -31,5 +32,5 @@ export const useWidthChangedObserver = (): UseWidthChangedObserver => {
 
   const canHaveTwoColumns = currentWidth !== null && currentWidth > MULTI_COLUMN_MIN_WIDTH
 
-  return { elementRef, canHaveTwoColumns }
+  return { elementRef, canHaveTwoColumns, panelWidth: currentWidth }
 }

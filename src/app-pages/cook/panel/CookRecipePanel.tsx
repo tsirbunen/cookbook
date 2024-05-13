@@ -2,7 +2,7 @@
 import { css } from '@emotion/react'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
 import RecipeTitle from './RecipeTitle'
-import Photos from './Photos'
+import Photos, { IMAGE_CONTAINER_HEIGHT } from './Photos'
 import RecipePropertyIcons from '../../../widgets/property-icon/RecipePropertyIcons'
 import Ingredients from './ingredients-and-scaling/Ingredients'
 import { useWidthChangedObserver } from '../../../hooks/useWidthChangedObserver'
@@ -20,7 +20,7 @@ type RecipePanelProps = {
 }
 
 const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
-  const { elementRef, canHaveTwoColumns } = useWidthChangedObserver()
+  const { elementRef, canHaveTwoColumns, panelWidth } = useWidthChangedObserver()
   const { multiColumnRecipes } = useContext(CookingContext)
   const { favoriteRecipeIds } = useContext(RecipesViewingContext)
 
@@ -35,7 +35,7 @@ const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
 
   return (
     <div css={containerCss} ref={elementRef}>
-      <Photos title={title} photos={photos ?? []} />
+      <Photos title={title} photos={photos ?? []} panelWidth={panelWidth} />
       <div css={topCss}>
         <RecipeTitle title={recipe.title} />
 
@@ -70,6 +70,8 @@ const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
 
 export default CookRecipePanel
 
+const CARD_RADIUS = 100
+
 const containerCss = css`
   width: 100%;
 `
@@ -77,8 +79,8 @@ const containerCss = css`
 const topCss = css`
   width: 100%;
   position: relative;
-  top: -120px;
-  border-radius: 100px 100px 0px 0px;
+  top: ${IMAGE_CONTAINER_HEIGHT - CARD_RADIUS}px;
+  border-radius: ${CARD_RADIUS}px ${CARD_RADIUS}px 0px 0px;
   background-size: cover;
   background-color: ${ColorCodes.BACKGROUND};
 `

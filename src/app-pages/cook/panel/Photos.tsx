@@ -11,9 +11,10 @@ import { Photo } from '../../../types/graphql-schema-types.generated'
 type PhotosProps = {
   title: string
   photos: Photo[]
+  panelWidth: number | null
 }
 
-const Photos = ({ title, photos }: PhotosProps) => {
+const Photos = ({ title, photos, panelWidth }: PhotosProps) => {
   const [selectedPhotoIndex, setSelectedPhotoIndex] = React.useState(0)
 
   const selectPhotoToDisplay = (index: number) => {
@@ -26,7 +27,7 @@ const Photos = ({ title, photos }: PhotosProps) => {
     photos[selectedPhotoIndex]?.url !== undefined ? photos[selectedPhotoIndex]?.url : mainPhotoUrl
 
   return (
-    <div css={imageBoxCss}>
+    <div css={imageBoxCss(panelWidth)}>
       <ImageWithFallback
         mainPhotoUrl={photoUrlToDisplay}
         fallbackIcon={FallbackIcon.FOOD}
@@ -50,10 +51,10 @@ const Photos = ({ title, photos }: PhotosProps) => {
 
 export default Photos
 
+export const IMAGE_CONTAINER_HEIGHT = 500
+const DOT_BOX_TOP = IMAGE_CONTAINER_HEIGHT - HEADER_HEIGHT - 75
 const DOT_SIZE = 25
 const DOT_SPACER = 3
-const IMAGE_CONTAINER_HEIGHT = 500
-const DOT_BOX_TOP = -(IMAGE_CONTAINER_HEIGHT + HEADER_HEIGHT + 85)
 
 const shadowGradientPhotoOverlayCss = css`
   background-size: cover;
@@ -71,21 +72,24 @@ const shadowGradientPhotoOverlayCss = css`
   width: 100%;
 `
 
-const imageBoxCss = css`
-  position: relative;
-  width: 100%;
-  height: ${IMAGE_CONTAINER_HEIGHT}px;
-`
+const imageBoxCss = (panelWidth?: number | null) => {
+  const width = panelWidth ? `${panelWidth}px` : '100%'
+  return css`
+    position: absolute;
+    width: ${width};
+    height: ${IMAGE_CONTAINER_HEIGHT}px;
+  `
+}
 
 const dotBoxCss = css`
-  position: relative;
+  position: absolute;
   top: ${DOT_BOX_TOP}px;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   flex: 1;
+  width: 100%;
   display: flex;
-  z-index: 100;
 `
 const dotRowCss = css`
   flex-direction: row;

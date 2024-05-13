@@ -3,6 +3,7 @@ import { instructionGroups, instructions } from '../graphql/graphql-server/datab
 import { photos } from '../graphql/graphql-server/database/database-schemas/photos'
 import { recipes } from '../graphql/graphql-server/database/database-schemas/recipes'
 import { tags, recipesToTags } from '../graphql/graphql-server/database/database-schemas/tags'
+import { Language, Recipe } from '../graphql/graphql-server/modules/types.generated'
 
 type NewRecipe = typeof recipes.$inferInsert
 type NewPhoto = typeof photos.$inferInsert
@@ -96,19 +97,21 @@ export const getDatabaseTableTestInputs = () => {
   }
 }
 
-export const getTestRecipesForCypressGitHubActionsTests = () => {
+export const getTestRecipesForCypressGitHubActionsTests = (): Recipe[] => {
   return testRecipesInput.map((recipe) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { mainImageUrl, extraImageUrls, language, ...rest } = recipe
     const tags = testRecipesToTagsInput[recipe.id].map((tagId) => {
       return { id: tagId, tag: testTagsInput[tagId - 1] }
     })
-    const photos = [{ url: recipe.mainImageUrl, isMainPhoto: true, recipeId: recipe.id }]
+    const photos = [{ id: 1, url: recipe.mainImageUrl, isMainPhoto: true, recipeId: recipe.id }]
     if (recipe.id === 1) {
-      photos.push({ url: recipe.extraImageUrls![0], isMainPhoto: false, recipeId: recipe.id })
+      photos.push({ id: 1, url: recipe.extraImageUrls![0], isMainPhoto: false, recipeId: recipe.id })
     }
-    const languageForRecipe = language ? testLanguageInput[1] : testLanguageInput[0]
-    return { ...rest, tags, photos, language: { ...languageForRecipe } }
+    const languageForRecipe: Language = language
+      ? { language: testLanguageInput[1].language, id: 2 }
+      : { language: testLanguageInput[0].language, id: 1 }
+    return { ...rest, tags, photos, language: languageForRecipe }
   })
 }
 
@@ -148,46 +151,45 @@ export const testRecipesInput = [
     ovenNeeded: false,
     ingredientGroups: [
       {
+        id: 1,
         title: 'Test recipe 1 ingredient group 1 title',
         ingredients: [
           {
+            id: 1,
             amount: 1,
             unit: 'cup',
             name: 'Test recipe 1 ingredient 1 (id 1) BLUEBERRY',
             previousId: null,
             groupId: 1
           },
-          { amount: 2, name: 'Test recipe 1 ingredient 2 (id 2)', previousId: 1, groupId: 1 },
-          { unit: 'piece', name: 'Test recipe 1 ingredient 3 (id 3)', previousId: 2, groupId: 1 }
+          { id: 2, amount: 2, name: 'Test recipe 1 ingredient 2 (id 2)', previousId: 1, groupId: 1 },
+          { id: 3, unit: 'piece', name: 'Test recipe 1 ingredient 3 (id 3)', previousId: 2, groupId: 1 }
         ]
       },
       {
+        id: 2,
         title: 'Test recipe 1 ingredient group 2 title',
         ingredients: [
-          {
-            amount: 3,
-            unit: 'cup',
-            name: 'Test recipe 1 ingredient 4 (id 4)',
-            previousId: null,
-            groupId: 2
-          },
-          { amount: 2, name: 'Test recipe 1 ingredient 5 (id 5)', previousId: 4, groupId: 2 }
+          { id: 4, amount: 3, unit: 'cup', name: 'Test recipe 1 ingredient 4 (id 4)', previousId: null, groupId: 2 },
+          { id: 5, amount: 2, name: 'Test recipe 1 ingredient 5 (id 5)', previousId: 4, groupId: 2 }
         ]
       }
     ],
     instructionGroups: [
       {
+        id: 1,
         title: 'Test recipe 1 instruction group 1 title',
         instructions: [
-          { content: 'Test recipe 1 instruction 1 (id 1)', previousId: null, groupId: 1 },
-          { content: 'Test recipe 1 instruction 2 (id 2)', previousId: 1, groupId: 1 }
+          { id: 1, content: 'Test recipe 1 instruction 1 (id 1)', previousId: null, groupId: 1 },
+          { id: 2, content: 'Test recipe 1 instruction 2 (id 2)', previousId: 1, groupId: 1 }
         ]
       },
       {
+        id: 2,
         title: 'Test recipe 1 instruction group 2 title',
         instructions: [
-          { content: 'Test recipe 1 instruction 3 (id 3)', previousId: null, groupId: 2 },
-          { content: 'Test recipe 1 instruction 4 (id 4)', previousId: 3, groupId: 2 }
+          { id: 3, content: 'Test recipe 1 instruction 3 (id 3)', previousId: null, groupId: 2 },
+          { id: 4, content: 'Test recipe 1 instruction 4 (id 4)', previousId: 3, groupId: 2 }
         ]
       }
     ]
@@ -201,45 +203,44 @@ export const testRecipesInput = [
     language: 'Swedish',
     ingredientGroups: [
       {
+        id: 3,
         title: 'Test recipe 2 ingredient group 1 title',
         ingredients: [
           {
+            id: 6,
             amount: 1,
             unit: 'cup',
             name: 'Test recipe 2 ingredient 1 (id 6)',
             previousId: null,
             groupId: 3
           },
-          { amount: 2, name: 'Test recipe 2 ingredient 2 (id 7)', previousId: 6, groupId: 3 }
+          { id: 7, amount: 2, name: 'Test recipe 2 ingredient 2 (id 7)', previousId: 6, groupId: 3 }
         ]
       },
       {
+        id: 4,
         title: 'Test recipe 2 ingredient group 2 title',
         ingredients: [
-          {
-            amount: 3,
-            unit: 'cup',
-            name: 'Test recipe 2 ingredient 4 (id 8)',
-            previousId: null,
-            groupId: 4
-          },
-          { amount: 2, name: 'Test recipe 2 ingredient 5 (id 9)', previousId: 8, groupId: 4 }
+          { id: 8, amount: 3, unit: 'cup', name: 'Test recipe 2 ingredient 4 (id 8)', previousId: null, groupId: 4 },
+          { id: 9, amount: 2, name: 'Test recipe 2 ingredient 5 (id 9)', previousId: 8, groupId: 4 }
         ]
       }
     ],
     instructionGroups: [
       {
+        id: 3,
         title: 'Test recipe 2 instruction group 1 title',
         instructions: [
-          { content: 'Test recipe 2 instruction 1 (id 5)', previousId: null, groupId: 3 },
-          { content: 'Test recipe 2 instruction 2 (id 6)', previousId: 5, groupId: 3 }
+          { id: 5, content: 'Test recipe 2 instruction 1 (id 5)', previousId: null, groupId: 3 },
+          { id: 6, content: 'Test recipe 2 instruction 2 (id 6)', previousId: 5, groupId: 3 }
         ]
       },
       {
+        id: 4,
         title: 'Test recipe 2 instruction group 2 title',
         instructions: [
-          { content: 'Test recipe 2 instruction 3 (id 7)', previousId: null, groupId: 4 },
-          { content: 'Test recipe 2 instruction 4 (id 8)', previousId: 7, groupId: 4 }
+          { id: 7, content: 'Test recipe 2 instruction 3 (id 7)', previousId: null, groupId: 4 },
+          { id: 8, content: 'Test recipe 2 instruction 4 (id 8)', previousId: 7, groupId: 4 }
         ]
       }
     ]
@@ -252,22 +253,18 @@ export const testRecipesInput = [
     ovenNeeded: true,
     ingredientGroups: [
       {
+        id: 5,
         title: 'Test recipe 3 ingredient group 1 title',
         ingredients: [
-          {
-            amount: 1,
-            unit: 'cup',
-            name: 'Test recipe 3 ingredient 1 (id 10)',
-            previousId: null,
-            groupId: 5
-          }
+          { id: 10, amount: 1, unit: 'cup', name: 'Test recipe 3 ingredient 1 (id 10)', previousId: null, groupId: 5 }
         ]
       }
     ],
     instructionGroups: [
       {
+        id: 5,
         title: 'Test recipe 3 instruction group 1 title',
-        instructions: [{ content: 'Test recipe 3 instruction 1 (id 10)', previousId: null, groupId: 5 }]
+        instructions: [{ id: 9, content: 'Test recipe 3 instruction 1 (id 10)', previousId: null, groupId: 5 }]
       }
     ]
   },
@@ -279,22 +276,18 @@ export const testRecipesInput = [
     ovenNeeded: true,
     ingredientGroups: [
       {
+        id: 6,
         title: 'Test recipe 4 ingredient group 1 title',
         ingredients: [
-          {
-            amount: 1,
-            unit: 'cup',
-            name: 'Test recipe 4 ingredient 1 (id 11)',
-            previousId: null,
-            groupId: 6
-          }
+          { id: 11, amount: 1, unit: 'cup', name: 'Test recipe 4 ingredient 1 (id 11)', previousId: null, groupId: 6 }
         ]
       }
     ],
     instructionGroups: [
       {
+        id: 6,
         title: 'Test recipe 4 instruction group 1 title',
-        instructions: [{ content: 'Test recipe 4 instruction 1 (id 11)', previousId: null, groupId: 6 }]
+        instructions: [{ id: 10, content: 'Test recipe 4 instruction 1 (id 11)', previousId: null, groupId: 6 }]
       }
     ]
   },
@@ -306,22 +299,18 @@ export const testRecipesInput = [
     ovenNeeded: true,
     ingredientGroups: [
       {
+        id: 7,
         title: 'Test recipe 5 ingredient group 1 title',
         ingredients: [
-          {
-            amount: 1,
-            unit: 'cup',
-            name: 'Test recipe 5 ingredient 1 (id 12)',
-            previousId: null,
-            groupId: 7
-          }
+          { id: 12, amount: 1, unit: 'cup', name: 'Test recipe 5 ingredient 1 (id 12)', previousId: null, groupId: 7 }
         ]
       }
     ],
     instructionGroups: [
       {
+        id: 7,
         title: 'Test recipe 5 instruction group 1 title',
-        instructions: [{ content: 'Test recipe 5 instruction 1 (id 12)', previousId: null, groupId: 7 }]
+        instructions: [{ id: 11, content: 'Test recipe 5 instruction 1 (id 12)', previousId: null, groupId: 7 }]
       }
     ]
   }
