@@ -19,6 +19,7 @@ const CookPage = () => {
   const { maxPanelsCount } = useContext(ViewSizeContext)
   const { pickedRecipes, displayConfig } = useContext(CookingContext)
   const { showPickedRecipes } = useContext(RecipesViewingContext)
+
   const { indexes, count } = displayConfig
   const { leftRecipeIndex, middleRecipeIndex, rightRecipeIndex } = indexes
   const toolsPortalDomNode = document.getElementById(toolsElementId)

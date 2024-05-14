@@ -23,7 +23,7 @@ const RecipesContent = () => {
   const { state, dispatch } = useContext(AppStateContext) as AppStateContextType
 
   const onPickRecipeChanged = (recipeId: number) => {
-    dispatch({ type: Dispatch.UPDATE_PICKED_RECIPES, payload: { recipeId } })
+    dispatch({ type: Dispatch.UPDATE_PICKED_RECIPES, payload: { recipeIds: [recipeId] } })
   }
 
   const onRecipesOrderChanged = (newOrderOfIds: number[]) => {

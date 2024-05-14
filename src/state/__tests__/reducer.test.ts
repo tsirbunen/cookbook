@@ -15,7 +15,7 @@ describe('App state reducer', () => {
         recipes: [applePieRecipe, chocolateCakeRecipe, scrambledEggsRecipe, porridgeRecipe]
       }
 
-      const payloadOne = { type: Dispatch.UPDATE_PICKED_RECIPES, payload: { recipeId: 3 } }
+      const payloadOne = { type: Dispatch.UPDATE_PICKED_RECIPES, payload: { recipeIds: [3] } }
       // @ts-expect-error -- The state is not a valid AppState but good enough for the test
       const stateWithOneNew = reducer(originalState, payloadOne)
 
@@ -23,7 +23,7 @@ describe('App state reducer', () => {
       expect(stateWithOneNew.pickedRecipeIds[0]).toBe(applePieRecipe.id)
       expect(stateWithOneNew.pickedRecipeIds[1]).toBe(scrambledEggsRecipe.id)
 
-      const payloadTwo = { type: Dispatch.UPDATE_PICKED_RECIPES, payload: { recipeId: 4 } }
+      const payloadTwo = { type: Dispatch.UPDATE_PICKED_RECIPES, payload: { recipeIds: [4] } }
       // @ts-expect-error -- The state is not a valid AppState but good enough for the test
       const stateWithTwoNew = reducer(stateWithOneNew, payloadTwo)
       expect(stateWithTwoNew.pickedRecipeIds.length).toBe(3)
@@ -39,7 +39,7 @@ describe('App state reducer', () => {
         recipes: [applePieRecipe, chocolateCakeRecipe, scrambledEggsRecipe, porridgeRecipe]
       }
 
-      const payloadOne = { type: Dispatch.UPDATE_PICKED_RECIPES, payload: { recipeId: 2 } }
+      const payloadOne = { type: Dispatch.UPDATE_PICKED_RECIPES, payload: { recipeIds: [2] } }
       // @ts-expect-error -- The state is not a valid AppState but good enough for the test
       const stateWithOneRemoved = reducer(originalState, payloadOne)
 
@@ -47,7 +47,7 @@ describe('App state reducer', () => {
       expect(stateWithOneRemoved.pickedRecipeIds[0]).toBe(applePieRecipe.id)
       expect(stateWithOneRemoved.pickedRecipeIds[1]).toBe(scrambledEggsRecipe.id)
 
-      const payloadTwo = { type: Dispatch.UPDATE_PICKED_RECIPES, payload: { recipeId: 1 } }
+      const payloadTwo = { type: Dispatch.UPDATE_PICKED_RECIPES, payload: { recipeIds: [1] } }
       // @ts-expect-error -- The state is not a valid AppState but good enough for the test
       const stateWithTwoRemoved = reducer(stateWithOneRemoved, payloadTwo)
       expect(stateWithTwoRemoved.pickedRecipeIds.length).toBe(1)
