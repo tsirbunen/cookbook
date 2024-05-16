@@ -38,7 +38,7 @@ const recipeDisplayTestIdsByMode = {
   [ViewRecipesMode.TITLES]: titleRepresentationDataTestId
 }
 
-export class RecipesViewingPage extends Base {
+export class RecipesSearchPage extends Base {
   navigateToCookbookAppRoute(route?: string) {
     const url = route ? `${CLIENT_BASE_URL}/${route}` : CLIENT_BASE_URL
     cy.visit(url)
@@ -84,7 +84,11 @@ export class RecipesViewingPage extends Base {
 
   countInToggleBadge(count: string, toggle: string) {
     const toggleDataTestId = toggleDataTestIdsByTool[toggle]
-    cy.getByDataTestId(toggleDataTestId).contains(count)
+    if (count === '0') {
+      cy.getByDataTestId(toggleDataTestId).contains(count).should('not.exist')
+    } else {
+      cy.getByDataTestId(toggleDataTestId).contains(count)
+    }
   }
 
   clickDisplayedContentRecipeElementAtIndex(index: number) {

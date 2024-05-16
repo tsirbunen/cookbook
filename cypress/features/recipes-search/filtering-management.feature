@@ -20,7 +20,7 @@ Feature: Filtering management
         Then "exactly" "0" recipes are displayed
         Then the number of set filters shown in toggle badge is "0"
         When one clicks the "tag" button "TEST-TAG-1"
-        Then the number of set filters shown in toggle badge is "0"
+        Then no number is shown in toggle badge
         When one submits the form
         Then the number of set filters shown in toggle badge is "1"
         Then "exactly" "2" recipes are displayed
@@ -33,7 +33,7 @@ Feature: Filtering management
         When one toggles the toggle for tool "filtering"
         When one clears the form
         When one submits the form
-        Then the number of set filters shown in toggle badge is "0"
+        Then no number is shown in toggle badge
         Then "more than" "2" recipes are displayed
 
 
@@ -46,7 +46,7 @@ Feature: Filtering management
         When one toggles the toggle for tool "filtering"
         When one clears the form
         When one submits the form
-        Then the number of set filters shown in toggle badge is "0"
+        Then no number is shown in toggle badge
         Then "more than" "2" recipes are displayed
 
 
@@ -66,5 +66,5 @@ Feature: Filtering management
         When one toggles the toggle for tool "filtering"
         When one clears the form
         When one submits the form
-        Then the number of set filters shown in toggle badge is "0"
+        Then no number is shown in toggle badge
         Then "more than" "2" recipes are displayed

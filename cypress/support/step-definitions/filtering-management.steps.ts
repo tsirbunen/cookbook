@@ -1,8 +1,8 @@
 import { When, Then, DataTable } from '@badeball/cypress-cucumber-preprocessor'
-import { RecipesViewingPage } from '../../components/recipes-viewing-page'
+import { RecipesSearchPage } from '../../components/recipes-search-page'
 import { RecipesFilterForm } from '../../components/recipes-filter-form'
 
-const recipesViewingPage = new RecipesViewingPage()
+const recipesSearchPage = new RecipesSearchPage()
 const recipesFilterForm = new RecipesFilterForm()
 
 Then('the form contains the following elements:', (dataTable: DataTable) => {
@@ -13,7 +13,11 @@ Then('the form contains the following elements:', (dataTable: DataTable) => {
 })
 
 Then('the number of set filters shown in toggle badge is {string}', (count: string) => {
-  recipesViewingPage.countInToggleBadge(count, 'filtering')
+  recipesSearchPage.countInToggleBadge(count, 'filtering')
+})
+
+Then('no number is shown in toggle badge', () => {
+  recipesSearchPage.countInToggleBadge('0', 'filtering')
 })
 
 When('one clicks the {string} button {string}', (languageOrTag: string, buttonLabel: string) => {

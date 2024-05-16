@@ -25,11 +25,11 @@ Feature: Viewing recipes
     Scenario: Several viewing managenent tools can be opened simultaneously
         Given use mode is "<mode>"
         Then the header toggles are visible
-        Then all viewing management tools are "hidden"
+        Then all search management tools are "hidden"
         When one toggles the toggle for tool "select mode"
         When one toggles the toggle for tool "picked recipes"
         When one toggles the toggle for tool "filtering"
-        Then all viewing management tools are "visible"
+        Then all search management tools are "visible"
 
         Examples:
             | mode   |
