@@ -1,5 +1,5 @@
-import { Flex, Divider, ChakraProps } from '@chakra-ui/react'
-import CardRadioButton, { RoundedBordersOnSide } from './CardRadioButton'
+import { Flex, ChakraProps } from '@chakra-ui/react'
+import CardRadioButton, { CardRadioButtonSelectorVariant, RoundedBordersOnSide } from './CardRadioButton'
 import { Fragment } from 'react'
 import { IconType } from 'react-icons'
 
@@ -16,7 +16,7 @@ type CardRadioButtonSelectorProps<T> = {
   currentValue?: T
   selectValue: (newValue: T) => void
   noMargin?: boolean
-  fontSize?: string
+  variant: CardRadioButtonSelectorVariant
 }
 
 const CardRadioButtonSelector = <T,>({
@@ -24,7 +24,7 @@ const CardRadioButtonSelector = <T,>({
   currentValue,
   selectValue,
   noMargin,
-  fontSize
+  variant
 }: CardRadioButtonSelectorProps<T>) => {
   const getRoundBordersOnSide = (index: number, optionsCount: number) => {
     if (index === 0 && optionsCount === 1) return RoundedBordersOnSide.BOTH
@@ -38,8 +38,6 @@ const CardRadioButtonSelector = <T,>({
   return (
     <Flex {...innerCss(!noMargin)} data-testid={cardRadioButtonSelectorDataTestId}>
       {options.map((option, index) => {
-        const showDividerOnRight = index < optionsCount - 1
-
         return (
           <Fragment key={`radio-button-${option.label}`}>
             <CardRadioButton
@@ -48,9 +46,8 @@ const CardRadioButtonSelector = <T,>({
               selectValue={() => selectValue(option.value)}
               roundBordersOnSide={getRoundBordersOnSide(index, optionsCount)}
               icon={option.icon}
-              fontSize={fontSize}
+              variant={variant}
             />
-            {showDividerOnRight ? <Divider orientation="vertical" /> : null}
           </Fragment>
         )
       })}

@@ -20,7 +20,7 @@ const { definePartsStyle, defineMultiStyleConfig } = createMultiStyleConfigHelpe
 const dark = definePartsStyle({
   margin: '0px',
   field: {
-    border: '2px solid',
+    border: '1.5px solid',
     borderColor: DARK_COLOR,
     color: VERY_DARK_COLOR,
     background: PALE_COLOR,
@@ -42,7 +42,7 @@ const dark = definePartsStyle({
 
 const pale = definePartsStyle({
   field: {
-    border: '2px solid',
+    border: '1.5px solid',
     borderColor: PALE_COLOR,
     color: PALE_COLOR,
     background: BACKGROUND_COLOR,

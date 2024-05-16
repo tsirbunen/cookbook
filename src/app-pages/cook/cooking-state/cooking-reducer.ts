@@ -1,3 +1,4 @@
+import { omit } from 'lodash'
 import { MAX_ALLOWED_PANELS_COUNT } from '../../../constants/layout'
 import { Recipe } from '../../../types/graphql-schema-types.generated'
 import { ScalingData } from '../../../types/types'
@@ -79,8 +80,8 @@ export const cookingReducer = produce((draft: CookingState, action: DispatchCook
 const clearAllRecipeSettings = (draft: CookingState, { recipe }: { recipe: Recipe }) => {
   const recipeId = recipe.id
   draft.cookingRecipes = draft.cookingRecipes.filter((data) => data.recipe.id !== recipeId)
-  delete draft.scalingByRecipeId[recipeId]
-  delete draft.timersByRecipeId[recipeId]
+  draft.scalingByRecipeId = omit(draft.scalingByRecipeId, recipeId)
+  draft.timersByRecipeId = omit(draft.timersByRecipeId, recipeId)
   draft.multiColumnRecipes = draft.multiColumnRecipes.filter((id) => id !== recipeId)
   draft.isScalingRecipeIds = draft.isScalingRecipeIds.filter((id) => id !== recipeId)
   draft.onlyMetricRecipeIds = draft.onlyMetricRecipeIds.filter((id) => id !== recipeId)
@@ -101,6 +102,7 @@ const clearAllRecipeSettings = (draft: CookingState, { recipe }: { recipe: Recip
 const updateScaling = (draft: CookingState, payload: { scalingData: ScalingData; recipeId: number }) => {
   const { scalingData, recipeId } = payload
   draft.scalingByRecipeId[recipeId] = scalingData
+  draft.isScalingRecipeIds = draft.isScalingRecipeIds.filter((id) => id !== recipeId)
 }
 
 const getUpdatedIdList = (list: number[], targetId: number) => {

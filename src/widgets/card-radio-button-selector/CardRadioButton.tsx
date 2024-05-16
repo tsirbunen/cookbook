@@ -9,13 +9,21 @@ export enum RoundedBordersOnSide {
   BOTH = 'BOTH'
 }
 
+export enum CardRadioButtonSelectorVariant {
+  DarkWithFill = 'DarkWithFill',
+  PaleNoFill = 'PaleNoFill',
+  Header = 'Header'
+}
+
 type CardRadioButtonProps = {
   label: string
   isSelected: boolean
   selectValue: () => void
   roundBordersOnSide: RoundedBordersOnSide
   icon?: IconType
-  fontSize?: string
+  noFill?: boolean
+  variant: CardRadioButtonSelectorVariant
+  isDisabled?: boolean
 }
 
 const borderRadius = '6px'
@@ -27,39 +35,41 @@ const CardRadioButton = ({
   selectValue,
   roundBordersOnSide,
   icon,
-  fontSize
+  variant,
+  isDisabled = false
 }: CardRadioButtonProps) => {
-  const backgroundColor = isSelected ? ColorCodes.VERY_DARK : ColorCodes.MEDIUM
-  const labelColor = ColorCodes.PALE
-
+  const isHeaderVariant = variant === CardRadioButtonSelectorVariant.Header
   let borderRadii = ['0px', '0px', '0px', '0px']
-  if (roundBordersOnSide === RoundedBordersOnSide.LEFT) {
+  if (roundBordersOnSide === RoundedBordersOnSide.BOTH || isHeaderVariant) {
+    borderRadii = [borderRadius, borderRadius, borderRadius, borderRadius]
+  } else if (roundBordersOnSide === RoundedBordersOnSide.LEFT) {
     borderRadii[0] = borderRadius
     borderRadii[3] = borderRadius
   } else if (roundBordersOnSide === RoundedBordersOnSide.RIGHT) {
     borderRadii[1] = borderRadius
     borderRadii[2] = borderRadius
-  } else if (roundBordersOnSide === RoundedBordersOnSide.BOTH) {
-    borderRadii = [borderRadius, borderRadius, borderRadius, borderRadius]
   }
 
   const size = icon ? 'md' : 'small'
   const IconElement = icon ? icon : null
+  const { backgroundColor, color, hover, borderColor, padding } = getVariantStyles(variant, isSelected, isDisabled)
+  const marginRight = isHeaderVariant ? '0px' : '-2px'
 
   return (
     <Button
       onClick={selectValue}
       size={size}
       backgroundColor={backgroundColor}
-      color={labelColor}
-      fontSize={fontSize}
-      padding={'3px 8px 3px 8px'}
-      _hover={{
-        backgroundColor: isSelected ? backgroundColor : ColorCodes.DARK,
-        color: isSelected ? labelColor : ColorCodes.MEDIUM
-      }}
+      borderColor={borderColor}
+      borderWidth="1.5px"
+      color={color}
+      fontWeight="bold"
+      padding={padding}
+      _hover={hover}
       borderRadius={borderRadii.join(' ')}
       key={label}
+      marginRight={marginRight}
+      disabled={isDisabled}
     >
       {IconElement ? <IconElement size={iconSize} /> : label}
     </Button>
@@ -67,3 +77,47 @@ const CardRadioButton = ({
 }
 
 export default CardRadioButton
+
+const getVariantStyles = (variant: CardRadioButtonSelectorVariant, isSelected: boolean, isDisabled: boolean) => {
+  const veryPale = ColorCodes.VERY_PALE
+  const dark = ColorCodes.DARK
+  const medium = ColorCodes.MEDIUM
+  const pale = ColorCodes.PALE
+  const veryDark = ColorCodes.VERY_DARK
+
+  switch (variant) {
+    case CardRadioButtonSelectorVariant.DarkWithFill:
+      return {
+        backgroundColor: isSelected ? veryDark : 'transparent',
+        color: isSelected ? veryPale : medium,
+        hover: {
+          backgroundColor: dark,
+          color: veryPale
+        },
+        borderColor: veryDark,
+        padding: '3px 8px 3px 8px'
+      }
+    case CardRadioButtonSelectorVariant.PaleNoFill:
+      return {
+        backgroundColor: isSelected ? veryPale : 'transparent',
+        color: isSelected ? veryDark : medium,
+        hover: {
+          backgroundColor: veryPale,
+          color: isSelected ? veryDark : dark
+        },
+        borderColor: pale,
+        padding: '3px 8px 3px 8px'
+      }
+    case CardRadioButtonSelectorVariant.Header:
+      return {
+        backgroundColor: veryDark,
+        color: isSelected ? veryPale : isDisabled ? dark : medium,
+        hover: {
+          backgroundColor: isDisabled ? veryDark : medium,
+          color: isDisabled ? dark : veryPale
+        },
+        borderColor: 'transparent',
+        padding: '3px'
+      }
+  }
+}

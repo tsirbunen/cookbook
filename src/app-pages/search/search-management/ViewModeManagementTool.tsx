@@ -4,6 +4,7 @@ import { RecipesViewingContext } from '../page/SearchRecipesProvider'
 import { useContext } from 'react'
 import CardRadioButtonSelector from '../../../widgets/card-radio-button-selector/CardRadioButtonSelector'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
+import { CardRadioButtonSelectorVariant } from '../../../widgets/card-radio-button-selector/CardRadioButton'
 
 export const viewModeManagementToolDataTestId = 'view-mode-management-tool'
 export enum ViewRecipesMode {
@@ -29,7 +30,12 @@ const ViewModeManagementTool = () => {
     <Flex {...outerCss} data-testid={viewModeManagementToolDataTestId}>
       <Title title={title.toUpperCase()} variant={TitleVariant.MediumRegular} />
 
-      <CardRadioButtonSelector options={viewModeOptions} currentValue={mode} selectValue={selectMode} />
+      <CardRadioButtonSelector
+        options={viewModeOptions}
+        currentValue={mode}
+        selectValue={selectMode}
+        variant={CardRadioButtonSelectorVariant.DarkWithFill}
+      />
     </Flex>
   )
 }
@@ -41,7 +47,7 @@ const outerCss = {
   alignItems: 'start',
   margin: '10px 0px 10px 5px',
   paddingBottom: '10px',
-  backgroundColor: ColorCodes.PALE,
+  backgroundColor: ColorCodes.VERY_PALE,
   borderRadius: '6px',
   width: '100%'
 }

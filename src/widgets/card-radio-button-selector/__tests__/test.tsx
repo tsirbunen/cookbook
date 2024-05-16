@@ -3,6 +3,7 @@ import '@testing-library/jest-dom'
 import { expect } from '@jest/globals'
 import { render, screen, fireEvent } from '@testing-library/react'
 import CardRadioButtonSelector, { cardRadioButtonSelectorDataTestId } from '../CardRadioButtonSelector'
+import { CardRadioButtonSelectorVariant } from '../CardRadioButton'
 
 const textOptions = [
   { label: 'Option 1 label', value: 'Option 1 value' },
@@ -18,7 +19,14 @@ const numberOptions = [
 
 describe('CardRadioButtonSelector', () => {
   it('option selection buttons render (case value is of type text)', () => {
-    render(<CardRadioButtonSelector options={textOptions} currentValue={textOptions[0].value} selectValue={() => {}} />)
+    render(
+      <CardRadioButtonSelector
+        options={textOptions}
+        currentValue={textOptions[0].value}
+        selectValue={() => {}}
+        variant={CardRadioButtonSelectorVariant.DarkWithFill}
+      />
+    )
 
     const component = screen.getByTestId(cardRadioButtonSelectorDataTestId)
     expect(component).toBeInTheDocument()
@@ -39,6 +47,7 @@ describe('CardRadioButtonSelector', () => {
         options={textOptions}
         currentValue={textOptions[0].value}
         selectValue={onSelectValueMock}
+        variant={CardRadioButtonSelectorVariant.DarkWithFill}
       />
     )
 
@@ -57,6 +66,7 @@ describe('CardRadioButtonSelector', () => {
         options={numberOptions}
         currentValue={numberOptions[0].value}
         selectValue={onSelectValueMock}
+        variant={CardRadioButtonSelectorVariant.DarkWithFill}
       />
     )
 

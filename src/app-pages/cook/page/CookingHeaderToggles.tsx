@@ -1,16 +1,15 @@
-/** @jsxImportSource @emotion/react */
-
 import { useContext } from 'react'
-import { css } from '@emotion/react'
 import CardRadioButtonSelector from '../../../widgets/card-radio-button-selector/CardRadioButtonSelector'
-import { TbColumns1, TbColumns2, TbColumns3, TbPlayerTrackPrev, TbPlayerTrackNext, TbCheckbox } from 'react-icons/tb'
+import { TbColumns1, TbColumns2, TbColumns3, TbPlayerTrackPrev, TbPlayerTrackNext } from 'react-icons/tb'
 import Toggles from '../../../widgets/toggles/Toggles'
 import { CookingContext } from './CookingProvider'
-import Toggle, { pickedRecipesToggleProperty } from '../../../widgets/toggles/Toggle'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
 import { IconType } from 'react-icons'
 import { DispatchCookingEvent, DisplayDirection } from '../cooking-state/cooking-reducer'
-import { RecipesViewingContext } from '../../search/page/SearchRecipesProvider'
+import CardRadioButton, {
+  CardRadioButtonSelectorVariant,
+  RoundedBordersOnSide
+} from '../../../widgets/card-radio-button-selector/CardRadioButton'
 
 const displayCountOptionsAll = [
   { label: '1', value: 1, icon: TbColumns1 },
@@ -25,7 +24,6 @@ const displayNextOption: DisplayOptionType = { label: 'next', value: 'next', ico
 const CookingHeaderToggles = () => {
   const { maxPanelsCount } = useContext(ViewSizeContext)
   const { displayConfig, pickedRecipesCount, dispatchCookingEvent } = useContext(CookingContext)
-  const { showPickedRecipes, toggleShowPickedRecipes } = useContext(RecipesViewingContext)
   const { count, indexes } = displayConfig
 
   const { leftRecipeIndex, middleRecipeIndex, rightRecipeIndex } = indexes
@@ -43,18 +41,6 @@ const CookingHeaderToggles = () => {
     return index !== undefined && index < pickedRecipesCount - 1
   }
 
-  const getToggleMoveDisplayRangeOptions = () => {
-    const toggles: DisplayOptionType[] = []
-
-    const showPreviousToggle = leftRecipeIndex !== undefined && leftRecipeIndex > 0
-    if (showPreviousToggle) toggles.push(displayPreviousOption)
-
-    const showNextToggle = hasNextRecipe()
-    if (showNextToggle) toggles.push(displayNextOption)
-
-    return toggles
-  }
-
   const moveDisplayRange = (value: DisplayDirection) => {
     dispatchCookingEvent({
       type: DispatchCookingEvent.UPDATE_DISPLAY_RECIPES_INDEXES,
@@ -70,54 +56,41 @@ const CookingHeaderToggles = () => {
   }
 
   const displayCountOptions = getToggleDisplayRecipesCountOptions()
-  const showToggleDisplayRecipesCount = displayCountOptions.length > 1
 
-  const displayPreviousNextOptions = getToggleMoveDisplayRangeOptions()
-  const showToggleDisplayPreviousNext = displayPreviousNextOptions.length > 0
+  const hasPrevious = leftRecipeIndex !== undefined && leftRecipeIndex > 0
+  const hasNext = hasNextRecipe()
 
   return (
-    <Toggles hasBackground={true}>
-      <Toggle
-        isToggled={showPickedRecipes}
-        toggle={toggleShowPickedRecipes}
-        Icon={TbCheckbox}
-        count={pickedRecipesCount}
-        toggleProperty={pickedRecipesToggleProperty}
+    <Toggles hasBackground={false}>
+      <CardRadioButton
+        label={displayPreviousOption.label}
+        isSelected={false}
+        selectValue={() => moveDisplayRange(displayPreviousOption.value)}
+        roundBordersOnSide={RoundedBordersOnSide.BOTH}
+        icon={displayPreviousOption.icon}
+        variant={CardRadioButtonSelectorVariant.Header}
+        isDisabled={!hasPrevious}
       />
 
-      {showToggleDisplayRecipesCount ? (
-        <div css={selectorLeft}>
-          <CardRadioButtonSelector
-            options={displayCountOptions}
-            currentValue={count >= 3 ? 3 : count}
-            selectValue={updateDisplayCount}
-            noMargin={true}
-          />
-        </div>
-      ) : null}
+      <CardRadioButtonSelector
+        options={displayCountOptions}
+        currentValue={count >= 3 ? 3 : count}
+        selectValue={updateDisplayCount}
+        noMargin={true}
+        variant={CardRadioButtonSelectorVariant.Header}
+      />
 
-      {showToggleDisplayPreviousNext ? (
-        <div css={selectorRight}>
-          <CardRadioButtonSelector
-            options={displayPreviousNextOptions}
-            currentValue={undefined}
-            selectValue={moveDisplayRange}
-            noMargin={true}
-          />
-        </div>
-      ) : null}
+      <CardRadioButton
+        label={displayNextOption.label}
+        isSelected={false}
+        selectValue={() => moveDisplayRange(displayNextOption.value)}
+        roundBordersOnSide={RoundedBordersOnSide.BOTH}
+        icon={displayNextOption.icon}
+        variant={CardRadioButtonSelectorVariant.Header}
+        isDisabled={!hasNext}
+      />
     </Toggles>
   )
 }
 
 export default CookingHeaderToggles
-
-const spacing = 5
-
-const selectorLeft = css`
-  margin-right: ${spacing}px;
-`
-
-const selectorRight = css`
-  margin-left: ${spacing}px;
-`

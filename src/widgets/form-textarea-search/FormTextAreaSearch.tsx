@@ -8,6 +8,7 @@ import Title, { TitleVariant } from '../titles/Title'
 import CardRadioButtonSelector from '../card-radio-button-selector/CardRadioButtonSelector'
 import TextAreaWithTheme from '../../theme/textareas/TextAreaWithTheme'
 import { TextAreaVariant } from '../../theme/textareas/textareas-theme'
+import { CardRadioButtonSelectorVariant } from '../card-radio-button-selector/CardRadioButton'
 
 export const formTextAreaSearchDataTestId = 'form-text-area-search'
 
@@ -95,6 +96,7 @@ const FormTextAreaSearch = <TextAreaSearchValues extends FieldValues, T extends 
             options={searchModeOptions}
             currentValue={searchMode}
             selectValue={toggleSearchMode}
+            variant={CardRadioButtonSelectorVariant.DarkWithFill}
           />
         </Flex>
       </Flex>

@@ -20,6 +20,7 @@ import { Recipe } from '../../../../types/graphql-schema-types.generated'
 import { RecipesViewingContext } from '../../../search/page/SearchRecipesProvider'
 import CountDown from './CountDown'
 import Multiplier from './Multiplier'
+import { ButtonVariant } from '../../../../theme/buttons/buttons-theme'
 
 type RecipeTogglesProps = {
   recipe: Recipe
@@ -71,17 +72,19 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
     return onlyMetricRecipeIds.some((recipeId) => recipeId === recipe.id)
   }, [onlyMetricRecipeIds])
 
-  const hasSomethingToClear = isCooking || isScaling || isMultiColumn || hasOnlyMetric || !!recipeTimer
+  const hasSomethingToClear = isCooking || isScaling || isMultiColumn || hasOnlyMetric || !!recipeTimer || !!multiplier
+  const toggleVariant = ButtonVariant.SquareWithIconWithoutFill
 
   return (
     <div css={containerCss}>
-      <Toggles hasBackground={false}>
+      <Toggles hasBackground={true}>
         <Toggle
           isToggled={isFavorite}
           toggle={() => toggleFavoriteRecipeId(recipe.id)}
           Icon={isFavorite ? TbStarFilled : TbStar}
           toggleProperty={cookToggleProperty}
           count={null}
+          variant={toggleVariant}
         />
         {canHaveTwoColumns ? (
           <Toggle
@@ -90,14 +93,17 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
             Icon={TbColumns}
             toggleProperty={multiColumnToggleProperty}
             count={null}
+            variant={toggleVariant}
           />
         ) : null}
         <Toggle
           isToggled={!!recipeTimer}
-          toggle={() => console.log()}
+          // FIXME: Implement setting timer
+          toggle={() => console.log('TIMER!')}
           Icon={IoAlarmOutline}
           toggleProperty={cookingTimerToggleProperty}
           count={null}
+          variant={toggleVariant}
         >
           {recipeTimer ? <CountDown timer={recipeTimer} /> : undefined}
         </Toggle>
@@ -109,6 +115,7 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
           toggleProperty={ingredientScalingToggleProperty}
           count={null}
           isDisabled={isCooking}
+          variant={toggleVariant}
         >
           {multiplier && multiplier !== 1 ? <Multiplier multiplier={multiplier} /> : undefined}
         </Toggle>
@@ -119,6 +126,7 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
           Icon={TbRulerMeasure}
           toggleProperty={ingredientScalingToggleProperty}
           count={null}
+          variant={toggleVariant}
         />
         {
           <Toggle
@@ -128,6 +136,7 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
             toggleProperty={cookToggleProperty}
             isDisabled={!hasSomethingToClear}
             count={null}
+            variant={toggleVariant}
           />
         }
         <Toggle
@@ -137,6 +146,7 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
           toggleProperty={cookToggleProperty}
           isDisabled={isScaling}
           count={null}
+          variant={toggleVariant}
         />
       </Toggles>
     </div>
@@ -153,6 +163,6 @@ const containerCss = css`
   margin-bottom: 5px;
   margin-top: 10px;
   position: sticky;
-  top: 5px;
+  top: 0px;
   z-index: ${cookTogglesZIndex};
 `

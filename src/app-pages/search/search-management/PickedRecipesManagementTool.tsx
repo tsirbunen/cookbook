@@ -51,9 +51,9 @@ export default PickedRecipesManagementTool
 
 const outerCss = {
   flexDirection: 'column' as ChakraProps['flexDirection'],
-  backgroundColor: ColorCodes.PALE,
+  backgroundColor: ColorCodes.VERY_PALE,
   borderRadius: '6px',
-  margin: '10px 10px 10px 0px',
+  margin: '10px 10px 10px 5px',
   width: '100%',
   paddingRight: '10px'
 }

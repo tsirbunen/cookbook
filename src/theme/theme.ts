@@ -77,7 +77,8 @@ export const theme = extendTheme({
         '*::webkitScrollbar': {
           webkitAppearance: 'none',
           display: 'none'
-        }
+        },
+        overflow: 'hidden'
       },
       html: {
         overscrollBehavior: 'none'

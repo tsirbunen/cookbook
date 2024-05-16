@@ -14,6 +14,7 @@ type IngredientRowProps = {
   selectedIngredient: SelectedScalingIngredient | undefined
   isScaling: boolean
   showAsPale: boolean
+  acceptValue?: () => void
 }
 
 const IngredientRow = ({
@@ -22,7 +23,8 @@ const IngredientRow = ({
   selectedIngredient,
   presetMultiplier,
   isScaling,
-  showAsPale
+  showAsPale,
+  acceptValue
 }: IngredientRowProps) => {
   const { id, amount: originalAmount, unit, name } = ingredient
   const isSelected = selectedIngredient?.id === id
@@ -37,6 +39,7 @@ const IngredientRow = ({
             variant={isSelected ? InputVariant.Selected : InputVariant.Pale}
             isDisabled={false}
             onChange={(event) => setIngredientBaseAmount(id, event.target.value, originalAmount ?? 1)}
+            acceptValue={acceptValue}
           ></InputWithTheme>
         ) : amount || amount === '' ? (
           <Text>{amount}</Text>

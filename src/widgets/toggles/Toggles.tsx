@@ -23,7 +23,7 @@ const outerBoxCss = (hasBackground: boolean) => {
     flexDirection: 'column' as ChakraProps['flexDirection'],
     alignItems: 'start',
     justifyContent: 'start',
-    backgroundColor: hasBackground ? ColorCodes.VERY_PALE : ColorCodes.BACKGROUND,
+    backgroundColor: hasBackground ? ColorCodes.BACKGROUND : 'transparent',
     padding: '10px',
     borderRadius: '6px'
   }

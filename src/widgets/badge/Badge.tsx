@@ -15,7 +15,7 @@ export default Badge
 const badgeStyles = {
   width: `${BADGE_SIZE}px`,
   height: `${BADGE_SIZE}px`,
-  bg: ColorCodes.VERY_DARK,
+  bg: ColorCodes.DARK,
   borderRadius: `${BADGE_SIZE / 2}px`,
   position: 'absolute' as ChakraProps['position'],
   right: `-${BADGE_SIZE / 3}px`,

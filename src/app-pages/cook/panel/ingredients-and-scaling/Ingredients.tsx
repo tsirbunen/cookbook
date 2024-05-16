@@ -1,11 +1,10 @@
-import React, { Fragment, useContext, useEffect, useMemo, useState } from 'react'
+import React, { Fragment, useContext, useMemo, useState } from 'react'
 import { ChakraProps, Flex } from '@chakra-ui/react'
 import { IngredientGroup } from '../../../../types/graphql-schema-types.generated'
 import MultiColumnContent from '../MultiColumnContent'
 import { CookingContext } from '../../page/CookingProvider'
 import IngredientRow from './IngredientRow'
 import PresetMultiplierSelection from './PresetMultiplierSelection'
-import { ColorCodes } from '../../../../theme/theme'
 import CheckToggle from '../CheckToggle'
 import Title, { TitleVariant } from '../../../../widgets/titles/Title'
 
@@ -33,23 +32,17 @@ const Ingredients = ({ ingredientGroups, columnCount, recipeId }: IngredientsPro
   const currentScaling = useMemo(() => scalingByRecipeId[recipeId], [scalingByRecipeId])
   const isScaling = useMemo(() => isScalingRecipeIds.includes(recipeId), [isScalingRecipeIds])
 
-  useEffect(() => {
-    if (isScaling || !presetMultiplier) return
-    if (currentScaling?.multiplier !== presetMultiplier) {
-      scaleRecipe(recipeId, { multiplier: presetMultiplier })
-    }
-  }, [isScaling, currentScaling, presetMultiplier])
-
-  useEffect(() => {
-    if (isScaling || !selectedIngredient) return
-    if (currentScaling?.multiplier !== selectedIngredient.multiplier) {
-      scaleRecipe(recipeId, { multiplier: selectedIngredient.multiplier, ingredientId: selectedIngredient.id })
-    }
-  }, [isScaling, currentScaling, selectedIngredient])
-
   const selectPresetMultiplier = (value: number) => {
     setSelectedIngredient(undefined)
     setPresetMultiplier(value)
+    scaleRecipe(recipeId, { multiplier: value })
+  }
+
+  const selectIngredientBasedMultiplier = () => {
+    setPresetMultiplier(undefined)
+    if (selectedIngredient && currentScaling?.multiplier !== selectedIngredient.multiplier) {
+      scaleRecipe(recipeId, { multiplier: selectedIngredient.multiplier, ingredientId: selectedIngredient.id })
+    }
   }
 
   const setIngredientBaseAmount = (id: number, amount: string, originalAmount: number) => {
@@ -69,7 +62,7 @@ const Ingredients = ({ ingredientGroups, columnCount, recipeId }: IngredientsPro
   }
 
   return (
-    <Flex {...outerCss(isScaling)}>
+    <Flex {...outerCss}>
       {isScaling ? (
         <PresetMultiplierSelection
           selectPresetMultiplier={selectPresetMultiplier}
@@ -111,6 +104,7 @@ const Ingredients = ({ ingredientGroups, columnCount, recipeId }: IngredientsPro
                             selectedIngredient={selectedIngredient}
                             isScaling={isScaling}
                             showAsPale={isChecked && isCooking}
+                            acceptValue={selectIngredientBasedMultiplier}
                           />
                         </Flex>
                       </Flex>
@@ -128,14 +122,11 @@ const Ingredients = ({ ingredientGroups, columnCount, recipeId }: IngredientsPro
 
 export default Ingredients
 
-const outerCss = (isScaling: boolean) => {
-  return {
-    flexDirection: 'column' as ChakraProps['flexDirection'],
-    backgroundColor: isScaling ? ColorCodes.VERY_PALE : 'transparent',
-    margin: '0px 20px 0px 20px',
-    paddingBottom: '10px',
-    borderRadius: '10px'
-  }
+const outerCss = {
+  flexDirection: 'column' as ChakraProps['flexDirection'],
+  margin: '0px 20px 0px 20px',
+  paddingBottom: '10px',
+  borderRadius: '10px'
 }
 
 const containerCss = {

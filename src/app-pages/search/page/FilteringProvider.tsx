@@ -43,9 +43,7 @@ const FilteringProvider = ({ children }: { children: React.ReactNode }) => {
     if (appliedFilters.languages.length) count += 1
     if (appliedFilters.tags.length) count += 1
     if (appliedFilters.ingredients.searchTerm.length) count += 1
-    if (filterValues.ingredients.searchMode && appliedFilters.ingredients.searchMode !== defaultSearchMode) {
-      count += 1
-    }
+
     return count
   }
 
@@ -67,8 +65,9 @@ const FilteringProvider = ({ children }: { children: React.ReactNode }) => {
     if (tagsHaveChanged) return true
 
     const ingredientsHaveChanged =
-      appliedFilters.ingredients.searchMode !== filterValues.ingredients.searchMode ||
-      appliedFilters.ingredients.searchTerm !== filterValues.ingredients.searchTerm
+      appliedFilters.ingredients.searchTerm !== filterValues.ingredients.searchTerm ||
+      (appliedFilters.ingredients.searchTerm.length &&
+        appliedFilters.ingredients.searchMode !== filterValues.ingredients.searchMode)
     if (ingredientsHaveChanged) return true
 
     return false

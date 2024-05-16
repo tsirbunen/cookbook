@@ -10,6 +10,8 @@ import {
 
 export enum ButtonVariant {
   SquareWithIcon = 'squareWithIcon',
+  SquareWithIconWithoutFill = 'squareWithIconWithoutFill',
+  HeaderToggle = 'headerToggle',
   MediumSizeDark = 'mediumSizeDark',
   MediumSizePale = 'mediumSizePale',
   SmallDark = 'smallDark'
@@ -83,6 +85,47 @@ const squareWithIcon = (toggled: boolean) => {
   }
 }
 
+const squareWithIconWithoutFill = (toggled: boolean) => {
+  return {
+    size: 'xl',
+    variant: 'solid',
+    borderRadius: '6px',
+    borderWidth: '1px',
+    fontSize: '1.75em',
+    padding: '5px',
+    color: toggled ? VERY_DARK_COLOR : MEDIUM_COLOR,
+    _focus: { outline: 'none' },
+    _hover: {
+      bg: toggled ? PALE_COLOR : PALE_COLOR,
+      color: toggled ? VERY_DARK_COLOR : VERY_DARK_COLOR,
+      _disabled: {
+        color: PALE_COLOR
+      }
+    }
+  }
+}
+
+const headerToggle = (toggled: boolean) => {
+  return {
+    size: 'xl',
+    variant: 'solid',
+    borderRadius: '6px',
+    fontSize: '1.75em',
+    padding: '5px',
+    bg: toggled ? VERY_PALE_COLOR : VERY_DARK_COLOR,
+    color: toggled ? VERY_DARK_COLOR : VERY_PALE_COLOR,
+    _focus: { outline: 'none' },
+    _hover: {
+      bg: toggled ? MEDIUM_COLOR : MEDIUM_COLOR,
+      color: toggled ? VERY_DARK_COLOR : VERY_DARK_COLOR,
+      _disabled: {
+        background: VERY_DARK_COLOR,
+        color: PALE_COLOR
+      }
+    }
+  }
+}
+
 const smallDark = (toggled: boolean) => {
   return {
     size: 'xl',
@@ -111,6 +154,12 @@ export const buttonsTheme = defineStyleConfig({
     mediumSizePale,
     squareWithIcon: ({ toggled }) => ({
       ...squareWithIcon(toggled)
+    }),
+    squareWithIconWithoutFill: ({ toggled }) => ({
+      ...squareWithIconWithoutFill(toggled)
+    }),
+    headerToggle: ({ toggled }) => ({
+      ...headerToggle(toggled)
     }),
     smallDark: ({ toggled }) => ({
       ...smallDark(toggled)

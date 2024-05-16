@@ -1,7 +1,5 @@
-/** @jsxImportSource @emotion/react */
 import { useContext } from 'react'
-import { css } from '@emotion/react'
-import MultiPanelTopShowOrHideView from '../../../layout/views/MultiPanelTopShowOrHideView'
+import MultiPanelView from '../../../layout/views/MultiPanelView'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
 import { CookingContext } from './CookingProvider'
 import MultiResizablePanelsView from '../../../layout/resizable-panels/MultiResizablePanelsView'
@@ -9,16 +7,12 @@ import CookRecipePanel from '../panel/CookRecipePanel'
 import { createPortal } from 'react-dom'
 import CookingHeaderToggles from './CookingHeaderToggles'
 import React from 'react'
-import PickedRecipesManagementTool from '../../search/search-management/PickedRecipesManagementTool'
-import { RecipesViewingContext } from '../../search/page/SearchRecipesProvider'
 import { Page } from '../../../navigation/router/router'
 import { toolsElementId } from '../../../widgets/header-with-optional-toggles/HeaderWithToggles'
-import { ColorCodes } from '../../../theme/theme'
 
 const CookPage = () => {
   const { maxPanelsCount } = useContext(ViewSizeContext)
   const { pickedRecipes, displayConfig } = useContext(CookingContext)
-  const { showPickedRecipes } = useContext(RecipesViewingContext)
 
   const { indexes, count } = displayConfig
   const { leftRecipeIndex, middleRecipeIndex, rightRecipeIndex } = indexes
@@ -29,9 +23,7 @@ const CookPage = () => {
   if (hasNoRecipesToDisplay)
     return (
       <div data-testid={cookPageTestId}>
-        {toolsPortalDomNode ? createPortal(<CookingHeaderToggles />, toolsPortalDomNode) : null}
-
-        <div style={{ marginTop: '150px', marginLeft: '20px' }}>You have not picked any recipes to cook yet!</div>
+        <div style={{ marginTop: '100px', marginLeft: '20px' }}>You have not picked any recipes to cook yet!</div>
       </div>
     )
 
@@ -40,20 +32,14 @@ const CookPage = () => {
   const canShowRightPanel = maxPanelsCount > 2 && count > 2
   const middleRecipe = canShowMiddlePanel && middleRecipeIndex ? pickedRecipes[middleRecipeIndex] : undefined
   const rightRecipe = canShowRightPanel && rightRecipeIndex ? pickedRecipes[rightRecipeIndex] : undefined
+  const showHeaderToggles = !!toolsPortalDomNode && pickedRecipes.length > 1
 
   return (
     <React.Fragment>
-      {toolsPortalDomNode ? createPortal(<CookingHeaderToggles />, toolsPortalDomNode) : null}
+      {showHeaderToggles ? createPortal(<CookingHeaderToggles />, toolsPortalDomNode) : null}
 
-      <MultiPanelTopShowOrHideView
-        topShowOrHideContent={
-          showPickedRecipes ? (
-            <div css={boxCss}>
-              <div css={toolsCss}>{showPickedRecipes ? <PickedRecipesManagementTool /> : null}</div>
-            </div>
-          ) : null
-        }
-        mainContent={
+      <MultiPanelView
+        content={
           <MultiResizablePanelsView
             leftContent={<CookRecipePanel recipe={leftRecipe} />}
             middleContent={middleRecipe ? <CookRecipePanel recipe={middleRecipe} /> : undefined}
@@ -67,13 +53,3 @@ const CookPage = () => {
 }
 
 export default CookPage
-
-const toolsCss = css`
-  padding-right: 10px;
-`
-
-const boxCss = css`
-  padding-left: 10px;
-  padding-bottom: 10px;
-  background-color: ${ColorCodes.VERY_DARK};
-`

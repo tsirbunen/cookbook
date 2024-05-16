@@ -6,17 +6,15 @@ export const outerCss = css`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  margin-top: 3px;
   border-radius: 4px;
+  margin-top: -3px;
 `
 export const innerCss = css`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: ${ColorCodes.VERY_DARK};
-  color: ${ColorCodes.VERY_PALE};
+  color: ${ColorCodes.SLIGHTLY_DARK};
   padding: 0px 5px 0px 5px;
   border-radius: 4px;
   font-weight: bold;

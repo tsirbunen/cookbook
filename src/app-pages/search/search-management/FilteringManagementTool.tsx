@@ -101,7 +101,7 @@ const FilteringManagementTool = () => {
 export default FilteringManagementTool
 
 const outerStyle = {
-  backgroundColor: ColorCodes.PALE,
+  backgroundColor: ColorCodes.VERY_PALE,
   borderRadius: '6px',
   margin: '10px 0px 15px 5px',
   flexDirection: 'column' as ChakraProps['flexDirection'],

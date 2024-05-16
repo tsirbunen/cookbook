@@ -21,10 +21,11 @@ export type ToggleProps = {
   isDisabled?: boolean
   toggleProperty: string
   children?: JSX.Element
+  variant: ButtonVariant
 }
 
-const Toggle = ({ isToggled, toggle, Icon, count, isDisabled, toggleProperty, children }: ToggleProps) => {
-  const hasCountValue = count !== null && count !== undefined
+const Toggle = ({ isToggled, toggle, Icon, count, isDisabled, toggleProperty, children, variant }: ToggleProps) => {
+  const hasCountValue = !!count
   let badgeContent
   if (!hasCountValue) badgeContent = <Flex width={'10px'} />
   else badgeContent = <Badge count={count!} />
@@ -32,12 +33,7 @@ const Toggle = ({ isToggled, toggle, Icon, count, isDisabled, toggleProperty, ch
   return (
     <Flex {...outerCss(!!children)}>
       <Flex {...toggleStyles(hasCountValue, !!children)} data-testid={toggleProperty}>
-        <ButtonWithTheme
-          variant={ButtonVariant.SquareWithIcon}
-          onClick={toggle}
-          isToggled={isToggled}
-          isDisabled={isDisabled}
-        >
+        <ButtonWithTheme variant={variant} onClick={toggle} isToggled={isToggled} isDisabled={isDisabled}>
           <Icon />
         </ButtonWithTheme>
 

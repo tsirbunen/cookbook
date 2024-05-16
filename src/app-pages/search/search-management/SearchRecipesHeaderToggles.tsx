@@ -1,14 +1,16 @@
 import { useContext } from 'react'
-import { TbCheckbox, TbTool, TbListDetails } from 'react-icons/tb'
+import { TbCheckbox, TbFilter, TbListDetails } from 'react-icons/tb'
 import Toggle, {
   filteringToggleProperty,
   pickedRecipesToggleProperty,
   selectModeToggleProperty
 } from '../../../widgets/toggles/Toggle'
+
 import { AppStateContext, AppStateContextType } from '../../../state/StateContextProvider'
 import { RecipesViewingContext } from '../page/SearchRecipesProvider'
 import { FiltersContext } from '../page/FilteringProvider'
 import Toggles from '../../../widgets/toggles/Toggles'
+import { ButtonVariant } from '../../../theme/buttons/buttons-theme'
 
 const SearchRecipesHeaderToggles = () => {
   const { state } = useContext(AppStateContext) as AppStateContextType
@@ -23,16 +25,19 @@ const SearchRecipesHeaderToggles = () => {
     toggleShowPickedRecipes,
     toggleShowFiltering
   } = useContext(RecipesViewingContext)
+  const { clearFilters } = useContext(FiltersContext)
 
   const pickedRecipesCount = state.pickedRecipeIds.length
+  const toggleVariant = ButtonVariant.HeaderToggle
 
   return (
-    <Toggles hasBackground={true}>
+    <Toggles hasBackground={false}>
       <Toggle
         isToggled={showSelectMode}
         toggle={toggleShowSelectMode}
         Icon={TbListDetails}
         toggleProperty={selectModeToggleProperty}
+        variant={toggleVariant}
       />
 
       <Toggle
@@ -41,6 +46,7 @@ const SearchRecipesHeaderToggles = () => {
         Icon={TbCheckbox}
         count={pickedRecipesCount}
         toggleProperty={pickedRecipesToggleProperty}
+        variant={toggleVariant}
       />
 
       <Toggle
@@ -48,10 +54,12 @@ const SearchRecipesHeaderToggles = () => {
         toggle={() => {
           toggleHideRecipes()
           toggleShowFiltering()
+          clearFilters()
         }}
-        Icon={TbTool}
+        Icon={TbFilter}
         count={appliedFiltersCount}
         toggleProperty={filteringToggleProperty}
+        variant={toggleVariant}
       />
     </Toggles>
   )
