@@ -1,11 +1,12 @@
 import React, { useContext, useMemo } from 'react'
 import { ChakraProps, Flex, Text } from '@chakra-ui/react'
-import { InstructionGroup } from '../../../types/graphql-schema-types.generated'
-import { ColorCodes } from '../../../theme/theme'
-import MultiColumnContent from './MultiColumnContent'
-import { CookingContext } from '../page/CookingProvider'
-import CheckToggle from './CheckToggle'
-import Title, { TitleVariant } from '../../../widgets/titles/Title'
+import { ColorCodes } from '../../../../theme/theme'
+import { InstructionGroup } from '../../../../types/graphql-schema-types.generated'
+import Title, { TitleVariant } from '../../../../widgets/titles/Title'
+import { CookingContext } from '../../page/CookingProvider'
+import CheckToggle from '../general/CheckToggle'
+import MultiColumnContent from '../../../../layout/multi-column-wrapper/MultiColumnContent'
+
 type RecipeIngredientsProps = {
   instructionGroups: InstructionGroup[]
   columnCount: number
@@ -23,7 +24,7 @@ const Instructions = ({ instructionGroups, columnCount, recipeId }: RecipeIngred
   const showCheckToggles = useMemo(() => cookingRecipes.map((r) => r.recipe.id).includes(recipeId), [cookingRecipes])
 
   return (
-    <MultiColumnContent columnCount={columnCount} title={INSTRUCTIONS_SECTION_TITLE} recipeId={recipeId}>
+    <MultiColumnContent columnCount={columnCount} title={INSTRUCTIONS_SECTION_TITLE} keyId={recipeId}>
       <Flex {...containerCss}>
         {instructionGroups.map((group, groupIndex) => {
           const { title, instructions } = group

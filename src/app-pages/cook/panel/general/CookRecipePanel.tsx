@@ -1,19 +1,19 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { Recipe } from '../../../types/graphql-schema-types.generated'
+import { Recipe } from '../../../../types/graphql-schema-types.generated'
 import RecipeTitle from './RecipeTitle'
 import Photos, { IMAGE_CONTAINER_HEIGHT } from './Photos'
-import RecipePropertyIcons from '../../../widgets/property-icon/RecipePropertyIcons'
-import Ingredients from './ingredients-and-scaling/Ingredients'
-import { useWidthChangedObserver } from '../../../hooks/useWidthChangedObserver'
+import RecipePropertyIcons from '../../../../widgets/property-icon/RecipePropertyIcons'
+import Ingredients from '../ingredients-and-scaling/Ingredients'
+import { useWidthChangedObserver } from '../../../../hooks/useWidthChangedObserver'
 import RecipeTags from './RecipeTags'
 import Description from './Description'
-import Instructions from './Instructions'
-import RecipeToggles from './recipe-toggles/RecipeToggles'
-import { ColorCodes } from '../../../theme/theme'
+import RecipeToggles from '../actions/RecipeToggles'
+import { ColorCodes } from '../../../../theme/theme'
 import { useContext, useMemo } from 'react'
-import { CookingContext } from '../page/CookingProvider'
-import { RecipesViewingContext } from '../../search/page/SearchRecipesProvider'
+import { CookingContext } from '../../page/CookingProvider'
+import { RecipesViewingContext } from '../../../search/page/SearchRecipesProvider'
+import Instructions from '../instructions/Instructions'
 
 type RecipePanelProps = {
   recipe?: Recipe

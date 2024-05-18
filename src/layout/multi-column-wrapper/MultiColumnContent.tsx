@@ -1,26 +1,20 @@
 import React from 'react'
 import { ChakraProps, Divider, Flex } from '@chakra-ui/react'
-import Title, { TitleVariant } from '../../../widgets/titles/Title'
-import { ColorCodes } from '../../../theme/theme'
+import Title, { TitleVariant } from '../../widgets/titles/Title'
+import { ColorCodes } from '../../theme/theme'
 
 type MultiColumnContentProps = {
   columnCount: number
-  recipeId: number
+  keyId: number
   children: JSX.Element
   title?: string
   isCentered?: boolean
 }
 
-const MultiColumnContent = ({
-  columnCount,
-  title,
-  recipeId,
-  children,
-  isCentered = false
-}: MultiColumnContentProps) => {
+const MultiColumnContent = ({ columnCount, title, keyId, children, isCentered = false }: MultiColumnContentProps) => {
   return (
     <Flex {...columnsContainerCss(isCentered)}>
-      <div style={{ ...outerCss(!!title) }} key={`multi-column-${recipeId}`}>
+      <div style={{ ...outerCss(!!title) }} key={`multi-column-${keyId}`}>
         {title ? (
           <Flex {...titleAndDividerCss}>
             <Title title={title} variant={TitleVariant.MediumPale} />

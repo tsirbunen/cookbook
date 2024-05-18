@@ -1,5 +1,5 @@
 import { ChakraProps, Flex, Text } from '@chakra-ui/react'
-import { ColorCodes } from '../../../theme/theme'
+import { ColorCodes } from '../../../../theme/theme'
 
 type DescriptionProps = {
   description: string

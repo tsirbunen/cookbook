@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import Title, { TitleVariant } from '../../../widgets/titles/Title'
+import Title, { TitleVariant } from '../../../../widgets/titles/Title'
 
 type RecipeTitleProps = {
   title: string

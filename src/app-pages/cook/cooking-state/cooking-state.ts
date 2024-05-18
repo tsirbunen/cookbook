@@ -1,4 +1,5 @@
-import { CookingRecipeData, ScalingData, TimerData } from '../../../types/types'
+import { Recipe } from '../../../types/graphql-schema-types.generated'
+import { ScalingData, TimerData } from '../../../types/types'
 
 export type DisplayIndexes = { leftRecipeIndex?: number; middleRecipeIndex?: number; rightRecipeIndex?: number }
 export type DisplayConfig = {
@@ -8,7 +9,7 @@ export type DisplayConfig = {
 
 export type CookingState = {
   displayConfig: DisplayConfig
-  cookingRecipes: CookingRecipeData[]
+  cookingRecipes: Recipe[]
   timersByRecipeId: Record<number, TimerData>
   ingredientsAdded: number[]
   instructionsDone: number[]
@@ -18,14 +19,14 @@ export type CookingState = {
   isScalingRecipeIds: number[]
 }
 
-const getInitialRecipeDisplayIndexes = (pickedRecipesCount: number, maxPanelsCount: number) => {
+export const getInitialRecipeDisplayIndexes = (pickedRecipesCount: number, maxPanelsCount: number) => {
   const leftRecipeIndex = 0
-  const middleRecipeIndex = pickedRecipesCount >= 1 && maxPanelsCount > 1 ? 1 : undefined
-  const rightRecipeIndex = pickedRecipesCount >= 2 && maxPanelsCount > 2 ? 2 : undefined
+  const middleRecipeIndex = pickedRecipesCount > 1 && maxPanelsCount > 1 ? 1 : undefined
+  const rightRecipeIndex = pickedRecipesCount > 2 && maxPanelsCount > 2 ? 2 : undefined
   return { leftRecipeIndex, middleRecipeIndex, rightRecipeIndex }
 }
 
-const getInitialRecipeDisplayCount = (pickedRecipesCount: number, maxPanelsCount: number) => {
+export const getInitialRecipeDisplayCount = (pickedRecipesCount: number, maxPanelsCount: number) => {
   return Math.min(pickedRecipesCount, maxPanelsCount, 3)
 }
 

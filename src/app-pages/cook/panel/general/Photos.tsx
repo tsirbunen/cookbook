@@ -3,10 +3,10 @@
 
 import React from 'react'
 import { css } from '@emotion/react'
-import { ColorCodes } from '../../../theme/theme'
-import { HEADER_HEIGHT } from '../../../constants/layout'
-import ImageWithFallback, { FallbackIcon } from '../../../widgets/image-with-fallback/ImageWithFallback'
-import { Photo } from '../../../types/graphql-schema-types.generated'
+import { ColorCodes } from '../../../../theme/theme'
+import { HEADER_HEIGHT } from '../../../../constants/layout'
+import ImageWithFallback, { FallbackIcon } from '../../../../widgets/image-with-fallback/ImageWithFallback'
+import { Photo } from '../../../../types/graphql-schema-types.generated'
 
 type PhotosProps = {
   title: string

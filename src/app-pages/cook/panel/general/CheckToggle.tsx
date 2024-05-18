@@ -1,4 +1,4 @@
-import CheckboxWithTheme, { CheckboxVariant } from '../../../theme/checkboxes/CheckboxWithTheme'
+import CheckboxWithTheme, { CheckboxVariant } from '../../../../theme/checkboxes/CheckboxWithTheme'
 
 type CheckToggleProps = {
   isChecked: boolean

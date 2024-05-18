@@ -1,6 +1,6 @@
 import { ChakraProps, Flex, Text } from '@chakra-ui/react'
-import { ColorCodes } from '../../../theme/theme'
-import { Tag } from '../../../types/graphql-schema-types.generated'
+import { ColorCodes } from '../../../../theme/theme'
+import { Tag } from '../../../../types/graphql-schema-types.generated'
 
 type RecipeTagsProps = {
   tags: Tag[]

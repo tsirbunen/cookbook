@@ -79,7 +79,7 @@ export const cookingReducer = produce((draft: CookingState, action: DispatchCook
 
 const clearAllRecipeSettings = (draft: CookingState, { recipe }: { recipe: Recipe }) => {
   const recipeId = recipe.id
-  draft.cookingRecipes = draft.cookingRecipes.filter((data) => data.recipe.id !== recipeId)
+  draft.cookingRecipes = draft.cookingRecipes.filter((recipe) => recipe.id !== recipeId)
   draft.scalingByRecipeId = omit(draft.scalingByRecipeId, recipeId)
   draft.timersByRecipeId = omit(draft.timersByRecipeId, recipeId)
   draft.multiColumnRecipes = draft.multiColumnRecipes.filter((id) => id !== recipeId)
@@ -114,24 +114,20 @@ const getUpdatedIdList = (list: number[], targetId: number) => {
 }
 
 const toggleIsCookingRecipes = (draft: CookingState, payload: { recipe: Recipe }) => {
-  const isStartCooking = draft.cookingRecipes.every(
-    (recipeCookingData) => recipeCookingData.recipe.id !== payload.recipe.id
-  )
+  const isStartCooking = draft.cookingRecipes.every((recipe) => recipe.id !== payload.recipe.id)
 
   if (isStartCooking) {
-    draft.cookingRecipes.push({ recipe: payload.recipe, ingredientsAddedIds: [], instructionsCompletedIds: [] })
+    draft.cookingRecipes.push(payload.recipe) //, ingredientsAddedIds: [], instructionsCompletedIds: [] })
   } else {
-    draft.cookingRecipes = draft.cookingRecipes.filter(
-      (recipeCookingData) => recipeCookingData.recipe.id !== payload.recipe.id
-    )
+    draft.cookingRecipes = draft.cookingRecipes.filter((recipe) => recipe.id !== payload.recipe.id)
   }
 }
 
-const getUpdatedDisplayConfigAfterCountChanged = (
-  currentDisplayConfig: DisplayConfig,
+export const getUpdatedDisplayConfigAfterCountChanged = (
+  currentConfig: DisplayConfig,
   payload: { newValue?: number; maxPanelsCount: number; pickedRecipesCount: number }
 ) => {
-  const { count, indexes } = currentDisplayConfig
+  const { count, indexes } = currentConfig
   const { newValue, maxPanelsCount, pickedRecipesCount } = payload
 
   if (pickedRecipesCount === 0) return { count: 0, indexes: {} }
@@ -140,19 +136,19 @@ const getUpdatedDisplayConfigAfterCountChanged = (
   if (newValue === undefined) candidates.push(count === 0 ? 1 : count)
   else candidates.push(newValue)
 
-  const newDisplayCount = Math.min(...candidates)
+  const newCount = Math.min(...candidates)
   let leftIndex = indexes.leftRecipeIndex ?? 0
-  const shouldMoveLeftIndexToLeft = leftIndex > pickedRecipesCount - newDisplayCount
-  if (shouldMoveLeftIndexToLeft) leftIndex = pickedRecipesCount - newDisplayCount
+  const shouldMoveLeftIndexToLeft = leftIndex > pickedRecipesCount - newCount
+  if (shouldMoveLeftIndexToLeft) leftIndex = pickedRecipesCount - newCount
 
-  const middleRecipeIndex = newDisplayCount > 1 ? leftIndex + 1 : undefined
-  const rightRecipeIndex = newDisplayCount > 2 ? leftIndex + 2 : undefined
+  const middleRecipeIndex = newCount > 1 ? leftIndex + 1 : undefined
+  const rightRecipeIndex = newCount > 2 ? leftIndex + 2 : undefined
   const newIndexes = { leftRecipeIndex: leftIndex, middleRecipeIndex, rightRecipeIndex }
 
-  return { indexes: newIndexes, count: newDisplayCount }
+  return { indexes: newIndexes, count: newCount }
 }
 
-const getUpdatedDisplayConfigAfterIndexesChanged = (
+export const getUpdatedDisplayConfigAfterIndexesChanged = (
   currentDisplayConfig: DisplayConfig,
   payload: { moveDirection: DisplayDirection; pickedRecipesCount: number }
 ) => {

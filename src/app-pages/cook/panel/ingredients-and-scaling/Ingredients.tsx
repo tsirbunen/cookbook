@@ -1,12 +1,12 @@
 import React, { Fragment, useContext, useMemo, useState } from 'react'
 import { ChakraProps, Flex } from '@chakra-ui/react'
 import { IngredientGroup } from '../../../../types/graphql-schema-types.generated'
-import MultiColumnContent from '../MultiColumnContent'
 import { CookingContext } from '../../page/CookingProvider'
 import IngredientRow from './IngredientRow'
 import PresetMultiplierSelection from './PresetMultiplierSelection'
-import CheckToggle from '../CheckToggle'
+import CheckToggle from '../general/CheckToggle'
 import Title, { TitleVariant } from '../../../../widgets/titles/Title'
+import MultiColumnContent from '../../../../layout/multi-column-wrapper/MultiColumnContent'
 
 export type SelectedScalingIngredient = {
   id: number
@@ -73,7 +73,7 @@ const Ingredients = ({ ingredientGroups, columnCount, recipeId }: IngredientsPro
       <MultiColumnContent
         columnCount={columnCount}
         title={!isScaling ? INGREDIENTS_SECTION_TITLE : undefined}
-        recipeId={recipeId}
+        keyId={recipeId}
         isCentered={true}
       >
         <Flex {...containerCss} key={`ingredients-columns-${recipeId}`}>
