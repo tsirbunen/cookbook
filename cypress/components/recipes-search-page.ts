@@ -14,7 +14,8 @@ import { recipesContentDataTestId } from '../../src/app-pages/search/page/Recipe
 import {
   selectModeToggleProperty,
   pickedRecipesToggleProperty,
-  filteringToggleProperty
+  filteringToggleProperty,
+  cookToggleProperty
 } from '../../src/widgets/toggles/Toggle'
 
 const CLIENT = 'localhost'
@@ -26,10 +27,11 @@ const toolDataTestIdsByTool = {
   filtering: filteringManagementToolDataTestId
 }
 
-const toggleDataTestIdsByTool = {
+export const toggleDataTestIdsByTool = {
   'select mode': selectModeToggleProperty,
   'picked recipes': pickedRecipesToggleProperty,
-  filtering: filteringToggleProperty
+  filtering: filteringToggleProperty,
+  cook: cookToggleProperty
 }
 
 const recipeDisplayTestIdsByMode = {

@@ -7,6 +7,7 @@ import Toggle, {
   cookToggleProperty,
   cookingTimerToggleProperty,
   ingredientScalingToggleProperty,
+  metricOnlyToggleProperty,
   multiColumnToggleProperty
 } from '../../../../widgets/toggles/Toggle'
 import { TbChefHat, TbColumns, TbStar, TbStarFilled } from 'react-icons/tb'
@@ -45,7 +46,7 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
   } = useContext(CookingContext)
 
   const isCooking = useMemo(() => {
-    return cookingRecipes.some((cookingRecipeData) => cookingRecipeData.recipe.id === recipe.id)
+    return cookingRecipes.some((recipe) => recipe.id === recipe.id)
   }, [cookingRecipes])
 
   const isMultiColumn = useMemo(() => {
@@ -76,7 +77,7 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
   const toggleVariant = ButtonVariant.SquareWithIconWithoutFill
 
   return (
-    <div css={containerCss}>
+    <div css={containerCss} data-testid={`${recipe.id}-toggles`}>
       <Toggles hasBackground={true}>
         <Toggle
           isToggled={isFavorite}
@@ -124,7 +125,7 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
           isToggled={hasOnlyMetric}
           toggle={() => toggleOnlyMetric(recipe.id)}
           Icon={TbRulerMeasure}
-          toggleProperty={ingredientScalingToggleProperty}
+          toggleProperty={metricOnlyToggleProperty}
           count={null}
           variant={toggleVariant}
         />

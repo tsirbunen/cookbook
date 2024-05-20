@@ -19,9 +19,9 @@ const Instructions = ({ instructionGroups, columnCount, recipeId }: RecipeIngred
   const { cookingRecipes, instructionsDone, toggleInstruction } = useContext(CookingContext)
 
   const isCookingRecipe = useMemo(() => {
-    return cookingRecipes.some((cookingRecipeData) => cookingRecipeData.recipe.id === recipeId)
+    return cookingRecipes.some((recipe) => recipe.id === recipeId)
   }, [cookingRecipes])
-  const showCheckToggles = useMemo(() => cookingRecipes.map((r) => r.recipe.id).includes(recipeId), [cookingRecipes])
+  const showCheckToggles = useMemo(() => cookingRecipes.map((r) => r.id).includes(recipeId), [cookingRecipes])
 
   return (
     <MultiColumnContent columnCount={columnCount} title={INSTRUCTIONS_SECTION_TITLE} keyId={recipeId}>

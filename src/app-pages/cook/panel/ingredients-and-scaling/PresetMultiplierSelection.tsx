@@ -4,6 +4,8 @@ import CardRadioButtonSelector from '../../../../widgets/card-radio-button-selec
 import { ColorCodes } from '../../../../theme/theme'
 import { CardRadioButtonSelectorVariant } from '../../../../widgets/card-radio-button-selector/CardRadioButton'
 
+export const presetMultiplierTestId = 'preset-multiplier'
+
 const X_LABEL = 'X'
 const presetValues = [0.5, 1, 1.5, 2, 3, 4, 5]
 const presetMultipliers = presetValues.map((value) => ({ label: value.toString(), value }))
@@ -15,7 +17,7 @@ type PresetMultiplierSelectionProps = {
 
 const PresetMultiplierSelection = ({ selectPresetMultiplier, presetMultiplier }: PresetMultiplierSelectionProps) => {
   return (
-    <Flex {...containerCss}>
+    <Flex {...containerCss} data-testid={presetMultiplierTestId}>
       <Flex {...selectorCss}>
         <CardRadioButtonSelector
           options={presetMultipliers}

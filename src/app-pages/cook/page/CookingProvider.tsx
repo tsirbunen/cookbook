@@ -5,7 +5,7 @@ import { AppStateContext, AppStateContextType } from '../../../state/StateContex
 import { Recipe } from '../../../types/graphql-schema-types.generated'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
 import { DispatchCookingEvent, DispatchCookingEventAction, cookingReducer } from '../cooking-state/cooking-reducer'
-import { CookingRecipeData, ScalingData, TimerData } from '../../../types/types'
+import { ScalingData, TimerData } from '../../../types/types'
 import { CookingState, DisplayConfig, getInitialCookingState } from '../cooking-state/cooking-state'
 
 type Cooking = {
@@ -13,7 +13,7 @@ type Cooking = {
   pickedRecipesCount: number
   displayConfig: DisplayConfig
   dispatchCookingEvent: Dispatch<DispatchCookingEventAction>
-  cookingRecipes: CookingRecipeData[]
+  cookingRecipes: Recipe[]
   timersByRecipeId: Record<number, TimerData>
   toggleIsCookingRecipe: (recipeId: number) => void
   toggleIngredient: (recipeId: number, ingredientId: number) => void

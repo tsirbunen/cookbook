@@ -31,10 +31,10 @@ const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
 
   if (!recipe) return null
 
-  const { title, ovenNeeded, tags, photos } = recipe
+  const { id, title, ovenNeeded, tags, photos } = recipe
 
   return (
-    <div css={containerCss} ref={elementRef}>
+    <div css={containerCss} ref={elementRef} data-testid={`recipe-${id}-panel`}>
       <Photos title={title} photos={photos ?? []} panelWidth={panelWidth} />
       <div css={topCss}>
         <RecipeTitle title={recipe.title} />

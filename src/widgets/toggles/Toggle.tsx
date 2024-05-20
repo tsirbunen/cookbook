@@ -11,6 +11,7 @@ export const cookToggleProperty = 'cook'
 export const addedIngredientToggleProperty = 'addedIngredient'
 export const multiColumnToggleProperty = 'multiColumn'
 export const ingredientScalingToggleProperty = 'ingredientScaling'
+export const metricOnlyToggleProperty = 'metricOnly'
 export const cookingTimerToggleProperty = 'cookingTimer'
 
 export type ToggleProps = {

@@ -28,7 +28,7 @@ const Ingredients = ({ ingredientGroups, columnCount, recipeId }: IngredientsPro
   const [presetMultiplier, setPresetMultiplier] = useState<number | undefined>(1)
   const [selectedIngredient, setSelectedIngredient] = useState<SelectedScalingIngredient | undefined>(undefined)
 
-  const isCooking = useMemo(() => cookingRecipes.some((data) => data.recipe.id === recipeId), [cookingRecipes])
+  const isCooking = useMemo(() => cookingRecipes.some((recipe) => recipe.id === recipeId), [cookingRecipes])
   const currentScaling = useMemo(() => scalingByRecipeId[recipeId], [scalingByRecipeId])
   const isScaling = useMemo(() => isScalingRecipeIds.includes(recipeId), [isScalingRecipeIds])
 
@@ -62,7 +62,7 @@ const Ingredients = ({ ingredientGroups, columnCount, recipeId }: IngredientsPro
   }
 
   return (
-    <Flex {...outerCss}>
+    <Flex {...outerCss} data-testid={`ingredients-for-recipe-${recipeId}`}>
       {isScaling ? (
         <PresetMultiplierSelection
           selectPresetMultiplier={selectPresetMultiplier}
