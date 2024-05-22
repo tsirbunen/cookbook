@@ -7,12 +7,14 @@ import { ButtonVariant } from '../../theme/buttons/buttons-theme'
 export const selectModeToggleProperty = 'selectMode'
 export const pickedRecipesToggleProperty = 'pickedRecipes'
 export const filteringToggleProperty = 'filtering'
+export const favoriteToggleProperty = 'favorite'
 export const cookToggleProperty = 'cook'
 export const addedIngredientToggleProperty = 'addedIngredient'
 export const multiColumnToggleProperty = 'multiColumn'
 export const ingredientScalingToggleProperty = 'ingredientScaling'
 export const metricOnlyToggleProperty = 'metricOnly'
 export const cookingTimerToggleProperty = 'cookingTimer'
+export const clearAllToggleProperty = 'clearAll'
 
 export type ToggleProps = {
   isToggled: boolean

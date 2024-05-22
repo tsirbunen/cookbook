@@ -11,6 +11,8 @@ type MultiColumnContentProps = {
   isCentered?: boolean
 }
 
+export const MULTI_COLUMN_DIV = 'multi-column-div'
+
 const MultiColumnContent = ({ columnCount, title, keyId, children, isCentered = false }: MultiColumnContentProps) => {
   return (
     <Flex {...columnsContainerCss(isCentered)}>
@@ -22,7 +24,9 @@ const MultiColumnContent = ({ columnCount, title, keyId, children, isCentered = 
           </Flex>
         ) : null}
 
-        <div style={{ ...columnsCss(columnCount) }}>{children}</div>
+        <div style={{ ...columnsCss(columnCount) }} data-testid={MULTI_COLUMN_DIV}>
+          {children}
+        </div>
       </div>
     </Flex>
   )

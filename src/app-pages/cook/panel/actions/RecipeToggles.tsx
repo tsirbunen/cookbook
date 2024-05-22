@@ -4,8 +4,10 @@ import { css } from '@emotion/react'
 import Toggles from '../../../../widgets/toggles/Toggles'
 import { useContext, useMemo } from 'react'
 import Toggle, {
+  clearAllToggleProperty,
   cookToggleProperty,
   cookingTimerToggleProperty,
+  favoriteToggleProperty,
   ingredientScalingToggleProperty,
   metricOnlyToggleProperty,
   multiColumnToggleProperty
@@ -83,7 +85,7 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
           isToggled={isFavorite}
           toggle={() => toggleFavoriteRecipeId(recipe.id)}
           Icon={isFavorite ? TbStarFilled : TbStar}
-          toggleProperty={cookToggleProperty}
+          toggleProperty={favoriteToggleProperty}
           count={null}
           variant={toggleVariant}
         />
@@ -134,7 +136,7 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
             isToggled={hasSomethingToClear}
             toggle={() => clearAllRecipeSettings(recipe.id)}
             Icon={TbWashDrycleanOff}
-            toggleProperty={cookToggleProperty}
+            toggleProperty={clearAllToggleProperty}
             isDisabled={!hasSomethingToClear}
             count={null}
             variant={toggleVariant}
