@@ -1,5 +1,6 @@
 import { presetMultiplierTestId } from '../../src/app-pages/cook/panel/ingredients-and-scaling/PresetMultiplierSelection'
 import {
+  clearAllToggleProperty,
   cookToggleProperty,
   favoriteToggleProperty,
   ingredientScalingToggleProperty,
@@ -49,14 +50,8 @@ export class CookingPage extends Base {
     return targetCheckboxIndex
   }
 
-  setViewingRecipesCount(count: string) {
-    cy.getByDataTestId(cardRadioButtonSelectorDataTestId).within(() => {
-      cy.get('button').each(($button, index) => {
-        if (index === parseInt(count) - 1) {
-          cy.wrap($button).click()
-        }
-      })
-    })
+  getFirstNRecipeTitles(recipesCount: number) {
+    return this.testRecipes.slice(0, recipesCount).map((recipe) => recipe.title)
   }
 
   toggleIsScalingRecipe(recipeId: string) {
@@ -119,13 +114,21 @@ export class CookingPage extends Base {
     })
   }
 
+  toggleClear(recipeId: string) {
+    cy.getByDataTestId(`${recipeId}-toggles`).within(() => {
+      cy.getByDataTestId(clearAllToggleProperty).click()
+    })
+  }
+
   verifyCheckboxVisibility(areVisible: boolean, recipeId: string) {
-    if (areVisible) {
-      const expectedCheckboxCount = this.getIngredientsAndInstructionsCount(recipeId)
-      cy.get('input[type="checkbox"]').should('have.length', expectedCheckboxCount)
-    } else {
-      cy.get('input[type="checkbox"]').should('not.exist')
-    }
+    cy.getByDataTestId(`recipe-${recipeId}-panel`).within(() => {
+      if (areVisible) {
+        const expectedCheckboxCount = this.getIngredientsAndInstructionsCount(recipeId)
+        cy.get('input[type="checkbox"]').should('have.length', expectedCheckboxCount)
+      } else {
+        cy.get('input[type="checkbox"]').should('not.exist')
+      }
+    })
   }
 
   verifyIngredientOpacity(isOpaque: boolean, ingredient: string, group: string, recipeId: string) {
@@ -169,6 +172,23 @@ export class CookingPage extends Base {
 
       cy.getByDataTestId(favoriteToggleProperty).within(() => {
         cy.get('button[type="button"]').should('have.css', 'color', expectedColor)
+      })
+    })
+  }
+
+  verifyRecipesDisplayCount(recipesCount: string) {
+    const titles = this.getFirstNRecipeTitles(parseInt(recipesCount))
+    for (const title of titles) {
+      this.verifyTextContentDoesExist(title)
+    }
+  }
+
+  setViewingRecipesCount(count: string) {
+    cy.getByDataTestId(cardRadioButtonSelectorDataTestId).within(() => {
+      cy.get('button').each(($button, index) => {
+        if (index === parseInt(count) - 1) {
+          cy.wrap($button).click()
+        }
       })
     })
   }

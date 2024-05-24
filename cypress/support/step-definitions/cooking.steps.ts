@@ -1,15 +1,8 @@
-import { When, Then, Given } from '@badeball/cypress-cucumber-preprocessor'
-import { App } from '../../components/app'
-import { RecipesSearchPage } from '../../components/recipes-search-page'
-import { ViewRecipesMode } from '../../../src/app-pages/search/search-management/ViewModeManagementTool'
+import { When, Then } from '@badeball/cypress-cucumber-preprocessor'
 import { CookingPage } from '../../components/cooking-page'
 
 const cookingPage = new CookingPage()
-type RecipeToggle = 'is scaling' | 'has two columns' | 'is cooking'
-
-When('one has toggled to view {string} recipes at the same time', (recipesCount: string) => {
-  cookingPage.setViewingRecipesCount(recipesCount)
-})
+type RecipeToggle = 'is scaling' | 'has two columns' | 'is cooking' | 'clear all' | 'is favorite'
 
 When('one toggles {string} for recipe {string}', (toggle: RecipeToggle, recipeId: string) => {
   switch (toggle) {
@@ -18,10 +11,18 @@ When('one toggles {string} for recipe {string}', (toggle: RecipeToggle, recipeId
       break
     case 'has two columns':
       cookingPage.toggleHasTwoColumns(recipeId)
+      break
     case 'is cooking':
       cookingPage.toggleIsCooking(recipeId)
-    default:
       break
+    case 'is favorite':
+      cookingPage.toggleIsFavoriteRecipe(recipeId)
+      break
+    case 'clear all':
+      cookingPage.toggleClear(recipeId)
+      break
+    default:
+      throw new Error(`Unknown toggle: ${toggle}`)
   }
 })
 
@@ -39,10 +40,6 @@ Then(
     cookingPage.verifySelectedMultiplierIsVisible(multiplier, isOrIsNot === 'is', recipeId)
   }
 )
-
-When('one toggles is scaling recipe {string}', (recipeId: string) => {
-  cookingPage.toggleIsScalingRecipe(recipeId)
-})
 
 Then(
   'ingredients and instructions are displayed in {string} columns for recipe {string}',
@@ -79,10 +76,14 @@ Then(
   }
 )
 
-When('one toggles is favorite for recipe {string}', (recipeId: string) => {
-  cookingPage.toggleIsFavoriteRecipe(recipeId)
-})
-
 Then('recipe {string} {string} marked as favorite', (recipeId: string, isOrIsNot: 'is' | 'is not') => {
   cookingPage.verifyFavoriteStatus(recipeId, isOrIsNot === 'is')
+})
+
+Then('{string} recipes are displayed', (recipesCount: string) => {
+  cookingPage.verifyRecipesDisplayCount(recipesCount)
+})
+
+When('one toggles to view {string} recipes at the same time', (recipesCount: string) => {
+  cookingPage.setViewingRecipesCount(recipesCount)
 })
