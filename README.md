@@ -1,7 +1,8 @@
-# COOKING COMPANION
+## COOKING COMPANION (DESKTOP)
 
 Want to cook something **delicious**? Navigate to the **[COOKING COMPANION](https://cookbook-dusky.vercel.app)** !!!
-COOKING COMPANION is a full-stack React Typescript GraphQL web application built with the **[Next.js](https://nextjs.org/docs)** framework.
+COOKING COMPANION is a full-stack React Typescript GraphQL web application built with the **[Next.js](https://nextjs.org/docs)** framework. It is meant to be used in desktop or tablet devices.
+For a mobile phone version of the app, please see the **[Flutter mobile project](https://github.com/tsirbunen/cooking-companion-mobile)**.
 
 ![Vercel](https://vercelbadge.vercel.app/api/tsirbunen/cookbook?style=plastic) ![example workflow](https://github.com/tsirbunen/cookbook/actions/workflows/running-tests.yml/badge.svg)
 

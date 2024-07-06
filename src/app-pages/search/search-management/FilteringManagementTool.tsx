@@ -12,15 +12,13 @@ import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvi
 
 export const filteringManagementToolDataTestId = 'filtering-management-tool'
 
-// TODO: PItäisikö voida myös valita, mitä raaka-aineita ei saa olla?
-
 const filteringTitle = 'Filtering'
 export const applyFiltersLabel = 'Apply filters'
 export const applyChangesLabel = 'Apply changes'
 export const clearFormLabel = 'Clear form'
 const languagesLabel = 'languages'
 const tagsLabel = 'tags'
-const ingredientsLabel = 'ingredients'
+const ingredientsLabel = 'ingredients to contain'
 const ingredientsPlaceholder = 'Type here ingredients...'
 
 const FilteringManagementTool = () => {

@@ -11,8 +11,7 @@ export const getScaledIngredientAmount = (
   const isSelected = selectedIngredient?.id === id
   if (isSelected) return selectedIngredient.newAmount.toString()
 
-  const multiplier = presetMultiplier ?? selectedIngredient?.multiplier
-  if (!multiplier) return
+  const multiplier = presetMultiplier ?? selectedIngredient?.multiplier ?? 1
 
   if (!originalAmount && hasUnit) {
     return getRoundedIngredientAmount(multiplier).toString()

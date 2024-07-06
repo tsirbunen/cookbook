@@ -7,6 +7,7 @@ import PresetMultiplierSelection from './PresetMultiplierSelection'
 import CheckToggle from '../general/CheckToggle'
 import Title, { TitleVariant } from '../../../../widgets/titles/Title'
 import MultiColumnContent from '../../../../layout/multi-column-wrapper/MultiColumnContent'
+import { rowStartCss } from '../../../../constants/styling'
 
 export type SelectedScalingIngredient = {
   id: number
@@ -146,9 +147,6 @@ const rowBoxCss = {
 }
 
 const ingredientRowCss = {
-  flexDirection: 'row' as ChakraProps['flexDirection'],
-  display: 'flex',
-  alignItems: 'start' as ChakraProps['alignItems'],
-  justifyContent: 'start' as ChakraProps['justifyContent'],
+  ...rowStartCss,
   marginBottom: '3px'
 }

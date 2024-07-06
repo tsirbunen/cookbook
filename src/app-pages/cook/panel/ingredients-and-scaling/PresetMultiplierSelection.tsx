@@ -1,8 +1,9 @@
 import React from 'react'
-import { ChakraProps, Flex, Text } from '@chakra-ui/react'
+import { Flex, Text } from '@chakra-ui/react'
 import CardRadioButtonSelector from '../../../../widgets/card-radio-button-selector/CardRadioButtonSelector'
 import { ColorCodes } from '../../../../theme/theme'
 import { CardRadioButtonSelectorVariant } from '../../../../widgets/card-radio-button-selector/CardRadioButton'
+import { columnItemsCenterCss, rowAllCenterCss, rowItemsCenterContentStartCss } from '../../../../constants/styling'
 
 export const presetMultiplierTestId = 'preset-multiplier'
 
@@ -41,9 +42,8 @@ const PresetMultiplierSelection = ({ selectPresetMultiplier, presetMultiplier }:
 export default PresetMultiplierSelection
 
 const containerCss = {
+  ...columnItemsCenterCss,
   marginLeft: '15px',
-  flexDirection: 'column' as ChakraProps['flexDirection'],
-  alignItems: 'center' as ChakraProps['alignItems'],
   marginTop: '10px'
 }
 
@@ -55,30 +55,25 @@ const xLabelCss = {
 }
 
 const selectorCss = {
+  ...rowItemsCenterContentStartCss,
   marginTop: '10px',
-  flexDirection: 'row' as ChakraProps['flexDirection'],
-  alignItems: 'center' as ChakraProps['alignItems'],
-  justifyContent: 'start' as ChakraProps['justifyContent'],
   flex: 1
 }
 
 const shortLineCss = {
+  ...columnItemsCenterCss,
   marginRight: '10px',
   marginLeft: '10px',
   backgroundColor: ColorCodes.PALE,
   height: '1.5px',
-  width: '50px',
-  flexDirection: 'column' as ChakraProps['flexDirection'],
-  alignItems: 'center' as ChakraProps['alignItems']
+  width: '50px'
 }
 
 const orDividerCss = {
+  ...rowAllCenterCss,
   marginTop: '15px',
   marginBottom: '5px',
-  flexDirection: 'row' as ChakraProps['flexDirection'],
   fontWeight: 'bold',
   color: ColorCodes.MEDIUM,
-  flex: 1,
-  alignItems: 'center' as ChakraProps['alignItems'],
-  justifyContent: 'center' as ChakraProps['justifyContent']
+  flex: 1
 }
