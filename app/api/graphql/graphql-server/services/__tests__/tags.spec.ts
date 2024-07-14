@@ -8,7 +8,7 @@ import {
   insertRecipeToDB,
   insertTagsToDB
 } from './test-database-helpers'
-import { handleFindExistingOrCreateNewTags } from '../tags/utils'
+import { handleFindExistingOrCreateNewTagsWithRelations } from '../tags/utils'
 
 let newRecipeId: number
 
@@ -31,7 +31,7 @@ describe('Handle tags', () => {
     const expectedTags = [newTags[indexes[0]], newTags[indexes[1]]]
     const recipeTags = indexes.map((index) => tags[index])
 
-    const allTags = await handleFindExistingOrCreateNewTags(database, newRecipeId, recipeTags)
+    const allTags = await handleFindExistingOrCreateNewTagsWithRelations(database, newRecipeId, recipeTags)
 
     allTags!.forEach((tag, index) => {
       const expectedTag = expectedTags[index]
@@ -58,7 +58,7 @@ describe('Handle tags', () => {
     const existingIndex = 1
     const recipeTags = [tags[existingIndex], 'gluten-free']
 
-    const allTags = await handleFindExistingOrCreateNewTags(database, newRecipeId, recipeTags)
+    const allTags = await handleFindExistingOrCreateNewTagsWithRelations(database, newRecipeId, recipeTags)
     const existingTag = existingTags[existingIndex]
     expect(allTags![0].tag).toBe(existingTag.tag)
     expect(allTags![0].id).toBe(existingTag.id)

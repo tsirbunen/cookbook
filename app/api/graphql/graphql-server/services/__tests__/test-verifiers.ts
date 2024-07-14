@@ -1,6 +1,6 @@
 import { expect } from '@jest/globals'
 import { getTableRowCountInDatabase, getTableRows } from './test-database-helpers'
-import { RecipeInput } from '../../modules/types.generated'
+import { Recipe, RecipeInput } from '../../modules/types.generated'
 
 export const verifyTableRowCountsInDatabase = async (testInput: RecipeInput) => {
   const recipesCount = await getTableRowCountInDatabase('recipes')
@@ -103,5 +103,76 @@ export const verifyRecipeInstructionsInDatabase = async (testInput: RecipeInput,
       expect(content).toBe(instructionInput)
       j === 0 ? expect(previous_id).toBeNull() : expect(previous_id).toBe(groupInstructionsInBD[j - 1].id)
     }
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const verifyPatchedRecipe = (patchedRecipe: Recipe, original: Recipe, patch: Record<string, any>) => {
+  expect(patchedRecipe.id).toBe(original.id)
+  expect(patchedRecipe.title).toBe(patch.title ?? original.title)
+  expect(patchedRecipe.description).toBe(patch.description ?? original.description)
+  expect(patchedRecipe.ovenNeeded).toBe(patch.ovenNeeded !== undefined ? patch.ovenNeeded : original.ovenNeeded)
+
+  if (patch.language) {
+    expect(patchedRecipe.language.id).not.toBe(original.language.id)
+    expect(patchedRecipe.language.language).toBe(patch.language)
+  } else {
+    expect(patchedRecipe.language.id).toBe(original.language.id)
+    expect(patchedRecipe.language.language).toBe(original.language.language)
+  }
+
+  if (patch.tags) {
+    const expectedTags = patch.tags ?? []
+    patchedRecipe.tags?.forEach((tag, i) => {
+      const expectedTag = expectedTags[i]
+      expect(tag.tag).toBe(expectedTag)
+    })
+  } else {
+    const expectedTags = original.tags ?? []
+    patchedRecipe.tags?.forEach((tag, i) => {
+      const expectedTag = expectedTags[i]
+      expect(tag.id).toBe(expectedTag.id)
+      expect(tag.tag).toBe(expectedTag.tag)
+    })
+  }
+
+  const expectedIngredientGroups = patch.ingredientGroups ? patch.ingredientGroups : original.ingredientGroups ?? []
+
+  patchedRecipe.ingredientGroups?.forEach((group, i) => {
+    const expectedGroup = expectedIngredientGroups[i]
+    expect(group.id).toBe(expectedGroup.id)
+    expect(group.title).toBe(expectedGroup.title)
+
+    const expectedIngredients = expectedGroup.ingredients ?? []
+    group.ingredients?.forEach((ingredient) => {
+      // Note: The order of ingredients is not guaranteed to be the "correct" one and usually is not.
+      const expectedIngredient = expectedIngredients.find((e: { name: string }) => e.name === ingredient.name)
+      if (expectedIngredient.id) {
+        expect(ingredient.id).toBe(expectedIngredient.id)
+      }
+      expect(ingredient.amount).toBe(expectedIngredient.amount)
+      expect(ingredient.unit).toBe(expectedIngredient.unit)
+      expect(ingredient.name).toBe(expectedIngredient.name)
+    })
+  })
+
+  const expectedInstructionGroups = patch.instructionGroups ? patch.instructionGroups : original.instructionGroups ?? []
+  if (patch.instructionGroups) {
+    patchedRecipe.instructionGroups?.forEach((group, i) => {
+      const expectedGroup = expectedInstructionGroups[i]
+      expect(group.id).toBe(expectedGroup.id)
+      expect(group.title).toBe(expectedGroup.title)
+      // Note: The order of instructions is not guaranteed to be the "correct" one and usually is not.
+      const expectedInstructions = expectedGroup.instructions ?? []
+      group.instructions?.forEach((instruction) => {
+        const expectedInstruction = expectedInstructions.find(
+          (e: { content: string }) => e.content === instruction.content
+        )
+        if (expectedInstruction.id) {
+          expect(instruction.id).toBe(expectedInstruction.id)
+        }
+        expect(instruction.content).toBe(expectedInstruction.content)
+      })
+    })
   }
 }

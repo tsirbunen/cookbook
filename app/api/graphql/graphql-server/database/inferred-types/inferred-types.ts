@@ -31,7 +31,7 @@ export type RecipesToTagsDBSelect = typeof recipesToTags.$inferSelect
 export type RecipeSelectDBExpanded = RecipeDBSelect & {
   photos: PhotoDBSelect[]
   language: LanguageDBSelect
-  recipesToTags: Array<RecipesToTagsDBSelect & { tags: TagDBSelect[] }>
+  recipesToTags: Array<RecipesToTagsDBSelect & { tags: TagDBSelect }>
   ingredientGroups: Array<IngredientGroupDBSelect & { ingredients: IngredientDBSelect[] }>
   instructionGroups: Array<InstructionGroupDBSelect & { instructions: InstructionDBSelect[] }>
 }

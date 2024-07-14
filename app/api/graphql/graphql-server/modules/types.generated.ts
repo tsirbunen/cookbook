@@ -34,13 +34,17 @@ export type IngredientGroup = {
 };
 
 export type IngredientGroupInput = {
+  id?: InputMaybe<Scalars['Int']['input']>;
   ingredients?: InputMaybe<Array<IngredientInput>>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type IngredientInput = {
   amount?: InputMaybe<Scalars['Float']['input']>;
+  groupId?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['Int']['input']>;
   name: Scalars['String']['input'];
+  previousId?: InputMaybe<Scalars['Int']['input']>;
   unit?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -59,8 +63,16 @@ export type InstructionGroup = {
 };
 
 export type InstructionGroupInput = {
-  instructions?: InputMaybe<Array<Scalars['String']['input']>>;
+  id?: InputMaybe<Scalars['Int']['input']>;
+  instructions?: InputMaybe<Array<InstructionInput>>;
   title?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type InstructionInput = {
+  content: Scalars['String']['input'];
+  groupId?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['Int']['input']>;
+  previousId?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type Language = {
@@ -72,12 +84,19 @@ export type Language = {
 export type Mutation = {
   __typename?: 'Mutation';
   createRecipe?: Maybe<Recipe>;
+  patchRecipe?: Maybe<Recipe>;
   pingMutation?: Maybe<Scalars['String']['output']>;
 };
 
 
 export type MutationcreateRecipeArgs = {
   recipeInput: RecipeInput;
+};
+
+
+export type MutationpatchRecipeArgs = {
+  recipeId: Scalars['Int']['input'];
+  recipePatch: RecipeInput;
 };
 
 export type Photo = {
@@ -117,12 +136,12 @@ export type RecipeInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   ingredientGroups?: InputMaybe<Array<IngredientGroupInput>>;
   instructionGroups?: InputMaybe<Array<InstructionGroupInput>>;
-  language: Scalars['String']['input'];
-  ovenNeeded: Scalars['Boolean']['input'];
+  language?: InputMaybe<Scalars['String']['input']>;
+  ovenNeeded?: InputMaybe<Scalars['Boolean']['input']>;
   photoFiles?: InputMaybe<Array<Scalars['File']['input']>>;
   photoIdentifiers?: InputMaybe<Array<Scalars['String']['input']>>;
   tags?: InputMaybe<Array<Scalars['String']['input']>>;
-  title: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Tag = {
@@ -213,6 +232,7 @@ export type ResolversTypes = {
   Instruction: ResolverTypeWrapper<Instruction>;
   InstructionGroup: ResolverTypeWrapper<InstructionGroup>;
   InstructionGroupInput: InstructionGroupInput;
+  InstructionInput: InstructionInput;
   Language: ResolverTypeWrapper<Language>;
   Mutation: ResolverTypeWrapper<{}>;
   Photo: ResolverTypeWrapper<Photo>;
@@ -237,6 +257,7 @@ export type ResolversParentTypes = {
   Instruction: Instruction;
   InstructionGroup: InstructionGroup;
   InstructionGroupInput: InstructionGroupInput;
+  InstructionInput: InstructionInput;
   Language: Language;
   Mutation: {};
   Photo: Photo;
@@ -290,6 +311,7 @@ export type LanguageResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createRecipe?: Resolver<Maybe<ResolversTypes['Recipe']>, ParentType, ContextType, RequireFields<MutationcreateRecipeArgs, 'recipeInput'>>;
+  patchRecipe?: Resolver<Maybe<ResolversTypes['Recipe']>, ParentType, ContextType, RequireFields<MutationpatchRecipeArgs, 'recipeId' | 'recipePatch'>>;
   pingMutation?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 

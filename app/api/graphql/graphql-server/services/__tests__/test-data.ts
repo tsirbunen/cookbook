@@ -33,26 +33,29 @@ export const recipeTestInput: RecipeInput = {
     {
       title: 'Instructions group 1',
       instructions: [
-        'Rinse the lentils thoroughly in cold water. Soak in cold water until needed.',
-        'Heat (olive) oil in a large stockpot over medium-high heat.',
-        'Peel and chop the onions, then sauté in the pot until fairly soft.',
-        'Chop the celery and add to the onions.',
-        'Add the turmeric (mainly to give a nice color).',
-        'Peel and chop the garlic cloves, then add to the other veggies.',
-        'Grate the carrots coarsely and add to the pot.',
-        'Simmer until all veggies are soft.',
-        'Stir in the chicken stock and some of the water. (Add more water later on as needed.)',
-        'Add the rinsed lentils.',
-        'Add the coconut cream.',
-        'Cover and cook on low heat for 30-60 minutes. Stir well every now and then (the lentils tend to start sticking to the bottom). Add water as needed.',
-        'Stir in the lemon zest and juice.',
-        'Add the very finely julienned ginger.',
-        'Season with salt.'
+        { content: 'Rinse the lentils thoroughly in cold water. Soak in cold water until needed.' },
+        { content: 'Heat (olive) oil in a large stockpot over medium-high heat.' },
+        { content: 'Peel and chop the onions, then sauté in the pot until fairly soft.' },
+        { content: 'Chop the celery and add to the onions.' },
+        { content: 'Add the turmeric (mainly to give a nice color).' },
+        { content: 'Peel and chop the garlic cloves, then add to the other veggies.' },
+        { content: 'Grate the carrots coarsely and add to the pot.' },
+        { content: 'Simmer until all veggies are soft.' },
+        { content: 'Stir in the chicken stock and some of the water. (Add more water later on as needed.)' },
+        { content: 'Add the rinsed lentils.' },
+        { content: 'Add the coconut cream.' },
+        {
+          content:
+            'Cover and cook on low heat for 30-60 minutes. Stir well every now and then (the lentils tend to start sticking to the bottom). Add water as needed.'
+        },
+        { content: 'Stir in the lemon zest and juice.' },
+        { content: 'Add the very finely julienned ginger.' },
+        { content: 'Season with salt.' }
       ]
     },
     {
       title: 'Instructions group 2',
-      instructions: ['Serve with a dollop of yogurt and a sprinkle of fresh coriander.']
+      instructions: [{ content: 'Serve with a dollop of yogurt and a sprinkle of fresh coriander.' }]
     }
   ]
 }

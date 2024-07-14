@@ -7,6 +7,7 @@ import    { Instruction } from './recipe/resolvers/Instruction';
 import    { InstructionGroup } from './recipe/resolvers/InstructionGroup';
 import    { Language } from './recipe/resolvers/Language';
 import    { createRecipe as Mutation_createRecipe } from './recipe/resolvers/Mutation/createRecipe';
+import    { patchRecipe as Mutation_patchRecipe } from './recipe/resolvers/Mutation/patchRecipe';
 import    { pingMutation as Mutation_pingMutation } from './mutation/resolvers/Mutation/pingMutation';
 import    { Photo } from './recipe/resolvers/Photo';
 import    { allLanguages as Query_allLanguages } from './recipe/resolvers/Query/allLanguages';
@@ -17,7 +18,7 @@ import    { Recipe } from './recipe/resolvers/Recipe';
 import    { Tag } from './recipe/resolvers/Tag';
     export const resolvers: Resolvers = {
       Query: { allLanguages: Query_allLanguages,allRecipes: Query_allRecipes,allTags: Query_allTags,pingQuery: Query_pingQuery },
-      Mutation: { createRecipe: Mutation_createRecipe,pingMutation: Mutation_pingMutation },
+      Mutation: { createRecipe: Mutation_createRecipe,patchRecipe: Mutation_patchRecipe,pingMutation: Mutation_pingMutation },
       
       File: File,
 Ingredient: Ingredient,

@@ -13,42 +13,59 @@ export class TestQueries {
     return gql`
       mutation createRecipe($recipeInput: RecipeInput!) {
         createRecipe(recipeInput: $recipeInput) {
-          id
-          title
-          language {
-            id
-            language
-          }
-          photos {
-            id
-            url
-            isMainPhoto
-          }
-          tags {
-            id
-            tag
-          }
-          ovenNeeded
-          ingredientGroups {
-            title
-            ingredients {
-              id
-              amount
-              unit
-              name
-              previousId
-            }
-          }
-          instructionGroups {
-            title
-            instructions {
-              id
-              content
-              previousId
-            }
-          }
+          ${recipeFragment}
+        }
+      }
+    `
+  }
+
+  static get patchRecipe(): string {
+    return gql`
+      mutation patchRecipe($recipeId: Int!, $recipePatch: RecipeInput!) {
+        patchRecipe(recipeId: $recipeId, recipePatch: $recipePatch) {
+         ${recipeFragment}
         }
       }
     `
   }
 }
+
+const recipeFragment = gql`
+    id
+    title
+    description
+    language {
+      id
+      language
+    }
+    photos {
+      id
+      url
+      isMainPhoto
+    }
+    tags {
+      id
+      tag
+    }
+    ovenNeeded
+    ingredientGroups {
+      id
+      title
+      ingredients {
+        id
+        amount
+        unit
+        name
+        previousId
+      }
+    }
+    instructionGroups {
+      id
+      title
+      instructions {
+        id
+        content
+        previousId
+      }
+    }
+`

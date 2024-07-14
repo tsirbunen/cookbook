@@ -1,5 +1,5 @@
-import { inArray } from 'drizzle-orm'
-import { DatabaseType, TagDBSelect } from '../../database/inferred-types/inferred-types'
+import { eq, inArray } from 'drizzle-orm'
+import { DatabaseType, RecipeSelectDBExpanded, TagDBSelect } from '../../database/inferred-types/inferred-types'
 import { recipesToTags, tags } from '../../database/database-schemas/tags'
 import { Tag } from '../../modules/types.generated'
 
@@ -8,7 +8,7 @@ export const getAllDatabaseTags = async (databaseOrTransaction: DatabaseType): P
   return allTags
 }
 
-export const handleFindExistingOrCreateNewTags = async (
+export const handleFindExistingOrCreateNewTagsWithRelations = async (
   trx: DatabaseType,
   newRecipeId: number,
   tagInputs?: Array<string> | null
@@ -48,4 +48,51 @@ export const handleFindExistingOrCreateNewTags = async (
   await trx.insert(recipesToTags).values(tagRelationInputs).returning()
 
   return allTags
+}
+
+export const handlePatchAndPurgeRecipeTags = async (
+  trx: DatabaseType,
+  tags: string[],
+  originalRecipe: RecipeSelectDBExpanded
+) => {
+  const originalRecipeTagRelations = (originalRecipe?.recipesToTags ?? []).map((recipeTagRelation) => {
+    return { id: recipeTagRelation.id, tag: recipeTagRelation.tags }
+  })
+
+  const recipeTagRelationsToRemoveIds: number[] = []
+  const possiblyUnusedTagIds: number[] = []
+  const alreadyExistingTags: string[] = []
+  for (const relation of originalRecipeTagRelations) {
+    if (!tags.includes(relation.tag.tag)) {
+      recipeTagRelationsToRemoveIds.push(relation.id)
+      possiblyUnusedTagIds.push(relation.tag.id)
+    } else {
+      alreadyExistingTags.push(relation.tag.tag)
+    }
+  }
+
+  if (recipeTagRelationsToRemoveIds.length) {
+    await removeRecipeTagRelations(trx, recipeTagRelationsToRemoveIds)
+  }
+
+  if (possiblyUnusedTagIds.length) {
+    for (let i = 0; i < possiblyUnusedTagIds.length; i++) {
+      const tagId = possiblyUnusedTagIds[i]
+      const recipesWithThisTag = await trx.query.recipesToTags.findMany({
+        where: eq(recipesToTags.tagId, tagId)
+      })
+
+      if (!recipesWithThisTag.length) {
+        await trx.delete(recipesToTags).where(eq(recipesToTags.tagId, tagId))
+      }
+    }
+  }
+
+  const tagsToCreate = tags.filter((tag) => !alreadyExistingTags.includes(tag))
+
+  await handleFindExistingOrCreateNewTagsWithRelations(trx, originalRecipe.id, tagsToCreate)
+}
+
+export const removeRecipeTagRelations = async (trx: DatabaseType, relationIds: number[]) => {
+  await trx.delete(recipesToTags).where(inArray(recipesToTags.id, relationIds))
 }

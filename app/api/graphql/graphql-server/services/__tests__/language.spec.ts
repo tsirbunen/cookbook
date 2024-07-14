@@ -1,6 +1,6 @@
 import { expect } from '@jest/globals'
 import { client, database } from '../../database/config/config'
-import { handleFindExistingOrCreateNewLanguage } from '../languages/utils'
+import { handleFindCreateOrPatchAndPurgeLanguage } from '../languages/utils'
 import { clearDatabase, getTableRowCountInDatabase, insertLanguagesToDB } from './test-database-helpers'
 
 describe('Handle languages', () => {
@@ -14,7 +14,7 @@ describe('Handle languages', () => {
     const index = 2
     const expectedLanguageId = newLanguages[index].id
 
-    const languageId = await handleFindExistingOrCreateNewLanguage(database, languages[index])
+    const languageId = await handleFindCreateOrPatchAndPurgeLanguage(database, languages[index])
     expect(languageId).toBe(expectedLanguageId)
     const rowCount = await getTableRowCountInDatabase('languages')
     expect(rowCount).toBe(languages.length)
@@ -25,7 +25,7 @@ describe('Handle languages', () => {
     const existingLanguages = await insertLanguagesToDB(languages)
     const newLanguage = 'German'
 
-    const languageId = await handleFindExistingOrCreateNewLanguage(database, newLanguage)
+    const languageId = await handleFindCreateOrPatchAndPurgeLanguage(database, newLanguage)
     existingLanguages.forEach((language) => {
       expect(language.language).not.toBe(newLanguage)
       expect(language.id).not.toBe(languageId)
