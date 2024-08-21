@@ -78,8 +78,6 @@ export const patchExistingRecipe = async (recipeId: number, recipePatch: RecipeI
       )
     }
 
-    console.log('next instructionGroups', tags)
-
     if (instructionGroups?.length) {
       await handleCreateOrPatchInstructionGroupsAndTheirInstructions(
         trx,

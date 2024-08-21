@@ -3,6 +3,7 @@ dotenv.config()
 
 import { drizzle } from 'drizzle-orm/postgres-js'
 import postgres from 'postgres'
+import { localDatabaseOptions } from '../utils/get-database-local-options.js'
 import * as recipeSchema from '../database-schemas/recipes'
 import * as ingredientSchema from '../database-schemas/ingredients'
 import * as instructionSchema from '../database-schemas/instructions'
@@ -19,15 +20,7 @@ if (isProduction) {
 
   client = postgres(connectionString)
 } else {
-  const options = {
-    host: Boolean(process.env.IS_GITHUB) ? 'postgres' : 'localhost',
-    port: 5432,
-    user: 'postgres',
-    password: 'postgres',
-    database: 'postgres'
-  }
-
-  client = postgres('', { ...options, max: 1 })
+  client = postgres('', { ...localDatabaseOptions, max: 1 })
 }
 
 const database = drizzle(client, {

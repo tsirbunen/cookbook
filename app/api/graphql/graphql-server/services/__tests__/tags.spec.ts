@@ -1,32 +1,28 @@
 import { expect } from '@jest/globals'
 import { client, database } from '../../database/config/config'
-import {
-  clearDatabase,
-  getTableRowCountInDatabase,
-  getTableRows,
-  insertLanguagesToDB,
-  insertRecipeToDB,
-  insertTagsToDB
-} from './test-database-helpers'
+import { clearDatabase } from '../../database/utils/clear-database.js'
+import { getOrCreateTags, createRecipe, getOrCreateLanguage } from '../../database/utils/insert-data-to-database.js'
+
+import { getTableRowCountInDatabase, getTableRows } from './test-database-helpers'
 import { handleFindExistingOrCreateNewTagsWithRelations } from '../tags/utils'
 
 let newRecipeId: number
 
 describe('Handle tags', () => {
   beforeEach(async () => {
-    await clearDatabase()
-    const [{ id: languageId }] = await insertLanguagesToDB(['Chinese'])
-    const newRecipe = (await insertRecipeToDB({
-      title: 'Fried rice',
-      languageId: languageId as number,
-      ovenNeeded: false
-    })) as { id: number }
+    await clearDatabase(database)
+    const { id: languageId } = await getOrCreateLanguage(database, 'Chinese')
+    const newRecipe = (await createRecipe(
+      database,
+      { title: 'Fried rice', ovenNeeded: false },
+      languageId as number
+    )) as { id: number }
     newRecipeId = newRecipe.id
   })
 
   it('Previously created tags are found without creating new tags', async () => {
     const tags = ['vegan', 'healthy', 'gluten-free', 'vegetarian']
-    const newTags = await insertTagsToDB(tags)
+    const newTags = await getOrCreateTags(database, tags)
     const indexes = [0, 1]
     const expectedTags = [newTags[indexes[0]], newTags[indexes[1]]]
     const recipeTags = indexes.map((index) => tags[index])
@@ -54,7 +50,7 @@ describe('Handle tags', () => {
 
   it('Missing new tags are created', async () => {
     const tags = ['vegan', 'healthy', 'vegetarian']
-    const existingTags = await insertTagsToDB(tags)
+    const existingTags = await getOrCreateTags(database, tags)
     const existingIndex = 1
     const recipeTags = [tags[existingIndex], 'gluten-free']
 

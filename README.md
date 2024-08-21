@@ -30,9 +30,21 @@ And finally open **[http://localhost:3000](http://localhost:3000)** with your br
 
 To run the app in **`DEBUG`** mode, select option "Full stack" in RUN AND DEBUG in Visual Studio Code.
 
+To insert example data to the local database, run
+&nbsp;&nbsp;&nbsp;&nbsp; **`npm run insert_example_data`**
+
 ### Tests
 
-##### TEST FILES
+##### API-SERVICE TESTS
+
+Api-service tests are in **[this directory](./app/api/graphql/graphql-server/services/__tests__/)**. To run the api-service tests use either of the following
+
+&nbsp;&nbsp;&nbsp;&nbsp; **`npm run test:api`**
+&nbsp;&nbsp;&nbsp;&nbsp; **`npm run test:api:watch`**
+
+_Note: The tests mainly exercise the "E2E" interactions of the api service meaning that the api service interacts with the database in most of the tests. Before each test is run, the database is cleared of all data, so if you have made changes to the database, the changes will be lost._
+
+<!-- ##### TEST FILES
 
 Unit/component test files have been placed to a **\_\_tests\_\_**-folder next to the code that they test.
 Cypress tests are in a folder of their own.
@@ -44,7 +56,6 @@ Add test data to database. Open a GraphQL Client (for example **[Altair](https:/
 ##### RUNNING TESTS
 
 **Unit and React Component/Hook test** files have been placed into **\_\_tests\_\_** -folders next to the code they test. To run these tests for ui or api, use
-&nbsp;&nbsp;&nbsp;&nbsp; **`npm run test:ui`** or **`npm run test:ui:watch`**
 &nbsp;&nbsp;&nbsp;&nbsp; **`npm run test:api`** or **`npm run test:api:watch`**
 
 **E2E feature test files** can be triggered manually (one by one) with live viewing. First start the application in one shell (as described above) and then run in another shell
@@ -56,7 +67,15 @@ Alternatively, E2E tests can be run without live viewing (but with the applicati
 Neither the unit/component nor the E2E tests cover all the code on their own. Instead they have been designed to **complement** each other. For example, there are unit tests for some small functions and individual form components (like the search text area input), and there are E2E tests for within app navigation.
 
 _Note 1:_ If the cypress tests fail, it might be that the waiting time is not long enough for the dynamic page components to catch up. In that case, increase the waiting time.
-_Note 2:_ The cypress E2E tests are truly E2E only when run locally. For some reason (related to the ApolloNextAppProvider) the Apollo Client could not be made to work in GitHub Actions testing environment and therefore in GitHub test flow the hook using Apollo Client to fetch data from api is replaced with a mock.
+_Note 2:_ The cypress E2E tests are truly E2E only when run locally. For some reason (related to the ApolloNextAppProvider) the Apollo Client could not be made to work in GitHub Actions testing environment and therefore in GitHub test flow the hook using Apollo Client to fetch data from api is replaced with a mock. -->
+
+##### CLIENT TESTS
+
+Client tests
+
+##### CYPRESS TESTS
+
+Cypress tests
 
 ### Libraries used
 

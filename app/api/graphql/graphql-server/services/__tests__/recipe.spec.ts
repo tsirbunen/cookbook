@@ -1,7 +1,7 @@
-import { client } from '../../database/config/config'
+import { client, database } from '../../database/config/config'
 import { getGraphQLClient } from './test-graphql-client'
 import { TestQueries } from './test-queries'
-import { clearDatabase } from './test-database-helpers'
+import { clearDatabase } from '../../database/utils/clear-database.js'
 import { Recipe, RecipeInput } from '../../modules/types.generated'
 import { recipeTestInput } from './test-data'
 import {
@@ -36,7 +36,7 @@ const patchOriginalRecipe = async (graphQLClient: GraphQLClient, recipeId: numbe
 
 describe('Handle recipes', () => {
   beforeEach(async () => {
-    await clearDatabase()
+    await clearDatabase(database)
   })
 
   it('New recipe can be created', async () => {

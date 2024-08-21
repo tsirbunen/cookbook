@@ -5,6 +5,7 @@
   "scripts": {
     "migrations:local": "node app/api/graphql/graphql-server/database/migrations/perform-migrations.js",
     "migrations:production": "NODE_ENV=production node app/api/graphql/graphql-server/database/migrations/perform-migrations.js",
+    "insert_example_data": "node app/api/graphql/graphql-server/database/example-data/insert-example-data.js",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

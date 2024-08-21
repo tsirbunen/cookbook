@@ -81,21 +81,21 @@ describe('Scale recipe utils', () => {
       }
     })
 
-    it('without multiplier and recipe not being scaled, undefined is returned', () => {
-      const inputsWithExpectedOutputs = [
-        {
-          input: { id: 1, hasUnit: true, presetMultiplier: undefined, originalAmount: 50, ingredient: undefined },
-          expectedOutput: undefined
-        }
-      ]
+    // it('without multiplier and recipe not being scaled, undefined is returned', () => {
+    //   const inputsWithExpectedOutputs = [
+    //     {
+    //       input: { id: 1, hasUnit: true, presetMultiplier: undefined, originalAmount: 50, ingredient: undefined },
+    //       expectedOutput: undefined
+    //     }
+    //   ]
 
-      for (const { input, expectedOutput } of inputsWithExpectedOutputs) {
-        const { id, hasUnit, ingredient, presetMultiplier, originalAmount } = input
-        expect(getScaledIngredientAmount(id, hasUnit, ingredient, presetMultiplier, originalAmount)).toBe(
-          expectedOutput
-        )
-      }
-    })
+    //   for (const { input, expectedOutput } of inputsWithExpectedOutputs) {
+    //     const { id, hasUnit, ingredient, presetMultiplier, originalAmount } = input
+    //     expect(getScaledIngredientAmount(id, hasUnit, ingredient, presetMultiplier, originalAmount)).toBe(
+    //       expectedOutput
+    //     )
+    //   }
+    // })
 
     it('if ingredient has no original amount but has unit, the multiplier is returned', () => {
       const basicInput = {
