@@ -77,33 +77,38 @@ jobs:
   cypress_ui_testing:
     needs: [jest_unit_and_component_testing_and_linting]
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:latest
-        env:
-          POSTGRES_HOST: localhost
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_PORT: 5432
-          POSTGRES_DB: postgres
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+    # FIXME: Comment back in  once the ApolloNextAppProvider can be made to work with the cypress
+    # tests! Currently the Postgres DB is not used as the ApiServiceProvider
+    # is replaced with a mock and the tests are not E2E when run in GitHub.
+    # services:
+    #   postgres:
+    #     image: postgres:latest
+    #     env:
+    #       POSTGRES_HOST: localhost
+    #       POSTGRES_USER: postgres
+    #       POSTGRES_PASSWORD: postgres
+    #       POSTGRES_PORT: 5432
+    #       POSTGRES_DB: postgres
+    #     ports:
+    #       - 5432:5432
+    #     options: >-
+    #       --health-cmd pg_isready
+    #       --health-interval 10s
+    #       --health-timeout 5s
+    #       --health-retries 5
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Use Node.js to run migrations to database
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-      - run: npm install
-      - run: npm run migrations:local
+      # FIXME: Comment back in  once the ApolloNextAppProvider can be made to work with the cypress
+      # tests! Currenlty the Postgres DB is not used so there is no need to run migrations
+      # - name: Use Node.js to run migrations to database
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: '20.x'
+      # - run: npm install
+      # - run: npm run migrations:local
 
       # FIXME: Remove these once the ApolloNextAppProvider can be made to work with the cypress tests!
       - name: Replace GraphQL client using hook with a mock
