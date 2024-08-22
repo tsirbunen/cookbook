@@ -19,14 +19,14 @@ Feature: Filtering management
         When one toggles the toggle for tool "filtering"
         Then "exactly" "0" recipes are displayed
         Then the number of set filters shown in toggle badge is "0"
-        When one clicks the "tag" button "TEST-TAG-1"
+        When one clicks the "tag" button "VEGETARIAN"
         Then no number is shown in toggle badge
         When one submits the form
         Then the number of set filters shown in toggle badge is "1"
         Then "exactly" "2" recipes are displayed
         When one toggles the toggle for tool "filtering"
-        When one clicks the "tag" button "TEST-TAG-1"
-        When one clicks the "tag" button "TEST-TAG-2"
+        When one clicks the "tag" button "VEGETARIAN"
+        When one clicks the "tag" button "VEGAN"
         When one submits the form
         Then the number of set filters shown in toggle badge is "1"
         Then "exactly" "1" recipes are displayed
@@ -39,7 +39,7 @@ Feature: Filtering management
 
     Scenario: One can filter recipes by ingredients
         When one toggles the toggle for tool "filtering"
-        When one enters text "BLUEBERRY" into the ingredients text input area
+        When one enters text "beluga" into the ingredients text input area
         When one submits the form
         Then the number of set filters shown in toggle badge is "1"
         Then "exactly" "1" recipes are displayed
@@ -53,13 +53,13 @@ Feature: Filtering management
     Scenario: One can filter recipes by multiple filters
         When one toggles the toggle for tool "filtering"
         When one clicks the "language" button "SWEDISH"
-        When one clicks the "tag" button "TEST-TAG-1"
+        When one clicks the "tag" button "SOUP"
         When one submits the form
         Then the number of set filters shown in toggle badge is "2"
         Then "exactly" "1" recipes are displayed
         When one toggles the toggle for tool "filtering"
         When one clicks the "language" button "SWEDISH"
-        When one enters text "BLUEBERRY" into the ingredients text input area
+        When one enters text "beluga" into the ingredients text input area
         When one submits the form
         Then the number of set filters shown in toggle badge is "2"
         Then "exactly" "1" recipes are displayed

@@ -9,6 +9,9 @@ import { nameCss } from './common-styles'
 import { getScaledIngredientAmount } from './utils'
 import { rowItemsStartCss } from '../../../../constants/styling'
 
+export const ingredientRow = 'ingredient-row'
+export const ingredientName = 'ingredient-name'
+
 type IngredientRowProps = {
   ingredient: Ingredient
   presetMultiplier: number | undefined
@@ -58,14 +61,14 @@ const IngredientRow = ({
   }, [amount, isSelected, showInput, showText])
 
   return (
-    <Flex {...rowItemsStartCss}>
+    <Flex {...rowItemsStartCss} data-testid={ingredientRow}>
       <Flex {...amountOrUnitCss(false)}>{amountElement}</Flex>
 
       <Flex {...amountOrUnitCss(showAsPale)}>
         <Text>{unit}</Text>
       </Flex>
 
-      <Flex {...nameCss(showAsPale)}>
+      <Flex {...nameCss(showAsPale)} data-testid={ingredientName}>
         <Text>{name}</Text>
       </Flex>
     </Flex>

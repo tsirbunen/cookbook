@@ -1,6 +1,6 @@
 export const belugaBolognese = {
   title: 'Beluga bolognese',
-  tags: 'soup',
+  tags: ['soup'],
   ovenNeeded: false,
   language: 'English',
   photoIdentifiers: ['dal.png', 'korma.png'],

@@ -8,6 +8,7 @@ import { CSSProperties, SyntheticEvent, useEffect, useState } from 'react'
 // import { GiMeal } from 'react-icons/gi'
 // import { PiForkKnifeBold } from 'react-icons/pi'
 // import { TbGrill } from 'react-icons/tb'
+export const clickableRecipeCardArea = 'clickable-recipe-card-area'
 
 export enum FallbackIcon {
   FOOD = 'FOOD'
@@ -53,6 +54,7 @@ const ImageWithFallback = ({
     return (
       <Flex
         onClick={onClick}
+        data-testid={clickableRecipeCardArea}
         {...iconContainerCss(borderRadius, imageHeight, imageWidth, typeof imageWidth === 'number')}
       >
         {getFallbackIcon(fallbackIcon, imageWidth)}
@@ -67,6 +69,7 @@ const ImageWithFallback = ({
       style={{ ...(imageCss(borderRadius, imageHeight, imageWidth) as CSSProperties) }}
       onClick={onClick}
       onError={onImageSourceError}
+      data-testid={clickableRecipeCardArea}
     />
   )
 }

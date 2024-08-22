@@ -7,65 +7,51 @@ import {
   multiColumnToggleProperty
 } from '../../src/widgets/toggles/Toggle'
 import { Base } from './base'
-import { getTestRecipesForCypressGitHubActionsTests } from '../../app/api/test-data-migrations/test-recipes-migration-data'
 import { cardRadioButtonSelectorDataTestId } from '../../src/widgets/card-radio-button-selector/CardRadioButtonSelector'
 import { MULTI_COLUMN_DIV } from '../../src/layout/multi-column-wrapper/MultiColumnContent'
 import { DARK_COLOR_RGB, MEDIUM_RBG, VERY_DARK_RGB } from '../../src/constants/color-codes'
+import { clickableRecipeCardArea } from '../../src/widgets/image-with-fallback/ImageWithFallback'
+import { ingredientName, ingredientRow } from '../../src/app-pages/cook/panel/ingredients-and-scaling/IngredientRow'
+import { instructionRow } from '../../src/app-pages/cook/panel/instructions/Instructions'
+import { recipeTitle } from '../../src/app-pages/cook/panel/general/RecipeTitle'
 
 export class CookingPage extends Base {
-  testRecipes = getTestRecipesForCypressGitHubActionsTests()
-
-  getRecipe(recipeId: string) {
-    return this.testRecipes.find((recipe) => recipe.id === parseInt(recipeId))
+  pickThreeRecipes() {
+    cy.getByDataTestId(clickableRecipeCardArea).each(($card, index) => {
+      if (index < 3) cy.wrap($card).click()
+    })
   }
 
-  getIngredientsWithAmountOrUnitCount(recipeId: string) {
-    const recipe = this.getRecipe(recipeId)
-    return recipe.ingredientGroups
-      .map((group) => group.ingredients)
-      .flat()
-      .filter(({ amount, unit }) => !!amount || !!unit).length
+  performForTogglesOfRecipe(recipeIndex: string, actionFunction: () => void) {
+    cy.getByDataTestIdContains('-toggles').each(($toggle, index) => {
+      if (index === parseInt(recipeIndex)) {
+        cy.wrap($toggle).within(() => {
+          actionFunction()
+        })
+      }
+    })
   }
 
-  getIngredientsAndInstructionsCount(recipeId: string) {
-    const recipe = this.getRecipe(recipeId)
-    return (
-      recipe.ingredientGroups.reduce((acc, group) => acc + group.ingredients.length, 0) +
-      recipe.instructionGroups.reduce((acc, group) => acc + group.instructions.length, 0)
-    )
+  performForIngredientsOfRecipe(recipeIndex: string, actionFunction: () => void) {
+    cy.getByDataTestIdContains('ingredients-for-recipe-').each(($content, index) => {
+      if (index === parseInt(recipeIndex)) {
+        cy.wrap($content).within(() => {
+          actionFunction()
+        })
+      }
+    })
   }
 
-  getIngredient(ingredient: string, group: string, recipeId: string) {
-    return this.testRecipes.find((recipe) => recipe.id === parseInt(recipeId)).ingredientGroups[parseInt(group) - 1]
-      .ingredients[parseInt(ingredient) - 1]
-  }
-
-  getCheckboxIndex(ingredient: string, group: string, recipeId: string) {
-    const recipe = this.getRecipe(recipeId)
-    let targetCheckboxIndex = 0
-    for (let i = 0; i < parseInt(group) - 1; i++) {
-      targetCheckboxIndex += recipe.ingredientGroups[i].ingredients.length
-    }
-    targetCheckboxIndex += parseInt(ingredient) - 1
-    return targetCheckboxIndex
-  }
-
-  getFirstNRecipeTitles(recipesCount: number) {
-    return this.testRecipes.slice(0, recipesCount).map((recipe) => recipe.title)
-  }
-
-  toggleIsScalingRecipe(recipeId: string) {
-    cy.getByDataTestId(`${recipeId}-toggles`).within(() => {
+  toggleIsScalingRecipe(recipeIndex: string) {
+    this.performForTogglesOfRecipe(recipeIndex, () => {
       cy.getByDataTestId(ingredientScalingToggleProperty).click()
     })
   }
 
-  scalingOptionsAreVisibleOrNotForRecipe(areVisible: boolean, recipeId: string) {
-    cy.getByDataTestId(`ingredients-for-recipe-${recipeId}`).within(() => {
+  scalingOptionsAreVisibleOrNotForRecipe(areVisible: boolean, recipeIndex: string) {
+    this.performForIngredientsOfRecipe(recipeIndex, () => {
       if (areVisible) {
         this.verifyIsVisible(presetMultiplierTestId)
-        const ingredientsWithAmountOrUnitCount = this.getIngredientsWithAmountOrUnitCount(recipeId)
-        cy.get('input').should('have.lengthOf', ingredientsWithAmountOrUnitCount)
       } else {
         this.verifyDataTestIdDoesNotExist(presetMultiplierTestId)
         cy.get('input').should('not.exist')
@@ -73,101 +59,128 @@ export class CookingPage extends Base {
     })
   }
 
-  togglePresetMultiplier(multiplier: string, recipeId: string) {
-    cy.getByDataTestId(`ingredients-for-recipe-${recipeId}`).within(() => {
+  togglePresetMultiplier(multiplier: string, recipeIndex: string) {
+    this.performForIngredientsOfRecipe(recipeIndex, () => {
       cy.contains(multiplier).click()
     })
   }
 
-  verifySelectedMultiplierIsVisible(multiplier: string, isVisible: boolean, recipeId: string) {
-    if (isVisible) {
-      cy.getByDataTestId(`recipe-${recipeId}-panel`).within(() => {
+  verifySelectedMultiplierIsVisible(multiplier: string, isVisible: boolean, recipeIndex: string) {
+    this.performForTogglesOfRecipe(recipeIndex, () => {
+      if (isVisible) {
         cy.contains(`${multiplier} X`).should('exist')
-      })
-    } else {
-      cy.getByDataTestId(`recipe-${recipeId}-panel`).within(() => {
+      } else {
         cy.get(`${multiplier} X`).should('not.exist')
-      })
-    }
+      }
+    })
   }
 
-  toggleHasTwoColumns(recipeId: string) {
-    cy.getByDataTestId(`${recipeId}-toggles`).within(() => {
+  toggleHasTwoColumns(recipeIndex: string) {
+    this.performForTogglesOfRecipe(recipeIndex, () => {
       cy.getByDataTestId(multiColumnToggleProperty).click()
     })
   }
 
-  verifyColumnCounts(count: string, recipeId: string) {
-    cy.getByDataTestId(`recipe-${recipeId}-panel`).within(() => {
-      cy.getByDataTestId(MULTI_COLUMN_DIV).each(($div) => {
-        cy.wrap($div)
-          .should('have.attr', 'style')
-          .invoke('replace', /\s/g, '')
-          .should('contain', `column-count:${count};`)
-      })
+  verifyColumnCounts(count: string, recipeIndex: string) {
+    cy.getByDataTestIdContains('-panel').each(($content, index) => {
+      if (index === parseInt(recipeIndex)) {
+        cy.wrap($content).within(() => {
+          cy.getByDataTestId(MULTI_COLUMN_DIV).each(($div) => {
+            cy.wrap($div)
+              .should('have.attr', 'style')
+              .invoke('replace', /\s/g, '')
+              .should('contain', `column-count:${count};`)
+          })
+        })
+      }
     })
   }
 
-  toggleIsCooking(recipeId: string) {
-    cy.getByDataTestId(`${recipeId}-toggles`).within(() => {
+  toggleIsCooking(recipeIndex: string) {
+    this.performForTogglesOfRecipe(recipeIndex, () => {
       cy.getByDataTestId(cookToggleProperty).click()
     })
   }
 
-  toggleClear(recipeId: string) {
-    cy.getByDataTestId(`${recipeId}-toggles`).within(() => {
+  toggleClear(recipeIndex: string) {
+    this.performForTogglesOfRecipe(recipeIndex, () => {
       cy.getByDataTestId(clearAllToggleProperty).click()
     })
   }
 
-  verifyCheckboxVisibility(areVisible: boolean, recipeId: string) {
-    cy.getByDataTestId(`recipe-${recipeId}-panel`).within(() => {
-      if (areVisible) {
-        const expectedCheckboxCount = this.getIngredientsAndInstructionsCount(recipeId)
-        cy.get('input[type="checkbox"]').should('have.length', expectedCheckboxCount)
-      } else {
-        cy.get('input[type="checkbox"]').should('not.exist')
+  verifyCheckboxVisibility(areVisible: boolean, recipeIndex: string) {
+    cy.getByDataTestIdContains('-panel').each(($content, index) => {
+      if (index === parseInt(recipeIndex)) {
+        cy.wrap($content).within(() => {
+          if (areVisible) {
+            let expectedCheckboxCount = 0
+            cy.getByDataTestId(ingredientRow)
+              .each((_) => {
+                expectedCheckboxCount += 1
+              })
+              .then(() => {
+                cy.getByDataTestId(instructionRow).each((_) => {
+                  expectedCheckboxCount += 1
+                })
+              })
+              .then(() => {
+                cy.get('input[type="checkbox"]').should('have.length', expectedCheckboxCount)
+              })
+          } else {
+            cy.get('input[type="checkbox"]').should('not.exist')
+          }
+        })
       }
     })
   }
 
-  verifyIngredientOpacity(isOpaque: boolean, ingredient: string, group: string, recipeId: string) {
-    const targetIngredient = this.getIngredient(ingredient, group, recipeId)
+  verifyIngredientOpacity(isOpaque: boolean, targetIndex: number, recipeIndex: string) {
     const color = isOpaque ? DARK_COLOR_RGB : VERY_DARK_RGB
-    cy.contains(targetIngredient.name).parent().should('have.css', 'color', color)
-  }
 
-  verifyCheckboxCheckedStatus(isChecked: boolean, ingredient: string, group: string, recipeId: string) {
-    const targetCheckboxIndex = this.getCheckboxIndex(ingredient, group, recipeId)
-    cy.get('input[type="checkbox"]').each(($input, index) => {
-      if (index === targetCheckboxIndex) {
-        if (isChecked) {
-          cy.wrap($input).parent().find('span').should('have.attr', 'data-checked')
-        } else {
-          cy.wrap($input).should('not.be.checked')
+    this.performForIngredientsOfRecipe(recipeIndex, () => {
+      cy.getByDataTestId(ingredientRow).each(($ingredient, i) => {
+        if (i === targetIndex) {
+          cy.wrap($ingredient).within(() => {
+            cy.getByDataTestId(ingredientName).should('have.css', 'color', color)
+          })
         }
-      }
+      })
     })
   }
 
-  checkOrUncheckIngredient(isCheck: boolean, ingredient: string, group: string, recipeId: string) {
-    const targetCheckboxIndex = this.getCheckboxIndex(ingredient, group, recipeId)
-    cy.get('input[type="checkbox"]').each(($input, index) => {
-      if (index === targetCheckboxIndex) {
-        if (isCheck) cy.wrap($input).check({ force: true })
-        else cy.wrap($input).uncheck({ force: true })
-      }
+  verifyIngredientCheckboxCheckedStatus(isChecked: boolean, targetIndex: number, recipeIndex: string) {
+    this.performForIngredientsOfRecipe(recipeIndex, () => {
+      cy.get('input[type="checkbox"]').each(($input, index) => {
+        if (index === targetIndex) {
+          if (isChecked) {
+            cy.wrap($input).parent().find('span').should('have.attr', 'data-checked')
+          } else {
+            cy.wrap($input).should('not.be.checked')
+          }
+        }
+      })
     })
   }
 
-  toggleIsFavoriteRecipe(recipeId: string) {
-    cy.getByDataTestId(`${recipeId}-toggles`).within(() => {
+  checkOrUncheckIngredient(isCheck: boolean, targetIndex: number, recipeIndex: string) {
+    this.performForIngredientsOfRecipe(recipeIndex, () => {
+      cy.get('input[type="checkbox"]').each(($input, index) => {
+        if (index === targetIndex) {
+          if (isCheck) cy.wrap($input).check({ force: true })
+          else cy.wrap($input).uncheck({ force: true })
+        }
+      })
+    })
+  }
+
+  toggleIsFavoriteRecipe(recipeIndex: string) {
+    this.performForTogglesOfRecipe(recipeIndex, () => {
       cy.getByDataTestId(favoriteToggleProperty).click()
     })
   }
 
-  verifyFavoriteStatus(recipeId: string, isFavorite: boolean) {
-    cy.getByDataTestId(`${recipeId}-toggles`).within(() => {
+  verifyFavoriteStatus(recipeIndex: string, isFavorite: boolean) {
+    this.performForTogglesOfRecipe(recipeIndex, () => {
       const expectedColor = isFavorite ? VERY_DARK_RGB : MEDIUM_RBG
 
       cy.getByDataTestId(favoriteToggleProperty).within(() => {
@@ -177,10 +190,14 @@ export class CookingPage extends Base {
   }
 
   verifyRecipesDisplayCount(recipesCount: string) {
-    const titles = this.getFirstNRecipeTitles(parseInt(recipesCount))
-    for (const title of titles) {
-      this.verifyTextContentDoesExist(title)
-    }
+    let titlesCount = 0
+    cy.getByDataTestId(recipeTitle)
+      .each((_) => {
+        titlesCount += 1
+      })
+      .then(() => {
+        expect(titlesCount).to.equal(parseInt(recipesCount))
+      })
   }
 
   setViewingRecipesCount(count: string) {

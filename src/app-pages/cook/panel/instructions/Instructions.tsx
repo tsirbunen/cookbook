@@ -7,6 +7,8 @@ import { CookingContext } from '../../page/CookingProvider'
 import CheckToggle from '../general/CheckToggle'
 import MultiColumnContent from '../../../../layout/multi-column-wrapper/MultiColumnContent'
 
+export const instructionRow = 'instruction-row'
+
 type RecipeIngredientsProps = {
   instructionGroups: InstructionGroup[]
   columnCount: number
@@ -43,7 +45,7 @@ const Instructions = ({ instructionGroups, columnCount, recipeId }: RecipeIngred
 
                 return (
                   <React.Fragment key={`instruction-row-${group.id}-${id}-${recipeId}`}>
-                    <Flex {...ingredientRowCss}>
+                    <Flex {...ingredientRowCss} data-testid={instructionRow}>
                       {showCheckToggles ? (
                         <CheckToggle
                           isChecked={isChecked}

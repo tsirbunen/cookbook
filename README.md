@@ -33,16 +33,16 @@ To run the app in **`DEBUG`** mode, select option "Full stack" in RUN AND DEBUG 
 To insert example data to the local database, run
 &nbsp;&nbsp;&nbsp;&nbsp; **`npm run insert_example_data`**
 
-### Tests
+## TESTS
 
-##### API-SERVICE TESTS
+#### API tests
 
-Api-service tests are in **[this directory](./app/api/graphql/graphql-server/services/__tests__/)**. To run the api-service tests use either of the following
+Api service tests are in **[this directory](./app/api/graphql/graphql-server/services/__tests__/)**. To run the api tests use either of the following
 
 &nbsp;&nbsp;&nbsp;&nbsp; **`npm run test:api`**
 &nbsp;&nbsp;&nbsp;&nbsp; **`npm run test:api:watch`**
 
-_Note: The tests mainly exercise the "E2E" interactions of the api service meaning that the api service interacts with the database in most of the tests. Before each test is run, the database is cleared of all data, so if you have made changes to the database, the changes will be lost._
+_Note: The tests mainly exercise the functionality of the api service including the interactions with the database meaning that the api interacts with the database in most of these tests. Before each test is run, the database is cleared of all data, so if you have made changes to the database, the changes will be lost._
 
 <!-- ##### TEST FILES
 
@@ -55,27 +55,33 @@ Add test data to database. Open a GraphQL Client (for example **[Altair](https:/
 
 ##### RUNNING TESTS
 
-**Unit and React Component/Hook test** files have been placed into **\_\_tests\_\_** -folders next to the code they test. To run these tests for ui or api, use
-&nbsp;&nbsp;&nbsp;&nbsp; **`npm run test:api`** or **`npm run test:api:watch`**
-
-**E2E feature test files** can be triggered manually (one by one) with live viewing. First start the application in one shell (as described above) and then run in another shell
-&nbsp;&nbsp;&nbsp;&nbsp; **`npm run cypress:open`**
-
-Alternatively, E2E tests can be run without live viewing (but with the application running in the background) with
-&nbsp;&nbsp;&nbsp;&nbsp; **`npm run cypress:run`**
 
 Neither the unit/component nor the E2E tests cover all the code on their own. Instead they have been designed to **complement** each other. For example, there are unit tests for some small functions and individual form components (like the search text area input), and there are E2E tests for within app navigation.
 
+-->
+
+#### UI tests
+
+**Unit and React Component/Hook test** files have been placed into **\_\_tests\_\_** -folders next to the code they test. To run these tests for ui, use either of
+
+&nbsp;&nbsp;&nbsp;&nbsp; **`npm run test:ui`**
+&nbsp;&nbsp;&nbsp;&nbsp; **`npm run test:ui:watch`**
+
+These tests do not interact with the database or the api so the tests can be run in isolation (no running database or app is required).
+
+#### E2E tests
+
+**E2E feature tests** require that the app and the database are running in the background so first start the app in one shell. Then, in another shell, start Cypress tests either in an interactive mode (where you can trigger tests manually one by one from UI) or in a non-interactive mode
+
+&nbsp;&nbsp;&nbsp;&nbsp; **`npm run cypress:open`**
+
+&nbsp;&nbsp;&nbsp;&nbsp; **`npm run cypress:run`**
+
+In both cases, the database is cleared and new example data is inserted into the database before starting the tests.
+
 _Note 1:_ If the cypress tests fail, it might be that the waiting time is not long enough for the dynamic page components to catch up. In that case, increase the waiting time.
-_Note 2:_ The cypress E2E tests are truly E2E only when run locally. For some reason (related to the ApolloNextAppProvider) the Apollo Client could not be made to work in GitHub Actions testing environment and therefore in GitHub test flow the hook using Apollo Client to fetch data from api is replaced with a mock. -->
 
-##### CLIENT TESTS
-
-Client tests
-
-##### CYPRESS TESTS
-
-Cypress tests
+_Note 2:_ The cypress E2E tests are truly E2E only when run locally. For some reason (related to the ApolloNextAppProvider) the Apollo Client could not be made to work in GitHub Actions testing environment and therefore in GitHub test flow the hook using Apollo Client to fetch data from api is replaced with a mock.
 
 ### Libraries used
 

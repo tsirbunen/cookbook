@@ -15,16 +15,15 @@ Feature: Picked recipes management
 
         When one clicks the displayed recipe at index "1"
         When one clicks the displayed recipe at index "2"
-        When one clicks the displayed recipe at index "3"
-        Then the number of picked recipes shown in toggle badge is "4"
-        Then the number of picked recipes shown in tool is "4"
-
-        When one clicks the displayed recipe at index "0"
         Then the number of picked recipes shown in toggle badge is "3"
         Then the number of picked recipes shown in tool is "3"
 
-        When one clicks the picked recipe in the tool at index "0"
+        When one clicks the displayed recipe at index "0"
         Then the number of picked recipes shown in toggle badge is "2"
         Then the number of picked recipes shown in tool is "2"
+
+        When one clicks the picked recipe in the tool at index "0"
+        Then the number of picked recipes shown in toggle badge is "1"
+        Then the number of picked recipes shown in tool is "1"
 
 

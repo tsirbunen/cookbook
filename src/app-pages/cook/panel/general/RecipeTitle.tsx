@@ -3,13 +3,15 @@
 import { css } from '@emotion/react'
 import Title, { TitleVariant } from '../../../../widgets/titles/Title'
 
+export const recipeTitle = 'recipe-title'
+
 type RecipeTitleProps = {
   title: string
 }
 
 const RecipeTitle = ({ title }: RecipeTitleProps) => {
   return (
-    <div css={container}>
+    <div css={container} data-testid={recipeTitle}>
       <Title title={title} variant={TitleVariant.Medium} />
     </div>
   )

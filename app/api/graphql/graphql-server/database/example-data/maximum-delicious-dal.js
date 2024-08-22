@@ -1,9 +1,9 @@
 export const maximumDeliciousDal = {
   title: 'Maximum delicious dal',
-  tags: 'soup',
+  tags: ['soup', 'vegetarian'],
   photoIdentifiers: ['korma.png', 'dal.png'],
   ovenNeeded: false,
-  language: 'English',
+  language: 'Swedish',
   ingredientGroups: [
     {
       ingredients: [
