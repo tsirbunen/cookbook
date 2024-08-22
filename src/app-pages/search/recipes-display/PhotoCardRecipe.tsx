@@ -23,6 +23,7 @@ export type RecipeForPhotoCardProps = {
 
 const PhotoCardRecipe = ({ recipe, onPickRecipeChanged, isPicked }: RecipeForPhotoCardProps) => {
   const { playSound } = useContext(SoundServiceContext)
+  console.log({ recipe })
 
   const toggleIsPickedWithSound = () => {
     const soundType = isPicked ? SoundType.NEGATIVE : SoundType.POSITIVE

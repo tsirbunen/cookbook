@@ -1,5 +1,4 @@
 import { sql } from 'drizzle-orm'
-import { truncate } from 'fs'
 
 export const getOrCreateLanguage = async (database, language) => {
   let recipeLanguage
@@ -34,7 +33,7 @@ export const createRecipe = async (database, recipeInput, languageId) => {
 }
 
 export const createPhotos = async (database, photoIdentifiers, recipeId) => {
-  let isMainPhoto = truncate
+  let isMainPhoto = true
   for await (const url of photoIdentifiers) {
     const query = sql`INSERT INTO photos (recipe_id, url, is_main_photo) VALUES (${recipeId}, ${url}, ${isMainPhoto}) RETURNING *`
     await database.execute(query)
