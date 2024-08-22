@@ -14,9 +14,9 @@ import {
   createInstructionGroups,
   createPhotos
 } from '../utils/insert-data-to-database.js'
-import { lemonyLentilSoup } from './lemony-lentil-soup.js'
-import { belugaBolognese } from './beluga-bolognese.js'
-import { maximumDeliciousDal } from './maximum-delicious-dal.js'
+import { lemonyLentilSoup } from './example-data-2.js'
+import { belugaBolognese } from './example-data-1.js'
+import { maximumDeliciousDal } from './example-data-3.js'
 
 const START_INFO = `\x1b[36mStart inserting example data to database...\x1b[0m`
 const COMPLETED_INFO = `\x1b[36mInsert example data completed!\x1b[0m`

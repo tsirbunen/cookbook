@@ -4,21 +4,21 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { AppStateContext, AppStateContextType } from '../state/StateContextProvider'
 import { Dispatch } from '../state/reducer'
 import { RecipesFilterValues, getEmptyFilterValues } from '../app-pages/search/page/FilteringProvider'
-import {
-  getTestLanguagesForCypressGitHubActionsTests,
-  getTestRecipesForCypressGitHubActionsTests,
-  getTestTagsForCypressGitHubActionsTests
-} from '../../app/api/test-data-migrations/test-recipes-migration-data'
+
 import { Recipe } from '../types/graphql-schema-types.generated'
 import { SearchMode } from '../widgets/form-textarea-search/FormTextAreaSearch'
+import {
+  allTestRecipes,
+  allLanguages,
+  allTags
+} from '../../app/api/graphql/graphql-server/database/example-data/extract-recipe-data-for-github-actions-tests.js'
+console.log(allTestRecipes)
 
 export type ApiService = {
   filterRecipes: (filters: RecipesFilterValues) => Promise<void>
 }
 
 export const ApiServiceContext = createContext<ApiService>({} as ApiService)
-
-const allTestRecipes = getTestRecipesForCypressGitHubActionsTests()
 
 const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
   const { dispatch } = useContext(AppStateContext) as AppStateContextType
@@ -28,7 +28,7 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
     dispatch({
       type: Dispatch.SET_RECIPES_AND_FILTERS,
       payload: {
-        recipes: getFilteredRecipes(allTestRecipes),
+        recipes: getFilteredRecipes(allTestRecipes as Recipe[]),
         filters: getEmptyFilterValues()
       }
     })
@@ -37,21 +37,21 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     dispatch({
       type: Dispatch.SET_LANGUAGES,
-      payload: { languages: getTestLanguagesForCypressGitHubActionsTests() }
+      payload: { languages: allLanguages }
     })
   }, [])
 
   useEffect(() => {
     dispatch({
       type: Dispatch.SET_TAGS,
-      payload: { tags: getTestTagsForCypressGitHubActionsTests() }
+      payload: { tags: allTags }
     })
   }, [])
 
   const filterRecipes = async (filters: RecipesFilterValues) => {
     if (!allRecipes.length) return
 
-    const filteredRecipes = getFilteredRecipes(allRecipes, filters)
+    const filteredRecipes = getFilteredRecipes(allRecipes as Recipe[], filters)
     dispatch({ type: Dispatch.SET_RECIPES_AND_FILTERS, payload: { recipes: filteredRecipes, filters } })
   }
 

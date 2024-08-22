@@ -102,7 +102,7 @@ jobs:
       - run: npm install
       - run: npm run migrations:local
 
-      # FIXME: Remove this once the ApolloNextAppProvider can be made to work with the cypress tests!
+      # FIXME: Remove these once the ApolloNextAppProvider can be made to work with the cypress tests!
       - name: Replace GraphQL client using hook with a mock
         run: mv ./src/test-utils/ApiServiceProvider.tsx ./src/api-service/ApiServiceProvider.tsx
 
