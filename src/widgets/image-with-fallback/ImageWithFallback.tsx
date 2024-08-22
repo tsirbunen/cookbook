@@ -8,6 +8,7 @@ import { CSSProperties, SyntheticEvent, useEffect, useState } from 'react'
 // import { GiMeal } from 'react-icons/gi'
 // import { PiForkKnifeBold } from 'react-icons/pi'
 // import { TbGrill } from 'react-icons/tb'
+import { PiForkKnifeFill } from 'react-icons/pi'
 export const clickableRecipeCardArea = 'clickable-recipe-card-area'
 
 export enum FallbackIcon {
@@ -80,7 +81,11 @@ const getFallbackIcon = (fallbackIcon: FallbackIcon, imageWidth: number | string
   switch (fallbackIcon) {
     case FallbackIcon.FOOD:
       return (
-        <TbSoup size={typeof imageWidth === 'number' ? imageWidth * 0.6 : '50%'} color={ColorCodes.SLIGHTLY_PALE} />
+        // <TbSoup size={typeof imageWidth === 'number' ? imageWidth * 0.6 : '50%'} color={ColorCodes.SLIGHTLY_PALE} />
+        <PiForkKnifeFill
+          size={typeof imageWidth === 'number' ? imageWidth * 0.6 : '50%'}
+          color={ColorCodes.SLIGHTLY_PALE}
+        />
       )
     default:
       throw new Error(`Fallback icon ${fallbackIcon} not implemented`)
