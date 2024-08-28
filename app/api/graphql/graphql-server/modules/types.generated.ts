@@ -17,6 +17,19 @@ export type Scalars = {
   File: { input: any; output: any; }
 };
 
+export type Account = {
+  __typename?: 'Account';
+  id: Scalars['Int']['output'];
+  isVerified: Scalars['Boolean']['output'];
+  phoneNumber: Scalars['String']['output'];
+  username: Scalars['String']['output'];
+};
+
+export type AccountInput = {
+  phoneNumber: Scalars['String']['input'];
+  username: Scalars['String']['input'];
+};
+
 export type Ingredient = {
   __typename?: 'Ingredient';
   amount?: Maybe<Scalars['Float']['output']>;
@@ -83,9 +96,17 @@ export type Language = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createAccount?: Maybe<Account>;
   createRecipe?: Maybe<Recipe>;
   patchRecipe?: Maybe<Recipe>;
   pingMutation?: Maybe<Scalars['String']['output']>;
+  requestCode?: Maybe<Scalars['Boolean']['output']>;
+  signInToAccount?: Maybe<Scalars['String']['output']>;
+};
+
+
+export type MutationcreateAccountArgs = {
+  accountInput: AccountInput;
 };
 
 
@@ -97,6 +118,16 @@ export type MutationcreateRecipeArgs = {
 export type MutationpatchRecipeArgs = {
   recipeId: Scalars['Int']['input'];
   recipePatch: RecipeInput;
+};
+
+
+export type MutationrequestCodeArgs = {
+  phoneNumber: Scalars['String']['input'];
+};
+
+
+export type MutationsignInToAccountArgs = {
+  code: Scalars['String']['input'];
 };
 
 export type Photo = {
@@ -221,11 +252,14 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  Account: ResolverTypeWrapper<Account>;
+  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  String: ResolverTypeWrapper<Scalars['String']['output']>;
+  AccountInput: AccountInput;
   File: ResolverTypeWrapper<Scalars['File']['output']>;
   Ingredient: ResolverTypeWrapper<Ingredient>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
-  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
-  String: ResolverTypeWrapper<Scalars['String']['output']>;
   IngredientGroup: ResolverTypeWrapper<IngredientGroup>;
   IngredientGroupInput: IngredientGroupInput;
   IngredientInput: IngredientInput;
@@ -236,7 +270,6 @@ export type ResolversTypes = {
   Language: ResolverTypeWrapper<Language>;
   Mutation: ResolverTypeWrapper<{}>;
   Photo: ResolverTypeWrapper<Photo>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   PhotoInput: PhotoInput;
   Query: ResolverTypeWrapper<{}>;
   Recipe: ResolverTypeWrapper<Recipe>;
@@ -246,11 +279,14 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  Account: Account;
+  Int: Scalars['Int']['output'];
+  Boolean: Scalars['Boolean']['output'];
+  String: Scalars['String']['output'];
+  AccountInput: AccountInput;
   File: Scalars['File']['output'];
   Ingredient: Ingredient;
   Float: Scalars['Float']['output'];
-  Int: Scalars['Int']['output'];
-  String: Scalars['String']['output'];
   IngredientGroup: IngredientGroup;
   IngredientGroupInput: IngredientGroupInput;
   IngredientInput: IngredientInput;
@@ -261,12 +297,19 @@ export type ResolversParentTypes = {
   Language: Language;
   Mutation: {};
   Photo: Photo;
-  Boolean: Scalars['Boolean']['output'];
   PhotoInput: PhotoInput;
   Query: {};
   Recipe: Recipe;
   RecipeInput: RecipeInput;
   Tag: Tag;
+};
+
+export type AccountResolvers<ContextType = any, ParentType extends ResolversParentTypes['Account'] = ResolversParentTypes['Account']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  isVerified?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  phoneNumber?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export interface FileScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['File'], any> {
@@ -310,9 +353,12 @@ export type LanguageResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createAccount?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<MutationcreateAccountArgs, 'accountInput'>>;
   createRecipe?: Resolver<Maybe<ResolversTypes['Recipe']>, ParentType, ContextType, RequireFields<MutationcreateRecipeArgs, 'recipeInput'>>;
   patchRecipe?: Resolver<Maybe<ResolversTypes['Recipe']>, ParentType, ContextType, RequireFields<MutationpatchRecipeArgs, 'recipeId' | 'recipePatch'>>;
   pingMutation?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  requestCode?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationrequestCodeArgs, 'phoneNumber'>>;
+  signInToAccount?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationsignInToAccountArgs, 'code'>>;
 };
 
 export type PhotoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Photo'] = ResolversParentTypes['Photo']> = {
@@ -349,6 +395,7 @@ export type TagResolvers<ContextType = any, ParentType extends ResolversParentTy
 };
 
 export type Resolvers<ContextType = any> = {
+  Account?: AccountResolvers<ContextType>;
   File?: GraphQLScalarType;
   Ingredient?: IngredientResolvers<ContextType>;
   IngredientGroup?: IngredientGroupResolvers<ContextType>;

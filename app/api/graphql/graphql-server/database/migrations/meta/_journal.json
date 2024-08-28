@@ -120,6 +120,20 @@
       "when": 1715248488080,
       "tag": "0016_stormy_boom_boom",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "5",
+      "when": 1724821049123,
+      "tag": "0017_regular_praxagora",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "5",
+      "when": 1724821619622,
+      "tag": "0018_slim_komodo",
+      "breakpoints": true
     }
   ]
 }

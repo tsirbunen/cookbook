@@ -1,0 +1,17 @@
+type Account {
+  id: Int!
+  username: String!
+  phoneNumber: String!
+  isVerified: Boolean!
+}
+
+input AccountInput {
+  username: String!
+  phoneNumber: String!
+}
+
+extend type Mutation {
+  createAccount(accountInput: AccountInput!): Account
+  requestCode(phoneNumber: String!): Boolean
+  signInToAccount(code: String!): String
+}
