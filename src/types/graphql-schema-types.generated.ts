@@ -15,6 +15,19 @@ export type Scalars = {
   File: { input: any; output: any; }
 };
 
+export type Account = {
+  __typename?: 'Account';
+  id: Scalars['Int']['output'];
+  isVerified: Scalars['Boolean']['output'];
+  phoneNumber: Scalars['String']['output'];
+  username: Scalars['String']['output'];
+};
+
+export type AccountInput = {
+  phoneNumber: Scalars['String']['input'];
+  username: Scalars['String']['input'];
+};
+
 export type Ingredient = {
   __typename?: 'Ingredient';
   amount?: Maybe<Scalars['Float']['output']>;
@@ -81,9 +94,17 @@ export type Language = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createAccount?: Maybe<Account>;
   createRecipe?: Maybe<Recipe>;
   patchRecipe?: Maybe<Recipe>;
   pingMutation?: Maybe<Scalars['String']['output']>;
+  requestCode?: Maybe<Scalars['Boolean']['output']>;
+  signInToAccount?: Maybe<Scalars['String']['output']>;
+};
+
+
+export type MutationCreateAccountArgs = {
+  accountInput: AccountInput;
 };
 
 
@@ -95,6 +116,16 @@ export type MutationCreateRecipeArgs = {
 export type MutationPatchRecipeArgs = {
   recipeId: Scalars['Int']['input'];
   recipePatch: RecipeInput;
+};
+
+
+export type MutationRequestCodeArgs = {
+  phoneNumber: Scalars['String']['input'];
+};
+
+
+export type MutationSignInToAccountArgs = {
+  code: Scalars['String']['input'];
 };
 
 export type Photo = {
