@@ -5,6 +5,7 @@ export enum TitleVariant {
   Small = 'Small',
   Medium = 'Medium',
   MediumPale = 'MediumPale',
+  MediumMedium = 'MediumMedium',
   SmallPale = 'SmallPale',
   MediumLeft = 'MediumLeft',
   MediumRegular = 'MediumRegular'
@@ -48,6 +49,11 @@ const variantCssMap = {
   [TitleVariant.Medium]: {
     fontWeight: 'bold',
     color: ColorCodes.VERY_DARK,
+    fontSize: '1.3em'
+  },
+  [TitleVariant.MediumMedium]: {
+    fontWeight: 'bold',
+    color: ColorCodes.MEDIUM,
     fontSize: '1.3em'
   },
   [TitleVariant.MediumPale]: {

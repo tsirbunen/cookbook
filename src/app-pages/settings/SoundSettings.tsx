@@ -1,15 +1,14 @@
 import { ChakraProps, Flex, Text } from '@chakra-ui/react'
-import { ChangeEvent, useContext } from 'react'
+import { useContext } from 'react'
 import { AppStateContext, AppStateContextType } from '../../state/StateContextProvider'
 import { Dispatch } from '../../state/reducer'
-import SwitchWithTheme from '../../theme/switch/SwitchWithTheme'
-import { SwitchVariant } from '../../theme/switch/switch-theme'
-import { DARK_COLOR, SLIGHTLY_DARK_COLOR, VERY_PALE_COLOR } from '../../constants/color-codes'
+import { SLIGHTLY_DARK_COLOR, VERY_PALE_COLOR } from '../../constants/color-codes'
 import { SoundServiceContext, SoundType } from '../../sounds/SoundProvider'
 import ButtonWithTheme from '../../theme/buttons/ButtonWithTheme'
 import { ButtonVariant } from '../../theme/buttons/buttons-theme'
 import { FaPlay } from 'react-icons/fa'
 import { LocalStorageContext, LocalStorageKeys } from '../../state/LocalStorageProvider'
+import SwitchToggleWithLabel from '../../widgets/switch-toggle/SwitchToggleWithLabel'
 
 const mainInfo = [
   'User actions (like clicking a button) sometimes have a sound effect attached to them.',
@@ -33,7 +32,7 @@ const SoundSettings = () => {
   const { toggleValueForKey } = useContext(LocalStorageContext)
   const soundsAreEnabled = state.settings.soundsEnabled ?? false
 
-  const toggleSoundsEnabled = (_event: ChangeEvent<HTMLInputElement>) => {
+  const toggleSoundsEnabled = () => {
     const newValue = !soundsAreEnabled
     if (soundsAreEnabled) playSound(SoundType.POSITIVE)
     toggleValueForKey(LocalStorageKeys.SOUNDS_ARE_ENABLED, newValue)
@@ -51,17 +50,13 @@ const SoundSettings = () => {
         </Text>
       ))}
 
-      <Flex {...switchContainerCss}>
-        <SwitchWithTheme
-          isChecked={soundsAreEnabled}
-          onChange={toggleSoundsEnabled}
-          variant={SwitchVariant.MediumSizeDark}
-        />
-        <Flex {...labelCss}>
-          <Text {...textCss}>{valuePrefix}</Text>
-          <Text {...valueCss}>{soundsAreEnabled ? enabledText : disabledText}</Text>
-        </Flex>
-      </Flex>
+      <SwitchToggleWithLabel
+        isChecked={soundsAreEnabled}
+        onChange={toggleSoundsEnabled}
+        labelChecked={valuePrefix}
+        emphasizedLabelChecked={enabledText}
+        emphasizedLabelNotChecked={disabledText}
+      />
 
       {examplesInfo.map((info, index) => (
         <Text key={`sound-settings-info-${index}`} {...infoCss}>
@@ -119,24 +114,6 @@ const infoCss = {
   color: SLIGHTLY_DARK_COLOR
 }
 
-const textCss = {
-  marginLeft: '10px',
-  color: SLIGHTLY_DARK_COLOR,
-  fontWeight: 'bold'
-}
-
-const labelCss = {
-  flexDirection: 'row' as ChakraProps['flexDirection'],
-  alignItems: 'center',
-  justifyContent: 'center'
-}
-
-const valueCss = {
-  marginLeft: '10px',
-  color: DARK_COLOR,
-  fontWeight: '900',
-  fontSize: '1.25em'
-}
 const buttonTextCss = {
   marginLeft: '10px',
   color: VERY_PALE_COLOR
