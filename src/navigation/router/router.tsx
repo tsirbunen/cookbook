@@ -101,5 +101,5 @@ export const navigationMenuItems: NavigationMenuItem[] = [
 ]
 
 export const getRouteLabelByPath = (path: string) => {
-  return navigationMenuItems.find((item) => item.path === path)?.label
+  return navigationMenuItems.find((item) => path.includes(item.path))?.label
 }

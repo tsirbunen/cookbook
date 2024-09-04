@@ -1,0 +1,3 @@
+mutation RequestVerificationCode($phoneNumber: String!) {
+  requestVerificationCode(phoneNumber: $phoneNumber)
+}

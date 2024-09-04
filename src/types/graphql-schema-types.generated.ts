@@ -20,6 +20,7 @@ export type Account = {
   id: Scalars['Int']['output'];
   isVerified: Scalars['Boolean']['output'];
   phoneNumber: Scalars['String']['output'];
+  token?: Maybe<Scalars['String']['output']>;
   username: Scalars['String']['output'];
 };
 
@@ -96,10 +97,11 @@ export type Mutation = {
   __typename?: 'Mutation';
   createAccount?: Maybe<Account>;
   createRecipe?: Maybe<Recipe>;
+  deleteAccount?: Maybe<Scalars['Boolean']['output']>;
   patchRecipe?: Maybe<Recipe>;
   pingMutation?: Maybe<Scalars['String']['output']>;
-  requestCode?: Maybe<Scalars['Boolean']['output']>;
-  signInToAccount?: Maybe<Scalars['String']['output']>;
+  requestVerificationCode?: Maybe<Scalars['Boolean']['output']>;
+  signInToAccountWithCode?: Maybe<Account>;
 };
 
 
@@ -113,18 +115,23 @@ export type MutationCreateRecipeArgs = {
 };
 
 
+export type MutationDeleteAccountArgs = {
+  id: Scalars['Int']['input'];
+};
+
+
 export type MutationPatchRecipeArgs = {
   recipeId: Scalars['Int']['input'];
   recipePatch: RecipeInput;
 };
 
 
-export type MutationRequestCodeArgs = {
+export type MutationRequestVerificationCodeArgs = {
   phoneNumber: Scalars['String']['input'];
 };
 
 
-export type MutationSignInToAccountArgs = {
+export type MutationSignInToAccountWithCodeArgs = {
   code: Scalars['String']['input'];
 };
 

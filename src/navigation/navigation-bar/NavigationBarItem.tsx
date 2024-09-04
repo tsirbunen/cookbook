@@ -14,7 +14,7 @@ type NavigationBarItemProps = {
 }
 
 const NavigationBarItem = ({ menuItem, currentPath, navigateTo }: NavigationBarItemProps) => {
-  const isSelected = menuItem.path === currentPath
+  const isSelected = currentPath.includes(menuItem.path)
   const IconElement = menuItem.iconElement
 
   return (

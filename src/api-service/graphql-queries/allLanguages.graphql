@@ -1,6 +1,0 @@
-query AllLanguages {
-  allLanguages {
-    id
-    language
-  }
-}

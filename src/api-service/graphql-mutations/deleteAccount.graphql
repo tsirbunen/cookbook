@@ -1,0 +1,11 @@
+fragment AccountFull on Account {
+  id
+  username
+  phoneNumber
+  isVerified
+  token
+}
+
+mutation DeleteAccount($id: Int!) {
+  deleteAccount(id: $id)
+}

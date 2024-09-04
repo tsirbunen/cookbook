@@ -3,6 +3,7 @@ type Account {
   username: String!
   phoneNumber: String!
   isVerified: Boolean!
+  token: String
 }
 
 input AccountInput {
@@ -12,6 +13,7 @@ input AccountInput {
 
 extend type Mutation {
   createAccount(accountInput: AccountInput!): Account
-  requestCode(phoneNumber: String!): Boolean
-  signInToAccount(code: String!): String
+  requestVerificationCode(phoneNumber: String!): Boolean
+  signInToAccountWithCode(code: String!): Account
+  deleteAccount(id: Int!): Boolean
 }

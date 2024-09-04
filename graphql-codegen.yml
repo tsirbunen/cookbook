@@ -9,7 +9,7 @@ generates:
       - typescript
   ./src:
     preset: near-operation-file
-    documents: ./src/api-service/graphql-queries/*.graphql
+    documents: ./src/api-service/*/*.graphql
     presetConfig:
       extension: .generated.ts
       baseTypesPath: types/graphql-schema-types.generated.ts

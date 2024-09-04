@@ -1,5 +1,6 @@
 import { RecipesFilterValues } from '../app-pages/search/page/FilteringProvider'
 import { Language, Recipe, Tag } from '../types/graphql-schema-types.generated'
+import { AccountInfo } from '../types/types'
 import { AppState } from './StateContextProvider'
 import { produce } from 'immer'
 
@@ -9,7 +10,8 @@ export enum Dispatch {
   CHANGE_RECIPES_ORDER = 'CHANGE_RECIPES_ORDER',
   TOGGLE_SOUNDS_ENABLED = 'TOGGLE_SOUNDS_ENABLED',
   SET_TAGS = 'SET_TAGS',
-  SET_LANGUAGES = 'SET_LANGUAGES'
+  SET_LANGUAGES = 'SET_LANGUAGES',
+  SET_ACCOUNT = 'SET_ACCOUNT'
 }
 
 export type DispatchAction =
@@ -19,6 +21,7 @@ export type DispatchAction =
   | { type: Dispatch.TOGGLE_SOUNDS_ENABLED; payload: { enabled: boolean } }
   | { type: Dispatch.SET_TAGS; payload: { tags: Tag[] } }
   | { type: Dispatch.SET_LANGUAGES; payload: { languages: Language[] } }
+  | { type: Dispatch.SET_ACCOUNT; payload: { account: AccountInfo | null } }
 
 export const reducer = produce((draft: AppState, { type, payload }: DispatchAction) => {
   switch (type) {
@@ -40,6 +43,9 @@ export const reducer = produce((draft: AppState, { type, payload }: DispatchActi
       break
     case Dispatch.SET_LANGUAGES:
       draft.languages = payload.languages
+      break
+    case Dispatch.SET_ACCOUNT:
+      draft.account = payload.account
       break
     default:
       throw new Error(`${JSON.stringify(type)} is not an app state reducer action type!`)

@@ -40,8 +40,7 @@ const switchCss = {
   flexDirection: 'row' as ChakraProps['flexDirection'],
   alignItems: 'center',
   justifyContent: 'start',
-  marginBottom: '10px',
-  marginTop: '10px'
+  marginBottom: '10px'
 }
 const textCss = {
   marginLeft: '10px',

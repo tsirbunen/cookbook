@@ -50,13 +50,15 @@ const SoundSettings = () => {
         </Text>
       ))}
 
-      <SwitchToggleWithLabel
-        isChecked={soundsAreEnabled}
-        onChange={toggleSoundsEnabled}
-        labelChecked={valuePrefix}
-        emphasizedLabelChecked={enabledText}
-        emphasizedLabelNotChecked={disabledText}
-      />
+      <Flex {...switchCss}>
+        <SwitchToggleWithLabel
+          isChecked={soundsAreEnabled}
+          onChange={toggleSoundsEnabled}
+          labelChecked={valuePrefix}
+          emphasizedLabelChecked={enabledText}
+          emphasizedLabelNotChecked={disabledText}
+        />
+      </Flex>
 
       {examplesInfo.map((info, index) => (
         <Text key={`sound-settings-info-${index}`} {...infoCss}>
@@ -65,7 +67,7 @@ const SoundSettings = () => {
       ))}
       {!soundsAreEnabled && <Text {...infoCss}>{turnSoundsOnReminder}</Text>}
 
-      <Flex {...switchContainerCss}>
+      <Flex {...buttonsOuterCss}>
         <Flex {...buttonsBoxCss}>
           <ButtonWithTheme
             variant={ButtonVariant.MediumSizePale}
@@ -87,8 +89,6 @@ const SoundSettings = () => {
           <Text {...buttonTextCss}>{negativeButtonLabel}</Text>
         </ButtonWithTheme>
       </Flex>
-
-      <Flex {...switchContainerCss}></Flex>
     </Flex>
   )
 }
@@ -101,7 +101,7 @@ const outerCss = {
   justifyContent: 'start'
 }
 
-const switchContainerCss = {
+const buttonsOuterCss = {
   flexDirection: 'row' as ChakraProps['flexDirection'],
   alignItems: 'center',
   justifyContent: 'center',
@@ -113,7 +113,9 @@ const infoCss = {
   lineHeight: '1.1em',
   color: SLIGHTLY_DARK_COLOR
 }
-
+const switchCss = {
+  marginTop: '10px'
+}
 const buttonTextCss = {
   marginLeft: '10px',
   color: VERY_PALE_COLOR

@@ -2,32 +2,53 @@ import { ChakraProps, Flex, Text } from '@chakra-ui/react'
 import { SLIGHTLY_DARK_COLOR } from '../../constants/color-codes'
 import { ButtonVariant } from '../../theme/buttons/buttons-theme'
 import ButtonWithTheme from '../../theme/buttons/ButtonWithTheme'
+import { Fragment } from 'react'
+import TitleWithSpacing from './TitleWithSpacing'
 
-type AccountActionProps = {
-  label: string
+type AccountRouteActionProps = {
+  info: string
   buttonLabel: string
   performAction: () => void
+  title: string
   buttonVariant?: ButtonVariant
   children?: React.ReactNode
+  hideButton?: boolean
 }
 
-const AccountAction = ({ label, buttonLabel, performAction, buttonVariant, children }: AccountActionProps) => {
+const AccountRouteAction = ({
+  info,
+  buttonLabel,
+  performAction,
+  buttonVariant,
+  children,
+  hideButton,
+  title
+}: AccountRouteActionProps) => {
   return (
-    <Flex {...outerCss}>
-      <Flex {...optionContainerCss}>
-        <Text {...optionTextCss}>{label}</Text>
-        {children ?? null}
-        <Flex {...buttonsBoxClosedCss}>
-          <ButtonWithTheme variant={buttonVariant ?? ButtonVariant.LargeDark} onClick={performAction} isToggled={true}>
-            <Text>{buttonLabel}</Text>
-          </ButtonWithTheme>
+    <Fragment>
+      <TitleWithSpacing title={title} />
+      <Flex {...outerCss}>
+        <Flex {...optionContainerCss}>
+          <Text {...optionTextCss}>{info}</Text>
+          {children ?? null}
+          {!hideButton ? (
+            <Flex {...buttonsBoxClosedCss}>
+              <ButtonWithTheme
+                variant={buttonVariant ?? ButtonVariant.LargeDark}
+                onClick={performAction}
+                isToggled={true}
+              >
+                <Text>{buttonLabel}</Text>
+              </ButtonWithTheme>
+            </Flex>
+          ) : null}
         </Flex>
       </Flex>
-    </Flex>
+    </Fragment>
   )
 }
 
-export default AccountAction
+export default AccountRouteAction
 
 const outerCss = {
   flexDirection: 'column' as ChakraProps['flexDirection'],

@@ -22,6 +22,7 @@ export type Account = {
   id: Scalars['Int']['output'];
   isVerified: Scalars['Boolean']['output'];
   phoneNumber: Scalars['String']['output'];
+  token?: Maybe<Scalars['String']['output']>;
   username: Scalars['String']['output'];
 };
 
@@ -98,10 +99,11 @@ export type Mutation = {
   __typename?: 'Mutation';
   createAccount?: Maybe<Account>;
   createRecipe?: Maybe<Recipe>;
+  deleteAccount?: Maybe<Scalars['Boolean']['output']>;
   patchRecipe?: Maybe<Recipe>;
   pingMutation?: Maybe<Scalars['String']['output']>;
-  requestCode?: Maybe<Scalars['Boolean']['output']>;
-  signInToAccount?: Maybe<Scalars['String']['output']>;
+  requestVerificationCode?: Maybe<Scalars['Boolean']['output']>;
+  signInToAccountWithCode?: Maybe<Account>;
 };
 
 
@@ -115,18 +117,23 @@ export type MutationcreateRecipeArgs = {
 };
 
 
+export type MutationdeleteAccountArgs = {
+  id: Scalars['Int']['input'];
+};
+
+
 export type MutationpatchRecipeArgs = {
   recipeId: Scalars['Int']['input'];
   recipePatch: RecipeInput;
 };
 
 
-export type MutationrequestCodeArgs = {
+export type MutationrequestVerificationCodeArgs = {
   phoneNumber: Scalars['String']['input'];
 };
 
 
-export type MutationsignInToAccountArgs = {
+export type MutationsignInToAccountWithCodeArgs = {
   code: Scalars['String']['input'];
 };
 
@@ -308,6 +315,7 @@ export type AccountResolvers<ContextType = any, ParentType extends ResolversPare
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   isVerified?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   phoneNumber?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -355,10 +363,11 @@ export type LanguageResolvers<ContextType = any, ParentType extends ResolversPar
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createAccount?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<MutationcreateAccountArgs, 'accountInput'>>;
   createRecipe?: Resolver<Maybe<ResolversTypes['Recipe']>, ParentType, ContextType, RequireFields<MutationcreateRecipeArgs, 'recipeInput'>>;
+  deleteAccount?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationdeleteAccountArgs, 'id'>>;
   patchRecipe?: Resolver<Maybe<ResolversTypes['Recipe']>, ParentType, ContextType, RequireFields<MutationpatchRecipeArgs, 'recipeId' | 'recipePatch'>>;
   pingMutation?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  requestCode?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationrequestCodeArgs, 'phoneNumber'>>;
-  signInToAccount?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationsignInToAccountArgs, 'code'>>;
+  requestVerificationCode?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationrequestVerificationCodeArgs, 'phoneNumber'>>;
+  signInToAccountWithCode?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<MutationsignInToAccountWithCodeArgs, 'code'>>;
 };
 
 export type PhotoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Photo'] = ResolversParentTypes['Photo']> = {

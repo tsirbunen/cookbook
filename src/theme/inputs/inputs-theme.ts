@@ -5,6 +5,7 @@ import {
   DARK_COLOR,
   MEDIUM_COLOR,
   PALE_COLOR,
+  SLIGHTLY_DARK_COLOR,
   VERY_DARK_COLOR,
   VERY_PALE_COLOR
 } from '../../constants/color-codes'
@@ -26,7 +27,7 @@ const dark = definePartsStyle({
     background: PALE_COLOR,
     fontWeight: 'bold',
     borderRadius: '6px',
-    _placeholder: { color: MEDIUM_COLOR },
+    _placeholder: { color: SLIGHTLY_DARK_COLOR, fontWeight: 'medium', fontStyle: 'italic' },
     _focus: {
       border: '3px solid',
       borderColor: DARK_COLOR,

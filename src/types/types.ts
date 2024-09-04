@@ -23,3 +23,10 @@ export type ScalingData = {
   multiplier: number
   ingredientId?: number
 }
+
+export type AccountInfo = {
+  id?: number
+  username?: string
+  phoneNumber: string
+  token?: string
+}

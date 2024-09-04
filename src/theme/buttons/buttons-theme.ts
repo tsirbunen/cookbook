@@ -1,6 +1,8 @@
 import { defineStyle, defineStyleConfig } from '@chakra-ui/react'
 import {
   DARK_COLOR,
+  ERROR_COLOR,
+  EXTREMELY_PALE_COLOR,
   MEDIUM_COLOR,
   PALE_COLOR,
   SLIGHTLY_DARK_COLOR,
@@ -14,7 +16,9 @@ export enum ButtonVariant {
   HeaderToggle = 'headerToggle',
   MediumSizeDark = 'mediumSizeDark',
   MediumSizePale = 'mediumSizePale',
-  SmallDark = 'smallDark'
+  LargeDark = 'largeDark',
+  SmallDark = 'smallDark',
+  DeleteLarge = 'deleteLarge'
 }
 
 const mediumSizeDark = defineStyle({
@@ -62,6 +66,38 @@ const mediumSizePale = defineStyle({
     color: DARK_COLOR
   },
   height: '30px'
+})
+
+const largeDark = defineStyle({
+  size: 'md',
+  variant: 'solid',
+  borderRadius: '4px',
+  paddingLeft: '15px',
+  paddingRight: '15px',
+  bg: DARK_COLOR,
+  color: EXTREMELY_PALE_COLOR,
+  _focus: { outline: 'none' },
+  _hover: {
+    bg: EXTREMELY_PALE_COLOR,
+    color: DARK_COLOR
+  },
+  height: '40px'
+})
+
+const deleteLarge = defineStyle({
+  size: 'md',
+  variant: 'solid',
+  borderRadius: '4px',
+  paddingLeft: '15px',
+  paddingRight: '15px',
+  bg: ERROR_COLOR,
+  color: EXTREMELY_PALE_COLOR,
+  _focus: { outline: 'none' },
+  _hover: {
+    bg: EXTREMELY_PALE_COLOR,
+    color: ERROR_COLOR
+  },
+  height: '40px'
 })
 
 const squareWithIcon = (toggled: boolean) => {
@@ -152,6 +188,8 @@ export const buttonsTheme = defineStyleConfig({
   variants: {
     mediumSizeDark,
     mediumSizePale,
+    largeDark,
+    deleteLarge,
     squareWithIcon: ({ toggled }) => ({
       ...squareWithIcon(toggled)
     }),
