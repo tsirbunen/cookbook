@@ -12,7 +12,6 @@ import {
   allLanguages,
   allTags
 } from '../../app/api/graphql/graphql-server/database/example-data/extract-recipe-data-for-github-actions-tests.js'
-console.log(allTestRecipes)
 
 export type ApiService = {
   filterRecipes: (filters: RecipesFilterValues) => Promise<void>
