@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation'
 import TitleWithSpacing from './TitleWithSpacing'
 import { AccountRoute } from '../../../app/account/[accountAction]/page'
 
-export const signInWIthVerificationCodeLabel = 'SIGN IN WITH CODE'
+export const signInWithVerificationCodeLabel = 'SIGN IN WITH CODE'
 const verificationCodeLabel = 'Verification code'
 const verificationCodeInfo =
   'Please type the verification code you received to your phone number. If you have not received any code, go back to the Accounts main page and request a new one.'
@@ -42,7 +42,7 @@ const SignInWithCodePage = () => {
   return (
     <Flex {...pageCss} data-testid={`${Page.ACCOUNT}-${AccountRoute.SIGN_IN_WITH_CODE}-page`}>
       <Flex {...outerCss}>
-        <TitleWithSpacing title={signInWIthVerificationCodeLabel} />
+        <TitleWithSpacing title={signInWithVerificationCodeLabel} />
 
         <Flex {...innerCss}>
           <form onSubmit={handleSubmit(onSubmit)}>

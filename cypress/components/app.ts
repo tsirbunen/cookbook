@@ -49,4 +49,8 @@ export class App extends Base {
   clickNavigationBarItem(menuItem: string) {
     cy.getByDataTestId(navigationBarDataTestId).filter(`:contains("${menuItem.toUpperCase()}")`).click()
   }
+
+  clickAccountSubPageButton(subPage: 'CREATE ACCOUNT' | 'REQUEST CODE TO SIGN IN' | 'SIGN IN WITH CODE') {
+    cy.get('button').contains(subPage).click()
+  }
 }

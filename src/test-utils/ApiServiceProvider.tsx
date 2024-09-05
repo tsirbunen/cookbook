@@ -5,7 +5,7 @@ import { AppStateContext, AppStateContextType } from '../state/StateContextProvi
 import { Dispatch } from '../state/reducer'
 import { RecipesFilterValues, getEmptyFilterValues } from '../app-pages/search/page/FilteringProvider'
 
-import { Recipe } from '../types/graphql-schema-types.generated'
+import { Account, AccountInput, Recipe } from '../types/graphql-schema-types.generated'
 import { SearchMode } from '../widgets/form-textarea-search/FormTextAreaSearch'
 import {
   allTestRecipes,
@@ -15,6 +15,23 @@ import {
 
 export type ApiService = {
   filterRecipes: (filters: RecipesFilterValues) => Promise<void>
+  createAccount: (accountInput: AccountInput) => Promise<Account | null>
+  requestVerificationCode: (phoneNumber: string) => Promise<boolean | null>
+  signInToAccountWithCode: (code: string) => Promise<Account | null>
+  deleteAccount: () => Promise<boolean | null>
+}
+
+const createAccount = async (accountInput: AccountInput) => {
+  throw new Error('Not implemented')
+}
+const requestVerificationCode = async (phoneNumber: string) => {
+  throw new Error('Not implemented')
+}
+const signInToAccountWithCode = async (code: string) => {
+  throw new Error('Not implemented')
+}
+const deleteAccount = async () => {
+  throw new Error('Not implemented')
 }
 
 export const ApiServiceContext = createContext<ApiService>({} as ApiService)
@@ -54,7 +71,13 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
     dispatch({ type: Dispatch.SET_RECIPES_AND_FILTERS, payload: { recipes: filteredRecipes, filters } })
   }
 
-  return <ApiServiceContext.Provider value={{ filterRecipes }}>{children}</ApiServiceContext.Provider>
+  return (
+    <ApiServiceContext.Provider
+      value={{ filterRecipes, createAccount, requestVerificationCode, signInToAccountWithCode, deleteAccount }}
+    >
+      {children}
+    </ApiServiceContext.Provider>
+  )
 }
 
 export default ApiServiceProvider

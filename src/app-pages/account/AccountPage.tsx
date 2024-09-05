@@ -10,7 +10,7 @@ import { AccountRoute } from '../../../app/account/[accountAction]/page'
 import { createAccountLabel } from './CreateAccountPage'
 import { manageAccountLabel } from './ManageAccountPage'
 import { requestVerificationCodeLabel } from './RequestVerificationCodePage'
-import { signInWIthVerificationCodeLabel } from './SignInWithCodePage'
+import { signInWithVerificationCodeLabel } from './SignInWithCodePage'
 
 const createAccountInfo =
   'If you have no account yet, you  can easily create one with your phone number. You can also create another account if you wish, but then you need another phone number for verification.'
@@ -65,9 +65,9 @@ const AccountPage = () => {
           />
 
           <AccountRouteAction
-            title={signInWIthVerificationCodeLabel}
+            title={signInWithVerificationCodeLabel}
             info={signInWithVerificationCodeInfo}
-            buttonLabel={signInWIthVerificationCodeLabel}
+            buttonLabel={signInWithVerificationCodeLabel}
             performAction={() => navigateTo(AccountRoute.SIGN_IN_WITH_CODE)}
           />
         </Fragment>

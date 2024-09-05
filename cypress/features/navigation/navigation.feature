@@ -27,4 +27,18 @@ Feature: Navigation
             | wizard    | wizard   |
             | settings  | settings |
             | shopping  | shopping |
+            | account   | account  |
+
+
+    Scenario: One can navigate from the main account page to the account sub pages
+        Given one has started using the app in "MEDIUM" mode
+        When one clicks menu item "account"
+        When one clicks the "<sub page>" button to navigate to that sub page
+        Then the account sub page "<sub page>" is navigated to
+
+        Examples:
+            | sub page                |
+            | CREATE ACCOUNT          |
+            | REQUEST CODE TO SIGN IN |
+            | SIGN IN WITH CODE       |
 
