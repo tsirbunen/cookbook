@@ -55,6 +55,8 @@ const graphqlClient = new ApolloClient({
 
 export const GraphQLClientContext = createContext<GraphQLClient>({} as GraphQLClient)
 
-export function GraphQLClientProvider({ children }: React.PropsWithChildren) {
+function GraphQLClientProvider({ children }: React.PropsWithChildren) {
   return <GraphQLClientContext.Provider value={{ client: graphqlClient }}>{children}</GraphQLClientContext.Provider>
 }
+
+export default GraphQLClientProvider

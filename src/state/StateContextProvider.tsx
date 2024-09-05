@@ -46,8 +46,10 @@ export const AppStateContext = createContext({})
  * This provider holds the app state that has the most important data that is needed
  * all around the app (like filtered recipes, picked recipe ids, etc.).
  */
-export const AppStateContextProvider = ({ children }: { children: React.ReactNode }) => {
+const AppStateContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialAppState)
 
   return <AppStateContext.Provider value={{ state, dispatch }}>{children}</AppStateContext.Provider>
 }
+
+export default AppStateContextProvider
