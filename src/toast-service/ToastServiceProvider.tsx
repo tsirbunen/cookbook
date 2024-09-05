@@ -22,7 +22,7 @@ type ToastBase = {
   description: string
 }
 
-type SimpleToast = ToastBase & {
+export type SimpleToast = ToastBase & {
   variant: ToastVariant
   duration?: number
   isClosable?: boolean

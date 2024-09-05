@@ -40,23 +40,18 @@ const CreateAccountPage = () => {
   const router = useRouter()
 
   const onSubmit: SubmitHandler<CreateAccountFormValues> = async (accountVariables: CreateAccountFormValues) => {
-    try {
-      const result = await createAccount(accountVariables)
-      if (result.data?.createAccount) {
-        dispatch({
-          type: Dispatch.SET_ACCOUNT,
-          payload: {
-            account: {
-              id: result.data.createAccount.id,
-              username: result.data.createAccount.username,
-              phoneNumber: result.data.createAccount.phoneNumber
-            }
+    const newAccount = await createAccount(accountVariables)
+    if (newAccount) {
+      dispatch({
+        type: Dispatch.SET_ACCOUNT,
+        payload: {
+          account: {
+            id: newAccount.id,
+            username: newAccount.username,
+            phoneNumber: newAccount.phoneNumber
           }
-        })
-      }
-    } catch (error) {
-      // FIXME: Implement error handling properly
-      console.log('catch error', error)
+        }
+      })
     }
   }
 

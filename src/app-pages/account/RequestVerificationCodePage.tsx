@@ -2,7 +2,7 @@ import { ChakraProps, Flex, Text } from '@chakra-ui/react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import FormSimpleInput, { SignInFormValues } from '../../widgets/form-simple-input/FormSimpleInput'
 import FormActionButtons from '../../widgets/form-action-buttons/FormActionButtons'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { ApiServiceContext } from '../../api-service/ApiServiceProvider'
 import { pageCss } from './AccountPage'
 // import { AppStateContext, AppStateContextType } from '../../state/StateContextProvider'
@@ -41,14 +41,10 @@ const RequestVerificationCodePage = () => {
   })
 
   const onSubmit: SubmitHandler<SignInFormValues> = async (accountVariables: SignInFormValues) => {
-    try {
-      const result = await requestVerificationCode(accountVariables.phoneNumber)
-      if (result.data?.requestVerificationCode) {
-        setRequestWasSent(true)
-        dispatch({ type: Dispatch.SET_ACCOUNT, payload: { account: { phoneNumber: accountVariables.phoneNumber } } })
-      }
-    } catch (error) {
-      console.log('catch error', error)
+    const codeSent = await requestVerificationCode(accountVariables.phoneNumber)
+    if (codeSent) {
+      setRequestWasSent(true)
+      dispatch({ type: Dispatch.SET_ACCOUNT, payload: { account: { phoneNumber: accountVariables.phoneNumber } } })
     }
   }
 

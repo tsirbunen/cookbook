@@ -29,16 +29,11 @@ const SignInWithCodePage = () => {
   })
 
   const onSubmit: SubmitHandler<VerificationFormValues> = async ({ code }: VerificationFormValues) => {
-    try {
-      const result = await signInToAccountWithCode(code)
-      if (result.data?.signInToAccountWithCode?.token) {
-        const { id, username, phoneNumber, token } = result.data.signInToAccountWithCode
-        dispatch({ type: Dispatch.SET_ACCOUNT, payload: { account: { id, username, phoneNumber, token } } })
-        router.push(`/${Page.ACCOUNT}`)
-      }
-    } catch (error) {
-      // FIXME: Implement proper error handling
-      console.log('catch error', error)
+    const signedInAccount = await signInToAccountWithCode(code)
+    if (signedInAccount?.token) {
+      const { id, username, phoneNumber, token } = signedInAccount
+      dispatch({ type: Dispatch.SET_ACCOUNT, payload: { account: { id, username, phoneNumber, token } } })
+      router.push(`/${Page.ACCOUNT}`)
     }
   }
 

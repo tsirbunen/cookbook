@@ -17,7 +17,7 @@ const AppStateContextProvider = dynamic(() => import('../src/state/StateContextP
   ssr: false
 })
 
-const GraphQLClientProvider = dynamic(() => import('../src/graphql-client/graphql-client'), {
+const GraphQLClientProvider = dynamic(() => import('../src/api-service/graphql-client/graphql-client'), {
   ssr: false
 })
 

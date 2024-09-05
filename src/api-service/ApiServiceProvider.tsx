@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useEffect } from 'react'
+import { createContext, MutableRefObject, useContext, useEffect, useRef } from 'react'
 import { FetchResult } from '@apollo/client'
 import { AppStateContext, AppStateContextType } from '../state/StateContextProvider'
 import { Dispatch } from '../state/reducer'
@@ -13,7 +13,7 @@ import {
 } from './graphql-queries/initialData.generated'
 import { AllRecipesDocument, AllRecipesQuery, AllRecipesQueryVariables } from './graphql-queries/allRecipes.generated'
 
-import { AccountInput } from '../types/graphql-schema-types.generated'
+import { Account, AccountInput } from '../types/graphql-schema-types.generated'
 import {
   CreateAccountDocument,
   CreateAccountMutation,
@@ -34,14 +34,22 @@ import {
   DeleteAccountMutation,
   DeleteAccountMutationVariables
 } from './graphql-mutations/deleteAccount.generated'
-import { GraphQLClientContext } from '../graphql-client/graphql-client'
+import { GraphQLClientContext } from './graphql-client/graphql-client'
+import { ToastServiceContext } from '../toast-service/ToastServiceProvider'
+import { ToastId } from '@chakra-ui/toast'
+import {
+  ToastInputs,
+  createAccountToasts,
+  requestVerificationCodeToasts,
+  signInToAccountToasts
+} from './toast-inputs-and-errors'
 
 export type ApiService = {
   filterRecipes: (filters: RecipesFilterValues) => Promise<void>
-  createAccount: (accountInput: AccountInput) => Promise<FetchResult<CreateAccountMutation>>
-  requestVerificationCode: (phoneNumber: string) => Promise<FetchResult<RequestVerificationCodeMutation>>
-  signInToAccountWithCode: (code: string) => Promise<FetchResult<SignInToAccountWithCodeMutation>>
-  deleteAccount: () => Promise<FetchResult<DeleteAccountMutation>>
+  createAccount: (accountInput: AccountInput) => Promise<Account | null>
+  requestVerificationCode: (phoneNumber: string) => Promise<boolean | null>
+  signInToAccountWithCode: (code: string) => Promise<Account | null>
+  deleteAccount: () => Promise<boolean | null>
 }
 
 export const ApiServiceContext = createContext<ApiService>({} as ApiService)
@@ -51,46 +59,87 @@ export const ApiServiceContext = createContext<ApiService>({} as ApiService)
  * When the app loads, this provider orchestrates fetching recipes
  * from the api (using the hook) and stores the recipes to state. Later, if, for example,
  * some filters are applied or a new recipe is created or an old recipe is updated,
- * this provider orchestrates the necessary actions.
+ * this provider orchestrates the necessary actions. This provider also takes care of
+ * showing the user the status of the query (i.e. it shows a toast telling whether the app
+ * is loading or the response has arrived and is success or error).
  * Note: This provider does not store data. App state provider is for that purpose.
  */
 const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
   const { client } = useContext(GraphQLClientContext)
   const { dispatch } = useContext(AppStateContext) as AppStateContextType
+  const { showUpdatableToast, updateUpdatableToast } = useContext(ToastServiceContext)
+  const toastIdRef = useRef() as MutableRefObject<ToastId>
+
+  /**
+   * This function performs the given graphql query or mutation within a try-catch block
+   * and shows the user an updating toast indicating the status of the query.
+   * @param fn The graphql query or mutation function to be carried out
+   * @param toastInputs The loading, success, and error toasts to be shown to the user
+   * @returns The data from the query or mutation or null if an error occurred
+   */
+  const performWithToasts = async function <T>(
+    fn: () => Promise<FetchResult<T>>,
+    toastInputs: ToastInputs
+  ): Promise<T | null> {
+    const { loadingToast, successToast, errorToast, errorText } = toastInputs
+    showUpdatableToast(toastIdRef, loadingToast)
+
+    try {
+      const result = await fn()
+      if (result.data) {
+        updateUpdatableToast(toastIdRef, successToast)
+        return result.data as T
+      }
+
+      throw new Error(errorText)
+    } catch (error) {
+      updateUpdatableToast(toastIdRef, errorToast)
+    }
+
+    return null
+  }
 
   const createAccount = async (accountInput: AccountInput) => {
-    const result = await client.mutate<CreateAccountMutation, CreateAccountMutationVariables>({
-      mutation: CreateAccountDocument,
-      variables: { accountInput }
-    })
-    // FIXME: Add here possible error handling and snackbar to show the user what happened
-    return result
+    const fn = () =>
+      client.mutate<CreateAccountMutation, CreateAccountMutationVariables>({
+        mutation: CreateAccountDocument,
+        variables: { accountInput }
+      })
+
+    const data = await performWithToasts<CreateAccountMutation>(fn, createAccountToasts)
+    return data?.createAccount ?? null
   }
 
   const requestVerificationCode = async (phoneNumber: string) => {
-    const result = await client.mutate<RequestVerificationCodeMutation, RequestVerificationCodeMutationVariables>({
-      mutation: RequestVerificationCodeDocument,
-      variables: { phoneNumber }
-    })
-    // FIXME: Add here possible error handling and snackbar to show the user what happened
-    return result
+    const fn = () =>
+      client.mutate<RequestVerificationCodeMutation, RequestVerificationCodeMutationVariables>({
+        mutation: RequestVerificationCodeDocument,
+        variables: { phoneNumber }
+      })
+
+    const data = await performWithToasts<RequestVerificationCodeMutation>(fn, requestVerificationCodeToasts)
+    return data?.requestVerificationCode === false ? false : data?.requestVerificationCode === true ? true : null
   }
 
   const signInToAccountWithCode = async (code: string) => {
-    const result = await client.mutate<SignInToAccountWithCodeMutation, SignInToAccountWithCodeMutationVariables>({
-      mutation: SignInToAccountWithCodeDocument,
-      variables: { code }
-    })
-    // FIXME: Add here possible error handling and snackbar to show the user what happened
-    return result
+    const fn = () =>
+      client.mutate<SignInToAccountWithCodeMutation, SignInToAccountWithCodeMutationVariables>({
+        mutation: SignInToAccountWithCodeDocument,
+        variables: { code }
+      })
+
+    const data = await performWithToasts<SignInToAccountWithCodeMutation>(fn, signInToAccountToasts)
+    return data?.signInToAccountWithCode ?? null
   }
 
   const deleteAccount = async () => {
-    const result = await client.mutate<DeleteAccountMutation, DeleteAccountMutationVariables>({
-      mutation: DeleteAccountDocument
-    })
-    // FIXME: Add here possible error handling and snackbar to show the user what happened
-    return result
+    const fn = () =>
+      client.mutate<DeleteAccountMutation, DeleteAccountMutationVariables>({
+        mutation: DeleteAccountDocument
+      })
+
+    const data = await performWithToasts<DeleteAccountMutation>(fn, signInToAccountToasts)
+    return data?.deleteAccount === false ? false : data?.deleteAccount === true ? true : null
   }
 
   useEffect(() => {
@@ -119,6 +168,7 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
         dispatch({ type: Dispatch.SET_TAGS, payload: { tags: allTags } })
       }
     }
+
     getRecipes()
   }, [])
 
