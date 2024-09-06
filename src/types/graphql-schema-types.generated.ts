@@ -157,10 +157,12 @@ export type Query = {
 
 export type Recipe = {
   __typename?: 'Recipe';
+  authorId?: Maybe<Scalars['Int']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   ingredientGroups: Array<IngredientGroup>;
   instructionGroups: Array<InstructionGroup>;
+  isPrivate?: Maybe<Scalars['Boolean']['output']>;
   language: Language;
   ovenNeeded: Scalars['Boolean']['output'];
   photos?: Maybe<Array<Photo>>;
@@ -169,9 +171,11 @@ export type Recipe = {
 };
 
 export type RecipeInput = {
+  authorId?: InputMaybe<Scalars['Int']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   ingredientGroups?: InputMaybe<Array<IngredientGroupInput>>;
   instructionGroups?: InputMaybe<Array<InstructionGroupInput>>;
+  isPrivate?: InputMaybe<Scalars['Boolean']['input']>;
   language?: InputMaybe<Scalars['String']['input']>;
   ovenNeeded?: InputMaybe<Scalars['Boolean']['input']>;
   photoFiles?: InputMaybe<Array<Scalars['File']['input']>>;

@@ -134,6 +134,13 @@
       "when": 1724821619622,
       "tag": "0018_slim_komodo",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "5",
+      "when": 1725597030145,
+      "tag": "0019_gigantic_loa",
+      "breakpoints": true
     }
   ]
 }

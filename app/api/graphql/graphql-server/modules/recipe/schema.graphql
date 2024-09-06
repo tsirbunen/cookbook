@@ -81,6 +81,8 @@ type Recipe {
   tags: [Tag!]
   ovenNeeded: Boolean!
   language: Language!
+  isPrivate: Boolean
+  authorId: Int
   ingredientGroups: [IngredientGroup!]!
   instructionGroups: [InstructionGroup!]!
 }
@@ -93,6 +95,8 @@ input RecipeInput {
   tags: [String!]
   language: String
   ovenNeeded: Boolean
+  isPrivate: Boolean
+  authorId: Int
   ingredientGroups: [IngredientGroupInput!]
   instructionGroups: [InstructionGroupInput!]
 }

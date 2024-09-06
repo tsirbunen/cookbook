@@ -46,6 +46,12 @@ fragment RecipeEntity on Recipe {
     id
     language
   }
+  isPrivate
+  authorId
+  # author {
+  #   id
+  #   username
+  # }
   ingredientGroups {
     ...IngredientGroupEntity
   }

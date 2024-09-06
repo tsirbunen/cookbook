@@ -159,10 +159,12 @@ export type Query = {
 
 export type Recipe = {
   __typename?: 'Recipe';
+  authorId?: Maybe<Scalars['Int']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   ingredientGroups: Array<IngredientGroup>;
   instructionGroups: Array<InstructionGroup>;
+  isPrivate?: Maybe<Scalars['Boolean']['output']>;
   language: Language;
   ovenNeeded: Scalars['Boolean']['output'];
   photos?: Maybe<Array<Photo>>;
@@ -171,9 +173,11 @@ export type Recipe = {
 };
 
 export type RecipeInput = {
+  authorId?: InputMaybe<Scalars['Int']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   ingredientGroups?: InputMaybe<Array<IngredientGroupInput>>;
   instructionGroups?: InputMaybe<Array<InstructionGroupInput>>;
+  isPrivate?: InputMaybe<Scalars['Boolean']['input']>;
   language?: InputMaybe<Scalars['String']['input']>;
   ovenNeeded?: InputMaybe<Scalars['Boolean']['input']>;
   photoFiles?: InputMaybe<Array<Scalars['File']['input']>>;
@@ -385,10 +389,12 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type RecipeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Recipe'] = ResolversParentTypes['Recipe']> = {
+  authorId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   ingredientGroups?: Resolver<Array<ResolversTypes['IngredientGroup']>, ParentType, ContextType>;
   instructionGroups?: Resolver<Array<ResolversTypes['InstructionGroup']>, ParentType, ContextType>;
+  isPrivate?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   language?: Resolver<ResolversTypes['Language'], ParentType, ContextType>;
   ovenNeeded?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   photos?: Resolver<Maybe<Array<ResolversTypes['Photo']>>, ParentType, ContextType>;

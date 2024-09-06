@@ -10,6 +10,7 @@ import * as instructionSchema from '../database-schemas/instructions'
 import * as languageSchema from '../database-schemas/languages'
 import * as tagSchema from '../database-schemas/tags'
 import * as photosSchema from '../database-schemas/photos'
+import * as accountsSchema from '../database-schemas/accounts'
 
 const isProduction = process.env.NODE_ENV === 'production'
 let client: postgres.Sql
@@ -30,7 +31,8 @@ const database = drizzle(client, {
     ...instructionSchema,
     ...languageSchema,
     ...tagSchema,
-    ...photosSchema
+    ...photosSchema,
+    ...accountsSchema
   }
 })
 
