@@ -12,4 +12,5 @@ export const clearDatabase = async (database) => {
   await database.execute(sql`DELETE FROM instruction_groups`)
   await database.execute(sql`DELETE FROM recipes`)
   await database.execute(sql`DELETE FROM languages`)
+  await database.execute(sql`DELETE FROM accounts`)
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, MutableRefObject, useContext, useEffect, useRef } from 'react'
-import { FetchResult } from '@apollo/client'
+import { ApolloError, FetchResult } from '@apollo/client'
 import { AppStateContext, AppStateContextType } from '../state/StateContextProvider'
 import { Dispatch } from '../state/reducer'
 import { RecipesFilterValues, getEmptyFilterValues } from '../app-pages/search/page/FilteringProvider'
@@ -13,7 +13,7 @@ import {
 } from './graphql-queries/initialData.generated'
 import { AllRecipesDocument, AllRecipesQuery, AllRecipesQueryVariables } from './graphql-queries/allRecipes.generated'
 
-import { Account, AccountInput } from '../types/graphql-schema-types.generated'
+import { Account, AccountInput, BaseError } from '../types/graphql-schema-types.generated'
 import {
   CreateAccountDocument,
   CreateAccountMutation,
@@ -35,7 +35,7 @@ import {
   DeleteAccountMutationVariables
 } from './graphql-mutations/deleteAccount.generated'
 import { GraphQLClientContext } from './graphql-client/graphql-client'
-import { ToastServiceContext } from '../toast-service/ToastServiceProvider'
+import { SimpleToast, ToastServiceContext } from '../toast-service/ToastServiceProvider'
 import { ToastId } from '@chakra-ui/toast'
 import {
   ToastInputs,
@@ -43,6 +43,7 @@ import {
   requestVerificationCodeToasts,
   signInToAccountToasts
 } from './toast-inputs-and-errors'
+import { GraphQLError } from 'graphql'
 
 export type ApiService = {
   filterRecipes: (filters: RecipesFilterValues) => Promise<void>
@@ -70,6 +71,9 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
   const { showUpdatableToast, updateUpdatableToast } = useContext(ToastServiceContext)
   const toastIdRef = useRef() as MutableRefObject<ToastId>
 
+  // Better error handling here?
+  // https://the-guild.dev/blog/graphql-error-handling-with-fp
+
   /**
    * This function performs the given graphql query or mutation within a try-catch block
    * and shows the user an updating toast indicating the status of the query.
@@ -85,18 +89,48 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
     showUpdatableToast(toastIdRef, loadingToast)
 
     try {
-      const result = await fn()
-      if (result.data) {
+      const { data, errors } = await fn()
+      console.log({ data, errors })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const resultError = Object.values(data as any).find((value: any) => value?.errorMessage) as BaseError
+      console.log({ resultError })
+      if (resultError) {
+        handleShowErrorMessage(errorToast, { resultError })
+        return null
+      }
+
+      if (data) {
         updateUpdatableToast(toastIdRef, successToast)
-        return result.data as T
+        return data as T
+      }
+
+      if (errors) {
+        handleShowErrorMessage(errorToast, { errors })
+        return null
       }
 
       throw new Error(errorText)
     } catch (error) {
-      updateUpdatableToast(toastIdRef, errorToast)
+      handleShowErrorMessage(errorToast, { error })
     }
 
     return null
+  }
+
+  const handleShowErrorMessage = (
+    errorToast: SimpleToast,
+    error: { resultError?: BaseError; errors?: readonly GraphQLError[]; error?: ApolloError | unknown }
+  ) => {
+    console.log({ error })
+    const graphQLErrors = error.errors ?? (error.error as ApolloError)?.graphQLErrors
+    const errorMessage = graphQLErrors?.[0]?.message ?? (error as ApolloError)?.message
+    const description = error.resultError
+      ? error.resultError.errorMessage
+      : errorMessage
+      ? errorMessage
+      : errorToast.description
+    console.log({ description })
+    updateUpdatableToast(toastIdRef, { ...errorToast, description })
   }
 
   const createAccount = async (accountInput: AccountInput) => {
@@ -107,7 +141,11 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
       })
 
     const data = await performWithToasts<CreateAccountMutation>(fn, createAccountToasts)
-    return data?.createAccount ?? null
+    if (data?.createAccount?.__typename === 'Account') {
+      return data?.createAccount
+    }
+
+    return null
   }
 
   const requestVerificationCode = async (phoneNumber: string) => {
@@ -129,7 +167,11 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
       })
 
     const data = await performWithToasts<SignInToAccountWithCodeMutation>(fn, signInToAccountToasts)
-    return data?.signInToAccountWithCode ?? null
+    if (data?.signInToAccountWithCode?.__typename === 'Account') {
+      return data?.signInToAccountWithCode
+    }
+
+    return null
   }
 
   const deleteAccount = async () => {

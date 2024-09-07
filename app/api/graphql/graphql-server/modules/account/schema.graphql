@@ -11,9 +11,11 @@ input AccountInput {
   phoneNumber: String!
 }
 
+union AccountResult = Account | BadInputError
+
 extend type Mutation {
-  createAccount(accountInput: AccountInput!): Account
+  createAccount(accountInput: AccountInput!): AccountResult
   requestVerificationCode(phoneNumber: String!): Boolean
-  signInToAccountWithCode(code: String!): Account
+  signInToAccountWithCode(code: String!): AccountResult
   deleteAccount(id: Int!): Boolean
 }

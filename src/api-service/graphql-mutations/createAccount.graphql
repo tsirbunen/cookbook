@@ -1,13 +1,5 @@
-fragment AccountFull on Account {
-  id
-  username
-  phoneNumber
-  isVerified
-  token
-}
-
 mutation CreateAccount($accountInput: AccountInput!) {
   createAccount(accountInput: $accountInput) {
-    ...AccountFull
+    ...AccountResultFull
   }
 }

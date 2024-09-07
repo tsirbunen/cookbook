@@ -29,6 +29,17 @@ export type AccountInput = {
   username: Scalars['String']['input'];
 };
 
+export type AccountResult = Account | BadInputError;
+
+export type BadInputError = BaseError & {
+  __typename?: 'BadInputError';
+  errorMessage: Scalars['String']['output'];
+};
+
+export type BaseError = {
+  errorMessage: Scalars['String']['output'];
+};
+
 export type Ingredient = {
   __typename?: 'Ingredient';
   amount?: Maybe<Scalars['Float']['output']>;
@@ -95,13 +106,13 @@ export type Language = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createAccount?: Maybe<Account>;
+  createAccount?: Maybe<AccountResult>;
   createRecipe?: Maybe<Recipe>;
   deleteAccount?: Maybe<Scalars['Boolean']['output']>;
   patchRecipe?: Maybe<Recipe>;
   pingMutation?: Maybe<Scalars['String']['output']>;
   requestVerificationCode?: Maybe<Scalars['Boolean']['output']>;
-  signInToAccountWithCode?: Maybe<Account>;
+  signInToAccountWithCode?: Maybe<AccountResult>;
 };
 
 

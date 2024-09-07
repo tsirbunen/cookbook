@@ -1,0 +1,7 @@
+interface BaseError {
+  errorMessage: String!
+}
+
+type BadInputError implements BaseError {
+  errorMessage: String!
+}

@@ -1,0 +1,61 @@
+fragment IngredientEntity on Ingredient {
+  id
+  name
+  amount
+  unit
+  previousId
+}
+
+fragment IngredientGroupEntity on IngredientGroup {
+  id
+  title
+  ingredients {
+    ...IngredientEntity
+  }
+}
+
+fragment InstructionEntity on Instruction {
+  id
+  content
+  previousId
+}
+
+fragment InstructionGroupEntity on InstructionGroup {
+  id
+  title
+  instructions {
+    ...InstructionEntity
+  }
+}
+
+fragment RecipeEntity on Recipe {
+  id
+  title
+  description
+  photos {
+    id
+    url
+    isMainPhoto
+  }
+  tags {
+    id
+    tag
+  }
+  ovenNeeded
+  language {
+    id
+    language
+  }
+  isPrivate
+  authorId
+  # author {
+  #   id
+  #   username
+  # }
+  ingredientGroups {
+    ...IngredientGroupEntity
+  }
+  instructionGroups {
+    ...InstructionGroupEntity
+  }
+}

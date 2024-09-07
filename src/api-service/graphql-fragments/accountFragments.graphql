@@ -1,0 +1,18 @@
+fragment AccountFull on Account {
+  id
+  username
+  phoneNumber
+  isVerified
+  token
+}
+
+fragment AccountResultFull on AccountResult {
+  __typename
+  ... on Account {
+    ...AccountFull
+  }
+
+  ... on BadInputError {
+    errorMessage
+  }
+}

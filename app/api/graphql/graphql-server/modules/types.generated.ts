@@ -31,6 +31,17 @@ export type AccountInput = {
   username: Scalars['String']['input'];
 };
 
+export type AccountResult = Account | BadInputError;
+
+export type BadInputError = BaseError & {
+  __typename?: 'BadInputError';
+  errorMessage: Scalars['String']['output'];
+};
+
+export type BaseError = {
+  errorMessage: Scalars['String']['output'];
+};
+
 export type Ingredient = {
   __typename?: 'Ingredient';
   amount?: Maybe<Scalars['Float']['output']>;
@@ -97,13 +108,13 @@ export type Language = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createAccount?: Maybe<Account>;
+  createAccount?: Maybe<AccountResult>;
   createRecipe?: Maybe<Recipe>;
   deleteAccount?: Maybe<Scalars['Boolean']['output']>;
   patchRecipe?: Maybe<Recipe>;
   pingMutation?: Maybe<Scalars['String']['output']>;
   requestVerificationCode?: Maybe<Scalars['Boolean']['output']>;
-  signInToAccountWithCode?: Maybe<Account>;
+  signInToAccountWithCode?: Maybe<AccountResult>;
 };
 
 
@@ -259,7 +270,15 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
   info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
+/** Mapping of union types */
+export type ResolversUnionTypes<RefType extends Record<string, unknown>> = {
+  AccountResult: ( Account & { __typename: 'Account' } ) | ( BadInputError & { __typename: 'BadInputError' } );
+};
 
+/** Mapping of interface types */
+export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = {
+  BaseError: ( BadInputError & { __typename: 'BadInputError' } );
+};
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
@@ -268,6 +287,9 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   AccountInput: AccountInput;
+  AccountResult: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['AccountResult']>;
+  BadInputError: ResolverTypeWrapper<BadInputError>;
+  BaseError: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['BaseError']>;
   File: ResolverTypeWrapper<Scalars['File']['output']>;
   Ingredient: ResolverTypeWrapper<Ingredient>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
@@ -295,6 +317,9 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
   String: Scalars['String']['output'];
   AccountInput: AccountInput;
+  AccountResult: ResolversUnionTypes<ResolversParentTypes>['AccountResult'];
+  BadInputError: BadInputError;
+  BaseError: ResolversInterfaceTypes<ResolversParentTypes>['BaseError'];
   File: Scalars['File']['output'];
   Ingredient: Ingredient;
   Float: Scalars['Float']['output'];
@@ -322,6 +347,20 @@ export type AccountResolvers<ContextType = any, ParentType extends ResolversPare
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type AccountResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['AccountResult'] = ResolversParentTypes['AccountResult']> = {
+  __resolveType?: TypeResolveFn<'Account' | 'BadInputError', ParentType, ContextType>;
+};
+
+export type BadInputErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['BadInputError'] = ResolversParentTypes['BadInputError']> = {
+  errorMessage?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type BaseErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['BaseError'] = ResolversParentTypes['BaseError']> = {
+  __resolveType?: TypeResolveFn<'BadInputError', ParentType, ContextType>;
+  errorMessage?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
 export interface FileScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['File'], any> {
@@ -365,13 +404,13 @@ export type LanguageResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createAccount?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<MutationcreateAccountArgs, 'accountInput'>>;
+  createAccount?: Resolver<Maybe<ResolversTypes['AccountResult']>, ParentType, ContextType, RequireFields<MutationcreateAccountArgs, 'accountInput'>>;
   createRecipe?: Resolver<Maybe<ResolversTypes['Recipe']>, ParentType, ContextType, RequireFields<MutationcreateRecipeArgs, 'recipeInput'>>;
   deleteAccount?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationdeleteAccountArgs, 'id'>>;
   patchRecipe?: Resolver<Maybe<ResolversTypes['Recipe']>, ParentType, ContextType, RequireFields<MutationpatchRecipeArgs, 'recipeId' | 'recipePatch'>>;
   pingMutation?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   requestVerificationCode?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationrequestVerificationCodeArgs, 'phoneNumber'>>;
-  signInToAccountWithCode?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<MutationsignInToAccountWithCodeArgs, 'code'>>;
+  signInToAccountWithCode?: Resolver<Maybe<ResolversTypes['AccountResult']>, ParentType, ContextType, RequireFields<MutationsignInToAccountWithCodeArgs, 'code'>>;
 };
 
 export type PhotoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Photo'] = ResolversParentTypes['Photo']> = {
@@ -411,6 +450,9 @@ export type TagResolvers<ContextType = any, ParentType extends ResolversParentTy
 
 export type Resolvers<ContextType = any> = {
   Account?: AccountResolvers<ContextType>;
+  AccountResult?: AccountResultResolvers<ContextType>;
+  BadInputError?: BadInputErrorResolvers<ContextType>;
+  BaseError?: BaseErrorResolvers<ContextType>;
   File?: GraphQLScalarType;
   Ingredient?: IngredientResolvers<ContextType>;
   IngredientGroup?: IngredientGroupResolvers<ContextType>;

@@ -36,7 +36,6 @@ export enum AccountRoute {
  */
 export default function AccountAction({ params }: { params: { accountAction: AccountRoute } }) {
   const { accountAction } = params
-  console.log({ accountAction })
 
   switch (accountAction) {
     case AccountRoute.CREATE_ACCOUNT:

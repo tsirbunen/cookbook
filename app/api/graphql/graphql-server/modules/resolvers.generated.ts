@@ -1,6 +1,7 @@
 /* This file was automatically generated. DO NOT UPDATE MANUALLY. */
     import type   { Resolvers } from './types.generated';
     import    { Account } from './account/resolvers/Account';
+import    { BadInputError } from './error/resolvers/BadInputError';
 import    { File } from './mutation/resolvers/File';
 import    { Ingredient } from './recipe/resolvers/Ingredient';
 import    { IngredientGroup } from './recipe/resolvers/IngredientGroup';
@@ -26,6 +27,7 @@ import    { Tag } from './recipe/resolvers/Tag';
       Mutation: { createAccount: Mutation_createAccount,createRecipe: Mutation_createRecipe,deleteAccount: Mutation_deleteAccount,patchRecipe: Mutation_patchRecipe,pingMutation: Mutation_pingMutation,requestVerificationCode: Mutation_requestVerificationCode,signInToAccountWithCode: Mutation_signInToAccountWithCode },
       
       Account: Account,
+BadInputError: BadInputError,
 File: File,
 Ingredient: Ingredient,
 IngredientGroup: IngredientGroup,

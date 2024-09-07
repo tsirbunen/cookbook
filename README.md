@@ -1,8 +1,7 @@
 ## COOKING COMPANION (DESKTOP)
 
 Want to cook something **delicious**? Navigate to the **[COOKING COMPANION](https://cookbook-dusky.vercel.app)** !!!
-COOKING COMPANION is a full-stack React Typescript GraphQL web application built with the **[Next.js](https://nextjs.org/docs)** framework. It is meant to be used in desktop or tablet devices.
-For a mobile phone version of the app, please see the **[Flutter mobile project](https://github.com/tsirbunen/cooking-companion-mobile)**.
+COOKING COMPANION is a full-stack React Typescript GraphQL web application built with the **[Next.js](https://nextjs.org/docs)** framework. It is meant to be used as a desktop app or with a tablet. For the mobile phone version of the app, please see the **[Flutter mobile project](https://github.com/tsirbunen/cooking-companion-mobile)**. The two apps (desktop and mobile) do not have exactly the same features available. The app is hosted at **[Vercel](https://vercel.com/)**.
 
 ![Vercel](https://vercelbadge.vercel.app/api/tsirbunen/cookbook?style=plastic) ![example workflow](https://github.com/tsirbunen/cookbook/actions/workflows/running-tests.yml/badge.svg)
 
@@ -44,22 +43,6 @@ Api service tests are in **[this directory](./app/api/graphql/graphql-server/ser
 
 _Note: The tests mainly exercise the functionality of the api service including the interactions with the database meaning that the api interacts with the database in most of these tests. Before each test is run, the database is cleared of all data, so if you have made changes to the database, the changes will be lost._
 
-<!-- ##### TEST FILES
-
-Unit/component test files have been placed to a **\_\_tests\_\_**-folder next to the code that they test.
-Cypress tests are in a folder of their own.
-
-##### TEST DATA
-
-Add test data to database. Open a GraphQL Client (for example **[Altair](https://altairgraphql.dev/)**) and send a POST request to http://localhost:3000/api/test-data-migrations to migrate test data to locally running database. Note: The database needs to be empty to start with!
-
-##### RUNNING TESTS
-
-
-Neither the unit/component nor the E2E tests cover all the code on their own. Instead they have been designed to **complement** each other. For example, there are unit tests for some small functions and individual form components (like the search text area input), and there are E2E tests for within app navigation.
-
--->
-
 #### UI tests
 
 **Unit and React Component/Hook test** files have been placed into **\_\_tests\_\_** -folders next to the code they test. To run these tests for ui, use either of
@@ -95,7 +78,6 @@ _Note 2:_ The cypress E2E tests are truly E2E only when run locally. For some re
 - Component styling: **[@emotion/react](https://www.npmjs.com/package/@emotion/react)**
 - UI Component library: **[Chakra ui](https://chakra-ui.com)** (even though it did not seem to work too well together with @emotion/react if used in the same file)
 - Icons: **[React icons](https://react-icons.github.io/react-icons/icons/tb/)**
-- App hosting: **[Vercel](https://vercel.com/)**
 
 ### Database
 
@@ -149,6 +131,12 @@ The commands used to lint, build and start te project in production mode are
 &nbsp;&nbsp;&nbsp;&nbsp; **`npm run start`**
 
 ### Design and Guidelines
+
+##### GraphQL "Errors" and Errors
+
+When investigating how to best inform the frontend GraphQL clients about errors like **username already exists**, I bumped into **[this article by Sasha Solomon](https://sachee.medium.com/200-ok-error-handling-in-graphql-7ec869aec9bc)**. Sasha considers such errors **alternative results** instead of being errors and suggests server to return union types (of the actual entity and the error). This approach is also described **[here](https://the-guild.dev/blog/graphql-error-handling-with-fp)** and implemented in the Cooking Companion app where applicable.
+
+##### General
 
 - Components should be smaller !!!
 - Functions should be smaller !!!

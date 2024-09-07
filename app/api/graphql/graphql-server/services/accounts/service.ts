@@ -1,8 +1,9 @@
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-// import { database } from '../../database/config/config'
+import { database } from '../../database/config/config'
 import { AccountInput } from '../../modules/types.generated'
+import { createAccount } from './utils'
 
 export const createNewAccount = async (accountInput: AccountInput) => {
   // FIXME: Implement this properly; while developing front, keep this
