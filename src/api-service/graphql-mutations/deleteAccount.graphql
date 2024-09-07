@@ -7,5 +7,14 @@ fragment AccountFull on Account {
 }
 
 mutation DeleteAccount($id: Int!) {
-  deleteAccount(id: $id)
+  deleteAccount(id: $id) {
+    __typename
+
+    ... on GeneralSuccess {
+      successMessage
+    }
+    ... on GeneralError {
+      errorMessage
+    }
+  }
 }

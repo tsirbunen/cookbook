@@ -1,0 +1,1 @@
+ALTER TABLE "accounts" ADD COLUMN "latest_code" varchar(20);

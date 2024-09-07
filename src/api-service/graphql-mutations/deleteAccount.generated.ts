@@ -9,7 +9,7 @@ export type DeleteAccountMutationVariables = Types.Exact<{
 }>;
 
 
-export type DeleteAccountMutation = { __typename?: 'Mutation', deleteAccount?: boolean | null };
+export type DeleteAccountMutation = { __typename?: 'Mutation', deleteAccount: { __typename: 'GeneralError', errorMessage: string } | { __typename: 'GeneralSuccess', successMessage: string } };
 
 export const AccountFullFragmentDoc = gql`
     fragment AccountFull on Account {
@@ -22,7 +22,15 @@ export const AccountFullFragmentDoc = gql`
     `;
 export const DeleteAccountDocument = gql`
     mutation DeleteAccount($id: Int!) {
-  deleteAccount(id: $id)
+  deleteAccount(id: $id) {
+    __typename
+    ... on GeneralSuccess {
+      successMessage
+    }
+    ... on GeneralError {
+      errorMessage
+    }
+  }
 }
     `;
 export type DeleteAccountMutationFn = Apollo.MutationFunction<DeleteAccountMutation, DeleteAccountMutationVariables>;

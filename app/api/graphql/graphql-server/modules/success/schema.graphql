@@ -1,0 +1,9 @@
+interface BaseSuccess {
+  successMessage: String!
+}
+
+type GeneralSuccess implements BaseSuccess {
+  successMessage: String!
+}
+
+union GeneralResult = GeneralSuccess | GeneralError

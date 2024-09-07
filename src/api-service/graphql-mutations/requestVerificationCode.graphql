@@ -1,3 +1,12 @@
 mutation RequestVerificationCode($phoneNumber: String!) {
-  requestVerificationCode(phoneNumber: $phoneNumber)
+  requestVerificationCode(phoneNumber: $phoneNumber) {
+    __typename
+
+    ... on GeneralSuccess {
+      successMessage
+    }
+    ... on GeneralError {
+      errorMessage
+    }
+  }
 }

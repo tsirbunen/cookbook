@@ -5,6 +5,7 @@ import { recipes } from '../database-schemas/recipes'
 import { languages } from '../database-schemas/languages'
 import { tags, recipesToTags } from '../database-schemas/tags'
 import { photos } from '../database-schemas/photos'
+import { accounts } from '../database-schemas/accounts'
 
 export type DatabaseType = typeof database
 
@@ -17,6 +18,7 @@ export type InstructionInsert = typeof instructions.$inferInsert
 export type LanguageInsert = typeof languages.$inferInsert
 export type PhotoInsert = typeof photos.$inferInsert
 export type RecipesToTagsInsert = typeof recipesToTags.$inferInsert
+export type AccountInsert = typeof accounts.$inferInsert
 
 export type RecipeDBSelect = typeof recipes.$inferSelect
 export type TagDBSelect = typeof tags.$inferSelect
@@ -27,6 +29,7 @@ export type InstructionDBSelect = typeof instructions.$inferSelect
 export type LanguageDBSelect = typeof languages.$inferSelect
 export type PhotoDBSelect = typeof photos.$inferSelect
 export type RecipesToTagsDBSelect = typeof recipesToTags.$inferSelect
+export type AccountDBSelect = typeof accounts.$inferSelect
 
 export type RecipeSelectDBExpanded = RecipeDBSelect & {
   photos: PhotoDBSelect[]

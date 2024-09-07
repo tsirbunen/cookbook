@@ -5,3 +5,7 @@ interface BaseError {
 type BadInputError implements BaseError {
   errorMessage: String!
 }
+
+type GeneralError implements BaseError {
+  errorMessage: String!
+}

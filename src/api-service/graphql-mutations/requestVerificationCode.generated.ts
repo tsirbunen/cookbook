@@ -7,12 +7,20 @@ export type RequestVerificationCodeMutationVariables = Types.Exact<{
 }>;
 
 
-export type RequestVerificationCodeMutation = { __typename?: 'Mutation', requestVerificationCode?: boolean | null };
+export type RequestVerificationCodeMutation = { __typename?: 'Mutation', requestVerificationCode: { __typename: 'GeneralError', errorMessage: string } | { __typename: 'GeneralSuccess', successMessage: string } };
 
 
 export const RequestVerificationCodeDocument = gql`
     mutation RequestVerificationCode($phoneNumber: String!) {
-  requestVerificationCode(phoneNumber: $phoneNumber)
+  requestVerificationCode(phoneNumber: $phoneNumber) {
+    __typename
+    ... on GeneralSuccess {
+      successMessage
+    }
+    ... on GeneralError {
+      errorMessage
+    }
+  }
 }
     `;
 export type RequestVerificationCodeMutationFn = Apollo.MutationFunction<RequestVerificationCodeMutation, RequestVerificationCodeMutationVariables>;

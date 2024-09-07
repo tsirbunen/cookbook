@@ -8,7 +8,7 @@ export type CreateAccountMutationVariables = Types.Exact<{
 }>;
 
 
-export type CreateAccountMutation = { __typename?: 'Mutation', createAccount?: { __typename: 'Account', id: number, username: string, phoneNumber: string, isVerified: boolean, token?: string | null } | { __typename: 'BadInputError', errorMessage: string } | null };
+export type CreateAccountMutation = { __typename?: 'Mutation', createAccount: { __typename: 'Account', id: number, username: string, phoneNumber: string, isVerified: boolean, token?: string | null } | { __typename: 'BadInputError', errorMessage: string } };
 
 
 export const CreateAccountDocument = gql`

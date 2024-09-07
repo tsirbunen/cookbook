@@ -6,7 +6,8 @@ export const accounts = pgTable('accounts', {
   id: serial('id').primaryKey(),
   username: varchar('title', { length: 250 }).notNull().unique(),
   phoneNumber: varchar('phone_number', { length: 50 }).unique(),
-  isVerified: boolean('is_verified').notNull()
+  isVerified: boolean('is_verified').notNull(),
+  latestCode: varchar('latest_code', { length: 20 })
 })
 
 export const accountRelations = relations(accounts, ({ many }) => ({

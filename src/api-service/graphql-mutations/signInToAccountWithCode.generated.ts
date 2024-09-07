@@ -8,7 +8,7 @@ export type SignInToAccountWithCodeMutationVariables = Types.Exact<{
 }>;
 
 
-export type SignInToAccountWithCodeMutation = { __typename?: 'Mutation', signInToAccountWithCode?: { __typename: 'Account', id: number, username: string, phoneNumber: string, isVerified: boolean, token?: string | null } | { __typename: 'BadInputError', errorMessage: string } | null };
+export type SignInToAccountWithCodeMutation = { __typename?: 'Mutation', signInToAccountWithCode: { __typename: 'Account', id: number, username: string, phoneNumber: string, isVerified: boolean, token?: string | null } | { __typename: 'BadInputError', errorMessage: string } };
 
 
 export const SignInToAccountWithCodeDocument = gql`

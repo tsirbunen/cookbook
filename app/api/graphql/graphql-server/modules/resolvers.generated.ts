@@ -3,6 +3,8 @@
     import    { Account } from './account/resolvers/Account';
 import    { BadInputError } from './error/resolvers/BadInputError';
 import    { File } from './mutation/resolvers/File';
+import    { GeneralError } from './error/resolvers/GeneralError';
+import    { GeneralSuccess } from './success/resolvers/GeneralSuccess';
 import    { Ingredient } from './recipe/resolvers/Ingredient';
 import    { IngredientGroup } from './recipe/resolvers/IngredientGroup';
 import    { Instruction } from './recipe/resolvers/Instruction';
@@ -29,6 +31,8 @@ import    { Tag } from './recipe/resolvers/Tag';
       Account: Account,
 BadInputError: BadInputError,
 File: File,
+GeneralError: GeneralError,
+GeneralSuccess: GeneralSuccess,
 Ingredient: Ingredient,
 IngredientGroup: IngredientGroup,
 Instruction: Instruction,

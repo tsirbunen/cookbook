@@ -40,6 +40,22 @@ export type BaseError = {
   errorMessage: Scalars['String']['output'];
 };
 
+export type BaseSuccess = {
+  successMessage: Scalars['String']['output'];
+};
+
+export type GeneralError = BaseError & {
+  __typename?: 'GeneralError';
+  errorMessage: Scalars['String']['output'];
+};
+
+export type GeneralResult = GeneralError | GeneralSuccess;
+
+export type GeneralSuccess = BaseSuccess & {
+  __typename?: 'GeneralSuccess';
+  successMessage: Scalars['String']['output'];
+};
+
 export type Ingredient = {
   __typename?: 'Ingredient';
   amount?: Maybe<Scalars['Float']['output']>;
@@ -106,13 +122,13 @@ export type Language = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createAccount?: Maybe<AccountResult>;
+  createAccount: AccountResult;
   createRecipe?: Maybe<Recipe>;
-  deleteAccount?: Maybe<Scalars['Boolean']['output']>;
+  deleteAccount: GeneralResult;
   patchRecipe?: Maybe<Recipe>;
   pingMutation?: Maybe<Scalars['String']['output']>;
-  requestVerificationCode?: Maybe<Scalars['Boolean']['output']>;
-  signInToAccountWithCode?: Maybe<AccountResult>;
+  requestVerificationCode: GeneralResult;
+  signInToAccountWithCode: AccountResult;
 };
 
 

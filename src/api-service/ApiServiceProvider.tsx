@@ -89,47 +89,38 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
     showUpdatableToast(toastIdRef, loadingToast)
 
     try {
-      const { data, errors } = await fn()
-      console.log({ data, errors })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const resultError = Object.values(data as any).find((value: any) => value?.errorMessage) as BaseError
-      console.log({ resultError })
-      if (resultError) {
-        handleShowErrorMessage(errorToast, { resultError })
-        return null
-      }
+      // We only need to consider data here. Apollo client manages the errors behind the scenes
+      // and in case of an error we end up in the catch block.
+      const { data } = await fn()
+      console.log({ data })
+      if (!data) throw new Error(errorText)
 
-      if (data) {
+      // In many cases, the api returns a unit type response where the data contains either
+      // an entity or an "anticipated error" that extends the BaseError type with field errorMessage.
+      const resultError = data
+        ? (Object.values(data as object).find((value) => value?.errorMessage) as BaseError)
+        : null
+      console.log({ resultError })
+
+      if (!resultError) {
         updateUpdatableToast(toastIdRef, successToast)
         return data as T
       }
 
-      if (errors) {
-        handleShowErrorMessage(errorToast, { errors })
-        return null
-      }
-
-      throw new Error(errorText)
+      handleShowErrorMessage(errorToast, resultError)
+      return null
     } catch (error) {
-      handleShowErrorMessage(errorToast, { error })
+      console.log('catch', { error })
+      handleShowErrorMessage(errorToast, error)
+      return null
     }
-
-    return null
   }
 
-  const handleShowErrorMessage = (
-    errorToast: SimpleToast,
-    error: { resultError?: BaseError; errors?: readonly GraphQLError[]; error?: ApolloError | unknown }
-  ) => {
-    console.log({ error })
-    const graphQLErrors = error.errors ?? (error.error as ApolloError)?.graphQLErrors
-    const errorMessage = graphQLErrors?.[0]?.message ?? (error as ApolloError)?.message
-    const description = error.resultError
-      ? error.resultError.errorMessage
-      : errorMessage
-      ? errorMessage
-      : errorToast.description
-    console.log({ description })
+  const handleShowErrorMessage = (errorToast: SimpleToast, error: BaseError | ApolloError | unknown) => {
+    // Apollo client populates the graphQLErrors field in case of a graphql error. Log errors
+    // to console in development, but display the user only a user-friendly error message.
+    if (process.env.NODE_ENV === 'development') console.log((error as ApolloError)?.graphQLErrors)
+    const description = (error as BaseError).errorMessage ?? errorToast.description
     updateUpdatableToast(toastIdRef, { ...errorToast, description })
   }
 
@@ -156,7 +147,8 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
       })
 
     const data = await performWithToasts<RequestVerificationCodeMutation>(fn, requestVerificationCodeToasts)
-    return data?.requestVerificationCode === false ? false : data?.requestVerificationCode === true ? true : null
+    const resultType = data?.requestVerificationCode?.__typename
+    return resultType === 'GeneralSuccess' ? true : resultType === 'GeneralError' ? false : null
   }
 
   const signInToAccountWithCode = async (code: string) => {
@@ -181,7 +173,8 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
       })
 
     const data = await performWithToasts<DeleteAccountMutation>(fn, signInToAccountToasts)
-    return data?.deleteAccount === false ? false : data?.deleteAccount === true ? true : null
+    const resultType = data?.deleteAccount?.__typename
+    return resultType === 'GeneralSuccess' ? true : resultType === 'GeneralError' ? false : null
   }
 
   useEffect(() => {
