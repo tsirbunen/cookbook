@@ -1,5 +1,6 @@
 type Account {
   id: Int!
+  uuid: String!
   username: String!
   phoneNumber: String!
   isVerified: Boolean!
@@ -13,6 +14,11 @@ input AccountInput {
 
 union AccountResult = Account | BadInputError
 
+input SignInInput {
+  code: String!
+  phoneNumber: String!
+}
+
 # Instead of throwing errors we return union types that can be either the expected entity
 # or an "alternative result" (i.e. an anticipated error). This is because we want also the
 # error replies to be properly typed so that the client has an easier job of guiding the
@@ -20,6 +26,6 @@ union AccountResult = Account | BadInputError
 extend type Mutation {
   createAccount(accountInput: AccountInput!): AccountResult!
   requestVerificationCode(phoneNumber: String!): GeneralResult!
-  signInToAccountWithCode(code: String!): AccountResult!
-  deleteAccount(id: Int!): GeneralResult!
+  signInToAccount(signInInput: SignInInput!): AccountResult!
+  deleteAccount(id: Int!, uuid: String!): GeneralResult!
 }

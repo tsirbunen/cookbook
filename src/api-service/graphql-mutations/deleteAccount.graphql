@@ -1,13 +1,5 @@
-fragment AccountFull on Account {
-  id
-  username
-  phoneNumber
-  isVerified
-  token
-}
-
-mutation DeleteAccount($id: Int!) {
-  deleteAccount(id: $id) {
+mutation DeleteAccount($id: Int!, $uuid: String!) {
+  deleteAccount(id: $id, uuid: $uuid) {
     __typename
 
     ... on GeneralSuccess {

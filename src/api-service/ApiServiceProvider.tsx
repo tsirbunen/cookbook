@@ -25,10 +25,10 @@ import {
   RequestVerificationCodeMutationVariables
 } from './graphql-mutations/requestVerificationCode.generated'
 import {
-  SignInToAccountWithCodeDocument,
-  SignInToAccountWithCodeMutation,
-  SignInToAccountWithCodeMutationVariables
-} from './graphql-mutations/signInToAccountWithCode.generated'
+  SignInToAccountDocument,
+  SignInToAccountMutation,
+  SignInToAccountMutationVariables
+} from './graphql-mutations/signInToAccount.generated'
 import {
   DeleteAccountDocument,
   DeleteAccountMutation,
@@ -40,17 +40,17 @@ import { ToastId } from '@chakra-ui/toast'
 import {
   ToastInputs,
   createAccountToasts,
+  deleteAccountToasts,
   requestVerificationCodeToasts,
   signInToAccountToasts
 } from './toast-inputs-and-errors'
-import { GraphQLError } from 'graphql'
 
 export type ApiService = {
   filterRecipes: (filters: RecipesFilterValues) => Promise<void>
   createAccount: (accountInput: AccountInput) => Promise<Account | null>
   requestVerificationCode: (phoneNumber: string) => Promise<boolean | null>
-  signInToAccountWithCode: (code: string) => Promise<Account | null>
-  deleteAccount: () => Promise<boolean | null>
+  signInToAccount: (signInInput: { phoneNumber: string; code: string }) => Promise<Account | null>
+  deleteAccount: (id: number, uuid: string) => Promise<boolean | null>
 }
 
 export const ApiServiceContext = createContext<ApiService>({} as ApiService)
@@ -92,7 +92,6 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
       // We only need to consider data here. Apollo client manages the errors behind the scenes
       // and in case of an error we end up in the catch block.
       const { data } = await fn()
-      console.log({ data })
       if (!data) throw new Error(errorText)
 
       // In many cases, the api returns a unit type response where the data contains either
@@ -100,7 +99,6 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
       const resultError = data
         ? (Object.values(data as object).find((value) => value?.errorMessage) as BaseError)
         : null
-      console.log({ resultError })
 
       if (!resultError) {
         updateUpdatableToast(toastIdRef, successToast)
@@ -110,7 +108,6 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
       handleShowErrorMessage(errorToast, resultError)
       return null
     } catch (error) {
-      console.log('catch', { error })
       handleShowErrorMessage(errorToast, error)
       return null
     }
@@ -151,28 +148,29 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
     return resultType === 'GeneralSuccess' ? true : resultType === 'GeneralError' ? false : null
   }
 
-  const signInToAccountWithCode = async (code: string) => {
+  const signInToAccount = async (signInInput: { phoneNumber: string; code: string }) => {
     const fn = () =>
-      client.mutate<SignInToAccountWithCodeMutation, SignInToAccountWithCodeMutationVariables>({
-        mutation: SignInToAccountWithCodeDocument,
-        variables: { code }
+      client.mutate<SignInToAccountMutation, SignInToAccountMutationVariables>({
+        mutation: SignInToAccountDocument,
+        variables: { signInInput }
       })
 
-    const data = await performWithToasts<SignInToAccountWithCodeMutation>(fn, signInToAccountToasts)
-    if (data?.signInToAccountWithCode?.__typename === 'Account') {
-      return data?.signInToAccountWithCode
+    const data = await performWithToasts<SignInToAccountMutation>(fn, signInToAccountToasts)
+    if (data?.signInToAccount?.__typename === 'Account') {
+      return data?.signInToAccount
     }
 
     return null
   }
 
-  const deleteAccount = async () => {
+  const deleteAccount = async (id: number, uuid: string) => {
     const fn = () =>
       client.mutate<DeleteAccountMutation, DeleteAccountMutationVariables>({
-        mutation: DeleteAccountDocument
+        mutation: DeleteAccountDocument,
+        variables: { id, uuid }
       })
 
-    const data = await performWithToasts<DeleteAccountMutation>(fn, signInToAccountToasts)
+    const data = await performWithToasts<DeleteAccountMutation>(fn, deleteAccountToasts)
     const resultType = data?.deleteAccount?.__typename
     return resultType === 'GeneralSuccess' ? true : resultType === 'GeneralError' ? false : null
   }
@@ -224,7 +222,7 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
         filterRecipes,
         createAccount,
         requestVerificationCode,
-        signInToAccountWithCode,
+        signInToAccount,
         deleteAccount
       }}
     >

@@ -20,7 +20,7 @@ const deleteAccountLabel = 'DELETE ACCOUNT'
 const singOutToSignUpInfo =
   'Note: If you wish to sign in to another account, you need to sign out first. You can only be signed in to one account at a time.'
 const signOutInfo =
-  'Signing out clears possible account-related cookies stored in your browser. Other app data stored in the browser (like sound settings) are left untouched. Signing in again will require verifying your phone number again.'
+  'Signing out clears the authorization data stored in your browser. General app data stored in the browser (like sound settings) are left untouched. Signing in later on will require verifying your phone number anew.'
 const iUnderstandSignOutConsequencesLabel = 'I understand that a later sign-in requires phone number verification'
 const deleteAccountInfo =
   'Deleting your account will permanently remove all your data from the Cooking Companion app. This action cannot be undone.'
@@ -46,7 +46,9 @@ const ManageAccount = () => {
   }
 
   const deleteAccountForGood = async () => {
-    await deleteAccount()
+    if (!state?.account?.id || !state?.account?.uuid) return
+
+    await deleteAccount(state.account.id, state.account.uuid)
     clearAccountDataFromBrowser()
   }
 

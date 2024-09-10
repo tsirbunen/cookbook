@@ -1,5 +1,6 @@
 fragment AccountFull on Account {
   id
+  uuid
   username
   phoneNumber
   isVerified

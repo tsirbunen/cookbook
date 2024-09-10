@@ -22,6 +22,7 @@ export type Account = {
   phoneNumber: Scalars['String']['output'];
   token?: Maybe<Scalars['String']['output']>;
   username: Scalars['String']['output'];
+  uuid: Scalars['String']['output'];
 };
 
 export type AccountInput = {
@@ -128,7 +129,7 @@ export type Mutation = {
   patchRecipe?: Maybe<Recipe>;
   pingMutation?: Maybe<Scalars['String']['output']>;
   requestVerificationCode: GeneralResult;
-  signInToAccountWithCode: AccountResult;
+  signInToAccount: AccountResult;
 };
 
 
@@ -144,6 +145,7 @@ export type MutationCreateRecipeArgs = {
 
 export type MutationDeleteAccountArgs = {
   id: Scalars['Int']['input'];
+  uuid: Scalars['String']['input'];
 };
 
 
@@ -158,8 +160,8 @@ export type MutationRequestVerificationCodeArgs = {
 };
 
 
-export type MutationSignInToAccountWithCodeArgs = {
-  code: Scalars['String']['input'];
+export type MutationSignInToAccountArgs = {
+  signInInput: SignInInput;
 };
 
 export type Photo = {
@@ -209,6 +211,11 @@ export type RecipeInput = {
   photoIdentifiers?: InputMaybe<Array<Scalars['String']['input']>>;
   tags?: InputMaybe<Array<Scalars['String']['input']>>;
   title?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type SignInInput = {
+  code: Scalars['String']['input'];
+  phoneNumber: Scalars['String']['input'];
 };
 
 export type Tag = {

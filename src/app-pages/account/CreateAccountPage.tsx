@@ -19,7 +19,7 @@ export const createAccountLabel = 'CREATE ACCOUNT'
 const usernameLabel = 'Username'
 const usernameInfo =
   "Publicity of one's recipes is optional and is set individually for each recipe. In case you allow some of your recipes to be public, this name will be displayed as the author of those recipes for all users of this app."
-const phoneNumberLabel = 'Phone number'
+export const phoneNumberLabel = 'Phone number'
 const phoneNumberInfo =
   'Your phone number is needed for account verification purposes only. Your phone number will not be shown to other users of this app or shared with any third party.'
 const usernamePlaceholder = 'Enter your username...'

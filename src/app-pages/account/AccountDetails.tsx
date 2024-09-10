@@ -10,14 +10,14 @@ type AccountDetailsProps = {
 
 const usernameLabel = 'Username'
 const phoneNumberLabel = 'Phone number'
-const cookiesEnabledLabel = 'Keep me signed in with the help of cookies'
+const cookiesEnabledLabel = 'Keep me signed in until I sign out or I close the browser'
 const cookiesDisabledLabel = 'Do not use cookies to store sign-in information'
 const storePhoneNumberEnabledLabel = 'Store my phone number in the browser'
 const storePhoneNumberDisabledLabel = 'Do not store my phone number in the browser'
 
 const AccountDetails = ({ account }: AccountDetailsProps) => {
   // FIXME: Implement the functionality to store the phone number in the browser's local storage
-  // and token in the browser's cookies
+  // and token in the session storage
   const [cookiesAreEnabled, setCookiesAreEnabled] = useState(true)
   const [savePhoneNumberIsEnabled, setSavePhoneNumberIsEnabled] = useState(true)
 

@@ -13,23 +13,25 @@ import TitleWithSpacing from './TitleWithSpacing'
 import { AccountRoute } from '../../../app/account/[accountAction]/page'
 
 export const signInWithVerificationCodeLabel = 'SIGN IN WITH CODE'
+const phoneNumberLabel = 'Phone number'
 const verificationCodeLabel = 'Verification code'
 const verificationCodeInfo =
   'Please type the verification code you received to your phone number. If you have not received any code, go back to the Accounts main page and request a new one.'
 const verificationCodePlaceholder = 'Enter the verification code...'
 
-const initialFormValues: VerificationFormValues = { code: '' }
+// FIXME: Implement getting the real phone number
+// const initialFormValues: VerificationFormValues = { code: '', phoneNumber: '' }
 
 const SignInWithCodePage = () => {
-  const { dispatch } = useContext(AppStateContext) as AppStateContextType
-  const { signInToAccountWithCode } = useContext(ApiServiceContext)
+  const { state, dispatch } = useContext(AppStateContext) as AppStateContextType
+  const { signInToAccount } = useContext(ApiServiceContext)
   const router = useRouter()
   const { handleSubmit, control } = useForm<VerificationFormValues>({
-    defaultValues: initialFormValues
+    defaultValues: { code: '', phoneNumber: state.account?.phoneNumber || '' }
   })
 
-  const onSubmit: SubmitHandler<VerificationFormValues> = async ({ code }: VerificationFormValues) => {
-    const signedInAccount = await signInToAccountWithCode(code)
+  const onSubmit: SubmitHandler<VerificationFormValues> = async ({ code, phoneNumber }: VerificationFormValues) => {
+    const signedInAccount = await signInToAccount({ phoneNumber, code })
     if (signedInAccount?.token) {
       const { id, username, phoneNumber, token } = signedInAccount
       dispatch({ type: Dispatch.SET_ACCOUNT, payload: { account: { id, username, phoneNumber, token } } })
@@ -46,6 +48,12 @@ const SignInWithCodePage = () => {
 
         <Flex {...innerCss}>
           <form onSubmit={handleSubmit(onSubmit)}>
+            <FormSimpleInput
+              label={phoneNumberLabel}
+              control={control}
+              name={'phoneNumber'}
+              // info={phoneNumberFormInfo}
+            />
             <FormSimpleInput
               label={verificationCodeLabel}
               control={control}

@@ -17,7 +17,7 @@ export type ApiService = {
   filterRecipes: (filters: RecipesFilterValues) => Promise<void>
   createAccount: (accountInput: AccountInput) => Promise<Account | null>
   requestVerificationCode: (phoneNumber: string) => Promise<boolean | null>
-  signInToAccountWithCode: (code: string) => Promise<Account | null>
+  signInToAccount: (signInInput: { phoneNumber: string; code: string }) => Promise<Account | null>
   deleteAccount: () => Promise<boolean | null>
 }
 
@@ -27,7 +27,7 @@ const createAccount = async (accountInput: AccountInput) => {
 const requestVerificationCode = async (phoneNumber: string) => {
   throw new Error('Not implemented')
 }
-const signInToAccountWithCode = async (code: string) => {
+const signInToAccount = async (signInInput: { phoneNumber: string; code: string }) => {
   throw new Error('Not implemented')
 }
 const deleteAccount = async () => {
@@ -73,7 +73,7 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <ApiServiceContext.Provider
-      value={{ filterRecipes, createAccount, requestVerificationCode, signInToAccountWithCode, deleteAccount }}
+      value={{ filterRecipes, createAccount, requestVerificationCode, signInToAccount, deleteAccount }}
     >
       {children}
     </ApiServiceContext.Provider>

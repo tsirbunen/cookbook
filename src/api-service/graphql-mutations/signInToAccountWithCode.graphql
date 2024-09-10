@@ -1,5 +1,0 @@
-mutation SignInToAccountWithCode($code: String!) {
-  signInToAccountWithCode(code: $code) {
-    ...AccountResultFull
-  }
-}

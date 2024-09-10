@@ -22,7 +22,7 @@ const TestApiServiceProvider = ({
   const requestVerificationCode = async (phoneNumber: string) => {
     throw new Error('Not implemented')
   }
-  const signInToAccountWithCode = async (code: string) => {
+  const signInToAccount = async (signInInput: { phoneNumber: string; code: string }) => {
     throw new Error('Not implemented')
   }
   const deleteAccount = async () => {
@@ -31,7 +31,7 @@ const TestApiServiceProvider = ({
 
   return (
     <ApiServiceContext.Provider
-      value={{ filterRecipes, createAccount, requestVerificationCode, signInToAccountWithCode, deleteAccount }}
+      value={{ filterRecipes, createAccount, requestVerificationCode, signInToAccount, deleteAccount }}
     >
       {children}
       <TestFilteringProviderUser filterValues={testValues} />

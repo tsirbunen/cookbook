@@ -18,6 +18,7 @@ export type SignInFormValues = {
 
 export type VerificationFormValues = {
   code: string
+  phoneNumber: string
 }
 
 type FormSimpleInputProps<T extends FieldValues, P> = {

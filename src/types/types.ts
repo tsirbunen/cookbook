@@ -26,6 +26,7 @@ export type ScalingData = {
 
 export type AccountInfo = {
   id?: number
+  uuid?: string
   username?: string
   phoneNumber: string
   token?: string

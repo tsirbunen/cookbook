@@ -155,6 +155,20 @@
       "when": 1725689341966,
       "tag": "0021_confused_boomerang",
       "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "5",
+      "when": 1725856610420,
+      "tag": "0022_moaning_cerise",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "5",
+      "when": 1725942620695,
+      "tag": "0023_slippery_white_queen",
+      "breakpoints": true
     }
   ]
 }

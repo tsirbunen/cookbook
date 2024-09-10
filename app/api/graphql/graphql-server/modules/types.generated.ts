@@ -24,6 +24,7 @@ export type Account = {
   phoneNumber: Scalars['String']['output'];
   token?: Maybe<Scalars['String']['output']>;
   username: Scalars['String']['output'];
+  uuid: Scalars['String']['output'];
 };
 
 export type AccountInput = {
@@ -130,7 +131,7 @@ export type Mutation = {
   patchRecipe?: Maybe<Recipe>;
   pingMutation?: Maybe<Scalars['String']['output']>;
   requestVerificationCode: GeneralResult;
-  signInToAccountWithCode: AccountResult;
+  signInToAccount: AccountResult;
 };
 
 
@@ -146,6 +147,7 @@ export type MutationcreateRecipeArgs = {
 
 export type MutationdeleteAccountArgs = {
   id: Scalars['Int']['input'];
+  uuid: Scalars['String']['input'];
 };
 
 
@@ -160,8 +162,8 @@ export type MutationrequestVerificationCodeArgs = {
 };
 
 
-export type MutationsignInToAccountWithCodeArgs = {
-  code: Scalars['String']['input'];
+export type MutationsignInToAccountArgs = {
+  signInInput: SignInInput;
 };
 
 export type Photo = {
@@ -211,6 +213,11 @@ export type RecipeInput = {
   photoIdentifiers?: InputMaybe<Array<Scalars['String']['input']>>;
   tags?: InputMaybe<Array<Scalars['String']['input']>>;
   title?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type SignInInput = {
+  code: Scalars['String']['input'];
+  phoneNumber: Scalars['String']['input'];
 };
 
 export type Tag = {
@@ -329,6 +336,7 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   Recipe: ResolverTypeWrapper<Recipe>;
   RecipeInput: RecipeInput;
+  SignInInput: SignInInput;
   Tag: ResolverTypeWrapper<Tag>;
 };
 
@@ -363,6 +371,7 @@ export type ResolversParentTypes = {
   Query: {};
   Recipe: Recipe;
   RecipeInput: RecipeInput;
+  SignInInput: SignInInput;
   Tag: Tag;
 };
 
@@ -372,6 +381,7 @@ export type AccountResolvers<ContextType = any, ParentType extends ResolversPare
   phoneNumber?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -451,11 +461,11 @@ export type LanguageResolvers<ContextType = any, ParentType extends ResolversPar
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createAccount?: Resolver<ResolversTypes['AccountResult'], ParentType, ContextType, RequireFields<MutationcreateAccountArgs, 'accountInput'>>;
   createRecipe?: Resolver<Maybe<ResolversTypes['Recipe']>, ParentType, ContextType, RequireFields<MutationcreateRecipeArgs, 'recipeInput'>>;
-  deleteAccount?: Resolver<ResolversTypes['GeneralResult'], ParentType, ContextType, RequireFields<MutationdeleteAccountArgs, 'id'>>;
+  deleteAccount?: Resolver<ResolversTypes['GeneralResult'], ParentType, ContextType, RequireFields<MutationdeleteAccountArgs, 'id' | 'uuid'>>;
   patchRecipe?: Resolver<Maybe<ResolversTypes['Recipe']>, ParentType, ContextType, RequireFields<MutationpatchRecipeArgs, 'recipeId' | 'recipePatch'>>;
   pingMutation?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   requestVerificationCode?: Resolver<ResolversTypes['GeneralResult'], ParentType, ContextType, RequireFields<MutationrequestVerificationCodeArgs, 'phoneNumber'>>;
-  signInToAccountWithCode?: Resolver<ResolversTypes['AccountResult'], ParentType, ContextType, RequireFields<MutationsignInToAccountWithCodeArgs, 'code'>>;
+  signInToAccount?: Resolver<ResolversTypes['AccountResult'], ParentType, ContextType, RequireFields<MutationsignInToAccountArgs, 'signInInput'>>;
 };
 
 export type PhotoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Photo'] = ResolversParentTypes['Photo']> = {

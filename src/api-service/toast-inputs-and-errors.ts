@@ -76,3 +76,26 @@ export const requestVerificationCodeToasts: ToastInputs = {
   },
   errorText: 'Code request failed'
 }
+
+export const deleteAccountToasts: ToastInputs = {
+  loadingToast: {
+    title: 'DELETING ACCOUNT',
+    description: 'Please wait...',
+    variant: ToastVariant.Loading
+  },
+  successToast: {
+    title: 'ACCOUNT DELETED',
+    description: 'The account was successfully deleted',
+    variant: ToastVariant.Success,
+    duration: 6000,
+    isClosable: true
+  },
+  errorToast: {
+    title: 'FAILED DELETE ACCOUNT',
+    description: 'Something went wrong and the account was not deleted',
+    variant: ToastVariant.Error,
+    duration: 9000,
+    isClosable: true
+  },
+  errorText: 'Account deletion failed'
+}

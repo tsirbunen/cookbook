@@ -1,6 +1,6 @@
 import { Page } from '../../navigation/router/router'
 import { HEADER_HEIGHT } from '../../constants/layout'
-import { ChakraProps, Flex } from '@chakra-ui/react'
+import { ChakraProps, Flex, Text } from '@chakra-ui/react'
 import { Fragment, useContext } from 'react'
 import GeneralInfo from './GeneralInfo'
 import { AppStateContext, AppStateContextType } from '../../state/StateContextProvider'
@@ -11,13 +11,14 @@ import { createAccountLabel } from './CreateAccountPage'
 import { manageAccountLabel } from './ManageAccountPage'
 import { requestVerificationCodeLabel } from './RequestVerificationCodePage'
 import { signInWithVerificationCodeLabel } from './SignInWithCodePage'
+import { ERROR_COLOR } from '../../constants/color-codes'
 
 const createAccountInfo =
   'If you have no account yet, you  can easily create one with your phone number. You can also create another account if you wish, but then you need another phone number for verification.'
 const requestVerificationCodeInfo =
   'If you have previously created one or more accounts with your phone number(s), you can request a verification code to be sent to your phone number so that you can use your phone to sign in to the app.'
 const manageAccountInfo =
-  'Now that you have signed into an account, you can manage your account: change your username or phone number, enable or disable cookies, sign out, or even delete your account.'
+  'Now that you have signed into an account, you can manage your account: change your username or phone number, enable or disable saving your phone number in browser, sign out, or even delete your account.'
 const signInWithVerificationCodeInfo =
   'Once you have first requested and then received a verification code to your phone, you can sign in using that code. Note that sometimes it may take a few minutes for the code to arrive.'
 
@@ -40,6 +41,8 @@ const AccountPage = () => {
   return (
     <Flex {...pageCss} data-testid={`${Page.ACCOUNT}-page`}>
       <GeneralInfo />
+      {/* FIXME: Remove this comment once account features are available again! */}
+      <Text style={{ color: ERROR_COLOR, fontWeight: 'bold' }}>NOTE: Account actions are currently not available!</Text>
 
       {userIsSignedInToAccount ? (
         <AccountRouteAction
