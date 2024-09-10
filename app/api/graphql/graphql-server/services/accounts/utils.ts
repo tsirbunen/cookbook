@@ -1,34 +1,36 @@
 import { and, eq, or } from 'drizzle-orm'
 import { AccountDBSelect, DatabaseType } from '../../database/inferred-types/inferred-types'
-import { Account, AccountInput } from '../../modules/types.generated'
+import { AccountInput } from '../../modules/types.generated'
 import { accounts } from '../../database/database-schemas/accounts'
-import assert from 'assert'
-import jwt from 'jsonwebtoken'
 
-const jwtSecret = process.env.JWT_SECRET
-assert(jwtSecret, 'JWT_SECRET environment variable is missing!')
-const jwtIssuer = 'cooking-companion-server'
-const jwtAudience = 'cooking-companion-account'
-const jwtExpirationTimeFromNow = 60 * 60 * 24 * 7 // 1 week
+// FIXME: Bring these back when account features are available
+// import assert from 'assert'
+// import jwt from 'jsonwebtoken'
 
-export const createJWT = (data: Account) => {
-  const { id, uuid, username, phoneNumber } = data
-  return jwt.sign(
-    {
-      data: { id: id, username: username, phoneNumber: phoneNumber },
-      sub: uuid,
-      iss: jwtIssuer,
-      aud: jwtAudience,
-      exp: Math.floor(Date.now() / 1000) + jwtExpirationTimeFromNow
-    },
-    jwtSecret
-  )
-}
+// const jwtSecret = process.env.JWT_SECRET
+// assert(jwtSecret, 'JWT_SECRET environment variable is missing!')
+// const jwtIssuer = 'cooking-companion-server'
+// const jwtAudience = 'cooking-companion-account'
+// const jwtExpirationTimeFromNow = 60 * 60 * 24 * 7 // 1 week
 
-export const verifyJWT = (token: string) => {
-  const decoded = jwt.verify(token, jwtSecret, { issuer: jwtIssuer, audience: jwtAudience })
-  return decoded
-}
+// export const createJWT = (data: Account) => {
+//   const { id, uuid, username, phoneNumber } = data
+//   return jwt.sign(
+//     {
+//       data: { id: id, username: username, phoneNumber: phoneNumber },
+//       sub: uuid,
+//       iss: jwtIssuer,
+//       aud: jwtAudience,
+//       exp: Math.floor(Date.now() / 1000) + jwtExpirationTimeFromNow
+//     },
+//     jwtSecret
+//   )
+// }
+
+// export const verifyJWT = (token: string) => {
+//   const decoded = jwt.verify(token, jwtSecret, { issuer: jwtIssuer, audience: jwtAudience })
+//   return decoded
+// }
 
 export const getExistingAccount = async (
   trx: DatabaseType,
