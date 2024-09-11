@@ -14,8 +14,9 @@ const { handleRequest } = createYoga({
   cors: {
     origin: [
       (isProduction ? process.env.NEXT_PUBLIC_ORIGIN : process.env.NEXT_PUBLIC_ORIGIN_LOCAL) as string,
-      process.env.MOBILE_APP_ORIGIN as string,
-      'http://localhost:3000'
+      process.env.MOBILE_APP_ORIGIN as string
+      // This is needed when connecting to app api at Vercel with locally running app image
+      // 'http://localhost:3000'
     ],
     credentials: true,
     methods: ['POST', 'GET', 'OPTIONS']
