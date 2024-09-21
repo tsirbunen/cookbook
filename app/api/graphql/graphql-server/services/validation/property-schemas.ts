@@ -37,19 +37,20 @@ export const emailSchema = {
   }
 }
 
+// FIXME: Figure out why regex pattern works locally but not in production
 const passwordMinLength = 8
 const passwordMaxLength = 25
 const numberLookahead = '(?=.*[0-9])'
 const smallLetterLookahead = '(?=.*[a-z])'
 const largeLetterLookahead = '(?=.*[A-Z])'
-const specialCharacterLookahead = '(?=.*[!-/:-@[-`{-~])'
-const noSpacesLookahead = '(?!.* )'
+// const specialCharacterLookahead = '(?=.*[!-/:-@[-`{-~])'
+// const noSpacesLookahead = '(?!.* )'
 const passwordContentRequirements = [
   numberLookahead,
   smallLetterLookahead,
-  largeLetterLookahead,
-  specialCharacterLookahead,
-  noSpacesLookahead
+  largeLetterLookahead
+  // specialCharacterLookahead,
+  // noSpacesLookahead
 ]
 
 export const passwordSchema = {
@@ -63,6 +64,7 @@ export const passwordSchema = {
     minLength: getMinLengthMessage(passwordMinLength),
     maxLength: getMaxLengthMessage(passwordMaxLength),
     pattern:
-      'Password must contain a digit, a lowercase letter, an uppercase letter and a special character but no spaces'
+      // 'Password must contain a digit, a lowercase letter, an uppercase letter and a special character but no spaces'
+      'Password must contain a digit, a lowercase letter, and an uppercase letter'
   }
 }
