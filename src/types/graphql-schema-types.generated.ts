@@ -13,21 +13,18 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   File: { input: any; output: any; }
+  JSON: { input: any; output: any; }
 };
 
 export type Account = {
   __typename?: 'Account';
+  email?: Maybe<Scalars['String']['output']>;
+  emailVerified?: Maybe<Scalars['Boolean']['output']>;
   id: Scalars['Int']['output'];
-  isVerified: Scalars['Boolean']['output'];
-  phoneNumber: Scalars['String']['output'];
+  identityProvider: IdentityProvider;
   token?: Maybe<Scalars['String']['output']>;
   username: Scalars['String']['output'];
   uuid: Scalars['String']['output'];
-};
-
-export type AccountInput = {
-  phoneNumber: Scalars['String']['input'];
-  username: Scalars['String']['input'];
 };
 
 export type AccountResult = Account | BadInputError;
@@ -45,6 +42,12 @@ export type BaseSuccess = {
   successMessage: Scalars['String']['output'];
 };
 
+export type EmailAccountInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
+};
+
 export type GeneralError = BaseError & {
   __typename?: 'GeneralError';
   errorMessage: Scalars['String']['output'];
@@ -56,6 +59,12 @@ export type GeneralSuccess = BaseSuccess & {
   __typename?: 'GeneralSuccess';
   successMessage: Scalars['String']['output'];
 };
+
+export enum IdentityProvider {
+  Email = 'EMAIL',
+  Facebook = 'FACEBOOK',
+  Github = 'GITHUB'
+}
 
 export type Ingredient = {
   __typename?: 'Ingredient';
@@ -123,18 +132,18 @@ export type Language = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createAccount: AccountResult;
+  createEmailAccount: AccountResult;
   createRecipe?: Maybe<Recipe>;
   deleteAccount: GeneralResult;
   patchRecipe?: Maybe<Recipe>;
   pingMutation?: Maybe<Scalars['String']['output']>;
-  requestVerificationCode: GeneralResult;
-  signInToAccount: AccountResult;
+  requestVerificationEmail: GeneralResult;
+  signInToEmailAccount: AccountResult;
 };
 
 
-export type MutationCreateAccountArgs = {
-  accountInput: AccountInput;
+export type MutationCreateEmailAccountArgs = {
+  emailAccountInput: EmailAccountInput;
 };
 
 
@@ -155,13 +164,13 @@ export type MutationPatchRecipeArgs = {
 };
 
 
-export type MutationRequestVerificationCodeArgs = {
-  phoneNumber: Scalars['String']['input'];
+export type MutationRequestVerificationEmailArgs = {
+  email: Scalars['String']['input'];
 };
 
 
-export type MutationSignInToAccountArgs = {
-  signInInput: SignInInput;
+export type MutationSignInToEmailAccountArgs = {
+  signInToEmailAccountInput: SignInToEmailAccountInput;
 };
 
 export type Photo = {
@@ -182,6 +191,12 @@ export type Query = {
   allRecipes: Array<Recipe>;
   allTags: Array<Tag>;
   pingQuery?: Maybe<Scalars['String']['output']>;
+  validationSchemas?: Maybe<Array<ValidationSchema>>;
+};
+
+
+export type QueryValidationSchemasArgs = {
+  schemas: Array<TargetSchema>;
 };
 
 export type Recipe = {
@@ -213,13 +228,25 @@ export type RecipeInput = {
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type SignInInput = {
-  code: Scalars['String']['input'];
-  phoneNumber: Scalars['String']['input'];
+export type SignInToEmailAccountInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 export type Tag = {
   __typename?: 'Tag';
   id: Scalars['Int']['output'];
   tag: Scalars['String']['output'];
+};
+
+export enum TargetSchema {
+  EmailAccountInput = 'EMAIL_ACCOUNT_INPUT',
+  RequestVerificationEmailInput = 'REQUEST_VERIFICATION_EMAIL_INPUT',
+  SignInToEmailAccountInput = 'SIGN_IN_TO_EMAIL_ACCOUNT_INPUT'
+}
+
+export type ValidationSchema = {
+  __typename?: 'ValidationSchema';
+  schema: Scalars['JSON']['output'];
+  target: TargetSchema;
 };

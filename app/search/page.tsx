@@ -1,9 +1,11 @@
 'use client'
 
 import dynamic from 'next/dynamic'
+import LoadingPage from '../../src/widgets/loading-page/LoadingPage'
 
 const SearchRecipesPage = dynamic(() => import('../../src/app-pages/search/page/SearchRecipesPage'), {
-  ssr: false
+  ssr: false,
+  loading: () => <LoadingPage />
 })
 
 /**

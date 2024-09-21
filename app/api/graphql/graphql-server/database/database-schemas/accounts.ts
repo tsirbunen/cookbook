@@ -1,6 +1,8 @@
 import { relations, sql } from 'drizzle-orm'
-import { pgTable, serial, varchar, boolean, uuid } from 'drizzle-orm/pg-core'
+import { pgTable, serial, varchar, boolean, uuid, pgEnum } from 'drizzle-orm/pg-core'
 import { recipes } from './recipes'
+
+export const identityProviderEnum = pgEnum('identity_provider', ['EMAIL', 'GITHUB', 'FACEBOOK'])
 
 export const accounts = pgTable('accounts', {
   id: serial('id').primaryKey(),
@@ -8,10 +10,12 @@ export const accounts = pgTable('accounts', {
     .notNull()
     .unique()
     .default(sql`gen_random_uuid()`),
-  username: varchar('title', { length: 250 }).notNull().unique(),
-  phoneNumber: varchar('phone_number', { length: 50 }).notNull().unique(),
-  isVerified: boolean('is_verified').notNull(),
-  latestCode: varchar('latest_code', { length: 20 })
+  username: varchar('username', { length: 250 }).notNull().unique(),
+  email: varchar('email', { length: 50 }).unique(),
+  passwordHash: varchar('password_hash', { length: 250 }),
+  emailVerified: boolean('email_verified'),
+  identityProvider: identityProviderEnum('identity_provider').notNull(),
+  idAtProvider: varchar('id_at_provider', { length: 250 }).unique()
 })
 
 export const accountRelations = relations(accounts, ({ many }) => ({

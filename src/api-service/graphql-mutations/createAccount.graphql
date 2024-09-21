@@ -1,5 +1,0 @@
-mutation CreateAccount($accountInput: AccountInput!) {
-  createAccount(accountInput: $accountInput) {
-    ...AccountResultFull
-  }
-}

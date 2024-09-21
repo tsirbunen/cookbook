@@ -1,3 +1,5 @@
+import { IdentityProvider } from './graphql-schema-types.generated'
+
 export enum FilterableRecipeProperty {
   categories = 'categories',
   languages = 'languages',
@@ -25,9 +27,14 @@ export type ScalingData = {
 }
 
 export type AccountInfo = {
-  id?: number
-  uuid?: string
-  username?: string
-  phoneNumber: string
+  id: number
+  uuid: string
+  username: string
+  email?: string
+  emailVerified?: boolean
+  identityProvider: IdentityProvider
   token?: string
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type JSONSchemaType = Record<string, any>

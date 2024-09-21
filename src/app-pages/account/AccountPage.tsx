@@ -1,77 +1,90 @@
 import { Page } from '../../navigation/router/router'
 import { HEADER_HEIGHT } from '../../constants/layout'
-import { ChakraProps, Flex, Text } from '@chakra-ui/react'
-import { Fragment, useContext } from 'react'
-import GeneralInfo from './GeneralInfo'
+import { ChakraProps, Flex } from '@chakra-ui/react'
+import { Fragment, useContext, useEffect } from 'react'
+import GeneralAccountInfo from './GeneralAccountInfo'
 import { AppStateContext, AppStateContextType } from '../../state/StateContextProvider'
-import AccountRouteAction from './AccountRouteAction'
+import AccountRouteSelector from './AccountRouteSelector'
 import { useRouter } from 'next/navigation'
 import { AccountRoute } from '../../../app/account/[accountAction]/page'
-import { createAccountLabel } from './CreateAccountPage'
 import { manageAccountLabel } from './ManageAccountPage'
-import { requestVerificationCodeLabel } from './RequestVerificationCodePage'
-import { signInWithVerificationCodeLabel } from './SignInWithCodePage'
-import { ERROR_COLOR } from '../../constants/color-codes'
+import { content } from './textContent'
+import { ApiServiceContext } from '../../api-service/ApiServiceProvider'
+import { Dispatch } from '../../state/reducer'
+import LoadingIndicator from '../../widgets/loading-indicator/LoadingIndicator'
+import { accountRelatedValidationSchemasAreFetched } from './utils'
 
-const createAccountInfo =
-  'If you have no account yet, you  can easily create one with your phone number. You can also create another account if you wish, but then you need another phone number for verification.'
-const requestVerificationCodeInfo =
-  'If you have previously created one or more accounts with your phone number(s), you can request a verification code to be sent to your phone number so that you can use your phone to sign in to the app.'
-const manageAccountInfo =
-  'Now that you have signed into an account, you can manage your account: change your username or phone number, enable or disable saving your phone number in browser, sign out, or even delete your account.'
-const signInWithVerificationCodeInfo =
-  'Once you have first requested and then received a verification code to your phone, you can sign in using that code. Note that sometimes it may take a few minutes for the code to arrive.'
-
+const loadingFormDataMessage = 'Loading form data, please wait...'
 /**  
-   This is the default / fallback page for managing a user account. This page shows the available actions
-   as buttons. Clicking a button will take the user to the corresponding page, for example, to create
-   a new account or to sign in to an existing account.
+ This is the default/fallback user account page. It shows th user some general information on, for example,
+ why one would want to have an account. On this page, the available account-related actions are displayed 
+ as buttons that take the user to the corresponding pages, for example, to create
+ a new account or to sign in to an existing account.
  */
 const AccountPage = () => {
-  const { state } = useContext(AppStateContext) as AppStateContextType
+  const { state, dispatch } = useContext(AppStateContext) as AppStateContextType
+  const { fetchValidationSchemas } = useContext(ApiServiceContext)
   const router = useRouter()
-  const account = state.account
 
-  const navigateTo = (route: AccountRoute) => {
-    router.push(`/${Page.ACCOUNT}/${route}`)
+  useEffect(() => {
+    if (state.validationSchemas) return
+
+    const getSchemas = async () => {
+      const schemas = await fetchValidationSchemas()
+
+      if (schemas) {
+        dispatch({ type: Dispatch.SET_VALIDATION_SCHEMAS, payload: { validationSchemas: schemas } })
+      }
+    }
+
+    getSchemas()
+  }, [state.validationSchemas])
+
+  const navigateTo = (route: AccountRoute) => router.push(`/${Page.ACCOUNT}/${route}`)
+
+  if (!accountRelatedValidationSchemasAreFetched(state.validationSchemas)) {
+    return (
+      <Flex {...pageCss} data-testid={`${Page.ACCOUNT}-page`}>
+        <GeneralAccountInfo />
+        <LoadingIndicator message={loadingFormDataMessage} />
+      </Flex>
+    )
   }
 
-  const userIsSignedInToAccount = account?.token
+  const userIsSignedIn = state.account?.token
 
   return (
     <Flex {...pageCss} data-testid={`${Page.ACCOUNT}-page`}>
-      <GeneralInfo />
-      {/* FIXME: Remove this comment once account features are available again! */}
-      <Text style={{ color: ERROR_COLOR, fontWeight: 'bold' }}>NOTE: Account actions are currently not available!</Text>
+      <GeneralAccountInfo />
 
-      {userIsSignedInToAccount ? (
-        <AccountRouteAction
+      {userIsSignedIn ? (
+        <AccountRouteSelector
           title={manageAccountLabel}
-          info={manageAccountInfo}
+          info={content.manageAccountInfo}
           buttonLabel={manageAccountLabel}
-          performAction={() => navigateTo(AccountRoute.MANAGE_ACCOUNT)}
+          performAction={() => navigateTo(AccountRoute.MANAGE)}
         />
       ) : (
         <Fragment>
-          <AccountRouteAction
-            title={createAccountLabel}
-            info={createAccountInfo}
-            buttonLabel={createAccountLabel}
-            performAction={() => navigateTo(AccountRoute.CREATE_ACCOUNT)}
+          <AccountRouteSelector
+            title={content.createAccountLabel}
+            info={content.createAccountInfo}
+            buttonLabel={content.createAccountLabel}
+            performAction={() => navigateTo(AccountRoute.CREATE)}
           />
 
-          <AccountRouteAction
-            title={requestVerificationCodeLabel}
-            info={requestVerificationCodeInfo}
-            buttonLabel={requestVerificationCodeLabel}
-            performAction={() => navigateTo(AccountRoute.REQUEST_CODE)}
+          <AccountRouteSelector
+            title={content.signInLabel}
+            info={content.signInInfo}
+            buttonLabel={content.signInLabel}
+            performAction={() => navigateTo(AccountRoute.SIGN_IN)}
           />
 
-          <AccountRouteAction
-            title={signInWithVerificationCodeLabel}
-            info={signInWithVerificationCodeInfo}
-            buttonLabel={signInWithVerificationCodeLabel}
-            performAction={() => navigateTo(AccountRoute.SIGN_IN_WITH_CODE)}
+          <AccountRouteSelector
+            title={content.requestVerificationEmailLabel}
+            info={content.requestVerificationCodeInfo}
+            buttonLabel={content.requestVerificationEmailLabel}
+            performAction={() => navigateTo(AccountRoute.VERIFICATION)}
           />
         </Fragment>
       )}

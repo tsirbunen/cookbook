@@ -15,21 +15,18 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   File: { input: any; output: any; }
+  JSON: { input: any; output: any; }
 };
 
 export type Account = {
   __typename?: 'Account';
+  email?: Maybe<Scalars['String']['output']>;
+  emailVerified?: Maybe<Scalars['Boolean']['output']>;
   id: Scalars['Int']['output'];
-  isVerified: Scalars['Boolean']['output'];
-  phoneNumber: Scalars['String']['output'];
+  identityProvider: IdentityProvider;
   token?: Maybe<Scalars['String']['output']>;
   username: Scalars['String']['output'];
   uuid: Scalars['String']['output'];
-};
-
-export type AccountInput = {
-  phoneNumber: Scalars['String']['input'];
-  username: Scalars['String']['input'];
 };
 
 export type AccountResult = Account | BadInputError;
@@ -47,6 +44,12 @@ export type BaseSuccess = {
   successMessage: Scalars['String']['output'];
 };
 
+export type EmailAccountInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
+};
+
 export type GeneralError = BaseError & {
   __typename?: 'GeneralError';
   errorMessage: Scalars['String']['output'];
@@ -58,6 +61,11 @@ export type GeneralSuccess = BaseSuccess & {
   __typename?: 'GeneralSuccess';
   successMessage: Scalars['String']['output'];
 };
+
+export type IdentityProvider =
+  | 'EMAIL'
+  | 'FACEBOOK'
+  | 'GITHUB';
 
 export type Ingredient = {
   __typename?: 'Ingredient';
@@ -125,18 +133,18 @@ export type Language = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createAccount: AccountResult;
+  createEmailAccount: AccountResult;
   createRecipe?: Maybe<Recipe>;
   deleteAccount: GeneralResult;
   patchRecipe?: Maybe<Recipe>;
   pingMutation?: Maybe<Scalars['String']['output']>;
-  requestVerificationCode: GeneralResult;
-  signInToAccount: AccountResult;
+  requestVerificationEmail: GeneralResult;
+  signInToEmailAccount: AccountResult;
 };
 
 
-export type MutationcreateAccountArgs = {
-  accountInput: AccountInput;
+export type MutationcreateEmailAccountArgs = {
+  emailAccountInput: EmailAccountInput;
 };
 
 
@@ -157,13 +165,13 @@ export type MutationpatchRecipeArgs = {
 };
 
 
-export type MutationrequestVerificationCodeArgs = {
-  phoneNumber: Scalars['String']['input'];
+export type MutationrequestVerificationEmailArgs = {
+  email: Scalars['String']['input'];
 };
 
 
-export type MutationsignInToAccountArgs = {
-  signInInput: SignInInput;
+export type MutationsignInToEmailAccountArgs = {
+  signInToEmailAccountInput: SignInToEmailAccountInput;
 };
 
 export type Photo = {
@@ -184,6 +192,12 @@ export type Query = {
   allRecipes: Array<Recipe>;
   allTags: Array<Tag>;
   pingQuery?: Maybe<Scalars['String']['output']>;
+  validationSchemas?: Maybe<Array<ValidationSchema>>;
+};
+
+
+export type QueryvalidationSchemasArgs = {
+  schemas: Array<TargetSchema>;
 };
 
 export type Recipe = {
@@ -215,15 +229,26 @@ export type RecipeInput = {
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type SignInInput = {
-  code: Scalars['String']['input'];
-  phoneNumber: Scalars['String']['input'];
+export type SignInToEmailAccountInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 export type Tag = {
   __typename?: 'Tag';
   id: Scalars['Int']['output'];
   tag: Scalars['String']['output'];
+};
+
+export type TargetSchema =
+  | 'EMAIL_ACCOUNT_INPUT'
+  | 'REQUEST_VERIFICATION_EMAIL_INPUT'
+  | 'SIGN_IN_TO_EMAIL_ACCOUNT_INPUT';
+
+export type ValidationSchema = {
+  __typename?: 'ValidationSchema';
+  schema: Scalars['JSON']['output'];
+  target: TargetSchema;
 };
 
 
@@ -308,18 +333,19 @@ export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = {
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Account: ResolverTypeWrapper<Account>;
-  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
-  AccountInput: AccountInput;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   AccountResult: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['AccountResult']>;
   BadInputError: ResolverTypeWrapper<BadInputError>;
   BaseError: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['BaseError']>;
   BaseSuccess: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['BaseSuccess']>;
+  EmailAccountInput: EmailAccountInput;
   File: ResolverTypeWrapper<Scalars['File']['output']>;
   GeneralError: ResolverTypeWrapper<GeneralError>;
   GeneralResult: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['GeneralResult']>;
   GeneralSuccess: ResolverTypeWrapper<GeneralSuccess>;
+  IdentityProvider: IdentityProvider;
   Ingredient: ResolverTypeWrapper<Ingredient>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   IngredientGroup: ResolverTypeWrapper<IngredientGroup>;
@@ -329,6 +355,7 @@ export type ResolversTypes = {
   InstructionGroup: ResolverTypeWrapper<InstructionGroup>;
   InstructionGroupInput: InstructionGroupInput;
   InstructionInput: InstructionInput;
+  JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
   Language: ResolverTypeWrapper<Language>;
   Mutation: ResolverTypeWrapper<{}>;
   Photo: ResolverTypeWrapper<Photo>;
@@ -336,21 +363,23 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   Recipe: ResolverTypeWrapper<Recipe>;
   RecipeInput: RecipeInput;
-  SignInInput: SignInInput;
+  SignInToEmailAccountInput: SignInToEmailAccountInput;
   Tag: ResolverTypeWrapper<Tag>;
+  TargetSchema: TargetSchema;
+  ValidationSchema: ResolverTypeWrapper<ValidationSchema>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Account: Account;
-  Int: Scalars['Int']['output'];
-  Boolean: Scalars['Boolean']['output'];
   String: Scalars['String']['output'];
-  AccountInput: AccountInput;
+  Boolean: Scalars['Boolean']['output'];
+  Int: Scalars['Int']['output'];
   AccountResult: ResolversUnionTypes<ResolversParentTypes>['AccountResult'];
   BadInputError: BadInputError;
   BaseError: ResolversInterfaceTypes<ResolversParentTypes>['BaseError'];
   BaseSuccess: ResolversInterfaceTypes<ResolversParentTypes>['BaseSuccess'];
+  EmailAccountInput: EmailAccountInput;
   File: Scalars['File']['output'];
   GeneralError: GeneralError;
   GeneralResult: ResolversUnionTypes<ResolversParentTypes>['GeneralResult'];
@@ -364,6 +393,7 @@ export type ResolversParentTypes = {
   InstructionGroup: InstructionGroup;
   InstructionGroupInput: InstructionGroupInput;
   InstructionInput: InstructionInput;
+  JSON: Scalars['JSON']['output'];
   Language: Language;
   Mutation: {};
   Photo: Photo;
@@ -371,14 +401,16 @@ export type ResolversParentTypes = {
   Query: {};
   Recipe: Recipe;
   RecipeInput: RecipeInput;
-  SignInInput: SignInInput;
+  SignInToEmailAccountInput: SignInToEmailAccountInput;
   Tag: Tag;
+  ValidationSchema: ValidationSchema;
 };
 
 export type AccountResolvers<ContextType = any, ParentType extends ResolversParentTypes['Account'] = ResolversParentTypes['Account']> = {
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  emailVerified?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  isVerified?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  phoneNumber?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  identityProvider?: Resolver<ResolversTypes['IdentityProvider'], ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -452,6 +484,10 @@ export type InstructionGroupResolvers<ContextType = any, ParentType extends Reso
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export interface JSONScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
+  name: 'JSON';
+}
+
 export type LanguageResolvers<ContextType = any, ParentType extends ResolversParentTypes['Language'] = ResolversParentTypes['Language']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   language?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -459,13 +495,13 @@ export type LanguageResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createAccount?: Resolver<ResolversTypes['AccountResult'], ParentType, ContextType, RequireFields<MutationcreateAccountArgs, 'accountInput'>>;
+  createEmailAccount?: Resolver<ResolversTypes['AccountResult'], ParentType, ContextType, RequireFields<MutationcreateEmailAccountArgs, 'emailAccountInput'>>;
   createRecipe?: Resolver<Maybe<ResolversTypes['Recipe']>, ParentType, ContextType, RequireFields<MutationcreateRecipeArgs, 'recipeInput'>>;
   deleteAccount?: Resolver<ResolversTypes['GeneralResult'], ParentType, ContextType, RequireFields<MutationdeleteAccountArgs, 'id' | 'uuid'>>;
   patchRecipe?: Resolver<Maybe<ResolversTypes['Recipe']>, ParentType, ContextType, RequireFields<MutationpatchRecipeArgs, 'recipeId' | 'recipePatch'>>;
   pingMutation?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  requestVerificationCode?: Resolver<ResolversTypes['GeneralResult'], ParentType, ContextType, RequireFields<MutationrequestVerificationCodeArgs, 'phoneNumber'>>;
-  signInToAccount?: Resolver<ResolversTypes['AccountResult'], ParentType, ContextType, RequireFields<MutationsignInToAccountArgs, 'signInInput'>>;
+  requestVerificationEmail?: Resolver<ResolversTypes['GeneralResult'], ParentType, ContextType, RequireFields<MutationrequestVerificationEmailArgs, 'email'>>;
+  signInToEmailAccount?: Resolver<ResolversTypes['AccountResult'], ParentType, ContextType, RequireFields<MutationsignInToEmailAccountArgs, 'signInToEmailAccountInput'>>;
 };
 
 export type PhotoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Photo'] = ResolversParentTypes['Photo']> = {
@@ -480,6 +516,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   allRecipes?: Resolver<Array<ResolversTypes['Recipe']>, ParentType, ContextType>;
   allTags?: Resolver<Array<ResolversTypes['Tag']>, ParentType, ContextType>;
   pingQuery?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  validationSchemas?: Resolver<Maybe<Array<ResolversTypes['ValidationSchema']>>, ParentType, ContextType, RequireFields<QueryvalidationSchemasArgs, 'schemas'>>;
 };
 
 export type RecipeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Recipe'] = ResolversParentTypes['Recipe']> = {
@@ -503,6 +540,12 @@ export type TagResolvers<ContextType = any, ParentType extends ResolversParentTy
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type ValidationSchemaResolvers<ContextType = any, ParentType extends ResolversParentTypes['ValidationSchema'] = ResolversParentTypes['ValidationSchema']> = {
+  schema?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
+  target?: Resolver<ResolversTypes['TargetSchema'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
   Account?: AccountResolvers<ContextType>;
   AccountResult?: AccountResultResolvers<ContextType>;
@@ -517,11 +560,13 @@ export type Resolvers<ContextType = any> = {
   IngredientGroup?: IngredientGroupResolvers<ContextType>;
   Instruction?: InstructionResolvers<ContextType>;
   InstructionGroup?: InstructionGroupResolvers<ContextType>;
+  JSON?: GraphQLScalarType;
   Language?: LanguageResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Photo?: PhotoResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Recipe?: RecipeResolvers<ContextType>;
   Tag?: TagResolvers<ContextType>;
+  ValidationSchema?: ValidationSchemaResolvers<ContextType>;
 };
 

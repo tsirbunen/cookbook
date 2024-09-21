@@ -1,0 +1,6 @@
+query FetchValidationSchemas($schemas: [TargetSchema!]!) {
+  validationSchemas(schemas: $schemas) {
+    target
+    schema
+  }
+}

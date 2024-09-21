@@ -2,49 +2,51 @@ import { ChakraProps, Flex, Text } from '@chakra-ui/react'
 import { DARK_COLOR, MEDIUM_COLOR, SLIGHTLY_DARK_COLOR, VERY_PALE_COLOR } from '../../constants/color-codes'
 import { AccountInfo } from '../../types/types'
 import SwitchToggleWithLabel from '../../widgets/switch-toggle/SwitchToggleWithLabel'
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
+import { content } from './textContent'
+import { IdentityProvider } from '../../types/graphql-schema-types.generated'
 
 type AccountDetailsProps = {
   account: AccountInfo
 }
 
-const usernameLabel = 'Username'
-const phoneNumberLabel = 'Phone number'
-const cookiesEnabledLabel = 'Keep me signed in until I sign out or I close the browser'
-const cookiesDisabledLabel = 'Do not use cookies to store sign-in information'
-const storePhoneNumberEnabledLabel = 'Store my phone number in the browser'
-const storePhoneNumberDisabledLabel = 'Do not store my phone number in the browser'
+const storeEmailEnabledLabel = 'Store my email in the browser'
+const storeEmailDisabledLabel = 'Do not store my email in the browser'
 
 const AccountDetails = ({ account }: AccountDetailsProps) => {
-  // FIXME: Implement the functionality to store the phone number in the browser's local storage
-  // and token in the session storage
-  const [cookiesAreEnabled, setCookiesAreEnabled] = useState(true)
-  const [savePhoneNumberIsEnabled, setSavePhoneNumberIsEnabled] = useState(true)
+  // FIXME: Implement the functionality to store the email in the browser's local storage
+  const [saveEmailIsEnabled, setSaveEmailIsEnabled] = useState(true)
+
+  const getIdentityProviderMethod = (identityProvider: IdentityProvider) => {
+    switch (identityProvider) {
+      case IdentityProvider.Email:
+        return 'Email and password'
+      default:
+        throw new Error(`Unknown identity confirmation method: ${identityProvider}`)
+    }
+  }
 
   if (!account) {
     return null
   }
 
-  const { username, phoneNumber } = account
+  const { username, email, identityProvider } = account
 
   return (
     <Flex {...cardCss}>
-      <AccountDetail label={usernameLabel} value={username!} />
-      <AccountDetail label={phoneNumberLabel} value={phoneNumber} />
-
-      <SwitchToggleWithLabel
-        isChecked={cookiesAreEnabled}
-        onChange={() => setCookiesAreEnabled(!cookiesAreEnabled)}
-        labelChecked={cookiesEnabledLabel}
-        labelNotChecked={cookiesDisabledLabel}
-      />
-
-      <SwitchToggleWithLabel
-        isChecked={savePhoneNumberIsEnabled}
-        onChange={() => setSavePhoneNumberIsEnabled(!savePhoneNumberIsEnabled)}
-        labelChecked={storePhoneNumberEnabledLabel}
-        labelNotChecked={storePhoneNumberDisabledLabel}
-      />
+      <AccountDetail label={content.usernameLabel} value={username!} />
+      <AccountDetail label={content.identityProvider} value={getIdentityProviderMethod(identityProvider)} />
+      {email ? (
+        <Fragment>
+          <AccountDetail label={content.emailLabel} value={email} />
+          <SwitchToggleWithLabel
+            isChecked={saveEmailIsEnabled}
+            onChange={() => setSaveEmailIsEnabled(!saveEmailIsEnabled)}
+            labelChecked={storeEmailEnabledLabel}
+            labelNotChecked={storeEmailDisabledLabel}
+          />
+        </Fragment>
+      ) : null}
     </Flex>
   )
 }

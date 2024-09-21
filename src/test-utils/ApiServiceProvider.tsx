@@ -5,7 +5,7 @@ import { AppStateContext, AppStateContextType } from '../state/StateContextProvi
 import { Dispatch } from '../state/reducer'
 import { RecipesFilterValues, getEmptyFilterValues } from '../app-pages/search/page/FilteringProvider'
 
-import { Account, AccountInput, Recipe } from '../types/graphql-schema-types.generated'
+import { Account, EmailAccountInput, Recipe } from '../types/graphql-schema-types.generated'
 import { SearchMode } from '../widgets/form-textarea-search/FormTextAreaSearch'
 import {
   allTestRecipes,
@@ -15,21 +15,23 @@ import {
 
 export type ApiService = {
   filterRecipes: (filters: RecipesFilterValues) => Promise<void>
-  createAccount: (accountInput: AccountInput) => Promise<Account | null>
+  createAccount: (accountInput: EmailAccountInput) => Promise<Account | null>
   requestVerificationCode: (phoneNumber: string) => Promise<boolean | null>
   signInToAccount: (signInInput: { phoneNumber: string; code: string }) => Promise<Account | null>
   deleteAccount: () => Promise<boolean | null>
 }
 
-const createAccount = async (accountInput: AccountInput) => {
+const createAccount = async (_accountInput: EmailAccountInput) => {
   throw new Error('Not implemented')
 }
-const requestVerificationCode = async (phoneNumber: string) => {
+const requestVerificationCode = async (_phoneNumber: string) => {
   throw new Error('Not implemented')
 }
-const signInToAccount = async (signInInput: { phoneNumber: string; code: string }) => {
+
+const signInToAccount = async (_signInInput: { phoneNumber: string; code: string }) => {
   throw new Error('Not implemented')
 }
+
 const deleteAccount = async () => {
   throw new Error('Not implemented')
 }

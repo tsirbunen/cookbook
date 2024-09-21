@@ -1,5 +1,0 @@
-mutation SignInToAccount($signInInput: SignInInput!) {
-  signInToAccount(signInInput: $signInInput) {
-    ...AccountResultFull
-  }
-}

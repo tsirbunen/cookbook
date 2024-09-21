@@ -8,7 +8,7 @@ export type ToastInputs = {
   errorText: string
 }
 
-export const createAccountToasts: ToastInputs = {
+export const createEmailAccountToasts: ToastInputs = {
   loadingToast: {
     title: 'CREATING ACCOUNT',
     description: 'Please wait...',
@@ -31,7 +31,7 @@ export const createAccountToasts: ToastInputs = {
   errorText: 'Account creation failed'
 }
 
-export const signInToAccountToasts: ToastInputs = {
+export const signInToEmailAccountToasts: ToastInputs = {
   loadingToast: {
     title: 'SIGNING IN',
     description: 'Please wait...',
@@ -54,24 +54,24 @@ export const signInToAccountToasts: ToastInputs = {
   errorText: 'Sign in failed'
 }
 
-export const requestVerificationCodeToasts: ToastInputs = {
+export const requestVerificationEmailToasts: ToastInputs = {
   loadingToast: {
     title: 'REQUESTING CODE',
     description: 'Please wait...',
     variant: ToastVariant.Loading
   },
   successToast: {
-    title: 'CODE REQUESTED',
-    description: 'The code was successfully requested',
+    title: 'EMAIL REQUESTED',
+    description: 'The verification email was successfully requested',
     variant: ToastVariant.Success,
     duration: 6000,
     isClosable: true
   },
   errorToast: {
-    title: 'FAILED REQUEST CODE',
-    description: 'Something went wrong and the code was not requested',
+    title: 'FAILED REQUEST EMAIL',
+    description: 'Something went wrong and the verification email was not requested',
     variant: ToastVariant.Error,
-    duration: 9000,
+    duration: 15000,
     isClosable: true
   },
   errorText: 'Code request failed'

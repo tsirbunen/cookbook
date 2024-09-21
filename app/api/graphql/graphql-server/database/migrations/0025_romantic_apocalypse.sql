@@ -1,0 +1,1 @@
+ALTER TABLE "accounts" ADD COLUMN "id_at_provider" varchar(250);

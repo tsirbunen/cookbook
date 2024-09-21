@@ -1,22 +1,30 @@
+enum IdentityProvider {
+  EMAIL
+  GITHUB
+  FACEBOOK
+}
+
 type Account {
   id: Int!
   uuid: String!
   username: String!
-  phoneNumber: String!
-  isVerified: Boolean!
   token: String
+  email: String
+  emailVerified: Boolean
+  identityProvider: IdentityProvider!
 }
 
-input AccountInput {
+input EmailAccountInput {
   username: String!
-  phoneNumber: String!
+  email: String!
+  password: String!
 }
 
 union AccountResult = Account | BadInputError
 
-input SignInInput {
-  code: String!
-  phoneNumber: String!
+input SignInToEmailAccountInput {
+  email: String!
+  password: String!
 }
 
 # Instead of throwing errors we return union types that can be either the expected entity
@@ -24,8 +32,8 @@ input SignInInput {
 # error replies to be properly typed so that the client has an easier job of guiding the
 # user when something goes wrong.
 extend type Mutation {
-  createAccount(accountInput: AccountInput!): AccountResult!
-  requestVerificationCode(phoneNumber: String!): GeneralResult!
-  signInToAccount(signInInput: SignInInput!): AccountResult!
+  createEmailAccount(emailAccountInput: EmailAccountInput!): AccountResult!
+  requestVerificationEmail(email: String!): GeneralResult!
+  signInToEmailAccount(signInToEmailAccountInput: SignInToEmailAccountInput!): AccountResult!
   deleteAccount(id: Int!, uuid: String!): GeneralResult!
 }

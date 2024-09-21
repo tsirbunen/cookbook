@@ -2,95 +2,107 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 import { database } from '../../database/config/config'
-import { AccountInput, SignInInput } from '../../modules/types.generated'
+import { EmailAccountInput, SignInToEmailAccountInput } from '../../modules/types.generated'
 import {
-  // handleCredentialsAlreadyTakenError,
-  getExistingAccount,
-  getAccountCouldNotBeFoundError,
-  updateAccountInDBWithCode,
-  getVerificationCodeSentSuccess,
-  // getAccountDeletedSuccess,
-  // getWrongCodeError,
-  // setCodeToNull,
-  // setIsVerifiedAndSetCodeToNull,
-  // createJWT,
-  getFeatureNotAvailableAtTheMomentError
+  getExistingEmailAuthUser,
+  resendVerificationEmail,
+  signInEmailAuthUser,
+  signUpEmailAuthUser
+} from './email-provider-utils'
+import {
+  handleSignUpCredentialsTakenError,
+  handleEmailAuthAuthError,
+  AuthError,
+  getError,
+  hasEmailAuthError
+} from './error-utils'
+import {
+  getExistingAccounts,
+  insertEmailAccount,
+  fetchEmailAuthProviderUserAndUpsertAccount,
+  setEmailIsVerified,
+  getAccountBy,
+  getVerifiedAccountWithTokenAdded
 } from './utils'
-// import { accounts } from '../../database/database-schemas/accounts'
-import { sendVerificationCodeSMS } from './sms-utils'
 
-export const createNewAccount = async (accountInput: AccountInput) => {
-  return getFeatureNotAvailableAtTheMomentError()
-  // FIXME: Bring these back when feature is available
-  // const existing = await getExistingAccount(database, accountInput)
-  // if (existing) {
-  //   return handleCredentialsAlreadyTakenError(existing, accountInput)
-  // }
+export const createNewEmailAccount = async ({ email, password, username }: EmailAccountInput) => {
+  // FIXME: Implement proper validation elsewhere
+  try {
+    const accountsWithCredentials = await getExistingAccounts(database, { email, username })
+    if (accountsWithCredentials?.length) {
+      return handleSignUpCredentialsTakenError(accountsWithCredentials, { email, username })
+    }
 
-  // const [newAccount] = await database
-  //   .insert(accounts)
-  //   .values({ ...accountInput, isVerified: false })
-  //   .returning()
+    const signUpResponse = await signUpEmailAuthUser({ email, password })
+    if (hasEmailAuthError(signUpResponse)) return handleEmailAuthAuthError(signUpResponse)
 
-  // return newAccount
+    // If an auth user with the same email already exists at the current auth provider's database, then creating a new
+    // auth user returns a fake user. We need a new query to find out whether a new auth user was truly created or not.
+    const newAuthUserCheckResponse = await getExistingEmailAuthUser(signUpResponse.data!.user!.id)
+    const newRealAuthUser = newAuthUserCheckResponse.data.user
+
+    if (newRealAuthUser) {
+      return await insertEmailAccount(database, { email, username, password }, newRealAuthUser.id)
+    } else {
+      return await fetchEmailAuthProviderUserAndUpsertAccount(database, { email, username, password })
+    }
+  } catch (error) {
+    // FIXME: Implement proper error handling logging
+    console.error(error)
+  }
+
+  return getError(AuthError.SOMETHING_WENT_WRONG)
 }
 
-export const requestNewCode = async (phoneNumber: string) => {
-  // return getFeatureNotAvailableAtTheMomentError()
-  // FIXME: Bring these back when feature is available
-  const existingAccount = await getExistingAccount(database, { phoneNumber })
-  if (!existingAccount) return getAccountCouldNotBeFoundError(phoneNumber)
+export const requestNewVerificationEmail = async (email: string) => {
+  try {
+    const existingAccount = await getAccountBy(database, 'email', email)
+    if (!existingAccount) return getError(AuthError.ACCOUNT_NOT_FOUND, { email })
+    if (existingAccount.emailVerified) return getError(AuthError.EMAIL_VERIFIED, { email })
 
-  const code = Math.floor(100000 + Math.random() * 900000).toString()
-  console.log({ code })
+    const requestVerificationResponse = await resendVerificationEmail(email)
+    if (requestVerificationResponse.data?.user === null && requestVerificationResponse.error === null) {
+      return { successMessage: `Verification email sent to ${email}!` }
+    }
 
-  await updateAccountInDBWithCode(database, existingAccount.id, code)
+    if (hasEmailAuthError(requestVerificationResponse)) {
+      return handleEmailAuthAuthError(requestVerificationResponse)
+    }
+  } catch (error) {
+    console.error(error)
+  }
 
-  await sendVerificationCodeSMS(phoneNumber, code)
-
-  return getVerificationCodeSentSuccess(phoneNumber)
+  return getError(AuthError.SOMETHING_WENT_WRONG)
 }
 
-export const signInToExistingAccount = async (signInInput: SignInInput) => {
-  return getFeatureNotAvailableAtTheMomentError()
-  // FIXME: Bring these back when feature is available
-  // const { phoneNumber, code } = signInInput
-  // const existingAccount = await getExistingAccount(database, { phoneNumber })
-  // if (!existingAccount) return getAccountCouldNotBeFoundError(phoneNumber)
+export const signInToExistingEmailAccount = async ({ email, password }: SignInToEmailAccountInput) => {
+  const existingAccount = await getAccountBy(database, 'email', email)
+  if (!existingAccount) return getError(AuthError.ACCOUNT_NOT_FOUND, { email })
 
-  // // If account exists, prevent further attempts to sign in with the same code by setting
-  // // the code to null (regardless of whether the code is correct or not).
-  // const codeIsCorrect = existingAccount.latestCode === code
-  // if (codeIsCorrect) {
-  //   const account = await setIsVerifiedAndSetCodeToNull(database, existingAccount.id)
-  //   const token = createJWT(account)
-  //   console.log({
-  //     id: account.id,
-  //     username: account.username,
-  //     phoneNumber: account.phoneNumber,
-  //     isVerified: account.isVerified,
-  //     token
-  //   })
-  //   return {
-  //     id: account.id,
-  //     uuid: account.uuid,
-  //     username: account.username,
-  //     phoneNumber: account.phoneNumber,
-  //     isVerified: account.isVerified,
-  //     token
-  //   }
-  // } else {
-  //   await setCodeToNull(database, existingAccount.id)
-  //   return getWrongCodeError(code)
-  // }
+  try {
+    const signInResponse = await signInEmailAuthUser({ email, password })
+
+    if (hasEmailAuthError(signInResponse)) {
+      return handleEmailAuthAuthError(signInResponse, { email })
+    }
+
+    if (!existingAccount.emailVerified) {
+      await setEmailIsVerified(database, existingAccount.id)
+    }
+
+    return getVerifiedAccountWithTokenAdded(existingAccount)
+  } catch (error) {
+    console.error(error)
+  }
+
+  return getError(AuthError.SOMETHING_WENT_WRONG)
 }
 
 export const deleteAllAccountData = async (id: number, uuid: string) => {
-  return getFeatureNotAvailableAtTheMomentError()
-  // FIXME: Bring these back when feature is available
-  // const existingAccount = await getExistingAccount(database, { id, uuid })
-  // if (!existingAccount) return getAccountCouldNotBeFoundError()
+  const existingAccount = await getAccountBy(database, 'uuid', uuid)
+  if (!existingAccount) return getError(AuthError.ACCOUNT_NOT_FOUND)
 
-  // // FIXME: Implement deleting account and all related data
-  // return getAccountDeletedSuccess(existingAccount?.phoneNumber ?? '')
+  // FIXME: Implement deleting account and all related data
+  const username = existingAccount.username
+  return { successMessage: `Account with username ${username} (and all the related data) deleted successfully!` }
 }

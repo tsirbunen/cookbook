@@ -1,15 +1,18 @@
-import { Input } from '@chakra-ui/react'
+import { Input, InputGroup, InputRightElement } from '@chakra-ui/react'
 import { InputVariant } from './inputs-theme'
+import { ChangeEvent, ReactNode } from 'react'
 
 type ButtonWithThemeProps = {
   variant: InputVariant
   value: string
   isDisabled?: boolean
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  acceptValue?: () => void
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void
   size?: 'xs' | 'sm' | 'md' | 'lg'
   name?: string
   placeholder?: string
+  onBlur?: () => void
+  type?: 'text' | 'password'
+  rightElement?: ReactNode
 }
 
 const InputWithTheme = ({
@@ -17,22 +20,44 @@ const InputWithTheme = ({
   value,
   isDisabled,
   onChange,
-  acceptValue,
   size,
   name,
-  placeholder
+  placeholder,
+  onBlur,
+  type,
+  rightElement
 }: ButtonWithThemeProps) => {
+  if (!rightElement) {
+    return (
+      <Input
+        variant={variant}
+        isDisabled={isDisabled}
+        value={value}
+        onChange={onChange}
+        size={size ?? 'xs'}
+        name={name}
+        onBlur={onBlur}
+        placeholder={placeholder}
+        type={type ?? 'text'}
+      />
+    )
+  }
+
   return (
-    <Input
-      variant={variant}
-      isDisabled={isDisabled}
-      value={value}
-      onChange={onChange}
-      size={size ?? 'xs'}
-      name={name}
-      onBlur={acceptValue}
-      placeholder={placeholder}
-    ></Input>
+    <InputGroup>
+      <Input
+        variant={variant}
+        isDisabled={isDisabled}
+        value={value}
+        onChange={onChange}
+        size={size ?? 'xs'}
+        name={name}
+        onBlur={onBlur}
+        placeholder={placeholder}
+        type={type ?? 'text'}
+      />
+      <InputRightElement>{rightElement}</InputRightElement>
+    </InputGroup>
   )
 }
 

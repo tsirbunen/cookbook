@@ -1,31 +1,36 @@
 'use client'
 
 import dynamic from 'next/dynamic'
+import { useContext } from 'react'
+import { AppStateContext, AppStateContextType } from '../../../src/state/StateContextProvider'
+import { accountRelatedValidationSchemasAreFetched } from '../../../src/app-pages/account/utils'
 
 const CreateAccountPage = dynamic(() => import('../../../src/app-pages/account/CreateAccountPage'), {
   ssr: false
 })
-const SignInWithCodePage = dynamic(() => import('../../../src/app-pages/account/SignInWithCodePage'), {
+
+const SignInPage = dynamic(() => import('../../../src/app-pages/account/SignInPage'), {
   ssr: false
 })
+
 const ManageAccountPage = dynamic(() => import('../../../src/app-pages/account/ManageAccountPage'), {
   ssr: false
 })
-const RequestVerificationCodePage = dynamic(
-  () => import('../../../src/app-pages/account/RequestVerificationCodePage'),
-  {
-    ssr: false
-  }
+
+const RequestVerificationEmailPage = dynamic(
+  () => import('../../../src/app-pages/account/RequestVerificationEmailPage'),
+  { ssr: false }
 )
+
 const AccountPage = dynamic(() => import('../../../src/app-pages/account/AccountPage'), {
   ssr: false
 })
 
 export enum AccountRoute {
-  CREATE_ACCOUNT = 'create',
-  SIGN_IN_WITH_CODE = 'signin',
-  MANAGE_ACCOUNT = 'manage',
-  REQUEST_CODE = 'request'
+  CREATE = 'create',
+  SIGN_IN = 'signin',
+  MANAGE = 'manage',
+  VERIFICATION = 'verification'
 }
 
 /**
@@ -35,17 +40,21 @@ export enum AccountRoute {
  * src/app-pages folder.
  */
 export default function AccountAction({ params }: { params: { accountAction: AccountRoute } }) {
+  const { state } = useContext(AppStateContext) as AppStateContextType
+  const validationSchemasHaveBeenFetched = accountRelatedValidationSchemasAreFetched(state.validationSchemas)
+  if (!validationSchemasHaveBeenFetched) return <AccountPage />
+
   const { accountAction } = params
 
   switch (accountAction) {
-    case AccountRoute.CREATE_ACCOUNT:
+    case AccountRoute.CREATE:
       return <CreateAccountPage />
-    case AccountRoute.SIGN_IN_WITH_CODE:
-      return <SignInWithCodePage />
-    case AccountRoute.MANAGE_ACCOUNT:
+    case AccountRoute.SIGN_IN:
+      return <SignInPage />
+    case AccountRoute.MANAGE:
       return <ManageAccountPage />
-    case AccountRoute.REQUEST_CODE:
-      return <RequestVerificationCodePage />
+    case AccountRoute.VERIFICATION:
+      return <RequestVerificationEmailPage />
     default:
       return <AccountPage />
   }

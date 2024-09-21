@@ -8,6 +8,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   basePath: '',
+  output: 'standalone', // https://nextjs.org/docs/pages/api-reference/next-config-js/output
   typescript: {
     // !! WARN !!
     // Dangerously allow production builds to successfully complete even if

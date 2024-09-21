@@ -50,7 +50,7 @@ const IngredientRow = ({
           variant={isSelected ? InputVariant.Selected : InputVariant.Pale}
           isDisabled={false}
           onChange={onInputChanged}
-          acceptValue={acceptValue}
+          onBlur={acceptValue}
         />
       )
     }

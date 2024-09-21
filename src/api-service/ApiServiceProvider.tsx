@@ -12,23 +12,30 @@ import {
   InitialRecipesAndRelatedDataQueryVariables
 } from './graphql-queries/initialData.generated'
 import { AllRecipesDocument, AllRecipesQuery, AllRecipesQueryVariables } from './graphql-queries/allRecipes.generated'
+import {
+  FetchValidationSchemasDocument,
+  FetchValidationSchemasQuery,
+  FetchValidationSchemasQueryVariables
+} from './graphql-queries/fetchValidationSchemas.generated'
+import { Account, EmailAccountInput, BaseError, TargetSchema } from '../types/graphql-schema-types.generated'
+import {
+  CreateEmailAccountDocument,
+  CreateEmailAccountMutation,
+  CreateEmailAccountMutationVariables
+} from './graphql-mutations/createEmailAccount.generated'
 
-import { Account, AccountInput, BaseError } from '../types/graphql-schema-types.generated'
 import {
-  CreateAccountDocument,
-  CreateAccountMutation,
-  CreateAccountMutationVariables
-} from './graphql-mutations/createAccount.generated'
+  RequestVerificationEmailDocument,
+  RequestVerificationEmailMutation,
+  RequestVerificationEmailMutationVariables
+} from './graphql-mutations/requestVerificationEmail.generated'
+
 import {
-  RequestVerificationCodeDocument,
-  RequestVerificationCodeMutation,
-  RequestVerificationCodeMutationVariables
-} from './graphql-mutations/requestVerificationCode.generated'
-import {
-  SignInToAccountDocument,
-  SignInToAccountMutation,
-  SignInToAccountMutationVariables
-} from './graphql-mutations/signInToAccount.generated'
+  SignInToEmailAccountDocument,
+  SignInToEmailAccountMutation,
+  SignInToEmailAccountMutationVariables
+} from './graphql-mutations/signInToEmailAccount.generated'
+
 import {
   DeleteAccountDocument,
   DeleteAccountMutation,
@@ -39,17 +46,19 @@ import { SimpleToast, ToastServiceContext } from '../toast-service/ToastServiceP
 import { ToastId } from '@chakra-ui/toast'
 import {
   ToastInputs,
-  createAccountToasts,
+  createEmailAccountToasts,
   deleteAccountToasts,
-  requestVerificationCodeToasts,
-  signInToAccountToasts
+  requestVerificationEmailToasts,
+  signInToEmailAccountToasts
 } from './toast-inputs-and-errors'
+import { JSONSchemaType } from '../types/types'
 
 export type ApiService = {
   filterRecipes: (filters: RecipesFilterValues) => Promise<void>
-  createAccount: (accountInput: AccountInput) => Promise<Account | null>
-  requestVerificationCode: (phoneNumber: string) => Promise<boolean | null>
-  signInToAccount: (signInInput: { phoneNumber: string; code: string }) => Promise<Account | null>
+  fetchValidationSchemas: () => Promise<Record<TargetSchema, JSONSchemaType> | null>
+  createEmailAccount: (emailAccountInput: EmailAccountInput) => Promise<Account | null>
+  requestVerificationEmail: (email: string) => Promise<boolean | null>
+  signInToEmailAccount: (signInWithPasswordInput: { email: string; password: string }) => Promise<Account | null>
   deleteAccount: (id: number, uuid: string) => Promise<boolean | null>
 }
 
@@ -70,9 +79,6 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
   const { dispatch } = useContext(AppStateContext) as AppStateContextType
   const { showUpdatableToast, updateUpdatableToast } = useContext(ToastServiceContext)
   const toastIdRef = useRef() as MutableRefObject<ToastId>
-
-  // Better error handling here?
-  // https://the-guild.dev/blog/graphql-error-handling-with-fp
 
   /**
    * This function performs the given graphql query or mutation within a try-catch block
@@ -121,43 +127,43 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
     updateUpdatableToast(toastIdRef, { ...errorToast, description })
   }
 
-  const createAccount = async (accountInput: AccountInput) => {
+  const createEmailAccount = async (emailAccountInput: EmailAccountInput) => {
     const fn = () =>
-      client.mutate<CreateAccountMutation, CreateAccountMutationVariables>({
-        mutation: CreateAccountDocument,
-        variables: { accountInput }
+      client.mutate<CreateEmailAccountMutation, CreateEmailAccountMutationVariables>({
+        mutation: CreateEmailAccountDocument,
+        variables: { emailAccountInput }
       })
 
-    const data = await performWithToasts<CreateAccountMutation>(fn, createAccountToasts)
-    if (data?.createAccount?.__typename === 'Account') {
-      return data?.createAccount
+    const data = await performWithToasts<CreateEmailAccountMutation>(fn, createEmailAccountToasts)
+    if (data?.createEmailAccount?.__typename === 'Account') {
+      return data?.createEmailAccount
     }
 
     return null
   }
 
-  const requestVerificationCode = async (phoneNumber: string) => {
+  const requestVerificationEmail = async (email: string) => {
     const fn = () =>
-      client.mutate<RequestVerificationCodeMutation, RequestVerificationCodeMutationVariables>({
-        mutation: RequestVerificationCodeDocument,
-        variables: { phoneNumber }
+      client.mutate<RequestVerificationEmailMutation, RequestVerificationEmailMutationVariables>({
+        mutation: RequestVerificationEmailDocument,
+        variables: { email }
       })
 
-    const data = await performWithToasts<RequestVerificationCodeMutation>(fn, requestVerificationCodeToasts)
-    const resultType = data?.requestVerificationCode?.__typename
+    const data = await performWithToasts<RequestVerificationEmailMutation>(fn, requestVerificationEmailToasts)
+    const resultType = data?.requestVerificationEmail?.__typename
     return resultType === 'GeneralSuccess' ? true : resultType === 'GeneralError' ? false : null
   }
 
-  const signInToAccount = async (signInInput: { phoneNumber: string; code: string }) => {
+  const signInToEmailAccount = async (signInToEmailAccountInput: { email: string; password: string }) => {
     const fn = () =>
-      client.mutate<SignInToAccountMutation, SignInToAccountMutationVariables>({
-        mutation: SignInToAccountDocument,
-        variables: { signInInput }
+      client.mutate<SignInToEmailAccountMutation, SignInToEmailAccountMutationVariables>({
+        mutation: SignInToEmailAccountDocument,
+        variables: { signInToEmailAccountInput }
       })
 
-    const data = await performWithToasts<SignInToAccountMutation>(fn, signInToAccountToasts)
-    if (data?.signInToAccount?.__typename === 'Account') {
-      return data?.signInToAccount
+    const data = await performWithToasts<SignInToEmailAccountMutation>(fn, signInToEmailAccountToasts)
+    if (data?.signInToEmailAccount?.__typename === 'Account') {
+      return data?.signInToEmailAccount
     }
 
     return null
@@ -216,13 +222,30 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
     dispatch({ type: Dispatch.SET_RECIPES_AND_FILTERS, payload: { recipes: filteredRecipes, filters } })
   }
 
+  const fetchValidationSchemas = async () => {
+    const result = await client.query<FetchValidationSchemasQuery, FetchValidationSchemasQueryVariables>({
+      query: FetchValidationSchemasDocument,
+      variables: { schemas: Object.values(TargetSchema) }
+    })
+
+    if (!result.data?.validationSchemas) return null
+
+    const validationSchemas = result.data.validationSchemas.reduce((acc, { target, schema }) => {
+      acc[target] = schema
+      return acc
+    }, {} as Record<TargetSchema, JSONSchemaType>)
+
+    return validationSchemas
+  }
+
   return (
     <ApiServiceContext.Provider
       value={{
         filterRecipes,
-        createAccount,
-        requestVerificationCode,
-        signInToAccount,
+        fetchValidationSchemas,
+        createEmailAccount,
+        requestVerificationEmail,
+        signInToEmailAccount,
         deleteAccount
       }}
     >

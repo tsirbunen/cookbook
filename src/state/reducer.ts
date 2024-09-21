@@ -1,6 +1,7 @@
+import { TargetSchema } from '../../app/api/graphql/graphql-server/modules/types.generated'
 import { RecipesFilterValues } from '../app-pages/search/page/FilteringProvider'
 import { Language, Recipe, Tag } from '../types/graphql-schema-types.generated'
-import { AccountInfo } from '../types/types'
+import { AccountInfo, JSONSchemaType } from '../types/types'
 import { AppState } from './StateContextProvider'
 import { produce } from 'immer'
 
@@ -11,7 +12,8 @@ export enum Dispatch {
   TOGGLE_SOUNDS_ENABLED = 'TOGGLE_SOUNDS_ENABLED',
   SET_TAGS = 'SET_TAGS',
   SET_LANGUAGES = 'SET_LANGUAGES',
-  SET_ACCOUNT = 'SET_ACCOUNT'
+  SET_ACCOUNT = 'SET_ACCOUNT',
+  SET_VALIDATION_SCHEMAS = 'SET_VALIDATION_SCHEMAS'
 }
 
 export type DispatchAction =
@@ -22,6 +24,7 @@ export type DispatchAction =
   | { type: Dispatch.SET_TAGS; payload: { tags: Tag[] } }
   | { type: Dispatch.SET_LANGUAGES; payload: { languages: Language[] } }
   | { type: Dispatch.SET_ACCOUNT; payload: { account: AccountInfo | null } }
+  | { type: Dispatch.SET_VALIDATION_SCHEMAS; payload: { validationSchemas: Record<TargetSchema, JSONSchemaType> } }
 
 export const reducer = produce((draft: AppState, { type, payload }: DispatchAction) => {
   switch (type) {
@@ -46,6 +49,9 @@ export const reducer = produce((draft: AppState, { type, payload }: DispatchActi
       break
     case Dispatch.SET_ACCOUNT:
       draft.account = payload.account
+      break
+    case Dispatch.SET_VALIDATION_SCHEMAS:
+      draft.validationSchemas = payload.validationSchemas
       break
     default:
       throw new Error(`${JSON.stringify(type)} is not an app state reducer action type!`)

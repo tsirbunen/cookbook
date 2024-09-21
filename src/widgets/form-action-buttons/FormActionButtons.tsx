@@ -9,9 +9,10 @@ const submitLabel = 'SUBMIT'
 type FormActionButtonsProps = {
   cancelFn: () => void
   clearFn?: () => void
+  submitIsDisabled: boolean
 }
 
-const FormActionButtons = ({ cancelFn, clearFn }: FormActionButtonsProps) => {
+const FormActionButtons = ({ cancelFn, clearFn, submitIsDisabled }: FormActionButtonsProps) => {
   return (
     <Flex {...buttonsBoxCss}>
       <Flex {...buttonContainerCss}>
@@ -28,7 +29,12 @@ const FormActionButtons = ({ cancelFn, clearFn }: FormActionButtonsProps) => {
         </Flex>
       )}
 
-      <ButtonWithTheme variant={ButtonVariant.MediumSizePale} isToggled={true} isSubmit={true}>
+      <ButtonWithTheme
+        variant={ButtonVariant.MediumSizePale}
+        isToggled={true}
+        isSubmit={true}
+        isDisabled={submitIsDisabled}
+      >
         <Text {...buttonTextNoIconCss}>{submitLabel}</Text>
       </ButtonWithTheme>
     </Flex>

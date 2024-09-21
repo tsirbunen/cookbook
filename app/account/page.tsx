@@ -1,9 +1,11 @@
 'use client'
 
 import dynamic from 'next/dynamic'
+import LoadingPage from '../../src/widgets/loading-page/LoadingPage'
 
 const AccountPage = dynamic(() => import('../../src/app-pages/account/AccountPage'), {
-  ssr: false
+  ssr: false,
+  loading: () => <LoadingPage />
 })
 
 /**

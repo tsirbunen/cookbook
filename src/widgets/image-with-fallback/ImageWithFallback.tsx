@@ -1,13 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import { TbSoup } from 'react-icons/tb'
 import { ColorCodes } from '../../theme/theme'
 import { ChakraProps, Flex } from '@chakra-ui/react'
 import { CSSProperties, SyntheticEvent, useEffect, useState } from 'react'
-// import { GiHotMeal } from 'react-icons/gi'
-// import { MdNoMeals } from 'react-icons/md'
-// import { GiMeal } from 'react-icons/gi'
-// import { PiForkKnifeBold } from 'react-icons/pi'
-// import { TbGrill } from 'react-icons/tb'
 import { PiForkKnifeFill } from 'react-icons/pi'
 export const clickableRecipeCardArea = 'clickable-recipe-card-area'
 

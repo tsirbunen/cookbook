@@ -1,0 +1,5 @@
+mutation SignInToEmailAccount($signInToEmailAccountInput: SignInToEmailAccountInput!) {
+  signInToEmailAccount(signInToEmailAccountInput: $signInToEmailAccountInput) {
+    ...AccountResultFull
+  }
+}

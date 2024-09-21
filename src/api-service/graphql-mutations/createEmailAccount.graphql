@@ -1,0 +1,5 @@
+mutation CreateEmailAccount($emailAccountInput: EmailAccountInput!) {
+  createEmailAccount(emailAccountInput: $emailAccountInput) {
+    ...AccountResultFull
+  }
+}

@@ -1,9 +1,9 @@
 import * as Types from '../../types/graphql-schema-types.generated';
 
 import { gql } from '@apollo/client';
-export type AccountFullFragment = { __typename?: 'Account', id: number, uuid: string, username: string, phoneNumber: string, isVerified: boolean, token?: string | null };
+export type AccountFullFragment = { __typename?: 'Account', id: number, uuid: string, username: string, token?: string | null, email?: string | null, emailVerified?: boolean | null, identityProvider: Types.IdentityProvider };
 
-export type AccountResultFull_Account_Fragment = { __typename: 'Account', id: number, uuid: string, username: string, phoneNumber: string, isVerified: boolean, token?: string | null };
+export type AccountResultFull_Account_Fragment = { __typename: 'Account', id: number, uuid: string, username: string, token?: string | null, email?: string | null, emailVerified?: boolean | null, identityProvider: Types.IdentityProvider };
 
 export type AccountResultFull_BadInputError_Fragment = { __typename: 'BadInputError', errorMessage: string };
 
@@ -14,9 +14,10 @@ export const AccountFullFragmentDoc = gql`
   id
   uuid
   username
-  phoneNumber
-  isVerified
   token
+  email
+  emailVerified
+  identityProvider
 }
     `;
 export const AccountResultFullFragmentDoc = gql`

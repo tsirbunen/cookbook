@@ -7,30 +7,21 @@ COOKING COMPANION is a full-stack React Typescript GraphQL web application built
 
 ### How to try it locally?
 
-First make sure you have Node version ^20.10.0 installed.
-
-To run the application locally, first start a PostgreSQL database with Docker by running
+First make sure you have Node version ^20.10.0 installed and that Docker is up and running. Then start a PostgreSQL database using
 &nbsp;&nbsp;&nbsp;&nbsp; **`docker run --name postgres_for_cooking_companion -p 5432:5432 -e POSTGRES_USER=postgres -e \`**
 &nbsp;&nbsp;&nbsp;&nbsp; **`POSTGRES_PASSWORD=postgres -e POSTGRES_DB=postgres -d --rm postgres`**
 
-Then install libraries
-&nbsp;&nbsp;&nbsp;&nbsp; **`npm install`**
-
-Then run the database migrations with
-&nbsp;&nbsp;&nbsp;&nbsp; **`npm run migrations:local`**
-
-In case the Typescript types are missing or not up-to-date, run
-&nbsp;&nbsp;&nbsp;&nbsp; **`npm run generate:types`**
-
-Then start the app in development mode with
-&nbsp;&nbsp;&nbsp;&nbsp; **`npm run dev`**
-
-And finally open **[http://localhost:3000](http://localhost:3000)** with your browser to start using the COOKING COMPANION locally.
-
+Then install libraries: **`npm install`**
+Then run the database migrations: **`npm run migrations:local`**
+In case the Typescript types are missing or not up-to-date: **`npm run generate:types`**
+To insert example data to the local database: **`npm run insert_example_data`**
+Then start the app in development mode: **`npm run dev`**
+And finally open **[http://localhost:3000](http://localhost:3000)** with your browser to start using the app locally.
 To run the app in **`DEBUG`** mode, select option "Full stack" in RUN AND DEBUG in Visual Studio Code.
 
-To insert example data to the local database, run
-&nbsp;&nbsp;&nbsp;&nbsp; **`npm run insert_example_data`**
+You can easily run any script in the package.json using a CLI tool built with the **[@inquirer/prompts](https://www.npmjs.com/package/@inquirer/prompts)** library. At the project root, just run **`node scripts/script.js`** and then use arrow keys (and then enter) to select the script you want to run. In addition to the the scripts available in the package.json file, you can select to start PostgreSQL with Docker or generate DB migration files.
+
+![](/assets/script-runner.png)
 
 ## TESTS
 
@@ -77,6 +68,7 @@ _Note 2:_ The cypress E2E tests are truly E2E only when run locally. For some re
 - E2E tests: **[Cypress testing](https://docs.cypress.io/guides/overview/why-cypress)** with a **[Cucumber-like](https://www.npmjs.com/package/@badeball/cypress-cucumber-preprocessor)**-experience
 - Component styling: **[@emotion/react](https://www.npmjs.com/package/@emotion/react)**
 - UI Component library: **[Chakra ui](https://chakra-ui.com)** (even though it did not seem to work too well together with @emotion/react if used in the same file)
+- Validation: For validating incoming data (at the api service) and user input (UI forms), JSON schemas together with the **[Ajv JSON Schema validator](https://ajv.js.org/)** were chosen. This enabled there to be a single source of truth for the requirements of each field, a truth that could be shared between the api backend and both the web and mobile frontends. Each frontend need only query for the Json schemas, and then build form validation logic on the basis of the schemas.
 - Icons: **[React icons](https://react-icons.github.io/react-icons/icons/tb/)**
 
 ### Database

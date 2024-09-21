@@ -1,5 +1,5 @@
-mutation RequestVerificationCode($phoneNumber: String!) {
-  requestVerificationCode(phoneNumber: $phoneNumber) {
+mutation RequestVerificationEmail($email: String!) {
+  requestVerificationEmail(email: $email) {
     __typename
 
     ... on GeneralSuccess {

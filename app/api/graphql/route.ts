@@ -1,6 +1,8 @@
 import * as dotenv from 'dotenv'
 dotenv.config()
 
+import { GraphQLJSON } from 'graphql-scalars'
+
 const isProduction = process.env.NODE_ENV === 'production'
 
 import { createYoga, createSchema } from 'graphql-yoga'
@@ -8,7 +10,7 @@ import { typeDefs } from './graphql-server/modules/typeDefs.generated'
 import { resolvers } from './graphql-server/modules/resolvers.generated'
 
 const { handleRequest } = createYoga({
-  schema: createSchema({ typeDefs, resolvers }),
+  schema: createSchema({ typeDefs, resolvers: { ...resolvers, JSON: GraphQLJSON } }),
   graphqlEndpoint: '/api/graphql',
   fetchAPI: { Response },
   cors: {

@@ -1,0 +1,1 @@
+ALTER TABLE "accounts" DROP COLUMN IF EXISTS "latest_code_sent_by_email";

@@ -5,7 +5,7 @@ import ButtonWithTheme from '../../theme/buttons/ButtonWithTheme'
 import { Fragment } from 'react'
 import TitleWithSpacing from './TitleWithSpacing'
 
-type AccountRouteActionProps = {
+type AccountRouteSelectorProps = {
   info: string
   buttonLabel: string
   performAction: () => void
@@ -15,7 +15,7 @@ type AccountRouteActionProps = {
   hideButton?: boolean
 }
 
-const AccountRouteAction = ({
+const AccountRouteSelector = ({
   info,
   buttonLabel,
   performAction,
@@ -23,7 +23,7 @@ const AccountRouteAction = ({
   children,
   hideButton,
   title
-}: AccountRouteActionProps) => {
+}: AccountRouteSelectorProps) => {
   return (
     <Fragment>
       <TitleWithSpacing title={title} />
@@ -48,7 +48,7 @@ const AccountRouteAction = ({
   )
 }
 
-export default AccountRouteAction
+export default AccountRouteSelector
 
 const outerCss = {
   flexDirection: 'column' as ChakraProps['flexDirection'],
