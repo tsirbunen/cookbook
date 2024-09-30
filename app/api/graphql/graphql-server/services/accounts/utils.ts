@@ -1,14 +1,14 @@
 import { and, eq, or } from 'drizzle-orm'
 import { AccountDBSelect, DatabaseType } from '../../database/inferred-types/inferred-types'
 import { accounts } from '../../database/database-schemas/accounts'
-import { EmailAccountInput } from '../../modules/types.generated'
-import { IdentityProvider } from '../../../../../../src/types/graphql-schema-types.generated'
+import { EmailAccountInput, IdentityProvider } from '../../modules/types.generated'
+import { IdentityProvider as IdentityProviderEnum } from '../../../../../../src/types/graphql-schema-types.generated'
 import { getAllEmailAuthUsers, signInEmailAuthUser } from './email-provider-utils'
 import { AuthError, getError } from './error-utils'
 import { createJWT } from './token-utils'
 import { getHashedPassword } from './password-utils'
 
-type ByKey = 'email' | 'uuid'
+type ByKey = 'email' | 'uuid' | 'idAtProvider' | 'id'
 type Operator = 'AND' | 'OR'
 type QueryAccountsParams = {
   username?: string | null
@@ -16,6 +16,7 @@ type QueryAccountsParams = {
   uuid?: string | null
   email?: string | null
   operator?: Operator
+  idAtProvider?: string | null
 }
 
 const invalidQueryParams = 'Invalid query parameters!'
@@ -32,16 +33,36 @@ export const getAccountBy = async (trx: DatabaseType, by: ByKey, value: string) 
 }
 
 const getAccountQueryWhereCondition = (queryParams: QueryAccountsParams) => {
-  const { id, username, uuid, email, operator } = queryParams
+  const { id, username, uuid, email, operator, idAtProvider } = queryParams
+
   const conditions = []
 
   if (email) conditions.push(eq(accounts.email, email))
   if (id) conditions.push(eq(accounts.id, id))
   if (uuid) conditions.push(eq(accounts.uuid, uuid))
   if (username) conditions.push(eq(accounts.username, username))
+  if (idAtProvider) conditions.push(eq(accounts.idAtProvider, idAtProvider))
   if (conditions.length === 0) throw new Error(invalidQueryParams)
 
   return operator === 'AND' ? and(...conditions) : or(...conditions)
+}
+
+export const insertNonEmailAccount = async (
+  trx: DatabaseType,
+  username: string,
+  idAtProvider: string,
+  identityProvider: IdentityProvider
+) => {
+  const [newAccount] = await trx
+    .insert(accounts)
+    .values({
+      username,
+      identityProvider,
+      idAtProvider
+    })
+    .returning()
+
+  return newAccount
 }
 
 export const setEmailIsVerified = async (trx: DatabaseType, id: number) => {
@@ -61,12 +82,12 @@ export const insertEmailAccount = async (trx: DatabaseType, accountInput: EmailA
       email: accountInput.email,
       passwordHash,
       emailVerified: false,
-      identityProvider: IdentityProvider.Email,
+      identityProvider: IdentityProviderEnum.Email,
       idAtProvider
     })
     .returning()
 
-  return { ...newAccount, identityProvider: IdentityProvider.Email }
+  return { ...newAccount, identityProvider: IdentityProviderEnum.Email }
 }
 
 export const fetchEmailAuthProviderUserAndUpsertAccount = async (
@@ -96,7 +117,7 @@ export const fetchEmailAuthProviderUserAndUpsertAccount = async (
 
 export const getVerifiedAccountWithTokenAdded = ({ id, uuid, username, email }: AccountDBSelect) => {
   const token = createJWT({ id, uuid, username })
-  const identityProvider = IdentityProvider.Email
+  const identityProvider = IdentityProviderEnum.Email
 
   return { id, uuid, username, email, emailVerified: true, token, identityProvider }
 }

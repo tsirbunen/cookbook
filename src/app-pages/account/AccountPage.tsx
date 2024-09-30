@@ -14,6 +14,7 @@ import { Dispatch } from '../../state/reducer'
 import LoadingIndicator from '../../widgets/loading-indicator/LoadingIndicator'
 import { accountRelatedValidationSchemasAreFetched } from './utils'
 
+const githubAuthenticationRoute = '/api/login/github'
 const loadingFormDataMessage = 'Loading form data, please wait...'
 /**  
  This is the default/fallback user account page. It shows th user some general information on, for example,
@@ -67,24 +68,17 @@ const AccountPage = () => {
       ) : (
         <Fragment>
           <AccountRouteSelector
-            title={content.createAccountLabel}
-            info={content.createAccountInfo}
-            buttonLabel={content.createAccountLabel}
-            performAction={() => navigateTo(AccountRoute.CREATE)}
+            title={content.withEmailLabel}
+            info={content.emailMainInfo}
+            buttonLabel={content.withEmailLabel}
+            performAction={() => navigateTo(AccountRoute.EMAIL)}
           />
 
           <AccountRouteSelector
-            title={content.signInLabel}
-            info={content.signInInfo}
-            buttonLabel={content.signInLabel}
-            performAction={() => navigateTo(AccountRoute.SIGN_IN)}
-          />
-
-          <AccountRouteSelector
-            title={content.requestVerificationEmailLabel}
-            info={content.requestVerificationCodeInfo}
-            buttonLabel={content.requestVerificationEmailLabel}
-            performAction={() => navigateTo(AccountRoute.VERIFICATION)}
+            title={content.githubLabel}
+            info={content.githubInfo}
+            buttonLabel={content.githubLabel}
+            performAction={() => router.push(githubAuthenticationRoute)}
           />
         </Fragment>
       )}

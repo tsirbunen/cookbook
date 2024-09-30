@@ -27,6 +27,12 @@ input SignInToEmailAccountInput {
   password: String!
 }
 
+input NonEmailAccountInput {
+  username: String!
+  identityProvider: IdentityProvider!
+  token: String!
+}
+
 # Instead of throwing errors we return union types that can be either the expected entity
 # or an "alternative result" (i.e. an anticipated error). This is because we want also the
 # error replies to be properly typed so that the client has an easier job of guiding the
@@ -35,5 +41,10 @@ extend type Mutation {
   createEmailAccount(emailAccountInput: EmailAccountInput!): AccountResult!
   requestVerificationEmail(email: String!): GeneralResult!
   signInToEmailAccount(signInToEmailAccountInput: SignInToEmailAccountInput!): AccountResult!
+  createNonEmailAccount(nonEmailAccountInput: NonEmailAccountInput!): AccountResult!
   deleteAccount(id: Int!, uuid: String!): GeneralResult!
+}
+
+extend type Query {
+  getAccount(token: String!): AccountResult!
 }

@@ -14,7 +14,7 @@ import { AccountRoute } from '../../../app/account/[accountAction]/page'
 import { content } from './textContent'
 import { IdentityProvider, TargetSchema } from '../../types/graphql-schema-types.generated'
 import { getValidatorFromJsonSchema } from './formValidators'
-import { getPasswordVisibilityToggle, getSubmitIsDisabled } from './utils'
+import { getPasswordVisibilityToggle, getSignInSubmitIsDisabled } from './utils'
 
 const initialFormValues: SignInWithEmailAndPasswordFormValues = {
   email: '',
@@ -27,7 +27,7 @@ const SignInWithEmailAndPasswordPage = () => {
   const [showPassword, setShowPassword] = useState(false)
   const router = useRouter()
   // Parent component ensures that the relevant validation schema has been fetched
-  const validationSchema = state.validationSchemas![TargetSchema.SignInToEmailAccountInput]
+  const validationSchema = state.validationSchemas?.[TargetSchema.SignInToEmailAccountInput]
 
   const {
     handleSubmit,
@@ -36,7 +36,7 @@ const SignInWithEmailAndPasswordPage = () => {
     formState: { errors, touchedFields, isSubmitting }
   } = useForm<SignInWithEmailAndPasswordFormValues>({
     context: 'signInWithEmailAndPasswordForm',
-    resolver: getValidatorFromJsonSchema(validationSchema),
+    resolver: validationSchema && getValidatorFromJsonSchema(validationSchema),
     mode: 'onTouched',
     defaultValues: { ...initialFormValues, email: state.account?.email || '' }
   })
@@ -56,7 +56,7 @@ const SignInWithEmailAndPasswordPage = () => {
     }
   }
 
-  const submitIsDisabled = getSubmitIsDisabled(touchedFields, initialFormValues, errors, isSubmitting)
+  const submitIsDisabled = getSignInSubmitIsDisabled(touchedFields, errors, isSubmitting)
 
   return (
     <Flex {...pageCss} data-testid={`${Page.ACCOUNT}-${AccountRoute.SIGN_IN}-page`}>

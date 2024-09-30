@@ -1,0 +1,5 @@
+mutation CreateNonEmailAccount($nonEmailAccountInput: NonEmailAccountInput!) {
+  createNonEmailAccount(nonEmailAccountInput: $nonEmailAccountInput) {
+    ...AccountResultFull
+  }
+}

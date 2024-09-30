@@ -14,6 +14,8 @@ import { content } from './textContent'
 import SuccessInfo from './SuccessInfo'
 import { getEmailAccountInputValidator } from './formValidators'
 import { getPasswordVisibilityToggle, getSubmitIsDisabled } from './utils'
+import { pageCss } from './AccountPage'
+import TitleWithSpacing from './TitleWithSpacing'
 
 const initialFormValues: CreateEmailAccountFormValues = {
   username: '',
@@ -22,14 +24,12 @@ const initialFormValues: CreateEmailAccountFormValues = {
   passwordConfirmation: ''
 }
 
-// FIXME: Implement different ways to create an account, for example, using GitHub of Facebook account.
-const CreateEmailAccountContent = () => {
+const CreateEmailAccountPage = () => {
   const { state, dispatch } = useContext(AppStateContext) as AppStateContextType
   const { createEmailAccount } = useContext(ApiServiceContext)
   const [showPasswords, setShowPasswords] = useState(false)
   const router = useRouter()
-  // Parent component ensures that the relevant validation schema has been fetched
-  const validationSchema = state.validationSchemas![TargetSchema.EmailAccountInput]
+  const validationSchema = state.validationSchemas?.[TargetSchema.EmailAccountInput]
 
   const {
     handleSubmit,
@@ -40,7 +40,7 @@ const CreateEmailAccountContent = () => {
     formState: { errors, touchedFields, isSubmitting }
   } = useForm<CreateEmailAccountFormValues>({
     context: 'createEmailAccountForm',
-    resolver: getEmailAccountInputValidator(validationSchema),
+    resolver: validationSchema && getEmailAccountInputValidator(validationSchema),
     mode: 'onTouched',
     defaultValues: initialFormValues
   })
@@ -86,57 +86,69 @@ const CreateEmailAccountContent = () => {
   const submitIsDisabled = getSubmitIsDisabled(touchedFields, initialFormValues, errors, isSubmitting)
 
   return (
-    <Flex {...outerCss}>
-      <Flex {...innerCss}>
-        {!state.account ? (
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <FormSimpleInput
-              label={content.usernameLabel}
-              control={control}
-              name={'username'}
-              info={content.usernameInfo}
-              placeholder={content.usernamePlaceholder}
-              error={errors?.username}
-            />
+    <Flex {...pageCss} data-testid={`${Page.ACCOUNT}-${AccountRoute.CREATE}-email-page`}>
+      <Flex {...outerCss}>
+        <TitleWithSpacing title={content.createAccountWithEmailLabel} />
 
-            <FormSimpleInput
-              label={content.emailLabel}
-              control={control}
-              name={'email'}
-              info={content.emailInfo}
-              placeholder={content.emailPlaceholder}
-              error={errors?.email}
+        <Flex {...innerCss}>
+          {!state.account ? (
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <FormSimpleInput
+                label={content.usernameLabel}
+                control={control}
+                name={'username'}
+                info={content.usernameInfo}
+                placeholder={content.usernamePlaceholder}
+                error={errors?.username}
+              />
+
+              <FormSimpleInput
+                label={content.emailLabel}
+                control={control}
+                name={'email'}
+                info={content.emailInfo}
+                placeholder={content.emailPlaceholder}
+                error={errors?.email}
+              />
+              <FormSimpleInput
+                label={content.passwordLabel}
+                control={control}
+                name={'password'}
+                info={content.passwordInfo}
+                placeholder={content.passwordPlaceholder}
+                error={errors?.password}
+                type={passwordInputType}
+                rightElement={getPasswordVisibilityToggle(showPasswords, setShowPasswords)}
+              />
+              <FormSimpleInput
+                label={content.passwordConfirmationLabel}
+                control={control}
+                name={'passwordConfirmation'}
+                info={content.passwordConfirmationInfo}
+                placeholder={content.passwordConfirmationPlaceholder}
+                error={errors?.passwordConfirmation}
+                type={passwordInputType}
+              />
+              <FormActionButtons
+                cancelFn={() => navigateToRoute()}
+                clearFn={reset}
+                submitIsDisabled={submitIsDisabled}
+              />
+            </form>
+          ) : (
+            <SuccessInfo
+              info={content.accountCreatedInfo}
+              secondaryInfo={content.spamInfo}
+              onClick={() => navigateToRoute(AccountRoute.SIGN_IN)}
             />
-            <FormSimpleInput
-              label={content.passwordLabel}
-              control={control}
-              name={'password'}
-              info={content.passwordInfo}
-              placeholder={content.passwordPlaceholder}
-              error={errors?.password}
-              type={passwordInputType}
-              rightElement={getPasswordVisibilityToggle(showPasswords, setShowPasswords)}
-            />
-            <FormSimpleInput
-              label={content.passwordConfirmationLabel}
-              control={control}
-              name={'passwordConfirmation'}
-              info={content.passwordConfirmationInfo}
-              placeholder={content.passwordConfirmationPlaceholder}
-              error={errors?.passwordConfirmation}
-              type={passwordInputType}
-            />
-            <FormActionButtons cancelFn={() => navigateToRoute()} clearFn={reset} submitIsDisabled={submitIsDisabled} />
-          </form>
-        ) : (
-          <SuccessInfo info={content.accountCreatedInfo} onClick={() => navigateToRoute(AccountRoute.SIGN_IN)} />
-        )}
-      </Flex>
+          )}
+        </Flex>
+      </Flex>{' '}
     </Flex>
   )
 }
 
-export default CreateEmailAccountContent
+export default CreateEmailAccountPage
 
 const outerCss = {
   flexDirection: 'column' as ChakraProps['flexDirection'],

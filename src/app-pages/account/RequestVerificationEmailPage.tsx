@@ -25,8 +25,7 @@ const RequestVerificationEmailPage = () => {
   const { requestVerificationEmail } = useContext(ApiServiceContext)
   const [requestWasSent, setRequestWasSent] = useState(false)
   const router = useRouter()
-  // Parent component ensures that the relevant validation schema has been fetched
-  const validationSchema = state.validationSchemas![TargetSchema.RequestVerificationEmailInput]
+  const validationSchema = state.validationSchemas?.[TargetSchema.RequestVerificationEmailInput]
 
   // FIXME: Implement storing the phone number in the browser's local storage.
   // This is here just for development purposes.
@@ -39,7 +38,7 @@ const RequestVerificationEmailPage = () => {
     formState: { errors, touchedFields, isSubmitting }
   } = useForm<RequestVerificationEmailValues>({
     context: 'requestVerificationEmailForm',
-    resolver: getValidatorFromJsonSchema(validationSchema),
+    resolver: validationSchema && getValidatorFromJsonSchema(validationSchema),
     mode: 'onTouched',
     defaultValues: storedAccountEmail
       ? {

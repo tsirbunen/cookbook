@@ -8,7 +8,30 @@ export type ToastInputs = {
   errorText: string
 }
 
-export const createEmailAccountToasts: ToastInputs = {
+export const getAccountToasts: ToastInputs = {
+  loadingToast: {
+    title: 'LOADING ACCOUNT',
+    description: 'Please wait...',
+    variant: ToastVariant.Loading
+  },
+  successToast: {
+    title: 'ACCOUNT LOADED',
+    description: 'The account was successfully loaded',
+    variant: ToastVariant.Success,
+    duration: 6000,
+    isClosable: true
+  },
+  errorToast: {
+    title: 'FAILED LOAD ACCOUNT',
+    description: 'Something went wrong and the account was not loaded',
+    variant: ToastVariant.Error,
+    duration: 9000,
+    isClosable: true
+  },
+  errorText: 'Account loading failed'
+}
+
+export const createAccountToasts: ToastInputs = {
   loadingToast: {
     title: 'CREATING ACCOUNT',
     description: 'Please wait...',

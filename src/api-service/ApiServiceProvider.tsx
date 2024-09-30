@@ -17,12 +17,24 @@ import {
   FetchValidationSchemasQuery,
   FetchValidationSchemasQueryVariables
 } from './graphql-queries/fetchValidationSchemas.generated'
-import { Account, EmailAccountInput, BaseError, TargetSchema } from '../types/graphql-schema-types.generated'
+import {
+  Account,
+  EmailAccountInput,
+  NonEmailAccountInput,
+  BaseError,
+  TargetSchema
+} from '../types/graphql-schema-types.generated'
 import {
   CreateEmailAccountDocument,
   CreateEmailAccountMutation,
   CreateEmailAccountMutationVariables
 } from './graphql-mutations/createEmailAccount.generated'
+import { GetAccountDocument, GetAccountQuery, GetAccountQueryVariables } from './graphql-queries/getAccount.generated'
+import {
+  CreateNonEmailAccountDocument,
+  CreateNonEmailAccountMutation,
+  CreateNonEmailAccountMutationVariables
+} from './graphql-mutations/createNonEmailAccount.generated'
 
 import {
   RequestVerificationEmailDocument,
@@ -46,8 +58,9 @@ import { SimpleToast, ToastServiceContext } from '../toast-service/ToastServiceP
 import { ToastId } from '@chakra-ui/toast'
 import {
   ToastInputs,
-  createEmailAccountToasts,
+  createAccountToasts,
   deleteAccountToasts,
+  getAccountToasts,
   requestVerificationEmailToasts,
   signInToEmailAccountToasts
 } from './toast-inputs-and-errors'
@@ -59,6 +72,8 @@ export type ApiService = {
   createEmailAccount: (emailAccountInput: EmailAccountInput) => Promise<Account | null>
   requestVerificationEmail: (email: string) => Promise<boolean | null>
   signInToEmailAccount: (signInWithPasswordInput: { email: string; password: string }) => Promise<Account | null>
+  createNonEmailAccount: (nonEmailAccountInput: NonEmailAccountInput) => Promise<Account | null>
+  getAccount: (token: string) => Promise<Account | null>
   deleteAccount: (id: number, uuid: string) => Promise<boolean | null>
 }
 
@@ -127,6 +142,21 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
     updateUpdatableToast(toastIdRef, { ...errorToast, description })
   }
 
+  const createNonEmailAccount = async (nonEmailAccountInput: NonEmailAccountInput) => {
+    const fn = () =>
+      client.mutate<CreateNonEmailAccountMutation, CreateNonEmailAccountMutationVariables>({
+        mutation: CreateNonEmailAccountDocument,
+        variables: { nonEmailAccountInput }
+      })
+
+    const data = await performWithToasts<CreateNonEmailAccountMutation>(fn, createAccountToasts)
+    if (data?.createNonEmailAccount?.__typename === 'Account') {
+      return data?.createNonEmailAccount
+    }
+
+    return null
+  }
+
   const createEmailAccount = async (emailAccountInput: EmailAccountInput) => {
     const fn = () =>
       client.mutate<CreateEmailAccountMutation, CreateEmailAccountMutationVariables>({
@@ -134,7 +164,7 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
         variables: { emailAccountInput }
       })
 
-    const data = await performWithToasts<CreateEmailAccountMutation>(fn, createEmailAccountToasts)
+    const data = await performWithToasts<CreateEmailAccountMutation>(fn, createAccountToasts)
     if (data?.createEmailAccount?.__typename === 'Account') {
       return data?.createEmailAccount
     }
@@ -164,6 +194,21 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
     const data = await performWithToasts<SignInToEmailAccountMutation>(fn, signInToEmailAccountToasts)
     if (data?.signInToEmailAccount?.__typename === 'Account') {
       return data?.signInToEmailAccount
+    }
+
+    return null
+  }
+
+  const getAccount = async (token: string) => {
+    const fn = () =>
+      client.mutate<GetAccountQuery, GetAccountQueryVariables>({
+        mutation: GetAccountDocument,
+        variables: { token }
+      })
+
+    const data = await performWithToasts<GetAccountQuery>(fn, getAccountToasts)
+    if (data?.getAccount?.__typename === 'Account') {
+      return data?.getAccount
     }
 
     return null
@@ -211,6 +256,18 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
     getRecipes()
   }, [])
 
+  useEffect(() => {
+    const getValidationSchemas = async () => {
+      const schemas = await fetchValidationSchemas()
+
+      if (schemas) {
+        dispatch({ type: Dispatch.SET_VALIDATION_SCHEMAS, payload: { validationSchemas: schemas } })
+      }
+    }
+
+    getValidationSchemas()
+  }, [])
+
   const filterRecipes = async (filters: RecipesFilterValues) => {
     // FIXME: Implement query recipes with filters from api
     const allRecipesData = await client.query<AllRecipesQuery, AllRecipesQueryVariables>({
@@ -244,8 +301,10 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
         filterRecipes,
         fetchValidationSchemas,
         createEmailAccount,
+        createNonEmailAccount,
         requestVerificationEmail,
         signInToEmailAccount,
+        getAccount,
         deleteAccount
       }}
     >

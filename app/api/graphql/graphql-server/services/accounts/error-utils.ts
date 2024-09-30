@@ -1,4 +1,4 @@
-import { EmailAccountInput } from '../../modules/types.generated'
+import { IdentityProvider } from '../../modules/types.generated'
 import { AuthResponse } from '@supabase/supabase-js'
 
 // IMPORTANT: These are error messages that can be returned by the email authentication
@@ -6,11 +6,15 @@ import { AuthResponse } from '@supabase/supabase-js'
 const emailRateLimitExceededMessage = 'email rate limit exceeded'
 const emailNotConfirmedMessage = 'email not confirmed'
 const invalidCredentialsMessage = 'invalid login credentials'
+const emailRateErrorCode = 'over_email_send_rate_limit'
+const emailNotConfirmedErrorCode = 'email_not_confirmed'
 
 export enum AuthError {
   SOMETHING_WENT_WRONG = 'SOMETHING_WENT_WRONG',
   EMAIL_TAKEN = 'EMAIL_TAKEN',
   USERNAME_TAKEN = 'USERNAME_TAKEN',
+  ID_AT_PROVIDER_TAKEN = 'ID_AT_PROVIDER_TAKEN',
+  ID_AT_PROVIDER_AND_USERNAME_TAKEN = 'ID_AT_PROVIDER_AND_USERNAME_TAKEN',
   EMAIL_AND_USERNAME_TAKEN = 'EMAIL_AND_USERNAME_TAKEN',
   EMAIL_VERIFIED = 'EMAIL_VERIFIED',
   INVALID_CREDENTIALS = 'INVALID_CREDENTIALS',
@@ -25,21 +29,39 @@ export const hasEmailAuthError = (authResponse: AuthResponse) => {
 }
 
 export const handleSignUpCredentialsTakenError = async (
-  existingAccounts: { username?: string; email?: string | null }[],
-  { email, username }: Omit<EmailAccountInput, 'password'>
+  existingAccounts: { username?: string; email?: string | null; idAtProvider?: string | null }[],
+  {
+    email,
+    username,
+    idAtProvider,
+    identityProvider
+  }: { username?: string; email?: string | null; idAtProvider?: string | null; identityProvider?: IdentityProvider }
 ) => {
-  const emailTaken = existingAccounts.some((account) => account.email === email)
-  const usernameTaken = existingAccounts.some((account) => account.username === username)
+  const emailTaken = email && existingAccounts.some((account) => account.email === email)
+  const usernameTaken = username && existingAccounts.some((account) => account.username === username)
+  const idAtProviderTaken = idAtProvider && existingAccounts.some((account) => account.idAtProvider === idAtProvider)
 
   if (emailTaken && usernameTaken) {
     return getError(AuthError.EMAIL_AND_USERNAME_TAKEN, { email, username })
+  }
+
+  if (idAtProviderTaken && usernameTaken && identityProvider) {
+    return getError(AuthError.ID_AT_PROVIDER_AND_USERNAME_TAKEN, { username, identityProvider })
   }
 
   if (emailTaken) {
     return getError(AuthError.EMAIL_TAKEN, { email })
   }
 
-  return getError(AuthError.USERNAME_TAKEN, { username })
+  if (usernameTaken) {
+    return getError(AuthError.USERNAME_TAKEN, { username })
+  }
+
+  if (idAtProviderTaken && identityProvider) {
+    return getError(AuthError.ID_AT_PROVIDER_TAKEN, { identityProvider })
+  }
+
+  return getError(AuthError.SOMETHING_WENT_WRONG)
 }
 
 export const handleEmailAuthAuthError = (authResponse: AuthResponse, options?: { email: string }) => {
@@ -55,7 +77,8 @@ export const handleEmailAuthAuthError = (authResponse: AuthResponse, options?: {
     return getError(AuthError.EMAIL_RATE_LIMIT_EXCEEDED)
   }
 
-  const accountNotConfirmed = errorMessage?.includes(emailNotConfirmedMessage)
+  const accountNotConfirmed =
+    errorMessage?.includes(emailNotConfirmedMessage) || error?.code === emailNotConfirmedErrorCode
   if (accountNotConfirmed) {
     return getError(AuthError.EMAIL_NOT_VERIFIED, options?.email ? { email: options?.email } : undefined)
   }
@@ -63,6 +86,11 @@ export const handleEmailAuthAuthError = (authResponse: AuthResponse, options?: {
   const invalidCredentials = errorMessage?.includes(invalidCredentialsMessage)
   if (invalidCredentials) {
     return getError(AuthError.INVALID_CREDENTIALS)
+  }
+
+  const rateError = error?.code === emailRateErrorCode
+  if (rateError) {
+    return getError(AuthError.EMAIL_RATE_LIMIT_EXCEEDED)
   }
 
   return getError(AuthError.SOMETHING_WENT_WRONG)
@@ -82,6 +110,16 @@ export const getError = (error: AuthError, params?: Record<string, string>) => {
       break
     case AuthError.USERNAME_TAKEN:
       errorMessage = `Account with ${extractUsername(params)} already exists! Please come up with another username.`
+      break
+    case AuthError.ID_AT_PROVIDER_TAKEN:
+      errorMessage = `Account created with ${params?.identityProvider} login already exists!`
+      break
+    case AuthError.ID_AT_PROVIDER_AND_USERNAME_TAKEN:
+      errorMessage = `Account created with ${
+        params?.identityProvider
+      } login already exists! Also an account with ${extractUsername(
+        params
+      )} already exists! Please come up with another username.`
       break
     case AuthError.EMAIL_AND_USERNAME_TAKEN:
       const credentials = extractEmailAndUsername(params)
@@ -103,7 +141,7 @@ export const getError = (error: AuthError, params?: Record<string, string>) => {
       break
     case AuthError.EMAIL_RATE_LIMIT_EXCEEDED:
       errorMessage =
-        'The free emailing service this app uses is temporarily out of free emails. Please try again after an hour.'
+        'The free emailing service this app uses is temporarily out of free emails. Please try again after about a minute.'
       break
     case AuthError.ACCOUNT_NOT_FOUND:
       errorMessage = params?.email

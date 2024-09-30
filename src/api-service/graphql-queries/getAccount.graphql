@@ -1,0 +1,5 @@
+query GetAccount($token: String!) {
+  getAccount(token: $token) {
+    ...AccountResultFull
+  }
+}

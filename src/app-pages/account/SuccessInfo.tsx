@@ -6,14 +6,16 @@ import { content } from './textContent'
 
 type SuccessInfoProps = {
   info: string
+  secondaryInfo?: string
   onClick: () => void
 }
 
-// FIXME: Implement different ways to create an account, for example, using GitHub of Facebook account.
-const SuccessInfo = ({ info, onClick }: SuccessInfoProps) => {
+const SuccessInfo = ({ info, secondaryInfo, onClick }: SuccessInfoProps) => {
   return (
     <Flex {...innerCss}>
       <Text {...infoCss}>{info}</Text>
+      {secondaryInfo ? <Text {...infoCss}>{secondaryInfo}</Text> : null}
+
       <ButtonWithTheme variant={ButtonVariant.MediumSizePale} onClick={onClick} isToggled={true} isSubmit={false}>
         <Text {...buttonTextNoIconCss}>{content.okGotItLabel}</Text>
       </ButtonWithTheme>

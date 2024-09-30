@@ -21,6 +21,9 @@ const AccountDetails = ({ account }: AccountDetailsProps) => {
     switch (identityProvider) {
       case IdentityProvider.Email:
         return 'Email and password'
+      case IdentityProvider.Github:
+        return 'GitHub'
+
       default:
         throw new Error(`Unknown identity confirmation method: ${identityProvider}`)
     }

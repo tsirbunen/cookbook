@@ -133,6 +133,7 @@ export type Language = {
 export type Mutation = {
   __typename?: 'Mutation';
   createEmailAccount: AccountResult;
+  createNonEmailAccount: AccountResult;
   createRecipe?: Maybe<Recipe>;
   deleteAccount: GeneralResult;
   patchRecipe?: Maybe<Recipe>;
@@ -144,6 +145,11 @@ export type Mutation = {
 
 export type MutationCreateEmailAccountArgs = {
   emailAccountInput: EmailAccountInput;
+};
+
+
+export type MutationCreateNonEmailAccountArgs = {
+  nonEmailAccountInput: NonEmailAccountInput;
 };
 
 
@@ -173,6 +179,12 @@ export type MutationSignInToEmailAccountArgs = {
   signInToEmailAccountInput: SignInToEmailAccountInput;
 };
 
+export type NonEmailAccountInput = {
+  identityProvider: IdentityProvider;
+  token: Scalars['String']['input'];
+  username: Scalars['String']['input'];
+};
+
 export type Photo = {
   __typename?: 'Photo';
   id: Scalars['Int']['output'];
@@ -190,8 +202,14 @@ export type Query = {
   allLanguages: Array<Language>;
   allRecipes: Array<Recipe>;
   allTags: Array<Tag>;
+  getAccount: AccountResult;
   pingQuery?: Maybe<Scalars['String']['output']>;
   validationSchemas?: Maybe<Array<ValidationSchema>>;
+};
+
+
+export type QueryGetAccountArgs = {
+  token: Scalars['String']['input'];
 };
 
 
@@ -241,6 +259,7 @@ export type Tag = {
 
 export enum TargetSchema {
   EmailAccountInput = 'EMAIL_ACCOUNT_INPUT',
+  ProviderAccountInput = 'PROVIDER_ACCOUNT_INPUT',
   RequestVerificationEmailInput = 'REQUEST_VERIFICATION_EMAIL_INPUT',
   SignInToEmailAccountInput = 'SIGN_IN_TO_EMAIL_ACCOUNT_INPUT'
 }

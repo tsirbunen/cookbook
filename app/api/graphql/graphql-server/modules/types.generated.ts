@@ -134,6 +134,7 @@ export type Language = {
 export type Mutation = {
   __typename?: 'Mutation';
   createEmailAccount: AccountResult;
+  createNonEmailAccount: AccountResult;
   createRecipe?: Maybe<Recipe>;
   deleteAccount: GeneralResult;
   patchRecipe?: Maybe<Recipe>;
@@ -145,6 +146,11 @@ export type Mutation = {
 
 export type MutationcreateEmailAccountArgs = {
   emailAccountInput: EmailAccountInput;
+};
+
+
+export type MutationcreateNonEmailAccountArgs = {
+  nonEmailAccountInput: NonEmailAccountInput;
 };
 
 
@@ -174,6 +180,12 @@ export type MutationsignInToEmailAccountArgs = {
   signInToEmailAccountInput: SignInToEmailAccountInput;
 };
 
+export type NonEmailAccountInput = {
+  identityProvider: IdentityProvider;
+  token: Scalars['String']['input'];
+  username: Scalars['String']['input'];
+};
+
 export type Photo = {
   __typename?: 'Photo';
   id: Scalars['Int']['output'];
@@ -191,8 +203,14 @@ export type Query = {
   allLanguages: Array<Language>;
   allRecipes: Array<Recipe>;
   allTags: Array<Tag>;
+  getAccount: AccountResult;
   pingQuery?: Maybe<Scalars['String']['output']>;
   validationSchemas?: Maybe<Array<ValidationSchema>>;
+};
+
+
+export type QuerygetAccountArgs = {
+  token: Scalars['String']['input'];
 };
 
 
@@ -242,6 +260,7 @@ export type Tag = {
 
 export type TargetSchema =
   | 'EMAIL_ACCOUNT_INPUT'
+  | 'PROVIDER_ACCOUNT_INPUT'
   | 'REQUEST_VERIFICATION_EMAIL_INPUT'
   | 'SIGN_IN_TO_EMAIL_ACCOUNT_INPUT';
 
@@ -358,6 +377,7 @@ export type ResolversTypes = {
   JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
   Language: ResolverTypeWrapper<Language>;
   Mutation: ResolverTypeWrapper<{}>;
+  NonEmailAccountInput: NonEmailAccountInput;
   Photo: ResolverTypeWrapper<Photo>;
   PhotoInput: PhotoInput;
   Query: ResolverTypeWrapper<{}>;
@@ -396,6 +416,7 @@ export type ResolversParentTypes = {
   JSON: Scalars['JSON']['output'];
   Language: Language;
   Mutation: {};
+  NonEmailAccountInput: NonEmailAccountInput;
   Photo: Photo;
   PhotoInput: PhotoInput;
   Query: {};
@@ -496,6 +517,7 @@ export type LanguageResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createEmailAccount?: Resolver<ResolversTypes['AccountResult'], ParentType, ContextType, RequireFields<MutationcreateEmailAccountArgs, 'emailAccountInput'>>;
+  createNonEmailAccount?: Resolver<ResolversTypes['AccountResult'], ParentType, ContextType, RequireFields<MutationcreateNonEmailAccountArgs, 'nonEmailAccountInput'>>;
   createRecipe?: Resolver<Maybe<ResolversTypes['Recipe']>, ParentType, ContextType, RequireFields<MutationcreateRecipeArgs, 'recipeInput'>>;
   deleteAccount?: Resolver<ResolversTypes['GeneralResult'], ParentType, ContextType, RequireFields<MutationdeleteAccountArgs, 'id' | 'uuid'>>;
   patchRecipe?: Resolver<Maybe<ResolversTypes['Recipe']>, ParentType, ContextType, RequireFields<MutationpatchRecipeArgs, 'recipeId' | 'recipePatch'>>;
@@ -515,6 +537,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   allLanguages?: Resolver<Array<ResolversTypes['Language']>, ParentType, ContextType>;
   allRecipes?: Resolver<Array<ResolversTypes['Recipe']>, ParentType, ContextType>;
   allTags?: Resolver<Array<ResolversTypes['Tag']>, ParentType, ContextType>;
+  getAccount?: Resolver<ResolversTypes['AccountResult'], ParentType, ContextType, RequireFields<QuerygetAccountArgs, 'token'>>;
   pingQuery?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   validationSchemas?: Resolver<Maybe<Array<ResolversTypes['ValidationSchema']>>, ParentType, ContextType, RequireFields<QueryvalidationSchemasArgs, 'schemas'>>;
 };

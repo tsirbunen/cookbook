@@ -5,13 +5,20 @@ import { useContext } from 'react'
 import { AppStateContext, AppStateContextType } from '../../../src/state/StateContextProvider'
 import { accountRelatedValidationSchemasAreFetched } from '../../../src/app-pages/account/utils'
 
-const CreateAccountPage = dynamic(() => import('../../../src/app-pages/account/CreateAccountPage'), {
+const EmailAccountPage = dynamic(() => import('../../../src/app-pages/account/EmailAccountPage'), {
   ssr: false
 })
 
-const SignInPage = dynamic(() => import('../../../src/app-pages/account/SignInPage'), {
+const CreateEmailAccountPage = dynamic(() => import('../../../src/app-pages/account/CreateEmailAccountPage'), {
   ssr: false
 })
+
+const SignInWithEmailAndPasswordPage = dynamic(
+  () => import('../../../src/app-pages/account/SignInWithEmailAndPasswordPage'),
+  {
+    ssr: false
+  }
+)
 
 const ManageAccountPage = dynamic(() => import('../../../src/app-pages/account/ManageAccountPage'), {
   ssr: false
@@ -30,7 +37,9 @@ export enum AccountRoute {
   CREATE = 'create',
   SIGN_IN = 'signin',
   MANAGE = 'manage',
-  VERIFICATION = 'verification'
+  VERIFICATION = 'verification',
+  EMAIL = 'email',
+  GITHUB = 'github'
 }
 
 /**
@@ -48,9 +57,11 @@ export default function AccountAction({ params }: { params: { accountAction: Acc
 
   switch (accountAction) {
     case AccountRoute.CREATE:
-      return <CreateAccountPage />
+      return <CreateEmailAccountPage />
+    case AccountRoute.EMAIL:
+      return <EmailAccountPage />
     case AccountRoute.SIGN_IN:
-      return <SignInPage />
+      return <SignInWithEmailAndPasswordPage />
     case AccountRoute.MANAGE:
       return <ManageAccountPage />
     case AccountRoute.VERIFICATION:

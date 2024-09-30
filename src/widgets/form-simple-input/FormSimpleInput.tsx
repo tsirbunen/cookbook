@@ -15,6 +15,10 @@ export type CreateEmailAccountFormValues = {
   passwordConfirmation: string
 }
 
+export type CreateProviderAccountFormValues = {
+  username: string
+}
+
 export type SignInWithEmailAndPasswordFormValues = {
   email: string
   password: string

@@ -51,7 +51,6 @@ export const signInEmailAuthUser = async (signInInput: SupabaseInput) => {
 export const resendVerificationEmail = async (email: string) => {
   const client = getGeneralClient()
 
-  // FIXME: Seems that this functionality does not work!
   return await client.auth.resend({
     type: 'signup',
     email: email,

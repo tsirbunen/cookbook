@@ -2,6 +2,7 @@ import { FieldErrors, FieldValues } from 'react-hook-form'
 import { BiSolidHide, BiSolidShow } from 'react-icons/bi'
 import { TargetSchema } from '../../types/graphql-schema-types.generated'
 import { JSONSchemaType } from '../../types/types'
+import { SignInWithEmailAndPasswordFormValues } from '../../widgets/form-simple-input/FormSimpleInput'
 
 export const getPasswordVisibilityToggle = (show: boolean, setShowFn: (value: boolean) => void) => {
   const Icon = show ? BiSolidHide : BiSolidShow
@@ -17,6 +18,17 @@ export const getSubmitIsDisabled = <T extends FieldValues>(
   const allFieldsHasBeenTouched = Object.keys(touchedFields).length === Object.keys(initialFormValues).length
   const someFieldHasError = Object.keys(errors).length > 0
   const submitIsDisabled = !allFieldsHasBeenTouched || someFieldHasError || isSubmitting
+  return submitIsDisabled
+}
+
+export const getSignInSubmitIsDisabled = <T extends FieldValues>(
+  touchedFields: Partial<Record<keyof SignInWithEmailAndPasswordFormValues, boolean | undefined>>,
+  errors: FieldErrors<T>,
+  isSubmitting: boolean
+) => {
+  const passwordFieldHasBeenTouched = touchedFields.password
+  const someFieldHasError = Object.keys(errors).length > 0
+  const submitIsDisabled = !passwordFieldHasBeenTouched || someFieldHasError || isSubmitting
   return submitIsDisabled
 }
 
