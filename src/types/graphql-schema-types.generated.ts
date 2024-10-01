@@ -258,6 +258,7 @@ export type Tag = {
 };
 
 export enum TargetSchema {
+  DeleteAccountInput = 'DELETE_ACCOUNT_INPUT',
   EmailAccountInput = 'EMAIL_ACCOUNT_INPUT',
   ProviderAccountInput = 'PROVIDER_ACCOUNT_INPUT',
   RequestVerificationEmailInput = 'REQUEST_VERIFICATION_EMAIL_INPUT',

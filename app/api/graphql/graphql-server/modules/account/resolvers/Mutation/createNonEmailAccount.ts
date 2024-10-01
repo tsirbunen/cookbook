@@ -1,4 +1,6 @@
+import { TargetSchema } from '../../../../../../../../src/types/graphql-schema-types.generated'
 import { createNewNonEmailAccount } from '../../../../services/accounts/service'
+import { validateInput } from '../../../../services/validation/service'
 import type { MutationResolvers } from './../../../types.generated'
 
 // @ts-expect-error The __typename will be correctly set due to the __isTypeOf implementation
@@ -8,6 +10,8 @@ export const createNonEmailAccount: NonNullable<MutationResolvers['createNonEmai
   { nonEmailAccountInput },
   _ctx
 ) => {
-  console.log({ nonEmailAccountInput })
+  const validationError = validateInput(nonEmailAccountInput, TargetSchema.ProviderAccountInput)
+  if (validationError) return { errorMessage: validationError }
+
   return await createNewNonEmailAccount(nonEmailAccountInput)
 }

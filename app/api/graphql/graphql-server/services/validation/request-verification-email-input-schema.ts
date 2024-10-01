@@ -9,6 +9,9 @@ const requestVerificationEmailInputJsonSchema = {
   required: ['email'],
   properties: {
     email: emailSchema
+  },
+  errorMessage: {
+    required: 'Input must have email!'
   }
 }
 

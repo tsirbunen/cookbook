@@ -2,12 +2,12 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 import { GraphQLJSON } from 'graphql-scalars'
-
-const isProduction = process.env.NODE_ENV === 'production'
-
 import { createYoga, createSchema } from 'graphql-yoga'
 import { typeDefs } from './graphql-server/modules/typeDefs.generated'
 import { resolvers } from './graphql-server/modules/resolvers.generated'
+import { validator } from './graphql-server/services/validation/validators'
+
+const isProduction = process.env.NODE_ENV === 'production'
 
 const { handleRequest } = createYoga({
   schema: createSchema({ typeDefs, resolvers: { ...resolvers, JSON: GraphQLJSON } }),
@@ -25,4 +25,6 @@ const { handleRequest } = createYoga({
   }
 })
 
-export { handleRequest as GET, handleRequest as POST, handleRequest as OPTIONS }
+// We import and export ajv validator here so that we need only compile the schemas once
+// when the server starts up.
+export { handleRequest as GET, handleRequest as POST, handleRequest as OPTIONS, validator }

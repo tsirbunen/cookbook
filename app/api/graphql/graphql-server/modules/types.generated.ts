@@ -259,6 +259,7 @@ export type Tag = {
 };
 
 export type TargetSchema =
+  | 'DELETE_ACCOUNT_INPUT'
   | 'EMAIL_ACCOUNT_INPUT'
   | 'PROVIDER_ACCOUNT_INPUT'
   | 'REQUEST_VERIFICATION_EMAIL_INPUT'

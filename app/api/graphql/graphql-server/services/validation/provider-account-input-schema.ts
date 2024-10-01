@@ -9,6 +9,9 @@ const providerAccountInputJsonSchema = {
   required: ['username'],
   properties: {
     username: usernameSchema
+  },
+  errorMessage: {
+    required: 'Input must have username!'
   }
 }
 

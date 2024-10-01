@@ -10,6 +10,9 @@ const signInToEmailAccountInputJsonSchema = {
   properties: {
     email: emailSchema,
     password: passwordSchema
+  },
+  errorMessage: {
+    required: 'Input must have email and password!'
   }
 }
 

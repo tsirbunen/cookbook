@@ -11,6 +11,9 @@ const emailAccountInputJsonSchema = {
     username: usernameSchema,
     email: emailSchema,
     password: passwordSchema
+  },
+  errorMessage: {
+    required: 'Input must have username, email and password!'
   }
 }
 
