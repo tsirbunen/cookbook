@@ -71,5 +71,9 @@ export const idSchema = {
 export const uuidSchema = {
   title: 'Uuid',
   description: 'Another identifier for an entity',
-  type: 'uuid'
+  type: 'string',
+  format: 'uuid',
+  errorMessage: {
+    format: 'Uuid must be a valid uuid'
+  }
 }
