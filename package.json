@@ -14,9 +14,9 @@
     "insert_example_data": "node app/api/graphql/graphql-server/database/example-data/insert-example-data.js",
     "cypress:open": "node app/api/graphql/graphql-server/database/example-data/insert-example-data.js && cypress open",
     "cypress:run": "node app/api/graphql/graphql-server/database/example-data/insert-example-data.js && cypress run  --reporter mochawesome",
-    "test:ui": "jest --config=jest.config.ui.ts --runInBand --silent=false",
+    "test:ui": "NODE_ENV=test jest --config=jest.config.ui.ts --runInBand --silent=false --verbose",
     "test:api": "jest --config=jest.config.api.ts --runInBand --silent=false --verbose",
-    "test:ui:watch": "jest --watch --config=jest.config.ui.ts --runInBand",
+    "test:ui:watch": "NODE_ENV=test jest --watch --config=jest.config.ui.ts --runInBand --verbose",
     "test:api:watch": "jest --watch --config=jest.config.api.ts --runInBand  --verbose"
   },
   "dependencies": {
