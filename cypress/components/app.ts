@@ -50,7 +50,11 @@ export class App extends Base {
     cy.getByDataTestId(navigationBarDataTestId).filter(`:contains("${menuItem.toUpperCase()}")`).click()
   }
 
-  clickAccountSubPageButton(subPage: 'CREATE ACCOUNT' | 'REQUEST CODE TO SIGN IN' | 'SIGN IN WITH CODE') {
+  clickAccountSubPageButton(subPage: 'WITH EMAIL' | 'WITH GITHUB') {
     cy.get('button').contains(subPage).click()
+  }
+
+  clickEmailActionButton(actionButton: 'CREATE ACCOUNT' | 'SIGN IN' | 'REQUEST VERIFICATION EMAIL') {
+    cy.get('button').contains(actionButton).click()
   }
 }

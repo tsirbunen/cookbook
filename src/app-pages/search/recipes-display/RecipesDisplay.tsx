@@ -75,7 +75,6 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
               isPicked={isPicked}
               showBackground={showBackground}
               isFavorite={favoriteRecipeIds.includes(recipeId)}
-              isFirst={index === 0}
             />
           )
         })}
@@ -100,7 +99,6 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
             onPickRecipeChanged={() => onPickRecipeChanged(recipeId)}
             isPicked={isPicked}
             showBackground={showBackground}
-            isFirst={index === 0}
           />
         )
       })}

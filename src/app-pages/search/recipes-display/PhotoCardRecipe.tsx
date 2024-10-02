@@ -19,11 +19,11 @@ export type RecipeForPhotoCardProps = {
   recipe: Recipe
   onPickRecipeChanged: () => void
   isPicked: boolean
+  index: number
 }
 
-const PhotoCardRecipe = ({ recipe, onPickRecipeChanged, isPicked }: RecipeForPhotoCardProps) => {
+const PhotoCardRecipe = ({ recipe, onPickRecipeChanged, isPicked, index }: RecipeForPhotoCardProps) => {
   const { playSound } = useContext(SoundServiceContext)
-  console.log({ recipe })
 
   const toggleIsPickedWithSound = () => {
     const soundType = isPicked ? SoundType.NEGATIVE : SoundType.POSITIVE
@@ -43,6 +43,7 @@ const PhotoCardRecipe = ({ recipe, onPickRecipeChanged, isPicked }: RecipeForPho
         imageWidth={CARD_WIDTH}
         onClick={toggleIsPickedWithSound}
         imageAlt={recipe.title}
+        index={index}
       />
       <div css={titleCss(isPicked)}>{recipe.title}</div>
     </div>

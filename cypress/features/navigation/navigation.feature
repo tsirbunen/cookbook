@@ -30,15 +30,16 @@ Feature: Navigation
             | account   | account  |
 
 
-    Scenario: One can navigate from the main account page to the account sub pages
+    Scenario: One can navigate from the main account page to the email sub pages
         Given one has started using the app in "MEDIUM" mode
         When one clicks menu item "account"
-        When one clicks the "<sub page>" button to navigate to that sub page
+        When one clicks the "<sub page button>" button to navigate to that sub page
         Then the account sub page "<sub page>" is navigated to
+        When one clicks the email account "<action button>"
+        Then the account sub page "<second sub page>" is navigated to
 
         Examples:
-            | sub page                |
-            | CREATE ACCOUNT          |
-            | REQUEST CODE TO SIGN IN |
-            | SIGN IN WITH CODE       |
-
+            | sub page button | sub page | action button              | second sub page |
+            | WITH EMAIL      | email    | CREATE ACCOUNT             | create          |
+            | WITH EMAIL      | email    | SIGN IN                    | signin          |
+            | WITH EMAIL      | email    | REQUEST VERIFICATION EMAIL | verification    |

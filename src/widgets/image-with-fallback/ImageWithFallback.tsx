@@ -17,6 +17,7 @@ type ImageWithFallbackProps = {
   imageWidth: number | string
   imageAlt: string
   onClick?: () => void
+  index?: number
 }
 
 const ImageWithFallback = ({
@@ -26,7 +27,8 @@ const ImageWithFallback = ({
   imageHeight,
   imageWidth,
   onClick,
-  imageAlt
+  imageAlt,
+  index
 }: ImageWithFallbackProps) => {
   const [hasUploadError, setHasUploadError] = useState(false)
   const [srcIsLoaded, setSrcIsLoaded] = useState(false)
@@ -45,11 +47,13 @@ const ImageWithFallback = ({
     setHasUploadError(true)
   }
 
+  const dataTestId = `${clickableRecipeCardArea}-${index}`
+
   if (!mainPhotoUrl || !srcIsLoaded || hasUploadError) {
     return (
       <Flex
         onClick={onClick}
-        data-testid={clickableRecipeCardArea}
+        data-testid={dataTestId}
         {...iconContainerCss(borderRadius, imageHeight, imageWidth, typeof imageWidth === 'number')}
       >
         {getFallbackIcon(fallbackIcon, imageWidth)}
@@ -64,7 +68,7 @@ const ImageWithFallback = ({
       style={{ ...(imageCss(borderRadius, imageHeight, imageWidth) as CSSProperties) }}
       onClick={onClick}
       onError={onImageSourceError}
-      data-testid={clickableRecipeCardArea}
+      data-testid={dataTestId}
     />
   )
 }

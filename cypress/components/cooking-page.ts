@@ -16,10 +16,19 @@ import { instructionRow } from '../../src/app-pages/cook/panel/instructions/Inst
 import { recipeTitle } from '../../src/app-pages/cook/panel/general/RecipeTitle'
 
 export class CookingPage extends Base {
+  // Note: We cannot pick all the buttons at once and then loop through them because clicking
+  // each button changes the DOM and then Cypress no longer has a reference to the buttons.
+  // Therefore we find the buttons recursively and click them one by one.
+  pickNextRecipeRecursively(fromIndex: number, toIndex: number) {
+    cy.getByDataTestId(`${clickableRecipeCardArea}-${fromIndex}`)
+      .click()
+      .then(() => {
+        if (fromIndex < toIndex) this.pickNextRecipeRecursively(fromIndex + 1, toIndex)
+      })
+  }
+
   pickThreeRecipes() {
-    cy.getByDataTestId(clickableRecipeCardArea).each(($card, index) => {
-      if (index < 3) cy.wrap($card).click()
-    })
+    this.pickNextRecipeRecursively(0, 2)
   }
 
   performForTogglesOfRecipe(recipeIndex: string, actionFunction: () => void) {

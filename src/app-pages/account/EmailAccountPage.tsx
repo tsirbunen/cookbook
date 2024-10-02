@@ -12,7 +12,7 @@ const EmailAccountPage = () => {
   const navigateTo = (route: AccountRoute) => router.push(`/${Page.ACCOUNT}/${route}`)
 
   return (
-    <Flex {...pageCss} data-testid={`${Page.ACCOUNT}-page`}>
+    <Flex {...pageCss} data-testid={`${Page.ACCOUNT}-${AccountRoute.EMAIL}-page`}>
       <AccountRouteSelector
         title={content.createAccountLabel}
         info={content.createAccountInfo}

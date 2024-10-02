@@ -86,7 +86,7 @@ const CreateEmailAccountPage = () => {
   const submitIsDisabled = getSubmitIsDisabled(touchedFields, initialFormValues, errors, isSubmitting)
 
   return (
-    <Flex {...pageCss} data-testid={`${Page.ACCOUNT}-${AccountRoute.CREATE}-email-page`}>
+    <Flex {...pageCss} data-testid={`${Page.ACCOUNT}-${AccountRoute.CREATE}-page`}>
       <Flex {...outerCss}>
         <TitleWithSpacing title={content.createAccountWithEmailLabel} />
 

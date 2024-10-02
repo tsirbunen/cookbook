@@ -17,7 +17,7 @@ export type SummaryRecipeProps = {
   onPickRecipeChanged: () => void
   isPicked: boolean
   isFavorite?: boolean
-  isFirst?: boolean
+  index: number
 }
 
 const imageWidth = 110
@@ -25,7 +25,7 @@ const imageHeight = 120
 const borderRadius = 6
 const isPickedBorderWidth = 10
 
-const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked, isFavorite, isFirst }: SummaryRecipeProps) => {
+const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked, isFavorite, index }: SummaryRecipeProps) => {
   const { playSound } = useContext(SoundServiceContext)
 
   const toggleIsPickedWithSound = () => {
@@ -41,7 +41,7 @@ const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked, isFavorite, isFi
 
   return (
     <div>
-      {isFirst ? null : <CustomDivider marginTop="0px" marginBottom="0px" />}
+      {index === 0 ? null : <CustomDivider marginTop="0px" marginBottom="0px" />}
 
       <div css={container} data-testid={summaryRepresentationDataTestId}>
         <div css={imageContainer(isPicked)} onClick={toggleIsPickedWithSound}>
