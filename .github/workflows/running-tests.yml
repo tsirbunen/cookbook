@@ -51,6 +51,11 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
         env:
           IS_GITHUB: true
+          IS_JEST: true
+          # These are provided to pass the assertions, but they are not used in the tests
+          SUPABASE_URL: 'Not needed for jest tests'
+          SUPABASE_ANON_KEY: 'Not needed for jest tests'
+          SUPABASE_SERVICE_ROLE_KEY: 'Not needed for jest tests'
         ports:
           - 3000:3000
 

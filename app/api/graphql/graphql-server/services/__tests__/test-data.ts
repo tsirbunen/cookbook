@@ -1,5 +1,11 @@
 import { RecipeInput } from '../../modules/types.generated'
 
+export const emailAccountTestData = {
+  username: 'Username',
+  email: 'email@example.com',
+  password: 'ppppppP8'
+}
+
 export const recipeTestInput: RecipeInput = {
   title: 'Lemony lentil soup',
   tags: ['soup', 'lentils'],

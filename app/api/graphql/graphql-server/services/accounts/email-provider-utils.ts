@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import assert from 'assert'
+import { getAdminClientMock, getGeneralClientMock } from '../__tests__/supabase-client-mocks'
 
 type SupabaseInput = { email: string; password: string }
 
@@ -11,18 +12,27 @@ assert(supabaseUrl, 'SUPABASE_URL environment variable is missing!')
 assert(supabaseAnonKey, 'SUPABASE_ANON_KEY environment variable is missing!')
 assert(supabaseServiceRoleKey, 'SUPABASE_SERVICE_ROLE_KEY environment variable is missing!')
 
-const getGeneralClient = () => createClient(supabaseUrl!, supabaseAnonKey!)
-const getAdminClient = () => createClient(supabaseUrl!, supabaseServiceRoleKey!)
+// We need to set a special env variable as the "next dev" command overrides the NODE_ENV variable
+// This knowledge is needed so that we can mock the Supabase client if running tests
+const isJestTest = process.env.IS_JEST
+
+const getGeneralClient = () => {
+  if (isJestTest) return getGeneralClientMock()
+  return createClient(supabaseUrl!, supabaseAnonKey!)
+}
+
+const getAdminClient = () => {
+  if (isJestTest) return getAdminClientMock()
+  return createClient(supabaseUrl!, supabaseServiceRoleKey!)
+}
 
 export const getExistingEmailAuthUser = async (supabaseId: string) => {
   const client = getAdminClient()
-
   return await client.auth.admin.getUserById(supabaseId)
 }
 
 export const getAllEmailAuthUsers = async () => {
   const client = getAdminClient()
-
   return await client.auth.admin.listUsers()
 }
 

@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:test": "IS_JEST=true next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -14,9 +15,9 @@
     "cypress:open": "node app/api/graphql/graphql-server/database/example-data/insert-example-data.js && cypress open",
     "cypress:run": "node app/api/graphql/graphql-server/database/example-data/insert-example-data.js && cypress run  --reporter mochawesome",
     "test:ui": "jest --config=jest.config.ui.ts --runInBand --silent=false",
-    "test:api": "jest --config=jest.config.api.ts --runInBand --silent=false",
+    "test:api": "jest --config=jest.config.api.ts --runInBand --silent=false --verbose",
     "test:ui:watch": "jest --watch --config=jest.config.ui.ts --runInBand",
-    "test:api:watch": "jest --watch --config=jest.config.api.ts --runInBand"
+    "test:api:watch": "jest --watch --config=jest.config.api.ts --runInBand  --verbose"
   },
   "dependencies": {
     "@apollo/client": "^3.8.8",

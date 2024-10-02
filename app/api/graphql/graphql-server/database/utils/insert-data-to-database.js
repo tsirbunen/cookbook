@@ -105,3 +105,10 @@ export const createInstructionGroups = async (database, instructionGroups, recip
     }
   }
 }
+
+export const createEmailAccount = async (database, { username, email, passwordHash }) => {
+  const created = await database.execute(
+    sql`INSERT INTO accounts (username, email, password_hash, identity_provider) VALUES (${username}, ${email}, ${passwordHash}, 'EMAIL') RETURNING *`
+  )
+  return created[0]
+}

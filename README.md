@@ -27,6 +27,10 @@ You can easily run any script in the package.json using a CLI tool built with th
 
 #### API tests
 
+To run api tests, you must start the api service first. For tests, the api should be started with env parameter IS_JEST set to true so that the api service does not try to contact the real authentication service provided by a third party. Also the database needs to be up and running. Start test api service with
+
+&nbsp;&nbsp;&nbsp;&nbsp; **`npm run dev:test`**
+
 Api service tests are in **[this directory](./app/api/graphql/graphql-server/services/__tests__/)**. To run the api tests use either of the following
 
 &nbsp;&nbsp;&nbsp;&nbsp; **`npm run test:api`**
