@@ -50,7 +50,6 @@ const RequestVerificationEmailPage = () => {
   const onSubmit: SubmitHandler<RequestVerificationEmailValues> = async (
     accountVariables: RequestVerificationEmailValues
   ) => {
-    console.log('accountVariables:', accountVariables)
     const emailSent = await requestVerificationEmail(accountVariables.email)
     if (emailSent) {
       setRequestWasSent(true)
@@ -63,8 +62,6 @@ const RequestVerificationEmailPage = () => {
   }
 
   const submitIsDisabled = getSubmitIsDisabled(touchedFields, initialFormValues, errors, isSubmitting)
-
-  console.log('errors:', errors, touchedFields, submitIsDisabled)
 
   return (
     <Flex {...pageCss} data-testid={`${Page.ACCOUNT}-${AccountRoute.VERIFICATION}-page`}>

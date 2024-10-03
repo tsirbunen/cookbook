@@ -10,7 +10,6 @@ export const createEmailAccount: NonNullable<MutationResolvers['createEmailAccou
   { emailAccountInput },
   _ctx
 ) => {
-  console.log('createEmailAccount resolver', emailAccountInput)
   const validationError = validateInput(emailAccountInput, TargetSchema.EmailAccountInput)
   if (validationError) return { errorMessage: validationError }
 

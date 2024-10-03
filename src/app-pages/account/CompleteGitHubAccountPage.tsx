@@ -72,7 +72,6 @@ const CompleteGitHubAccountPage = ({ username, token }: CompleteGitHubAccountPag
   }
 
   if (state.account) {
-    console.log(state.account)
     navigateToRoute()
   }
 
