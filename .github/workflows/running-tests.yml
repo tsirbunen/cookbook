@@ -52,6 +52,7 @@ jobs:
         env:
           IS_GITHUB: true
           IS_JEST: true
+          JWT_SECRET: 'fake secret'
           # These are provided to pass the assertions, but they are not used in the tests
           SUPABASE_URL: 'Not needed for jest tests'
           SUPABASE_ANON_KEY: 'Not needed for jest tests'
