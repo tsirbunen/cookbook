@@ -137,3 +137,8 @@ jobs:
           NEXT_PUBLIC_API_URI_LOCAL: https://localhost:3000/api/graphql
           NEXT_PUBLIC_ORIGIN_LOCAL: https://localhost:3000
           DATABASE_CONNECTION_STRING: postgresql://postgres:postgres@localhost:5432/postgres
+          JWT_SECRET: 'fake secret'
+          # These are provided to pass the assertions, but they are not used in the tests
+          SUPABASE_URL: 'Not needed for jest tests'
+          SUPABASE_ANON_KEY: 'Not needed for jest tests'
+          SUPABASE_SERVICE_ROLE_KEY: 'Not needed for jest tests'
