@@ -31,10 +31,11 @@ const LocalStorageProvider = ({ children }: { children: React.ReactNode }) => {
 
   const toggleValueForKey = (key: LocalStorageKeys, newValue: boolean | string | number) => {
     switch (key) {
-      case LocalStorageKeys.FAVORITE_RECIPE_IDS:
+      case LocalStorageKeys.FAVORITE_RECIPE_IDS: {
         const updatedArray = updateLocalStorageArrayValue(key, newValue)
         setFavoriteRecipeIds(updatedArray as number[])
         return
+      }
       case LocalStorageKeys.SOUNDS_ARE_ENABLED:
         if (typeof newValue !== 'boolean') throw new Error('Value for "SOUNDS_ARE_ENABLED" must be a boolean!')
         updateLocalStorageBooleanValue(key, newValue)

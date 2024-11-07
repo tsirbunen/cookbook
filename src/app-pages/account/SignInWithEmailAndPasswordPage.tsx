@@ -1,20 +1,25 @@
-import { ChakraProps, Flex } from '@chakra-ui/react'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import FormSimpleInput, { SignInWithEmailAndPasswordFormValues } from '../../widgets/form-simple-input/FormSimpleInput'
-import FormActionButtons from '../../widgets/form-action-buttons/FormActionButtons'
-import { useContext, useState } from 'react'
-import { ApiServiceContext } from '../../api-service/ApiServiceProvider'
-import { pageCss } from './AccountPage'
-import { AppStateContext, AppStateContextType } from '../../state/StateContextProvider'
-import { Dispatch } from '../../state/reducer'
-import { Page } from '../../navigation/router/router'
+import { type ChakraProps, Flex } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
-import TitleWithSpacing from './TitleWithSpacing'
+import { useContext, useState } from 'react'
+import { type SubmitHandler, useForm } from 'react-hook-form'
 import { AccountRoute } from '../../../app/account/[accountAction]/page'
-import { content } from './textContent'
+import { ApiServiceContext } from '../../api-service/ApiServiceProvider'
+import { Page } from '../../navigation/router/router'
+import { AppStateContext, type AppStateContextType } from '../../state/StateContextProvider'
+import { Dispatch } from '../../state/reducer'
 import { IdentityProvider, TargetSchema } from '../../types/graphql-schema-types.generated'
-import { getValidatorFromJsonSchema } from './formValidators'
+import { getValidatorFromJsonSchema } from '../../utils/formValidators'
+import { pageCss } from '../../utils/styles'
+import FormActionButtons from '../../widgets/form-action-buttons/FormActionButtons'
+import FormSimpleStringInput from '../../widgets/form-simple-input/FormSimpleStringInput'
+import TitleWithSpacing from './TitleWithSpacing'
+import { content } from './textContent'
 import { getPasswordVisibilityToggle, getSignInSubmitIsDisabled } from './utils'
+
+export type SignInWithEmailAndPasswordFormValues = {
+  email: string
+  password: string
+}
 
 const initialFormValues: SignInWithEmailAndPasswordFormValues = {
   email: '',
@@ -23,7 +28,7 @@ const initialFormValues: SignInWithEmailAndPasswordFormValues = {
 
 const SignInWithEmailAndPasswordPage = () => {
   const { state, dispatch } = useContext(AppStateContext) as AppStateContextType
-  const { signInToEmailAccount } = useContext(ApiServiceContext)
+  const { signInToEmailAccount, setAuthenticationToken } = useContext(ApiServiceContext)
   const [showPassword, setShowPassword] = useState(false)
   const router = useRouter()
   // Parent component ensures that the relevant validation schema has been fetched
@@ -46,11 +51,12 @@ const SignInWithEmailAndPasswordPage = () => {
     password
   }: SignInWithEmailAndPasswordFormValues) => {
     const signedInAccount = await signInToEmailAccount({ email, password })
-    if (signedInAccount?.token) {
+    if (signedInAccount?.token && signedInAccount?.email) {
       const { id, uuid, username, email, token } = signedInAccount
+      setAuthenticationToken(token)
       dispatch({
         type: Dispatch.SET_ACCOUNT,
-        payload: { account: { id, uuid, username, email: email!, token, identityProvider: IdentityProvider.Email } }
+        payload: { account: { id, uuid, username, email, token, identityProvider: IdentityProvider.Email } }
       })
       router.push(`/${Page.ACCOUNT}`)
     }
@@ -65,19 +71,17 @@ const SignInWithEmailAndPasswordPage = () => {
 
         <Flex {...innerCss}>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <FormSimpleInput
+            <FormSimpleStringInput
               label={content.emailLabel}
               control={control}
               name={'email'}
-              error={errors?.email}
               info={content.emailSignInInfo}
               placeholder={content.emailPlaceholder}
             />
-            <FormSimpleInput
+            <FormSimpleStringInput
               label={content.passwordLabel}
               control={control}
               name={'password'}
-              error={errors?.password}
               info={content.passwordSignInInfo}
               placeholder={content.passwordPlaceholder}
               type={showPassword ? 'text' : 'password'}

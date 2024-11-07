@@ -1,13 +1,14 @@
-import React, { useMemo } from 'react'
 import { Flex, Text } from '@chakra-ui/react'
-import { Ingredient } from '../../../../types/graphql-schema-types.generated'
-import { ColorCodes } from '../../../../theme/theme'
+import type React from 'react'
+import { useMemo } from 'react'
+import { Shades } from '../../../../constants/shades'
+import { rowItemsStartCss } from '../../../../constants/styling'
 import InputWithTheme from '../../../../theme/inputs/InputWithTheme'
 import { InputVariant } from '../../../../theme/inputs/inputs-theme'
-import { SelectedScalingIngredient } from './Ingredients'
+import type { Ingredient } from '../../../../types/graphql-schema-types.generated'
+import type { SelectedScalingIngredient } from './Ingredients'
 import { nameCss } from './common-styles'
 import { getScaledIngredientAmount } from './utils'
-import { rowItemsStartCss } from '../../../../constants/styling'
 
 export const ingredientRow = 'ingredient-row'
 export const ingredientName = 'ingredient-name'
@@ -42,6 +43,7 @@ const IngredientRow = ({
   const showInput = isScaling && (amount || amount === '')
   const showText = amount || amount === ''
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Change only if elected dependencies change
   const amountElement = useMemo(() => {
     if (showInput) {
       return (
@@ -81,7 +83,7 @@ const amountOrUnitCss = (isPale: boolean) => {
   return {
     marginRight: '10px',
     width: '55px',
-    color: isPale ? ColorCodes.SLIGHTLY_PALE : ColorCodes.DARK,
+    color: isPale ? Shades.SLIGHTLY_PALE : Shades.DARK,
     fontWeight: 'bold'
   }
 }

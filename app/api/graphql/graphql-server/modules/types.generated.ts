@@ -44,6 +44,20 @@ export type BaseSuccess = {
   successMessage: Scalars['String']['output'];
 };
 
+export type CreateRecipeInput = {
+  authorId: Scalars['Int']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  ingredientGroups: Array<IngredientGroupInput>;
+  instructionGroups: Array<InstructionGroupInput>;
+  isPrivate: Scalars['Boolean']['input'];
+  language: Scalars['String']['input'];
+  ovenNeeded: Scalars['Boolean']['input'];
+  photoFiles?: InputMaybe<Array<Scalars['File']['input']>>;
+  photoIdentifiers?: InputMaybe<Array<Scalars['String']['input']>>;
+  tags?: InputMaybe<Array<Scalars['String']['input']>>;
+  title: Scalars['String']['input'];
+};
+
 export type EmailAccountInput = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -135,9 +149,9 @@ export type Mutation = {
   __typename?: 'Mutation';
   createEmailAccount: AccountResult;
   createNonEmailAccount: AccountResult;
-  createRecipe?: Maybe<Recipe>;
+  createRecipe?: Maybe<RecipeResult>;
   deleteAccount: GeneralResult;
-  patchRecipe?: Maybe<Recipe>;
+  patchRecipe?: Maybe<RecipeResult>;
   pingMutation?: Maybe<Scalars['String']['output']>;
   requestVerificationEmail: GeneralResult;
   signInToEmailAccount: AccountResult;
@@ -155,7 +169,7 @@ export type MutationcreateNonEmailAccountArgs = {
 
 
 export type MutationcreateRecipeArgs = {
-  recipeInput: RecipeInput;
+  createRecipeInput: CreateRecipeInput;
 };
 
 
@@ -167,7 +181,7 @@ export type MutationdeleteAccountArgs = {
 
 export type MutationpatchRecipeArgs = {
   recipeId: Scalars['Int']['input'];
-  recipePatch: RecipeInput;
+  recipePatch: PatchRecipeInput;
 };
 
 
@@ -184,6 +198,20 @@ export type NonEmailAccountInput = {
   identityProvider: IdentityProvider;
   token: Scalars['String']['input'];
   username: Scalars['String']['input'];
+};
+
+export type PatchRecipeInput = {
+  authorId: Scalars['Int']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  ingredientGroups?: InputMaybe<Array<IngredientGroupInput>>;
+  instructionGroups?: InputMaybe<Array<InstructionGroupInput>>;
+  isPrivate?: InputMaybe<Scalars['Boolean']['input']>;
+  language?: InputMaybe<Scalars['String']['input']>;
+  ovenNeeded?: InputMaybe<Scalars['Boolean']['input']>;
+  photoFiles?: InputMaybe<Array<Scalars['File']['input']>>;
+  photoIdentifiers?: InputMaybe<Array<Scalars['String']['input']>>;
+  tags?: InputMaybe<Array<Scalars['String']['input']>>;
+  title?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Photo = {
@@ -233,19 +261,7 @@ export type Recipe = {
   title: Scalars['String']['output'];
 };
 
-export type RecipeInput = {
-  authorId?: InputMaybe<Scalars['Int']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  ingredientGroups?: InputMaybe<Array<IngredientGroupInput>>;
-  instructionGroups?: InputMaybe<Array<InstructionGroupInput>>;
-  isPrivate?: InputMaybe<Scalars['Boolean']['input']>;
-  language?: InputMaybe<Scalars['String']['input']>;
-  ovenNeeded?: InputMaybe<Scalars['Boolean']['input']>;
-  photoFiles?: InputMaybe<Array<Scalars['File']['input']>>;
-  photoIdentifiers?: InputMaybe<Array<Scalars['String']['input']>>;
-  tags?: InputMaybe<Array<Scalars['String']['input']>>;
-  title?: InputMaybe<Scalars['String']['input']>;
-};
+export type RecipeResult = BadInputError | Recipe | UnauthenticatedError | UnauthorizedError;
 
 export type SignInToEmailAccountInput = {
   email: Scalars['String']['input'];
@@ -259,11 +275,23 @@ export type Tag = {
 };
 
 export type TargetSchema =
+  | 'CREATE_RECIPE_INPUT'
   | 'DELETE_ACCOUNT_INPUT'
   | 'EMAIL_ACCOUNT_INPUT'
+  | 'PATCH_RECIPE_INPUT'
   | 'PROVIDER_ACCOUNT_INPUT'
   | 'REQUEST_VERIFICATION_EMAIL_INPUT'
   | 'SIGN_IN_TO_EMAIL_ACCOUNT_INPUT';
+
+export type UnauthenticatedError = BaseError & {
+  __typename?: 'UnauthenticatedError';
+  errorMessage: Scalars['String']['output'];
+};
+
+export type UnauthorizedError = BaseError & {
+  __typename?: 'UnauthorizedError';
+  errorMessage: Scalars['String']['output'];
+};
 
 export type ValidationSchema = {
   __typename?: 'ValidationSchema';
@@ -342,11 +370,12 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversUnionTypes<RefType extends Record<string, unknown>> = {
   AccountResult: ( Account & { __typename: 'Account' } ) | ( BadInputError & { __typename: 'BadInputError' } );
   GeneralResult: ( GeneralError & { __typename: 'GeneralError' } ) | ( GeneralSuccess & { __typename: 'GeneralSuccess' } );
+  RecipeResult: ( BadInputError & { __typename: 'BadInputError' } ) | ( Recipe & { __typename: 'Recipe' } ) | ( UnauthenticatedError & { __typename: 'UnauthenticatedError' } ) | ( UnauthorizedError & { __typename: 'UnauthorizedError' } );
 };
 
 /** Mapping of interface types */
 export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = {
-  BaseError: ( BadInputError & { __typename: 'BadInputError' } ) | ( GeneralError & { __typename: 'GeneralError' } );
+  BaseError: ( BadInputError & { __typename: 'BadInputError' } ) | ( GeneralError & { __typename: 'GeneralError' } ) | ( UnauthenticatedError & { __typename: 'UnauthenticatedError' } ) | ( UnauthorizedError & { __typename: 'UnauthorizedError' } );
   BaseSuccess: ( GeneralSuccess & { __typename: 'GeneralSuccess' } );
 };
 
@@ -360,6 +389,7 @@ export type ResolversTypes = {
   BadInputError: ResolverTypeWrapper<BadInputError>;
   BaseError: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['BaseError']>;
   BaseSuccess: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['BaseSuccess']>;
+  CreateRecipeInput: CreateRecipeInput;
   EmailAccountInput: EmailAccountInput;
   File: ResolverTypeWrapper<Scalars['File']['output']>;
   GeneralError: ResolverTypeWrapper<GeneralError>;
@@ -379,14 +409,17 @@ export type ResolversTypes = {
   Language: ResolverTypeWrapper<Language>;
   Mutation: ResolverTypeWrapper<{}>;
   NonEmailAccountInput: NonEmailAccountInput;
+  PatchRecipeInput: PatchRecipeInput;
   Photo: ResolverTypeWrapper<Photo>;
   PhotoInput: PhotoInput;
   Query: ResolverTypeWrapper<{}>;
   Recipe: ResolverTypeWrapper<Recipe>;
-  RecipeInput: RecipeInput;
+  RecipeResult: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['RecipeResult']>;
   SignInToEmailAccountInput: SignInToEmailAccountInput;
   Tag: ResolverTypeWrapper<Tag>;
   TargetSchema: TargetSchema;
+  UnauthenticatedError: ResolverTypeWrapper<UnauthenticatedError>;
+  UnauthorizedError: ResolverTypeWrapper<UnauthorizedError>;
   ValidationSchema: ResolverTypeWrapper<ValidationSchema>;
 };
 
@@ -400,6 +433,7 @@ export type ResolversParentTypes = {
   BadInputError: BadInputError;
   BaseError: ResolversInterfaceTypes<ResolversParentTypes>['BaseError'];
   BaseSuccess: ResolversInterfaceTypes<ResolversParentTypes>['BaseSuccess'];
+  CreateRecipeInput: CreateRecipeInput;
   EmailAccountInput: EmailAccountInput;
   File: Scalars['File']['output'];
   GeneralError: GeneralError;
@@ -418,15 +452,26 @@ export type ResolversParentTypes = {
   Language: Language;
   Mutation: {};
   NonEmailAccountInput: NonEmailAccountInput;
+  PatchRecipeInput: PatchRecipeInput;
   Photo: Photo;
   PhotoInput: PhotoInput;
   Query: {};
   Recipe: Recipe;
-  RecipeInput: RecipeInput;
+  RecipeResult: ResolversUnionTypes<ResolversParentTypes>['RecipeResult'];
   SignInToEmailAccountInput: SignInToEmailAccountInput;
   Tag: Tag;
+  UnauthenticatedError: UnauthenticatedError;
+  UnauthorizedError: UnauthorizedError;
   ValidationSchema: ValidationSchema;
 };
+
+export type isAuthenticatedDirectiveArgs = { };
+
+export type isAuthenticatedDirectiveResolver<Result, Parent, ContextType = any, Args = isAuthenticatedDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
+export type isAuthorDirectiveArgs = { };
+
+export type isAuthorDirectiveResolver<Result, Parent, ContextType = any, Args = isAuthorDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type AccountResolvers<ContextType = any, ParentType extends ResolversParentTypes['Account'] = ResolversParentTypes['Account']> = {
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -449,7 +494,7 @@ export type BadInputErrorResolvers<ContextType = any, ParentType extends Resolve
 };
 
 export type BaseErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['BaseError'] = ResolversParentTypes['BaseError']> = {
-  __resolveType?: TypeResolveFn<'BadInputError' | 'GeneralError', ParentType, ContextType>;
+  __resolveType?: TypeResolveFn<'BadInputError' | 'GeneralError' | 'UnauthenticatedError' | 'UnauthorizedError', ParentType, ContextType>;
   errorMessage?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
@@ -519,9 +564,9 @@ export type LanguageResolvers<ContextType = any, ParentType extends ResolversPar
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createEmailAccount?: Resolver<ResolversTypes['AccountResult'], ParentType, ContextType, RequireFields<MutationcreateEmailAccountArgs, 'emailAccountInput'>>;
   createNonEmailAccount?: Resolver<ResolversTypes['AccountResult'], ParentType, ContextType, RequireFields<MutationcreateNonEmailAccountArgs, 'nonEmailAccountInput'>>;
-  createRecipe?: Resolver<Maybe<ResolversTypes['Recipe']>, ParentType, ContextType, RequireFields<MutationcreateRecipeArgs, 'recipeInput'>>;
+  createRecipe?: Resolver<Maybe<ResolversTypes['RecipeResult']>, ParentType, ContextType, RequireFields<MutationcreateRecipeArgs, 'createRecipeInput'>>;
   deleteAccount?: Resolver<ResolversTypes['GeneralResult'], ParentType, ContextType, RequireFields<MutationdeleteAccountArgs, 'id' | 'uuid'>>;
-  patchRecipe?: Resolver<Maybe<ResolversTypes['Recipe']>, ParentType, ContextType, RequireFields<MutationpatchRecipeArgs, 'recipeId' | 'recipePatch'>>;
+  patchRecipe?: Resolver<Maybe<ResolversTypes['RecipeResult']>, ParentType, ContextType, RequireFields<MutationpatchRecipeArgs, 'recipeId' | 'recipePatch'>>;
   pingMutation?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   requestVerificationEmail?: Resolver<ResolversTypes['GeneralResult'], ParentType, ContextType, RequireFields<MutationrequestVerificationEmailArgs, 'email'>>;
   signInToEmailAccount?: Resolver<ResolversTypes['AccountResult'], ParentType, ContextType, RequireFields<MutationsignInToEmailAccountArgs, 'signInToEmailAccountInput'>>;
@@ -558,9 +603,23 @@ export type RecipeResolvers<ContextType = any, ParentType extends ResolversParen
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type RecipeResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['RecipeResult'] = ResolversParentTypes['RecipeResult']> = {
+  __resolveType?: TypeResolveFn<'BadInputError' | 'Recipe' | 'UnauthenticatedError' | 'UnauthorizedError', ParentType, ContextType>;
+};
+
 export type TagResolvers<ContextType = any, ParentType extends ResolversParentTypes['Tag'] = ResolversParentTypes['Tag']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   tag?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UnauthenticatedErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['UnauthenticatedError'] = ResolversParentTypes['UnauthenticatedError']> = {
+  errorMessage?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UnauthorizedErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['UnauthorizedError'] = ResolversParentTypes['UnauthorizedError']> = {
+  errorMessage?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -590,7 +649,14 @@ export type Resolvers<ContextType = any> = {
   Photo?: PhotoResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Recipe?: RecipeResolvers<ContextType>;
+  RecipeResult?: RecipeResultResolvers<ContextType>;
   Tag?: TagResolvers<ContextType>;
+  UnauthenticatedError?: UnauthenticatedErrorResolvers<ContextType>;
+  UnauthorizedError?: UnauthorizedErrorResolvers<ContextType>;
   ValidationSchema?: ValidationSchemaResolvers<ContextType>;
 };
 
+export type DirectiveResolvers<ContextType = any> = {
+  isAuthenticated?: isAuthenticatedDirectiveResolver<any, any, ContextType>;
+  isAuthor?: isAuthorDirectiveResolver<any, any, ContextType>;
+};

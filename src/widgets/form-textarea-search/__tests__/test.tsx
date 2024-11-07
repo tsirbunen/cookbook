@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom/jest-globals'
 import '@testing-library/jest-dom'
 import { expect } from '@jest/globals'
-import { render, screen, fireEvent } from '@testing-library/react'
-import FormTextAreaSearch, { SearchMode, formTextAreaSearchDataTestId } from '../FormTextAreaSearch'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { withTestFormWrapper } from '../../../test-utils/with-test-form-wrapper'
 import { cardRadioButtonSelectorDataTestId } from '../../card-radio-button-selector/CardRadioButtonSelector'
+import FormTextAreaSearch, { SearchMode, formTextAreaSearchDataTestId } from '../FormTextAreaSearch'
 
 const submitLabel = 'SUBMIT'
 const placeholder = 'Type search terms here...'
@@ -24,7 +24,7 @@ describe('FormTextAreaSearch', () => {
   it('search term with default OR can be entered', async () => {
     const onSubmitFn = jest.fn()
     const { textArea, submitButton } = renderFormTextAreaSearchComponentsWrappedInForm(onSubmitFn)
-    fireEvent.change(textArea!, { target: { value: 'blueberry' } })
+    fireEvent.change(textArea, { target: { value: 'blueberry' } })
     fireEvent.click(submitButton)
     await wait()
     expect(onSubmitFn).toHaveBeenCalledTimes(1)
@@ -34,8 +34,9 @@ describe('FormTextAreaSearch', () => {
   it('search term can be cleared from textarea input using trash button', async () => {
     const onSubmitFn = jest.fn()
     const { textArea, trashButton, submitButton } = renderFormTextAreaSearchComponentsWrappedInForm(onSubmitFn)
-    fireEvent.change(textArea!, { target: { value: 'blueberry' } })
-    fireEvent.click(trashButton!)
+    fireEvent.change(textArea, { target: { value: 'blueberry' } })
+    if (!trashButton) throw new Error('trashButton is undefined')
+    fireEvent.click(trashButton)
     fireEvent.click(submitButton)
     await wait()
     expect(onSubmitFn).toHaveBeenCalledTimes(1)
@@ -45,7 +46,7 @@ describe('FormTextAreaSearch', () => {
   it('search mode can be changed to AND after search text is entered', async () => {
     const onSubmitFn = jest.fn()
     const { textArea, searchModeButtons, submitButton } = renderFormTextAreaSearchComponentsWrappedInForm(onSubmitFn)
-    fireEvent.change(textArea!, { target: { value: 'blueberry' } })
+    fireEvent.change(textArea, { target: { value: 'blueberry' } })
     fireEvent.click(searchModeButtons.querySelectorAll('button')[0])
     fireEvent.click(submitButton)
     await wait()
@@ -66,13 +67,14 @@ const renderFormTextAreaSearchComponentsWrappedInForm = (onSubmitFn: jest.Mock) 
   render(<FormTextAreaSearchWrappedInForm label={target} name={target} placeholder={placeholder} />)
 
   const component = screen.getByTestId(formTextAreaSearchDataTestId)
-  const textArea = component.querySelector('textarea')
+  const textArea = component.querySelector('textarea') as HTMLTextAreaElement
   const searchModeButtons = screen.getByTestId(cardRadioButtonSelectorDataTestId)
-  let trashButton
+  let trashButton: HTMLButtonElement | undefined
   const allButtons = component.querySelectorAll('button')
-  allButtons.forEach((button) => {
+  for (const button of allButtons) {
     if (button.textContent === '') trashButton = button
-  })
+  }
+
   const submitButton = screen.getByText(submitLabel)
 
   return { component, textArea, searchModeButtons, trashButton, submitButton }

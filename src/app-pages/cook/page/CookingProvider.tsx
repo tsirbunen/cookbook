@@ -1,12 +1,12 @@
 'use client'
 
-import { Dispatch, createContext, useContext, useEffect, useReducer } from 'react'
-import { AppStateContext, AppStateContextType } from '../../../state/StateContextProvider'
-import { Recipe } from '../../../types/graphql-schema-types.generated'
+import { type Dispatch, createContext, useContext, useEffect, useReducer } from 'react'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
-import { DispatchCookingEvent, DispatchCookingEventAction, cookingReducer } from '../cooking-state/cooking-reducer'
-import { ScalingData, TimerData } from '../../../types/types'
-import { CookingState, DisplayConfig, getInitialCookingState } from '../cooking-state/cooking-state'
+import { AppStateContext, type AppStateContextType } from '../../../state/StateContextProvider'
+import type { Recipe } from '../../../types/graphql-schema-types.generated'
+import type { ScalingData, TimerData } from '../../../types/types'
+import { DispatchCookingEvent, type DispatchCookingEventAction, cookingReducer } from '../cooking-state/cooking-reducer'
+import { type CookingState, type DisplayConfig, getInitialCookingState } from '../cooking-state/cooking-state'
 
 type Cooking = {
   pickedRecipes: Recipe[]
@@ -47,6 +47,7 @@ const CookingProvider = ({ children }: { children: React.ReactNode }) => {
     getInitialCookingState(pickedRecipes.length, maxPanelsCount)
   )
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Only run if pickedRecipes change
   useEffect(() => {
     dispatchCookingEvent({
       type: DispatchCookingEvent.UPDATE_DISPLAY_RECIPES_COUNT,

@@ -1,7 +1,7 @@
-import { ChakraProps, Flex, Text } from '@chakra-ui/react'
-import { DARK_COLOR, VERY_PALE_COLOR } from '../../constants/color-codes'
-import { ButtonVariant } from '../../theme/buttons/buttons-theme'
+import { type ChakraProps, Flex, Text } from '@chakra-ui/react'
+import { Shades } from '../../constants/shades'
 import ButtonWithTheme from '../../theme/buttons/ButtonWithTheme'
+import { ButtonVariant } from '../../theme/buttons/buttons-theme'
 import { content } from './textContent'
 
 type SuccessInfoProps = {
@@ -33,12 +33,12 @@ const innerCss = {
 
 const infoCss = {
   lineHeight: '1.15em',
-  color: DARK_COLOR,
+  color: Shades.DARK,
   fontWeight: 'bold',
   marginTop: '10px',
   marginBottom: '10px'
 }
 
 const buttonTextNoIconCss = {
-  color: VERY_PALE_COLOR
+  color: Shades.VERY_PALE
 }

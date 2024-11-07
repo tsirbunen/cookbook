@@ -9,3 +9,11 @@ type BadInputError implements BaseError {
 type GeneralError implements BaseError {
   errorMessage: String!
 }
+
+type UnauthorizedError implements BaseError {
+  errorMessage: String!
+}
+
+type UnauthenticatedError implements BaseError {
+  errorMessage: String!
+}

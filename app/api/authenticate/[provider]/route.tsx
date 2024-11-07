@@ -1,8 +1,8 @@
-import { redirect } from 'next/navigation'
-import { createJWT, createProviderAccessTokenJWT } from '../../graphql/graphql-server/services/accounts/token-utils'
-import { database } from '../../graphql/graphql-server/database/config/config'
 import { eq } from 'drizzle-orm'
+import { redirect } from 'next/navigation'
+import { database } from '../../graphql/graphql-server/database/config/config'
 import { accounts } from '../../graphql/graphql-server/database/database-schemas/accounts'
+import { createJWT, createProviderAccessTokenJWT } from '../../graphql/graphql-server/services/accounts/token-utils'
 
 const gitHubGetAccessTokenBaseURL = 'https://github.com/login/oauth/access_token'
 const gitHubGetUserDataURL = 'https://api.github.com/user'
@@ -23,7 +23,7 @@ export async function GET(request: Request) {
     code: code
   })
 
-  const accessTokenUrl = gitHubGetAccessTokenBaseURL + '?' + params.toString()
+  const accessTokenUrl = `${gitHubGetAccessTokenBaseURL}?${params.toString()}`
 
   const accessTokenResponse = await fetch(accessTokenUrl, {
     method: 'POST',

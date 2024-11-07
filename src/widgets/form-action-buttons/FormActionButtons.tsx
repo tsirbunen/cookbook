@@ -1,7 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react'
-import { VERY_PALE_COLOR } from '../../constants/color-codes'
-import { ButtonVariant } from '../../theme/buttons/buttons-theme'
+import { Shades, VERY_PALE_COLOR } from '../../constants/shades'
 import ButtonWithTheme from '../../theme/buttons/ButtonWithTheme'
+import { ButtonVariant } from '../../theme/buttons/buttons-theme'
 
 const cancelLabel = 'CANCEL'
 const submitLabel = 'SUBMIT'
@@ -44,7 +44,7 @@ const FormActionButtons = ({ cancelFn, clearFn, submitIsDisabled }: FormActionBu
 export default FormActionButtons
 
 const buttonTextNoIconCss = {
-  color: VERY_PALE_COLOR
+  color: Shades.VERY_PALE
 }
 
 const buttonsBoxCss = {

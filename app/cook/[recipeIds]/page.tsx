@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import { useContext, useEffect } from 'react'
-import { AppStateContext, AppStateContextType } from '../../../src/state/StateContextProvider'
+import { AppStateContext, type AppStateContextType } from '../../../src/state/StateContextProvider'
 import { Dispatch } from '../../../src/state/reducer'
 
 const CookPage = dynamic(() => import('../../../src/app-pages/cook/page/CookPage'), {
@@ -19,6 +19,7 @@ export default function Cook({ params }: { params: { recipeIds: string } }) {
   const { state, dispatch } = useContext(AppStateContext) as AppStateContextType
   const recipeIds = params ? getRecipeIdsFromRouteParams(params) : undefined
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies:Only run if recipeIds or state.recipes change
   useEffect(() => {
     if (!recipeIds || state.pickedRecipeIds.length) return
     const recipesArePicked = recipeIds.every((id) => state.pickedRecipeIds.includes(id))
@@ -32,7 +33,7 @@ export default function Cook({ params }: { params: { recipeIds: string } }) {
 const getRecipeIdsFromRouteParams = ({ recipeIds }: { recipeIds: string }): number[] | undefined => {
   const ids = recipeIds
     .split('.')
-    .map((id) => parseInt(id))
+    .map((id) => Number.parseInt(id))
     .filter(Boolean)
   return ids
 }

@@ -1,11 +1,11 @@
-import { ChakraProps, Flex } from '@chakra-ui/react'
+import { type ChakraProps, Flex } from '@chakra-ui/react'
 import { useContext } from 'react'
-import { AppStateContext, AppStateContextType } from '../../../state/StateContextProvider'
+import { Shades } from '../../../constants/shades'
+import { AppStateContext, type AppStateContextType } from '../../../state/StateContextProvider'
 import { Dispatch } from '../../../state/reducer'
-import { ColorCodes } from '../../../theme/theme'
-import { ViewRecipesMode } from './ViewModeManagementTool'
-import RecipesDisplay from '../recipes-display/RecipesDisplay'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
+import RecipesDisplay from '../recipes-display/RecipesDisplay'
+import { ViewRecipesMode } from './ViewModeManagementTool'
 
 export const pickedRecipesManagementToolDataTestId = 'picked-recipes-management-tool'
 
@@ -51,7 +51,7 @@ export default PickedRecipesManagementTool
 
 const outerCss = {
   flexDirection: 'column' as ChakraProps['flexDirection'],
-  backgroundColor: ColorCodes.VERY_PALE,
+  backgroundColor: Shades.VERY_PALE,
   borderRadius: '6px',
   margin: '10px 10px 10px 5px',
   width: '100%',

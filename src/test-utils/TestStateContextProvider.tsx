@@ -1,6 +1,7 @@
-import React, { useReducer } from 'react'
+import type React from 'react'
+import { useReducer } from 'react'
+import { type AppState, AppStateContext, initialAppState } from '../state/StateContextProvider'
 import { reducer } from '../state/reducer'
-import { AppState, AppStateContext, initialAppState } from '../state/StateContextProvider'
 
 export const TestAppStateContextProvider = ({
   initialState,

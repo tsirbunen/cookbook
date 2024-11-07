@@ -1,6 +1,6 @@
 import { TargetSchema } from '../../../../../../src/types/graphql-schema-types.generated'
-import { ValidationSchema } from '../../modules/types.generated'
-import { uuidSchema, idSchema } from './property-schemas'
+import type { ValidationSchema } from '../../modules/types.generated'
+import { idSchema, uuidSchema } from './property-schemas'
 
 const deleteAccountInputJsonSchema = {
   title: 'Delete account input',

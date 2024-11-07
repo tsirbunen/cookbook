@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import { recipesViewingManagementZIndex } from '../../constants/z-indexes'
-import { ColorCodes } from '../../theme/theme'
 import { HEADER_HEIGHT } from '../../constants/layout'
+import { Shades } from '../../constants/shades'
+import { recipesViewingManagementZIndex } from '../../constants/z-indexes'
 
 type SplitViewProps = {
   splitContent: JSX.Element
@@ -62,7 +62,7 @@ const splitOuter = css`
   flex-direction: column;
   z-index: ${recipesViewingManagementZIndex};
   flex: 1;
-  background-color: ${ColorCodes.VERY_DARK};
+  background-color: ${Shades.VERY_DARK};
   display: flex;
 `
 

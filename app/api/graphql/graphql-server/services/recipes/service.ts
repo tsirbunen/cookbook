@@ -2,7 +2,11 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 import { database } from '../../database/config/config'
+import type { CreateRecipeInput, PatchRecipeInput, Recipe } from '../../modules/types.generated'
+import { handleCreateOrPatchIngredientGroupsAndTheirIngredients } from '../ingredients/utils'
+import { handleCreateOrPatchInstructionGroupsAndTheirInstructions } from '../instructions/utils'
 import { handleFindCreateOrPatchAndPurgeLanguage } from '../languages/utils'
+import { handlePhotoIdentifiers } from '../photos/service'
 import { handleFindExistingOrCreateNewTagsWithRelations, handlePatchAndPurgeRecipeTags } from '../tags/utils'
 import {
   getAllRecipesExpanded,
@@ -11,25 +15,24 @@ import {
   handleCreateNewRecipe,
   handlePatchRecipe
 } from './utils'
-import { handleCreateOrPatchIngredientGroupsAndTheirIngredients } from '../ingredients/utils'
-import { handleCreateOrPatchInstructionGroupsAndTheirInstructions } from '../instructions/utils'
-import { Recipe, RecipeInput } from '../../modules/types.generated'
-import { handlePhotoIdentifiers } from '../photos/service'
 
-export const getAllRecipes = async (): Promise<Recipe[]> => {
-  return await getAllRecipesExpanded(database)
+export const getAllPublicAndUsersOwnRecipes = async (userId: number | null): Promise<Recipe[]> => {
+  return await getAllRecipesExpanded(database, userId)
 }
 
-export const createNewRecipe = async (input: RecipeInput) => {
+export const createNewRecipe = async (input: CreateRecipeInput) => {
   const newlyCreatedRecipe = await database.transaction(async (trx) => {
-    const { title, description, ovenNeeded, ingredientGroups, instructionGroups, tags, language } = input
-    // FIXME: Implement proper validation elsewhere
-    if (!language || !title || !description || ovenNeeded === undefined || ovenNeeded === null) {
-      throw new Error('Missing required fields')
-    }
-
+    const { title, description, ovenNeeded, ingredientGroups, instructionGroups, tags, language, isPrivate, authorId } =
+      input
     const languageId = await handleFindCreateOrPatchAndPurgeLanguage(trx, language)
-    const newRecipeId = await handleCreateNewRecipe(trx, { title, description, ovenNeeded, languageId })
+    const newRecipeId = await handleCreateNewRecipe(trx, {
+      title,
+      description,
+      ovenNeeded,
+      isPrivate,
+      authorId,
+      languageId
+    })
     await handleFindExistingOrCreateNewTagsWithRelations(trx, newRecipeId, tags)
     if (input.photoIdentifiers) {
       await handlePhotoIdentifiers(trx, input.photoIdentifiers, newRecipeId)
@@ -45,7 +48,7 @@ export const createNewRecipe = async (input: RecipeInput) => {
   return newlyCreatedRecipe
 }
 
-export const patchExistingRecipe = async (recipeId: number, recipePatch: RecipeInput) => {
+export const patchExistingRecipe = async (recipeId: number, recipePatch: PatchRecipeInput) => {
   const updatedRecipe = await database.transaction(async (trx) => {
     const { tags, language, title, description, ovenNeeded, ingredientGroups, instructionGroups } = recipePatch
 

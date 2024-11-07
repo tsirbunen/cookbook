@@ -1,4 +1,5 @@
-import { IdentityProvider } from './graphql-schema-types.generated'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { IdentityProvider } from './graphql-schema-types.generated'
 
 export enum FilterableRecipeProperty {
   categories = 'categories',
@@ -36,5 +37,5 @@ export type AccountInfo = {
   token?: string
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export type JSONSchemaType = Record<string, any>

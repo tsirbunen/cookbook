@@ -15,6 +15,13 @@ export const getOrCreateLanguage = async (database, language) => {
   return recipeLanguage
 }
 
+export const createAccount = async (database, { username, identityProvider, idAtProvider }) => {
+  const query = sql`INSERT INTO accounts (username, identity_provider, id_at_provider) 
+    VALUES (${username}, ${identityProvider}, ${idAtProvider}) RETURNING *`
+  const [newAccount] = await database.execute(query)
+  return newAccount
+}
+
 export const createLanguages = async (database, languages) => {
   const newLanguages = []
   for await (const language of languages) {
@@ -25,9 +32,9 @@ export const createLanguages = async (database, languages) => {
 }
 
 export const createRecipe = async (database, recipeInput, languageId) => {
-  const { title, ovenNeeded, description } = recipeInput
-  const query = sql`INSERT INTO recipes (title, oven_needed, language_id, description) 
-    VALUES (${title}, ${ovenNeeded}, ${languageId}, ${description ?? null}) RETURNING *`
+  const { authorId, isPrivate, title, ovenNeeded, description } = recipeInput
+  const query = sql`INSERT INTO recipes (title, oven_needed, language_id, description, author_id, is_private) 
+    VALUES (${title}, ${ovenNeeded}, ${languageId}, ${description ?? null}, ${authorId}, ${isPrivate}) RETURNING *`
   const [newRecipe] = await database.execute(query)
   return newRecipe
 }

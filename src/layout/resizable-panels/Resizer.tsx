@@ -2,7 +2,7 @@
 
 import { css } from '@emotion/react'
 import { useEffect, useState } from 'react'
-import { ColorCodes } from '../../theme/theme'
+import { Shades } from '../../constants/shades'
 
 type ResizerProps = {
   onResize: (deltaX: number) => void
@@ -19,6 +19,7 @@ const Resizer = ({ onResize }: ResizerProps) => {
   const [isTouch, setIsTouch] = useState(false)
   const [touchStart, setTouchStart] = useState(0)
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Only change if selected values change
   useEffect(() => {
     if (mouseIsDown) {
       const onMouseMove = (event: MouseEvent) => {
@@ -30,7 +31,9 @@ const Resizer = ({ onResize }: ResizerProps) => {
       return () => {
         window.removeEventListener('mousemove', onMouseMove)
       }
-    } else if (isTouch) {
+    }
+
+    if (isTouch) {
       const onTouchMove = (event: TouchEvent) => {
         const touch = event.touches[0]
         const deltaX = (touch.clientX - touchStart) / 10
@@ -69,7 +72,7 @@ const Resizer = ({ onResize }: ResizerProps) => {
     setIsTouch(true)
   }
 
-  return <div css={resizer} onMouseDown={onMouseDown} onTouchStart={onTouchStart}></div>
+  return <div css={resizer} onMouseDown={onMouseDown} onTouchStart={onTouchStart} />
 }
 
 export default Resizer
@@ -80,5 +83,5 @@ const resizer = css`
   cursor: ew-resize;
   width: ${resizeElementWidth}px;
   height: 100%;
-  background-color: ${ColorCodes.VERY_DARK};
+  background-color: ${Shades.VERY_DARK};
 `

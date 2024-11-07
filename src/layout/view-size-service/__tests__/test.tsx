@@ -1,8 +1,7 @@
 import '@testing-library/jest-dom/jest-globals'
 import '@testing-library/jest-dom'
 import { expect } from '@jest/globals'
-import { render, screen, fireEvent, act } from '@testing-library/react'
-import ViewSizeContextProvider from '../ViewSizeProvider'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import {
   APP_MIN_HEIGHT,
   APP_MIN_WIDTH,
@@ -10,6 +9,7 @@ import {
   MIN_PANEL_WIDTH,
   SPLIT_VIEW_BREAKPOINT
 } from '../../../constants/layout'
+import ViewSizeContextProvider from '../ViewSizeProvider'
 import ViewSizeTestUser, {
   currentHeightTestId,
   currentWidthTestId,

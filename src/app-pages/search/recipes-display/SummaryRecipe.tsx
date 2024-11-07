@@ -1,14 +1,14 @@
-/* eslint-disable @next/next/no-img-element */
 /** @jsxImportSource @emotion/react */
+/* eslint-disable @next/next/no-img-element */
 
 import { css } from '@emotion/react'
-import { ColorCodes } from '../../../theme/theme'
-import { Recipe } from '../../../types/graphql-schema-types.generated'
-import RecipePropertyIcons from '../../../widgets/property-icon/RecipePropertyIcons'
-import { SoundServiceContext, SoundType } from '../../../sounds/SoundProvider'
 import { useContext } from 'react'
+import { Shades } from '../../../constants/shades'
+import { SoundServiceContext, SoundType } from '../../../sounds/SoundProvider'
+import type { Recipe } from '../../../types/graphql-schema-types.generated'
 import CustomDivider from '../../../widgets/divider/CustomDivider'
 import ImageWithFallback, { FallbackIcon } from '../../../widgets/image-with-fallback/ImageWithFallback'
+import RecipePropertyIcons from '../../../widgets/property-icon/RecipePropertyIcons'
 
 export const summaryRepresentationDataTestId = 'summary-representation'
 
@@ -44,6 +44,7 @@ const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked, isFavorite, inde
       {index === 0 ? null : <CustomDivider marginTop="0px" marginBottom="0px" />}
 
       <div css={container} data-testid={summaryRepresentationDataTestId}>
+        {/* biome-ignore lint/a11y/useKeyWithClickEvents:Implement later*/}
         <div css={imageContainer(isPicked)} onClick={toggleIsPickedWithSound}>
           <ImageWithFallback
             mainPhotoUrl={mainPhotoUrl}
@@ -55,6 +56,7 @@ const SummaryRecipe = ({ recipe, onPickRecipeChanged, isPicked, isFavorite, inde
           />
         </div>
 
+        {/* biome-ignore lint/a11y/useKeyWithClickEvents:Implement later*/}
         <div css={infoContainer} onClick={toggleIsPickedWithSound}>
           <div css={titleContainer}>{title}</div>
 
@@ -97,7 +99,7 @@ const imageContainer = (isPicked: boolean) => css`
   width: ${imageWidth}px;
   height: ${imageHeight}px;
   margin-right: 15px;
-  background-color: ${isPicked ? ColorCodes.VERY_DARK : 'transparent'};
+  background-color: ${isPicked ? Shades.VERY_DARK : 'transparent'};
   border-radius: ${borderRadius}px;
 `
 
@@ -110,7 +112,7 @@ const infoContainer = css`
 `
 
 const titleContainer = css`
-  color: ${ColorCodes.VERY_DARK};
+  color: ${Shades.VERY_DARK};
   font-weight: bold;
   font-size: 0.9em;
   margin-bottom: 5px;
@@ -126,17 +128,17 @@ const titleContainer = css`
 `
 
 const tagsContainer = css`
-  color: ${ColorCodes.MEDIUM};
+  color: ${Shades.MEDIUM};
   font-size: 0.7em;
   font-weight: bold;
   margin-bottom: 5px;
 `
 
 const languageCss = css`
-  color: ${ColorCodes.SLIGHTLY_DARK};
+  color: ${Shades.SLIGHTLY_DARK};
   font-size: 0.7em;
   font-weight: bold;
-  background-color: ${ColorCodes.VERY_PALE};
+  background-color: ${Shades.VERY_PALE};
   margin-top: 8px;
   border-radius: 4px;
   padding: 1px 3px;

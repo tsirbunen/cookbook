@@ -1,14 +1,14 @@
-import { ChakraProps, Flex } from '@chakra-ui/react'
-import { FiltersContext, RecipesFilterValues, getEmptyFilterValues } from '../page/FilteringProvider'
+import { type ChakraProps, Flex } from '@chakra-ui/react'
 import { useContext, useEffect } from 'react'
-import { ColorCodes } from '../../../theme/theme'
-import Title, { TitleVariant } from '../../../widgets/titles/Title'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import FormSubmitButtons from '../../../widgets/form-submit-buttons/FormSubmitButtons'
-import FormButtonsSelector from '../../../widgets/form-buttons-selector/FormButtonsSelector'
-import FormTextAreaSearch from '../../../widgets/form-textarea-search/FormTextAreaSearch'
-import { RecipesViewingContext } from '../page/SearchRecipesProvider'
+import { type SubmitHandler, useForm } from 'react-hook-form'
+import { Shades } from '../../../constants/shades'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
+import FormButtonsSelector from '../../../widgets/form-buttons-selector/FormButtonsSelector'
+import FormSubmitButtons from '../../../widgets/form-submit-buttons/FormSubmitButtons'
+import FormTextAreaSearch from '../../../widgets/form-textarea-search/FormTextAreaSearch'
+import Title, { TitleVariant } from '../../../widgets/titles/Title'
+import { FiltersContext, type RecipesFilterValues, getEmptyFilterValues } from '../page/FilteringProvider'
+import { RecipesViewingContext } from '../page/SearchRecipesProvider'
 
 export const filteringManagementToolDataTestId = 'filtering-management-tool'
 
@@ -40,6 +40,7 @@ const FilteringManagementTool = () => {
     defaultValues: initialValues
   })
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Only change if the value of watch changes
   useEffect(() => {
     const subscription = watch((value) => {
       updateLocalFilters(value as RecipesFilterValues)
@@ -99,7 +100,7 @@ const FilteringManagementTool = () => {
 export default FilteringManagementTool
 
 const outerStyle = {
-  backgroundColor: ColorCodes.VERY_PALE,
+  backgroundColor: Shades.VERY_PALE,
   borderRadius: '6px',
   margin: '10px 0px 15px 5px',
   flexDirection: 'column' as ChakraProps['flexDirection'],

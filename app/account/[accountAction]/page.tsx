@@ -2,8 +2,8 @@
 
 import dynamic from 'next/dynamic'
 import { useContext } from 'react'
-import { AppStateContext, AppStateContextType } from '../../../src/state/StateContextProvider'
 import { accountRelatedValidationSchemasAreFetched } from '../../../src/app-pages/account/utils'
+import { AppStateContext, type AppStateContextType } from '../../../src/state/StateContextProvider'
 
 const EmailAccountPage = dynamic(() => import('../../../src/app-pages/account/EmailAccountPage'), {
   ssr: false

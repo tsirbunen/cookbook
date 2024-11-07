@@ -1,6 +1,6 @@
-import { ChakraProps, Flex, Text } from '@chakra-ui/react'
-import { ColorCodes } from '../../../../theme/theme'
-import { Tag } from '../../../../types/graphql-schema-types.generated'
+import { type ChakraProps, Flex, Text } from '@chakra-ui/react'
+import { Shades } from '../../../../constants/shades'
+import type { Tag } from '../../../../types/graphql-schema-types.generated'
 
 type RecipeTagsProps = {
   tags: Tag[]
@@ -48,13 +48,13 @@ const innerCss = {
 const tagCss = {
   marginLeft: '5px',
   marginRight: '5px',
-  backgroundColor: ColorCodes.VERY_PALE,
+  backgroundColor: Shades.VERY_PALE,
   padding: '0px 4px',
   borderRadius: '4px'
 }
 
 const textCss = {
-  color: ColorCodes.SLIGHTLY_DARK,
+  color: Shades.SLIGHTLY_DARK,
   fontWeight: 'bold',
   fontSize: 'sm'
 }

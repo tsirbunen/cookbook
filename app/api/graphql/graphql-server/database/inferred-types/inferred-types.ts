@@ -1,11 +1,11 @@
-import { ingredientGroups, ingredients } from '../database-schemas/ingredients'
-import { instructions, instructionGroups } from '../database-schemas/instructions'
-import { database } from '../config/config'
-import { recipes } from '../database-schemas/recipes'
-import { languages } from '../database-schemas/languages'
-import { tags, recipesToTags } from '../database-schemas/tags'
-import { photos } from '../database-schemas/photos'
-import { accounts } from '../database-schemas/accounts'
+import type { database } from '../config/config'
+import type { accounts } from '../database-schemas/accounts'
+import type { ingredientGroups, ingredients } from '../database-schemas/ingredients'
+import type { instructionGroups, instructions } from '../database-schemas/instructions'
+import type { languages } from '../database-schemas/languages'
+import type { photos } from '../database-schemas/photos'
+import type { recipes } from '../database-schemas/recipes'
+import type { recipesToTags, tags } from '../database-schemas/tags'
 
 export type DatabaseType = typeof database
 

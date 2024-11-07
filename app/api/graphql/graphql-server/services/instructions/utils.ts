@@ -1,13 +1,13 @@
 import { eq, inArray } from 'drizzle-orm'
-import { instructions, instructionGroups } from '../../database/database-schemas/instructions'
-import {
+import { instructionGroups, instructions } from '../../database/database-schemas/instructions'
+import type {
   InstructionDBSelect,
   InstructionGroupDBSelect,
   InstructionInsert,
   RecipeSelectDBExpanded
 } from '../../database/inferred-types/inferred-types'
-import { DatabaseType } from '../../database/inferred-types/inferred-types'
-import { InstructionGroupInput, InstructionInput } from '../../modules/types.generated'
+import type { DatabaseType } from '../../database/inferred-types/inferred-types'
+import type { InstructionGroupInput, InstructionInput } from '../../modules/types.generated'
 
 export const handleCreateOrPatchInstructionGroupsAndTheirInstructions = async (
   trx: DatabaseType,
@@ -111,8 +111,9 @@ const deleteInstructionsNotInIdsToKeep = async (
   originalGroup?: InstructionGroupDBSelect & { instructions: InstructionDBSelect[] }
 ) => {
   const instructionsToDeleteIds: number[] = []
-  for (let i = 0; i < (originalGroup?.instructions ?? []).length; i++) {
-    const originalId = originalGroup!.instructions[i].id
+  const groupInstructions = originalGroup?.instructions ?? []
+  for (let i = 0; i < groupInstructions.length; i++) {
+    const originalId = groupInstructions[i].id
     const shouldDelete = !idsToKeep.includes(originalId)
     if (shouldDelete) {
       instructionsToDeleteIds.push(originalId)

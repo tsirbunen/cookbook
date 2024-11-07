@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { Page } from '../../navigation/router/router'
 import { HEADER_HEIGHT } from '../../constants/layout'
+import { Page } from '../../navigation/router/router'
 import SettingsItem from './SettingsItem'
 import SoundSettings from './SoundSettings'
 

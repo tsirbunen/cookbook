@@ -1,13 +1,13 @@
 'use client'
 
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
-import { AppStateContext, AppStateContextType } from '../state/StateContextProvider'
-import { Dispatch } from '../state/reducer'
 import { LocalStorageContext } from '../state/LocalStorageProvider'
+import { AppStateContext, type AppStateContextType } from '../state/StateContextProvider'
+import { Dispatch } from '../state/reducer'
 
 export enum SoundType {
-  'POSITIVE' = 'POSITIVE',
-  'NEGATIVE' = 'NEGATIVE'
+  POSITIVE = 'POSITIVE',
+  NEGATIVE = 'NEGATIVE'
 }
 
 export type SoundService = {
@@ -30,6 +30,7 @@ const SoundServiceProvider = ({ children }: { children: React.ReactNode }) => {
   const [audioIsEnabled, setAudioIsEnabled] = useState<boolean>(false)
   const { soundsAreEnabled: storedSoundsAreEnabled } = useContext(LocalStorageContext)
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Only change if selected value changes
   useEffect(() => {
     if (!state.settings.soundsEnabled && storedSoundsAreEnabled) {
       dispatch({ type: Dispatch.TOGGLE_SOUNDS_ENABLED, payload: { enabled: storedSoundsAreEnabled } })
@@ -64,8 +65,8 @@ const SoundServiceProvider = ({ children }: { children: React.ReactNode }) => {
     oscillatorNode.type = 'sine'
     oscillatorNode.frequency.setValueAtTime(400, currentTime)
 
-    let rampValueFirst
-    let rampValueSecond
+    let rampValueFirst: number
+    let rampValueSecond: number
 
     switch (soundType) {
       case SoundType.POSITIVE:

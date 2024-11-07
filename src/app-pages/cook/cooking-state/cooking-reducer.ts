@@ -1,9 +1,9 @@
+import { produce } from 'immer'
 import { omit } from 'lodash'
 import { MAX_ALLOWED_PANELS_COUNT } from '../../../constants/layout'
-import { Recipe } from '../../../types/graphql-schema-types.generated'
-import { ScalingData } from '../../../types/types'
-import { DisplayConfig, CookingState } from './cooking-state'
-import { produce } from 'immer'
+import type { Recipe } from '../../../types/graphql-schema-types.generated'
+import type { ScalingData } from '../../../types/types'
+import type { CookingState, DisplayConfig } from './cooking-state'
 
 export type DisplayDirection = 'previous' | 'next'
 export enum DispatchCookingEvent {
@@ -101,7 +101,12 @@ const clearAllRecipeSettings = (draft: CookingState, { recipe }: { recipe: Recip
 
 const updateScaling = (draft: CookingState, payload: { scalingData: ScalingData; recipeId: number }) => {
   const { scalingData, recipeId } = payload
-  draft.scalingByRecipeId[recipeId] = scalingData
+  if (scalingData.multiplier === 1 && !scalingData.ingredientId) {
+    draft.scalingByRecipeId = omit(draft.scalingByRecipeId, recipeId)
+  } else {
+    draft.scalingByRecipeId[recipeId] = scalingData
+  }
+
   draft.isScalingRecipeIds = draft.isScalingRecipeIds.filter((id) => id !== recipeId)
 }
 
@@ -117,7 +122,7 @@ const toggleIsCookingRecipes = (draft: CookingState, payload: { recipe: Recipe }
   const isStartCooking = draft.cookingRecipes.every((recipe) => recipe.id !== payload.recipe.id)
 
   if (isStartCooking) {
-    draft.cookingRecipes.push(payload.recipe) //, ingredientsAddedIds: [], instructionsCompletedIds: [] })
+    draft.cookingRecipes.push(payload.recipe)
   } else {
     draft.cookingRecipes = draft.cookingRecipes.filter((recipe) => recipe.id !== payload.recipe.id)
   }

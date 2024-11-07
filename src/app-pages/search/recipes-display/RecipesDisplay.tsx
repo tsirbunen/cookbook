@@ -1,13 +1,13 @@
 /** @jsxImportSource @emotion/react */
-import { SerializedStyles, css } from '@emotion/react'
+import { type SerializedStyles, css } from '@emotion/react'
+import { useEffect, useState } from 'react'
+import { Shades } from '../../../constants/shades'
+import type { Recipe } from '../../../types/graphql-schema-types.generated'
+import DraggableItemsList from '../../../widgets/draggable-items-list/DraggableItemsList'
+import { ViewRecipesMode } from '../search-management/ViewModeManagementTool'
 import PhotoCardRecipe from './PhotoCardRecipe'
 import SummaryRecipe from './SummaryRecipe'
 import TitleRecipe from './TitleRecipe'
-import { ViewRecipesMode } from '../search-management/ViewModeManagementTool'
-import { Recipe } from '../../../types/graphql-schema-types.generated'
-import { useEffect, useState } from 'react'
-import { ColorCodes } from '../../../theme/theme'
-import DraggableItemsList from '../../../widgets/draggable-items-list/DraggableItemsList'
 
 const recipesElementsByMode = {
   PHOTOS: PhotoCardRecipe,
@@ -47,7 +47,7 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
 
   const onConfirmNewOrder = (newOrderOfKeys: string[]) => {
     const recipeIds = newOrderOfKeys.map(getRecipeIdFromKey)
-    onChangedRecipeOrder && onChangedRecipeOrder(recipeIds)
+    onChangedRecipeOrder?.(recipeIds)
   }
 
   const createElementKey = (index: number, recipeId: number) => {
@@ -56,7 +56,7 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
 
   const getRecipeIdFromKey = (key: string) => {
     const parts = key.split('-')
-    return parseInt(parts[parts.length - 1])
+    return Number.parseInt(parts[parts.length - 1])
   }
 
   if (!canDragAndDrop) {
@@ -103,8 +103,8 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
         )
       })}
       itemHeight={listItemHeight}
-      onMoveBgColor={ColorCodes.MEDIUM}
-      handColor={ColorCodes.VERY_DARK}
+      onMoveBgColor={Shades.MEDIUM}
+      handColor={Shades.VERY_DARK}
     />
   )
 

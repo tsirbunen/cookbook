@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
-import React from 'react'
 import { css } from '@emotion/react'
+import React from 'react'
 import PropertyIcon, { PropertyVariant } from './PropertyIcon'
 
 type RecipePropertyIconsProps = {

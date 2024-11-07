@@ -1,14 +1,14 @@
 import { useContext } from 'react'
-import MultiPanelView from '../../../layout/views/MultiPanelView'
-import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
-import { CookingContext } from './CookingProvider'
-import MultiResizablePanelsView from '../../../layout/resizable-panels/MultiResizablePanelsView'
-import CookRecipePanel from '../panel/general/CookRecipePanel'
-import { createPortal } from 'react-dom'
-import CookingHeaderToggles from './CookingHeaderToggles'
 import React from 'react'
+import { createPortal } from 'react-dom'
+import MultiResizablePanelsView from '../../../layout/resizable-panels/MultiResizablePanelsView'
+import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
+import MultiPanelView from '../../../layout/views/MultiPanelView'
 import { Page } from '../../../navigation/router/router'
 import { toolsElementId } from '../../../widgets/header-with-optional-toggles/HeaderWithToggles'
+import CookRecipePanel from '../panel/general/CookRecipePanel'
+import CookingHeaderToggles from './CookingHeaderToggles'
+import { CookingContext } from './CookingProvider'
 
 const CookPage = () => {
   const { maxPanelsCount } = useContext(ViewSizeContext)

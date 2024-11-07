@@ -1,11 +1,11 @@
 import '@testing-library/jest-dom/jest-globals'
 import '@testing-library/jest-dom'
 import { expect } from '@jest/globals'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 
+import { applyFiltersLabel, clearFormLabel } from '../../../app-pages/search/search-management/FilteringManagementTool'
 import { withTestFormWrapper } from '../../../test-utils/with-test-form-wrapper'
 import FormSubmitButtons, { formSubmitButtonsDataTestId } from '../FormSubmitButtons'
-import { applyFiltersLabel, clearFormLabel } from '../../../app-pages/search/search-management/FilteringManagementTool'
 
 describe('FormSubmitButtons', () => {
   it('both apply and clear buttons are rendered', () => {

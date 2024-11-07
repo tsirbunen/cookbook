@@ -1,7 +1,7 @@
+import { type ChakraProps, Divider, Flex } from '@chakra-ui/react'
 import React from 'react'
-import { ChakraProps, Divider, Flex } from '@chakra-ui/react'
+import { Shades } from '../../constants/shades'
 import Title, { TitleVariant } from '../../widgets/titles/Title'
-import { ColorCodes } from '../../theme/theme'
 
 type MultiColumnContentProps = {
   columnCount: number
@@ -49,7 +49,7 @@ const columnsCss = (columnCount: number) => {
     marginTop: '15px',
     columnRuleStyle: 'dashed',
     columnRuleWidth: '1px',
-    columnRuleColor: ColorCodes.MEDIUM
+    columnRuleColor: Shades.MEDIUM
   }
 }
 
@@ -69,7 +69,7 @@ const titleAndDividerCss = {
 
 const dividerCss = {
   marginTop: '10px',
-  borderColor: ColorCodes.MEDIUM,
+  borderColor: Shades.MEDIUM,
   borderWidth: '1.0px',
   variant: 'dashed'
 }

@@ -1,19 +1,19 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { Recipe } from '../../../../types/graphql-schema-types.generated'
-import RecipeTitle from './RecipeTitle'
-import Photos, { IMAGE_CONTAINER_HEIGHT } from './Photos'
-import RecipePropertyIcons from '../../../../widgets/property-icon/RecipePropertyIcons'
-import Ingredients from '../ingredients-and-scaling/Ingredients'
-import { useWidthChangedObserver } from '../../../../hooks/useWidthChangedObserver'
-import RecipeTags from './RecipeTags'
-import Description from './Description'
-import RecipeToggles from '../actions/RecipeToggles'
-import { ColorCodes } from '../../../../theme/theme'
 import { useContext, useMemo } from 'react'
-import { CookingContext } from '../../page/CookingProvider'
+import { Shades } from '../../../../constants/shades'
+import { useWidthChangedObserver } from '../../../../hooks/useWidthChangedObserver'
+import type { Recipe } from '../../../../types/graphql-schema-types.generated'
+import RecipePropertyIcons from '../../../../widgets/property-icon/RecipePropertyIcons'
 import { RecipesViewingContext } from '../../../search/page/SearchRecipesProvider'
+import { CookingContext } from '../../page/CookingProvider'
+import RecipeToggles from '../actions/RecipeToggles'
+import Ingredients from '../ingredients-and-scaling/Ingredients'
 import Instructions from '../instructions/Instructions'
+import Description from './Description'
+import Photos, { IMAGE_CONTAINER_HEIGHT } from './Photos'
+import RecipeTags from './RecipeTags'
+import RecipeTitle from './RecipeTitle'
 
 type RecipePanelProps = {
   recipe?: Recipe
@@ -24,6 +24,7 @@ const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
   const { multiColumnRecipes } = useContext(CookingContext)
   const { favoriteRecipeIds } = useContext(RecipesViewingContext)
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: This is on purpose
   const columnsCountToDisplay = useMemo(() => {
     const multiColumnIsSelected = recipe ? multiColumnRecipes.some((id) => id === recipe.id) : false
     return canHaveTwoColumns && multiColumnIsSelected ? 2 : 1
@@ -31,7 +32,7 @@ const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
 
   if (!recipe) return null
 
-  const { id, title, ovenNeeded, tags, photos } = recipe
+  const { id, title, description, ovenNeeded, tags, photos } = recipe
 
   return (
     <div css={containerCss} ref={elementRef} data-testid={`recipe-${id}-panel`}>
@@ -48,8 +49,8 @@ const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
           />
         </div>
 
-        {recipe.tags ? <RecipeTags tags={tags!} /> : null}
-        {recipe.description ? <Description description={recipe.description} /> : null}
+        {tags?.length ? <RecipeTags tags={tags} /> : null}
+        {description ? <Description description={description} /> : null}
 
         <RecipeToggles recipe={recipe} canHaveTwoColumns={canHaveTwoColumns} />
         <Ingredients
@@ -82,7 +83,7 @@ const topCss = css`
   top: ${IMAGE_CONTAINER_HEIGHT - CARD_RADIUS}px;
   border-radius: ${CARD_RADIUS}px ${CARD_RADIUS}px 0px 0px;
   background-size: cover;
-  background-color: ${ColorCodes.BACKGROUND};
+  background-color: ${Shades.BACKGROUND};
 `
 
 const propertiesCss = css`

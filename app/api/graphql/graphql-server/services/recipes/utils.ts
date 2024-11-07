@@ -1,10 +1,10 @@
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-import { eq } from 'drizzle-orm'
+import { eq, or } from 'drizzle-orm'
 import { recipes } from '../../database/database-schemas/recipes'
-import { DatabaseType, RecipeSelectDBExpanded, RecipeInsert } from '../../database/inferred-types/inferred-types'
-import { Recipe, RecipeInput, Tag } from '../../modules/types.generated'
+import type { DatabaseType, RecipeInsert, RecipeSelectDBExpanded } from '../../database/inferred-types/inferred-types'
+import type { PatchRecipeInput, Recipe, Tag } from '../../modules/types.generated'
 
 export type RecipePatchData = {
   title?: string
@@ -26,17 +26,20 @@ export const getRecipeExpandedById = async (id: number, trx: DatabaseType): Prom
   return formatRecipe(recipeRaw)
 }
 
-export const getAllRecipesExpanded = async (databaseOrTransaction: DatabaseType): Promise<Recipe[]> => {
-  const allRecipesRaw = (await databaseOrTransaction.query.recipes.findMany({
+export const getAllRecipesExpanded = async (
+  databaseOrTransaction: DatabaseType,
+  userId: number | null
+): Promise<Recipe[]> => {
+  const whereCondition = userId
+    ? or(eq(recipes.isPrivate, false), eq(recipes.authorId, userId))
+    : eq(recipes.isPrivate, false)
+
+  const allPublicAndUserRecipesRaw = await databaseOrTransaction.query.recipes.findMany({
+    where: whereCondition,
     with: getRecipeFullExpansions()
-  })) as RecipeSelectDBExpanded[]
+  })
 
-  return allRecipesRaw.map(formatRecipe)
-}
-
-export const handleCreateNewRecipe = async (trx: DatabaseType, input: RecipeInsert) => {
-  const newRecipe = await trx.insert(recipes).values(input).returning()
-  return newRecipe[0].id
+  return (allPublicAndUserRecipesRaw as RecipeSelectDBExpanded[]).map(formatRecipe)
 }
 
 const getRecipeFullExpansions = () => {
@@ -47,6 +50,11 @@ const getRecipeFullExpansions = () => {
     ingredientGroups: { with: { ingredients: true } },
     instructionGroups: { with: { instructions: true } }
   }
+}
+
+export const handleCreateNewRecipe = async (trx: DatabaseType, input: RecipeInsert) => {
+  const newRecipe = await trx.insert(recipes).values(input).returning()
+  return newRecipe[0].id
 }
 
 const formatRecipe = (recipeExpanded: RecipeSelectDBExpanded): Recipe => {
@@ -68,7 +76,7 @@ const formatPhotos = (photos: RecipeSelectDBExpanded['photos']) => {
 }
 
 const formatRecipesToTagsRelationsToTags = (recipesToTags: RecipeSelectDBExpanded['recipesToTags']): Tag[] => {
-  return recipesToTags.map((recipeToTags) => recipeToTags.tags).flat()
+  return recipesToTags.flatMap((recipeToTags) => recipeToTags.tags)
 }
 
 export const getRecipeExpandedByIdNoTagFormatting = async (
@@ -85,7 +93,7 @@ export const getRecipeExpandedByIdNoTagFormatting = async (
 
 export const handlePatchRecipe = async (
   trx: DatabaseType,
-  recipePatch: RecipeInput,
+  recipePatch: PatchRecipeInput,
   originalRecipe: RecipeSelectDBExpanded,
   newLanguageId?: number
 ) => {

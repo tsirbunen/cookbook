@@ -1,9 +1,9 @@
-import { ColorCodes } from '../../../../theme/theme'
+import { Shades } from '../../../../constants/shades'
 
 export const nameCss = (isPale: boolean) => {
   return {
     overflow: 'wrap',
     flex: 1,
-    color: isPale ? ColorCodes.SLIGHTLY_PALE : ColorCodes.VERY_DARK
+    color: isPale ? Shades.SLIGHTLY_PALE : Shades.VERY_DARK
   }
 }

@@ -1,17 +1,17 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState } from 'react'
-import { AppStateContext, AppStateContextType } from '../state/StateContextProvider'
+import { type RecipesFilterValues, getEmptyFilterValues } from '../app-pages/search/page/FilteringProvider'
+import { AppStateContext, type AppStateContextType } from '../state/StateContextProvider'
 import { Dispatch } from '../state/reducer'
-import { RecipesFilterValues, getEmptyFilterValues } from '../app-pages/search/page/FilteringProvider'
 
-import { Account, EmailAccountInput, Recipe } from '../types/graphql-schema-types.generated'
-import { SearchMode } from '../widgets/form-textarea-search/FormTextAreaSearch'
 import {
-  allTestRecipes,
   allLanguages,
-  allTags
+  allTags,
+  allTestRecipes
 } from '../../app/api/graphql/graphql-server/database/example-data/extract-recipe-data-for-github-actions-tests.js'
+import type { Account, EmailAccountInput, Recipe } from '../types/graphql-schema-types.generated'
+import { SearchMode } from '../widgets/form-textarea-search/FormTextAreaSearch'
 
 export type ApiService = {
   filterRecipes: (filters: RecipesFilterValues) => Promise<void>
@@ -42,6 +42,7 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
   const { dispatch } = useContext(AppStateContext) as AppStateContextType
   const [allRecipes] = useState(allTestRecipes)
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Run only once
   useEffect(() => {
     dispatch({
       type: Dispatch.SET_RECIPES_AND_FILTERS,
@@ -52,6 +53,7 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
     })
   }, [])
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Run only once
   useEffect(() => {
     dispatch({
       type: Dispatch.SET_LANGUAGES,
@@ -59,6 +61,7 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
     })
   }, [])
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Run only once
   useEffect(() => {
     dispatch({
       type: Dispatch.SET_TAGS,

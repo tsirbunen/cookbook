@@ -1,10 +1,9 @@
 import '@testing-library/jest-dom/jest-globals'
 import '@testing-library/jest-dom'
 import { expect } from '@jest/globals'
-import { render, screen, fireEvent } from '@testing-library/react'
-import { LocalStorageMock } from './local-storage-mock'
-import LocalStorageProvider, { LocalStorageKeys } from '../LocalStorageProvider'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { act } from 'react-dom/test-utils'
+import LocalStorageProvider, { LocalStorageKeys } from '../LocalStorageProvider'
 import LocalStorageTestConsumer, {
   toggleSoundsLabel,
   areEnabled,
@@ -14,6 +13,7 @@ import LocalStorageTestConsumer, {
   removeFavoriteLabel,
   clearSoundsLabel
 } from './LocalStorageTestConsumer'
+import { LocalStorageMock } from './local-storage-mock'
 
 global.localStorage = new LocalStorageMock()
 
@@ -56,7 +56,8 @@ describe('Local storage provider', () => {
       act(() => fireEvent.click(addFavoritesButton))
       act(() => fireEvent.click(addFavoritesButton))
       let valueInStore = localStorage.getItem(LocalStorageKeys.FAVORITE_RECIPE_IDS)
-      let valueAsArray = JSON.parse(valueInStore!)
+      if (!valueInStore) throw new Error('Value in store is null')
+      let valueAsArray = JSON.parse(valueInStore)
       expect(valueAsArray.length).toBe(3)
       expect(valueAsArray[0]).toBe(1)
       expect(valueAsArray[1]).toBe(2)
@@ -66,7 +67,8 @@ describe('Local storage provider', () => {
       const removeFavoritesButton = screen.getByText(removeFavoriteLabel)
       act(() => fireEvent.click(removeFavoritesButton))
       valueInStore = localStorage.getItem(LocalStorageKeys.FAVORITE_RECIPE_IDS)
-      valueAsArray = JSON.parse(valueInStore!)
+      if (!valueInStore) throw new Error('Value in store is null')
+      valueAsArray = JSON.parse(valueInStore)
       expect(valueAsArray.length).toBe(2)
       expect(valueAsArray[0]).toBe(1)
       expect(valueAsArray[1]).toBe(2)

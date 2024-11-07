@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
 
-import { usePathname } from 'next/navigation'
-import { getRouteLabelByPath } from '../../navigation/router/router'
-import { HEADER_HEIGHT, NAV_BAR_WIDTH } from '../../constants/layout'
 import { css } from '@emotion/react'
-import { headerZIndex } from '../../constants/z-indexes'
-import { ColorCodes } from '../../theme/theme'
+import { usePathname } from 'next/navigation'
+import { HEADER_HEIGHT, NAV_BAR_WIDTH } from '../../constants/layout'
+import { Shades } from '../../constants/shades'
 import { APP_TITLE } from '../../constants/text-content'
+import { headerZIndex } from '../../constants/z-indexes'
+import { getRouteLabelByPath } from '../../navigation/router/router'
 
 export const toolsElementId = 'toolsElementId'
 
@@ -52,7 +52,7 @@ const outerCss = (height: number) => css`
   padding-left: ${NAV_BAR_WIDTH}px;
   z-index: ${headerZIndex};
   height: ${height}px;
-  background-color: ${ColorCodes.VERY_DARK};
+  background-color: ${Shades.VERY_DARK};
 `
 
 const middleCss = css`
@@ -84,13 +84,13 @@ const locationCss = css`
 
 const titleCss = css`
   font-size: 1.2em;
-  color: ${ColorCodes.MEDIUM};
+  color: ${Shades.MEDIUM};
   font-weight: bold;
 `
 
 const pageCss = css`
   font-size: 1.4em;
-  color: ${ColorCodes.VERY_PALE};
+  color: ${Shades.VERY_PALE};
   margin-top: -5px;
   font-weight: bold;
 `

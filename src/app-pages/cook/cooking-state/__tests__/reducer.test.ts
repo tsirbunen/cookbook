@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { expect } from '@jest/globals'
 import {
-  cookingReducer,
   DispatchCookingEvent,
-  DisplayDirection,
+  type DisplayDirection,
+  cookingReducer,
   getUpdatedDisplayConfigAfterCountChanged,
   getUpdatedDisplayConfigAfterIndexesChanged
 } from '../cooking-reducer'
@@ -23,7 +24,7 @@ const chocolateCakeRecipe = {
 const scrambledEggsRecipe = { id: 3, name: 'Scrambled Eggs' }
 const porridgeRecipe = { id: 4, name: 'Porridge' }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: Add proper types
 const getReducedCookingState = (state: any, action: any) => {
   return cookingReducer(state, action)
 }

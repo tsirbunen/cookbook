@@ -1,7 +1,7 @@
-import { ChakraProps, Flex } from '@chakra-ui/react'
-import Title, { TitleVariant } from '../../widgets/titles/Title'
-import { DARK_COLOR } from '../../constants/color-codes'
+import { type ChakraProps, Flex } from '@chakra-ui/react'
+import { Shades } from '../../constants/shades'
 import CustomDivider from '../../widgets/divider/CustomDivider'
+import Title, { TitleVariant } from '../../widgets/titles/Title'
 
 type SettingsItemProps = {
   title: string
@@ -12,7 +12,7 @@ const SettingsItem = ({ title, children }: SettingsItemProps) => {
   return (
     <Flex {...outerCss}>
       <Flex {...titleCss}>
-        <Title title={title} variant={TitleVariant.Medium} color={DARK_COLOR} />
+        <Title title={title} variant={TitleVariant.Medium} color={Shades.DARK} />
       </Flex>
       <CustomDivider />
       {children}

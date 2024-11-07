@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom/jest-globals'
 import '@testing-library/jest-dom'
 import { expect } from '@jest/globals'
-import { render, screen, fireEvent } from '@testing-library/react'
-import FormButtonsSelector, { formButtonsSelectorDataTestId } from '../FormButtonsSelector'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { withTestFormWrapper } from '../../../test-utils/with-test-form-wrapper'
+import FormButtonsSelector, { formButtonsSelectorDataTestId } from '../FormButtonsSelector'
 
 const options = ['Option1', 'Option2', 'Option3']
 const submitLabel = 'SUBMIT'

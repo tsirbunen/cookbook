@@ -1,18 +1,18 @@
-import { ChakraProps, Flex, Text } from '@chakra-ui/react'
-import AccountRouteSelector from './AccountRouteSelector'
-import AccountDetails from './AccountDetails'
-import Title, { TitleVariant } from '../../widgets/titles/Title'
-import { ButtonVariant } from '../../theme/buttons/buttons-theme'
-import { useContext, useState } from 'react'
-import SwitchToggleWithLabel from '../../widgets/switch-toggle/SwitchToggleWithLabel'
-import { AppStateContext, AppStateContextType } from '../../state/StateContextProvider'
-import { Dispatch } from '../../state/reducer'
-import { pageCss } from './AccountPage'
-import { Page } from '../../navigation/router/router'
-import { SLIGHTLY_DARK_COLOR } from '../../constants/color-codes'
+import { type ChakraProps, Flex, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
-import { ApiServiceContext } from '../../api-service/ApiServiceProvider'
+import { useContext, useState } from 'react'
 import { AccountRoute } from '../../../app/account/[accountAction]/page'
+import { ApiServiceContext } from '../../api-service/ApiServiceProvider'
+import { Shades } from '../../constants/shades'
+import { Page } from '../../navigation/router/router'
+import { AppStateContext, type AppStateContextType } from '../../state/StateContextProvider'
+import { Dispatch } from '../../state/reducer'
+import { ButtonVariant } from '../../theme/buttons/buttons-theme'
+import { pageCss } from '../../utils/styles'
+import SwitchToggleWithLabel from '../../widgets/switch-toggle/SwitchToggleWithLabel'
+import Title, { TitleVariant } from '../../widgets/titles/Title'
+import AccountDetails from './AccountDetails'
+import AccountRouteSelector from './AccountRouteSelector'
 
 export const manageAccountLabel = 'MANAGE ACCOUNT'
 const signOutLabel = 'SIGN OUT'
@@ -28,7 +28,7 @@ const deletedAllPermanentlyLabel = 'Delete my account and all my data permanentl
 
 const ManageAccount = () => {
   const { state, dispatch } = useContext(AppStateContext) as AppStateContextType
-  const { deleteAccount } = useContext(ApiServiceContext)
+  const { deleteAccount, setAuthenticationToken } = useContext(ApiServiceContext)
   const router = useRouter()
   const [iUnderstandDelete, setIUnderstandDelete] = useState(false)
   const [deleteConfirmed, setDeleteConfirmed] = useState(false)
@@ -36,6 +36,7 @@ const ManageAccount = () => {
   const clearAccountDataFromBrowser = () => {
     // FIXME: Implement possible related cookies actions
     dispatch({ type: Dispatch.SET_ACCOUNT, payload: { account: null } })
+    setAuthenticationToken(null)
     router.push(`/${Page.ACCOUNT}`)
   }
 
@@ -100,7 +101,7 @@ export default ManageAccount
 
 const infoCss = {
   lineHeight: '1.15em',
-  color: SLIGHTLY_DARK_COLOR,
+  color: Shades.SLIGHTLY_DARK,
   marginBottom: '30px'
 }
 

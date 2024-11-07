@@ -1,10 +1,10 @@
-import { ChakraProps, Flex, Text } from '@chakra-ui/react'
-import { DARK_COLOR, MEDIUM_COLOR, SLIGHTLY_DARK_COLOR, VERY_PALE_COLOR } from '../../constants/color-codes'
-import { AccountInfo } from '../../types/types'
-import SwitchToggleWithLabel from '../../widgets/switch-toggle/SwitchToggleWithLabel'
+import { type ChakraProps, Flex, Text } from '@chakra-ui/react'
 import { Fragment, useState } from 'react'
-import { content } from './textContent'
+import { Shades } from '../../constants/shades'
 import { IdentityProvider } from '../../types/graphql-schema-types.generated'
+import type { AccountInfo } from '../../types/types'
+import SwitchToggleWithLabel from '../../widgets/switch-toggle/SwitchToggleWithLabel'
+import { content } from './textContent'
 
 type AccountDetailsProps = {
   account: AccountInfo
@@ -37,7 +37,7 @@ const AccountDetails = ({ account }: AccountDetailsProps) => {
 
   return (
     <Flex {...cardCss}>
-      <AccountDetail label={content.usernameLabel} value={username!} />
+      <AccountDetail label={content.usernameLabel} value={username as string} />
       <AccountDetail label={content.identityProvider} value={getIdentityProviderMethod(identityProvider)} />
       {email ? (
         <Fragment>
@@ -71,22 +71,22 @@ const cardCss = {
   justifyContent: 'start',
   marginTop: '5px',
   marginBottom: '10px',
-  background: VERY_PALE_COLOR,
+  background: Shades.VERY_DARK,
   padding: '20px 20px 10px 20px',
   borderRadius: '10px',
   borderWidth: '2.5px',
-  borderColor: MEDIUM_COLOR
+  borderColor: Shades.MEDIUM
 }
 
 const labelCss = {
   lineHeight: '1.1em',
-  color: SLIGHTLY_DARK_COLOR,
+  color: Shades.SLIGHTLY_DARK,
   marginTop: '3px',
   fontWeight: '600'
 }
 
 const titleCss = {
   marginBottom: '10px',
-  color: DARK_COLOR,
+  color: Shades.DARK,
   fontWeight: '800'
 }

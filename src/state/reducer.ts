@@ -1,9 +1,9 @@
-import { TargetSchema } from '../../app/api/graphql/graphql-server/modules/types.generated'
-import { RecipesFilterValues } from '../app-pages/search/page/FilteringProvider'
-import { Language, Recipe, Tag } from '../types/graphql-schema-types.generated'
-import { AccountInfo, JSONSchemaType } from '../types/types'
-import { AppState } from './StateContextProvider'
 import { produce } from 'immer'
+import type { TargetSchema } from '../../app/api/graphql/graphql-server/modules/types.generated'
+import type { RecipesFilterValues } from '../app-pages/search/page/FilteringProvider'
+import type { Language, Recipe, Tag } from '../types/graphql-schema-types.generated'
+import type { AccountInfo, JSONSchemaType } from '../types/types'
+import type { AppState } from './StateContextProvider'
 
 export enum Dispatch {
   SET_RECIPES_AND_FILTERS = 'SET_RECIPES_AND_FILTERS',
@@ -13,7 +13,8 @@ export enum Dispatch {
   SET_TAGS = 'SET_TAGS',
   SET_LANGUAGES = 'SET_LANGUAGES',
   SET_ACCOUNT = 'SET_ACCOUNT',
-  SET_VALIDATION_SCHEMAS = 'SET_VALIDATION_SCHEMAS'
+  SET_VALIDATION_SCHEMAS = 'SET_VALIDATION_SCHEMAS',
+  ADD_RECIPE = 'ADD_RECIPE'
 }
 
 export type DispatchAction =
@@ -25,6 +26,7 @@ export type DispatchAction =
   | { type: Dispatch.SET_LANGUAGES; payload: { languages: Language[] } }
   | { type: Dispatch.SET_ACCOUNT; payload: { account: AccountInfo | null } }
   | { type: Dispatch.SET_VALIDATION_SCHEMAS; payload: { validationSchemas: Record<TargetSchema, JSONSchemaType> } }
+  | { type: Dispatch.ADD_RECIPE; payload: { newRecipe: Recipe } }
 
 export const reducer = produce((draft: AppState, { type, payload }: DispatchAction) => {
   switch (type) {
@@ -52,6 +54,9 @@ export const reducer = produce((draft: AppState, { type, payload }: DispatchActi
       break
     case Dispatch.SET_VALIDATION_SCHEMAS:
       draft.validationSchemas = payload.validationSchemas
+      break
+    case Dispatch.ADD_RECIPE:
+      draft.recipes.push(payload.newRecipe)
       break
     default:
       throw new Error(`${JSON.stringify(type)} is not an app state reducer action type!`)

@@ -30,6 +30,7 @@ fragment InstructionGroupEntity on InstructionGroup {
 
 fragment RecipeEntity on Recipe {
   id
+  authorId
   title
   description
   photos {
@@ -47,15 +48,30 @@ fragment RecipeEntity on Recipe {
     language
   }
   isPrivate
-  authorId
-  # author {
-  #   id
-  #   username
-  # }
+
   ingredientGroups {
     ...IngredientGroupEntity
   }
   instructionGroups {
     ...InstructionGroupEntity
+  }
+}
+
+fragment RecipeResultFull on RecipeResult {
+  __typename
+  ... on Recipe {
+    ...RecipeEntity
+  }
+
+  ... on UnauthenticatedError {
+    errorMessage
+  }
+
+  ... on UnauthorizedError {
+    errorMessage
+  }
+
+  ... on BadInputError {
+    errorMessage
   }
 }

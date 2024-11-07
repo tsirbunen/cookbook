@@ -1,5 +1,5 @@
-import { IdentityProvider } from '../../modules/types.generated'
-import { AuthResponse } from '@supabase/supabase-js'
+import type { AuthResponse } from '@supabase/supabase-js'
+import type { IdentityProvider } from '../../modules/types.generated'
 
 // IMPORTANT: These are error messages that can be returned by the email authentication
 // provider. Do NOT change these messages unless the email authentication provider changes them.
@@ -97,7 +97,7 @@ export const handleEmailAuthAuthError = (authResponse: AuthResponse, options?: {
 }
 
 export const getError = (error: AuthError, params?: Record<string, string>) => {
-  let errorMessage
+  let errorMessage: string
   // FIXME: Find a better way tho check to the presence of possibly required params. Until then,
   // create all error messages using params replacement so that the messages make sense
   // even if the params are not provided.
@@ -121,10 +121,11 @@ export const getError = (error: AuthError, params?: Record<string, string>) => {
         params
       )} already exists! Please come up with another username.`
       break
-    case AuthError.EMAIL_AND_USERNAME_TAKEN:
+    case AuthError.EMAIL_AND_USERNAME_TAKEN: {
       const credentials = extractEmailAndUsername(params)
       errorMessage = `Account(s) with ${credentials} already exist! Please come up with another email and username.`
       break
+    }
     case AuthError.EMAIL_VERIFIED:
       errorMessage = `Account with ${extractEmail(params)} has already been verified! Please just sign in.`
       break

@@ -1,6 +1,6 @@
-import { pgTable, serial, varchar, integer, AnyPgColumn } from 'drizzle-orm/pg-core'
-import { recipes } from './recipes'
 import { relations } from 'drizzle-orm'
+import { type AnyPgColumn, integer, pgTable, serial, varchar } from 'drizzle-orm/pg-core'
+import { recipes } from './recipes'
 
 export const instructionGroups = pgTable('instruction_groups', {
   id: serial('id').primaryKey(),

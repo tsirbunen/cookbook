@@ -1,9 +1,9 @@
-import React from 'react'
 import { Flex, Text } from '@chakra-ui/react'
-import CardRadioButtonSelector from '../../../../widgets/card-radio-button-selector/CardRadioButtonSelector'
-import { ColorCodes } from '../../../../theme/theme'
-import { CardRadioButtonSelectorVariant } from '../../../../widgets/card-radio-button-selector/CardRadioButton'
+import React from 'react'
+import { Shades } from '../../../../constants/shades'
 import { columnItemsCenterCss, rowAllCenterCss, rowItemsCenterContentStartCss } from '../../../../constants/styling'
+import { CardRadioButtonSelectorVariant } from '../../../../widgets/card-radio-button-selector/CardRadioButton'
+import CardRadioButtonSelector from '../../../../widgets/card-radio-button-selector/CardRadioButtonSelector'
 
 export const presetMultiplierTestId = 'preset-multiplier'
 
@@ -49,7 +49,7 @@ const containerCss = {
 
 const xLabelCss = {
   fontWeight: 'bold',
-  color: ColorCodes.DARK,
+  color: Shades.DARK,
   marginLeft: '10px',
   fontSize: '1.1rem'
 }
@@ -64,7 +64,7 @@ const shortLineCss = {
   ...columnItemsCenterCss,
   marginRight: '10px',
   marginLeft: '10px',
-  backgroundColor: ColorCodes.PALE,
+  backgroundColor: Shades.PALE,
   height: '1.5px',
   width: '50px'
 }
@@ -74,6 +74,6 @@ const orDividerCss = {
   marginTop: '15px',
   marginBottom: '5px',
   fontWeight: 'bold',
-  color: ColorCodes.MEDIUM,
+  color: Shades.MEDIUM,
   flex: 1
 }

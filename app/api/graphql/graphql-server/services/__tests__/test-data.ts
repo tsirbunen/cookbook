@@ -1,4 +1,4 @@
-import { RecipeInput } from '../../modules/types.generated'
+import type { CreateRecipeInput } from '../../modules/types.generated'
 
 export const emailAccountTestData = {
   username: 'Username',
@@ -6,12 +6,13 @@ export const emailAccountTestData = {
   password: 'ppppppP8'
 }
 
-export const recipeTestInput: RecipeInput = {
+export const recipeTestInput: Omit<CreateRecipeInput, 'authorId'> = {
   title: 'Lemony lentil soup',
   tags: ['soup', 'lentils'],
   ovenNeeded: true,
   description: 'A delicious and healthy soup with a hint of lemon.',
   language: 'English',
+  isPrivate: false,
   ingredientGroups: [
     {
       ingredients: [

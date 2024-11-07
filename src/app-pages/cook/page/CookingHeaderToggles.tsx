@@ -1,15 +1,15 @@
 import { useContext } from 'react'
-import CardRadioButtonSelector from '../../../widgets/card-radio-button-selector/CardRadioButtonSelector'
-import { TbColumns1, TbColumns2, TbColumns3, TbPlayerTrackPrev, TbPlayerTrackNext } from 'react-icons/tb'
-import Toggles from '../../../widgets/toggles/Toggles'
-import { CookingContext } from './CookingProvider'
+import type { IconType } from 'react-icons'
+import { TbColumns1, TbColumns2, TbColumns3, TbPlayerTrackNext, TbPlayerTrackPrev } from 'react-icons/tb'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
-import { IconType } from 'react-icons'
-import { DispatchCookingEvent, DisplayDirection } from '../cooking-state/cooking-reducer'
 import CardRadioButton, {
   CardRadioButtonSelectorVariant,
   RoundedBordersOnSide
 } from '../../../widgets/card-radio-button-selector/CardRadioButton'
+import CardRadioButtonSelector from '../../../widgets/card-radio-button-selector/CardRadioButtonSelector'
+import Toggles from '../../../widgets/toggles/Toggles'
+import { DispatchCookingEvent, type DisplayDirection } from '../cooking-state/cooking-reducer'
+import { CookingContext } from './CookingProvider'
 
 const displayCountOptionsAll = [
   { label: '1', value: 1, icon: TbColumns1 },

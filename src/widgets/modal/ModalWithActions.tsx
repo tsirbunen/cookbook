@@ -1,11 +1,11 @@
 import {
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   useDisclosure
 } from '@chakra-ui/react'
 import ButtonWithTheme from '../../theme/buttons/ButtonWithTheme'

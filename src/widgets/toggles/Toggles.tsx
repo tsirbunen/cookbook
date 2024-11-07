@@ -1,5 +1,5 @@
-import { ColorCodes } from '../../theme/theme'
-import { ChakraProps, Flex } from '@chakra-ui/react'
+import { type ChakraProps, Flex } from '@chakra-ui/react'
+import { Shades } from '../../constants/shades'
 
 export const togglesTestId = 'toggles'
 
@@ -23,7 +23,7 @@ const outerBoxCss = (hasBackground: boolean) => {
     flexDirection: 'column' as ChakraProps['flexDirection'],
     alignItems: 'start',
     justifyContent: 'start',
-    backgroundColor: hasBackground ? ColorCodes.BACKGROUND : 'transparent',
+    backgroundColor: hasBackground ? Shades.BACKGROUND : 'transparent',
     padding: '10px',
     borderRadius: '6px'
   }

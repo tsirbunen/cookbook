@@ -4,7 +4,16 @@ import { maximumDeliciousDal } from './example-data-3.js'
 
 const allTestRecipeData = [lemonyLentilSoup, belugaBolognese, maximumDeliciousDal]
 
-const getTestLanguagesForCypressGitHubActionsTests = () => {
+const getAccountsForCypressGitHubActionsTests = () => {
+  return [
+    { id: 1, username: 'example-author', identityProvider: 'GITHUB', idAtProvider: 'example-id-at-provider' },
+    { id: 2, username: 'another-author', identityProvider: 'GITHUB', idAtProvider: 'another-id-at-provider' }
+  ]
+}
+
+const allAccounts = getAccountsForCypressGitHubActionsTests()
+
+export const getTestLanguagesForCypressGitHubActionsTests = () => {
   const languageNames = allTestRecipeData.reduce((acc, recipe) => {
     if (!acc.includes(recipe.language)) acc.push(recipe.language)
     return acc
@@ -15,11 +24,11 @@ const getTestLanguagesForCypressGitHubActionsTests = () => {
 
 const allLanguages = getTestLanguagesForCypressGitHubActionsTests()
 
-const getTestTagsForCypressGitHubActionsTests = () => {
+export const getTestTagsForCypressGitHubActionsTests = () => {
   const tags = allTestRecipeData.reduce((acc, recipe) => {
-    recipe.tags.forEach((tag) => {
+    for (const tag of recipe.tags) {
       if (!acc.includes(tag)) acc.push(tag)
-    })
+    }
 
     return acc
   }, [])
@@ -29,7 +38,8 @@ const getTestTagsForCypressGitHubActionsTests = () => {
 
 const allTags = getTestTagsForCypressGitHubActionsTests()
 
-const getTestRecipesForCypressGitHubActionsTests = () => {
+export const getTestRecipesForCypressGitHubActionsTests = () => {
+  const authorId = 1
   let photoId = 1
   let ingredientId = 1
   let ingredientGroupId = 1
@@ -38,6 +48,7 @@ const getTestRecipesForCypressGitHubActionsTests = () => {
 
   const newRecipes = allTestRecipeData.map((recipeData, index) => {
     const recipeId = index + 1
+    const author = allAccounts.find((account) => account.id === authorId)
     const language = allLanguages.find((l) => l.language === recipeData.language)
     const tags = recipeData.tags.map((tag) => allTags.find((t) => t.tag === tag))
     const photos = recipeData.photoIdentifiers.map((photo, photoIndex) => {
@@ -77,6 +88,7 @@ const getTestRecipesForCypressGitHubActionsTests = () => {
 
     const newRecipe = {
       id: recipeId,
+      authorId: author.id,
       title: recipeData.title,
       description: recipeData.description ?? null,
       language,
@@ -95,4 +107,4 @@ const getTestRecipesForCypressGitHubActionsTests = () => {
 
 const allTestRecipes = getTestRecipesForCypressGitHubActionsTests()
 
-export { allTestRecipes, allLanguages, allTags }
+export { allAccounts, allTestRecipes, allLanguages, allTags }

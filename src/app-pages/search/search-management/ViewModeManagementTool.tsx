@@ -1,10 +1,10 @@
-import { Flex, ChakraProps } from '@chakra-ui/react'
-import { ColorCodes } from '../../../theme/theme'
-import { RecipesViewingContext } from '../page/SearchRecipesProvider'
+import { type ChakraProps, Flex } from '@chakra-ui/react'
 import { useContext } from 'react'
+import { Shades } from '../../../constants/shades'
+import { CardRadioButtonSelectorVariant } from '../../../widgets/card-radio-button-selector/CardRadioButton'
 import CardRadioButtonSelector from '../../../widgets/card-radio-button-selector/CardRadioButtonSelector'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
-import { CardRadioButtonSelectorVariant } from '../../../widgets/card-radio-button-selector/CardRadioButton'
+import { RecipesViewingContext } from '../page/SearchRecipesProvider'
 
 export const viewModeManagementToolDataTestId = 'view-mode-management-tool'
 export enum ViewRecipesMode {
@@ -47,7 +47,7 @@ const outerCss = {
   alignItems: 'start',
   margin: '10px 0px 10px 5px',
   paddingBottom: '10px',
-  backgroundColor: ColorCodes.VERY_PALE,
+  backgroundColor: Shades.VERY_PALE,
   borderRadius: '6px',
   width: '100%'
 }

@@ -1,5 +1,5 @@
-import { Recipe } from '../../../types/graphql-schema-types.generated'
-import { ScalingData, TimerData } from '../../../types/types'
+import type { Recipe } from '../../../types/graphql-schema-types.generated'
+import type { ScalingData, TimerData } from '../../../types/types'
 
 export type DisplayIndexes = { leftRecipeIndex?: number; middleRecipeIndex?: number; rightRecipeIndex?: number }
 export type DisplayConfig = {

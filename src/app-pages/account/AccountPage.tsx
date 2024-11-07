@@ -1,17 +1,17 @@
-import { Page } from '../../navigation/router/router'
-import { HEADER_HEIGHT } from '../../constants/layout'
-import { ChakraProps, Flex } from '@chakra-ui/react'
-import { Fragment, useContext, useEffect } from 'react'
-import GeneralAccountInfo from './GeneralAccountInfo'
-import { AppStateContext, AppStateContextType } from '../../state/StateContextProvider'
-import AccountRouteSelector from './AccountRouteSelector'
+import { Flex } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
+import { Fragment, useContext, useEffect } from 'react'
 import { AccountRoute } from '../../../app/account/[accountAction]/page'
+import { ApiServiceContext } from '../../api-service/ApiServiceProvider'
+import { Page } from '../../navigation/router/router'
+import { AppStateContext, type AppStateContextType } from '../../state/StateContextProvider'
+import { Dispatch } from '../../state/reducer'
+import { pageCss } from '../../utils/styles'
+import LoadingIndicator from '../../widgets/loading-indicator/LoadingIndicator'
+import AccountRouteSelector from './AccountRouteSelector'
+import GeneralAccountInfo from './GeneralAccountInfo'
 import { manageAccountLabel } from './ManageAccountPage'
 import { content } from './textContent'
-import { ApiServiceContext } from '../../api-service/ApiServiceProvider'
-import { Dispatch } from '../../state/reducer'
-import LoadingIndicator from '../../widgets/loading-indicator/LoadingIndicator'
 import { accountRelatedValidationSchemasAreFetched } from './utils'
 
 const githubAuthenticationRoute = '/api/login/github'
@@ -27,6 +27,7 @@ const AccountPage = () => {
   const { fetchValidationSchemas } = useContext(ApiServiceContext)
   const router = useRouter()
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies:Only run if schemas change
   useEffect(() => {
     if (state.validationSchemas) return
 
@@ -87,15 +88,3 @@ const AccountPage = () => {
 }
 
 export default AccountPage
-
-export const pageCss = {
-  flexDirection: 'column' as ChakraProps['flexDirection'],
-  display: 'flex',
-  alignItems: 'start',
-  justifyContent: 'start',
-  marginTop: `${HEADER_HEIGHT}px`,
-  marginLeft: '25px',
-  marginRight: '25px',
-  width: '100%',
-  maxWidth: '600px'
-}

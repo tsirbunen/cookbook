@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { expect } from '@jest/globals'
 import { ListUpdater } from '../list-updater'
 import {
@@ -16,7 +17,7 @@ const title2Div = <div key={title2}>{title2}</div>
 const title3Div = <div key={title3}>{title3}</div>
 const listItemHeight = 40
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const compareArrays = (receivedArray: any[], expectedArray: any[]) => {
   return receivedArray.every((receivedElement, i) => {
     const expected = expectedArray[i]

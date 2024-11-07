@@ -1,16 +1,16 @@
 /** @jsxImportSource @emotion/react */
-import { useContext } from 'react'
 import { css } from '@emotion/react'
+import { useContext } from 'react'
+import { createPortal } from 'react-dom'
+import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
+import { toolsElementId } from '../../../widgets/header-with-optional-toggles/HeaderWithToggles'
+import PickedRecipesManagementTool from '../search-management/PickedRecipesManagementTool'
 import ViewModeManagementTool from '../search-management/ViewModeManagementTool'
 import { RecipesViewingContext } from './SearchRecipesProvider'
-import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
-import PickedRecipesManagementTool from '../search-management/PickedRecipesManagementTool'
-import { createPortal } from 'react-dom'
-import { toolsElementId } from '../../../widgets/header-with-optional-toggles/HeaderWithToggles'
 
 import { SPLIT_VIEW_WIDTH } from '../../../constants/layout'
-import RecipesViewingHeaderToggles from '../search-management/SearchRecipesHeaderToggles'
 import FilteringManagementTool from '../search-management/FilteringManagementTool'
+import RecipesViewingHeaderToggles from '../search-management/SearchRecipesHeaderToggles'
 
 const SearchManagement = () => {
   const { isSplitView } = useContext(ViewSizeContext)

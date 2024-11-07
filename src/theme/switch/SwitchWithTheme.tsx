@@ -1,6 +1,6 @@
 import { Switch } from '@chakra-ui/react'
-import { SwitchVariant } from './switch-theme'
-import { ChangeEvent } from 'react'
+import type { ChangeEvent } from 'react'
+import type { SwitchVariant } from './switch-theme'
 
 type SwitchWithThemeProps = {
   variant: SwitchVariant

@@ -71,14 +71,18 @@ jobs:
       - run: npm install
       - run: env IS_GITHUB=true npm run migrations:local
 
+      - name: Run linting (Typescript)
+        run: npm run lint
+
+      - name: Run linting (Biome)
+        run: npm run lint:biome
+
       - name: Run unit tests for api
         run: env IS_GITHUB=true npm run test:api
 
       - name: Run unit tests for ui
         run: npm run test:ui
 
-      - name: Run linting
-        run: npm run lint
 
   cypress_ui_testing:
     needs: [jest_unit_and_component_testing_and_linting]
@@ -86,22 +90,22 @@ jobs:
     # FIXME: Comment back in  once the ApolloNextAppProvider can be made to work with the cypress
     # tests! Currently the Postgres DB is not used as the ApiServiceProvider
     # is replaced with a mock and the tests are not E2E when run in GitHub.
-    services:
-      postgres:
-        image: postgres:latest
-        env:
-          POSTGRES_HOST: localhost
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_PORT: 5432
-          POSTGRES_DB: postgres
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+    # services:
+    #   postgres:
+    #     image: postgres:latest
+    #     env:
+    #       POSTGRES_HOST: localhost
+    #       POSTGRES_USER: postgres
+    #       POSTGRES_PASSWORD: postgres
+    #       POSTGRES_PORT: 5432
+    #       POSTGRES_DB: postgres
+    #     ports:
+    #       - 5432:5432
+    #     options: >-
+    #       --health-cmd pg_isready
+    #       --health-interval 10s
+    #       --health-timeout 5s
+    #       --health-retries 5
 
     steps:
       - name: Checkout code
@@ -109,16 +113,16 @@ jobs:
 
       # FIXME: Comment back in  once the ApolloNextAppProvider can be made to work with the cypress
       # tests! Currenlty the Postgres DB is not used so there is no need to run migrations
-      - name: Use Node.js to run migrations to database
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-      - run: npm install
-      - run: npm run migrations:local
+      # - name: Use Node.js to run migrations to database
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: '20.x'
+      # - run: npm install
+      # - run: npm run migrations:local
 
       # FIXME: Remove these once the ApolloNextAppProvider can be made to work with the cypress tests!
-      # - name: Replace GraphQL client using hook with a mock
-      #   run: mv ./src/test-utils/ApiServiceProvider.tsx ./src/api-service/ApiServiceProvider.tsx
+      - name: Replace GraphQL client using hook with a mock
+        run: mv ./src/test-utils/ApiServiceProvider.tsx ./src/api-service/ApiServiceProvider.tsx
 
       - name: Run cypress tests
         uses: cypress-io/github-action@v6
@@ -137,8 +141,6 @@ jobs:
           NEXT_PUBLIC_API_URI_LOCAL: https://localhost:3000/api/graphql
           NEXT_PUBLIC_ORIGIN_LOCAL: https://localhost:3000
           DATABASE_CONNECTION_STRING: postgresql://postgres:postgres@localhost:5432/postgres
-          IS_GITHUB: true
-          IS_JEST: true
           JWT_SECRET: 'fake secret'
           # These are provided to pass the assertions, but they are not used in the tests
           SUPABASE_URL: 'Not needed for jest tests'

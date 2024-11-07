@@ -1,5 +1,5 @@
-import { argon2id, argon2Verify } from 'hash-wasm'
-import { randomBytes } from 'crypto'
+import { randomBytes } from 'node:crypto'
+import { argon2Verify, argon2id } from 'hash-wasm'
 
 export const getHashedPassword = async (password: string) => {
   const randomBytesSalt = randomBytes(16)

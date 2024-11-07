@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import { HEADER_HEIGHT, NAV_BAR_WIDTH } from '../../constants/layout'
-import { ViewSizeContext } from '../view-size-service/ViewSizeProvider'
 import { useContext } from 'react'
-import { ColorCodes } from '../../theme/theme'
+import { HEADER_HEIGHT, NAV_BAR_WIDTH } from '../../constants/layout'
+import { Shades } from '../../constants/shades'
+import { ViewSizeContext } from '../view-size-service/ViewSizeProvider'
 
 type MultiPanelViewProps = {
   content: JSX.Element
@@ -29,7 +29,7 @@ const outerCss = (width: number) => css`
   display: flex;
   flex-direction: column;
   width: ${width}px;
-  background-color: ${ColorCodes.VERY_DARK};
+  background-color: ${Shades.VERY_DARK};
 `
 
 const mainCss = css`

@@ -1,36 +1,52 @@
+import type { GraphQLClient } from 'graphql-request'
 import { client, database } from '../../database/config/config'
-import { getGraphQLClient } from './test-graphql-client'
-import { TestQueries } from './test-queries'
+import type { AccountDBSelect } from '../../database/inferred-types/inferred-types'
 import { clearDatabase } from '../../database/utils/clear-database.js'
-import { Recipe, RecipeInput } from '../../modules/types.generated'
-import { recipeTestInput } from './test-data'
+import { createEmailAccount } from '../../database/utils/insert-data-to-database'
+import type { PatchRecipeInput, Recipe } from '../../modules/types.generated'
+import { getHashedPassword } from '../accounts/password-utils'
+import { createJWT } from '../accounts/token-utils'
+import { emailAccountTestData, recipeTestInput } from './test-data'
+import { getGraphQLClient } from './test-graphql-client'
+import { TestMutations } from './test-mutations'
 import {
+  verifyPatchedRecipe,
+  verifyRecipeInDatabase,
   verifyRecipeIngredientsInDatabase,
   verifyRecipeInstructionsInDatabase,
   verifyRecipeLanguageInDatabase,
-  verifyRecipeInDatabase,
-  verifyTableRowCountsInDatabase,
   verifyRecipeTagsInDatabase,
-  verifyPatchedRecipe
-} from './test-verifiers'
-import { GraphQLClient } from 'graphql-request'
+  verifyTableRowCountsInDatabase
+} from './verifiers'
 
-const createOriginalRecipe = async (graphQLClient: GraphQLClient) => {
-  const createRecipeQuery = TestQueries.createRecipe
+const createAuthorAccount = async () => {
+  const passwordHash = await getHashedPassword(emailAccountTestData.password)
+  const account = await createEmailAccount(database, { ...emailAccountTestData, passwordHash })
+  return account as AccountDBSelect
+}
+
+const getToken = (account: AccountDBSelect) => {
+  return createJWT(account)
+}
+
+const createOriginalRecipe = async (graphQLClient: GraphQLClient, authorId: number) => {
+  const createRecipeQuery = TestMutations.createRecipe
 
   const createRecipeResponse = (await graphQLClient.request(createRecipeQuery, {
-    recipeInput: recipeTestInput
+    createRecipeInput: { ...recipeTestInput, authorId }
   })) as { createRecipe: Recipe }
+
   const originalRecipe = createRecipeResponse.createRecipe
   return originalRecipe
 }
 
-const patchOriginalRecipe = async (graphQLClient: GraphQLClient, recipeId: number, recipePatch: RecipeInput) => {
-  const patchRecipeQuery = TestQueries.patchRecipe
+const patchOriginalRecipe = async (graphQLClient: GraphQLClient, recipeId: number, recipePatch: PatchRecipeInput) => {
+  const patchRecipeQuery = TestMutations.patchRecipe
   const patchRecipeResponse = (await graphQLClient.request(patchRecipeQuery, {
     recipeId,
     recipePatch
   })) as { patchRecipe: Recipe }
+
   return patchRecipeResponse.patchRecipe
 }
 
@@ -40,65 +56,81 @@ describe('Handle recipes', () => {
   })
 
   it('New recipe can be created', async () => {
-    const graphQLClient = getGraphQLClient()
-    const originalRecipe = await createOriginalRecipe(graphQLClient)
+    const account = await createAuthorAccount()
+    const token = getToken(account)
+    const graphQLClient = getGraphQLClient(token)
+    const originalRecipe = await createOriginalRecipe(graphQLClient, account.id)
+    const recipeInput = { ...recipeTestInput, authorId: account.id }
+
     const newRecipeId = originalRecipe.id
     const languageId = originalRecipe.language.id
-    await verifyTableRowCountsInDatabase(recipeTestInput)
-    await verifyRecipeLanguageInDatabase(recipeTestInput, languageId)
-    await verifyRecipeTagsInDatabase(recipeTestInput, newRecipeId)
-    await verifyRecipeInDatabase(recipeTestInput, newRecipeId)
-    await verifyRecipeIngredientsInDatabase(recipeTestInput, newRecipeId)
-    await verifyRecipeInstructionsInDatabase(recipeTestInput, newRecipeId)
+    await verifyTableRowCountsInDatabase(recipeInput)
+    await verifyRecipeLanguageInDatabase(recipeInput, languageId)
+    await verifyRecipeTagsInDatabase(recipeInput, newRecipeId)
+    await verifyRecipeInDatabase(recipeInput, newRecipeId)
+    await verifyRecipeIngredientsInDatabase(recipeInput, newRecipeId)
+    await verifyRecipeInstructionsInDatabase(recipeInput, newRecipeId)
   })
 
   it('Recipe title can be patched', async () => {
-    const graphQLClient = getGraphQLClient()
-    const originalRecipe = await createOriginalRecipe(graphQLClient)
+    const account = await createAuthorAccount()
+    const token = getToken(account)
+    const graphQLClient = getGraphQLClient(token)
+    const originalRecipe = await createOriginalRecipe(graphQLClient, account.id)
 
-    const patch = { title: 'New title' }
+    const patch = { title: 'New title', authorId: account.id }
     const patchedRecipe = await patchOriginalRecipe(graphQLClient, originalRecipe.id, patch)
     verifyPatchedRecipe(patchedRecipe, originalRecipe, patch)
   })
   it('Recipe description can be patched', async () => {
-    const graphQLClient = getGraphQLClient()
-    const originalRecipe = await createOriginalRecipe(graphQLClient)
+    const account = await createAuthorAccount()
+    const token = getToken(account)
+    const graphQLClient = getGraphQLClient(token)
+    const originalRecipe = await createOriginalRecipe(graphQLClient, account.id)
 
-    const patch = { description: 'New description' }
+    const patch = { description: 'New description', authorId: account.id }
     const patchedRecipe = await patchOriginalRecipe(graphQLClient, originalRecipe.id, patch)
     verifyPatchedRecipe(patchedRecipe, originalRecipe, patch)
   })
 
   it('Recipe oven needed can be patched', async () => {
-    const graphQLClient = getGraphQLClient()
-    const originalRecipe = await createOriginalRecipe(graphQLClient)
+    const account = await createAuthorAccount()
+    const token = getToken(account)
+    const graphQLClient = getGraphQLClient(token)
+    const originalRecipe = await createOriginalRecipe(graphQLClient, account.id)
 
-    const patch = { ovenNeeded: !recipeTestInput.ovenNeeded }
+    const patch = { ovenNeeded: !recipeTestInput.ovenNeeded, authorId: account.id }
     const patchedRecipe = await patchOriginalRecipe(graphQLClient, originalRecipe.id, patch)
     verifyPatchedRecipe(patchedRecipe, originalRecipe, patch)
   })
 
   it('Recipe language can be patched', async () => {
-    const graphQLClient = getGraphQLClient()
-    const originalRecipe = await createOriginalRecipe(graphQLClient)
+    const account = await createAuthorAccount()
+    const token = getToken(account)
+    const graphQLClient = getGraphQLClient(token)
+    const originalRecipe = await createOriginalRecipe(graphQLClient, account.id)
 
-    const patch = { language: 'New language' }
+    const patch = { language: 'New language', authorId: account.id }
     const patchedRecipe = await patchOriginalRecipe(graphQLClient, originalRecipe.id, patch)
     verifyPatchedRecipe(patchedRecipe, originalRecipe, patch)
   })
 
   it('Recipe tags can be patched', async () => {
-    const graphQLClient = getGraphQLClient()
-    const originalRecipe = await createOriginalRecipe(graphQLClient)
+    const account = await createAuthorAccount()
+    const token = getToken(account)
+    const graphQLClient = getGraphQLClient(token)
+    const originalRecipe = await createOriginalRecipe(graphQLClient, account.id)
 
-    const patch = { tags: ['lentils', 'healthy'] }
+    const patch = { tags: ['lentils', 'healthy'], authorId: account.id }
     const patchedRecipe = await patchOriginalRecipe(graphQLClient, originalRecipe.id, patch)
     verifyPatchedRecipe(patchedRecipe, originalRecipe, patch)
   })
 
   it('Recipe ingredients can be patched', async () => {
-    const graphQLClient = getGraphQLClient()
-    const originalRecipe = await createOriginalRecipe(graphQLClient)
+    const account = await createAuthorAccount()
+    const token = getToken(account)
+    const graphQLClient = getGraphQLClient(token)
+    const originalRecipe = await createOriginalRecipe(graphQLClient, account.id)
 
     const updatedFirstIngredientGroup = {
       id: originalRecipe.ingredientGroups[0].id,
@@ -109,15 +141,20 @@ describe('Handle recipes', () => {
         { amount: 0.5, unit: 'tsp', name: 'jeera' }
       ]
     }
-    const patch = { ingredientGroups: [updatedFirstIngredientGroup, ...originalRecipe.ingredientGroups.slice(1)] }
+    const patch = {
+      ingredientGroups: [updatedFirstIngredientGroup, ...originalRecipe.ingredientGroups.slice(1)],
+      authorId: account.id
+    }
 
     const patchedRecipe = await patchOriginalRecipe(graphQLClient, originalRecipe.id, patch)
     verifyPatchedRecipe(patchedRecipe, originalRecipe, patch)
   })
 
   it('Recipe instructions can be patched', async () => {
-    const graphQLClient = getGraphQLClient()
-    const originalRecipe = await createOriginalRecipe(graphQLClient)
+    const account = await createAuthorAccount()
+    const token = getToken(account)
+    const graphQLClient = getGraphQLClient(token)
+    const originalRecipe = await createOriginalRecipe(graphQLClient, account.id)
 
     const updatedFirstInstructionGroup = {
       id: originalRecipe.instructionGroups[0].id,
@@ -128,7 +165,10 @@ describe('Handle recipes', () => {
         { content: 'New instruction' }
       ]
     }
-    const patch = { instructionGroups: [updatedFirstInstructionGroup, ...originalRecipe.instructionGroups.slice(1)] }
+    const patch = {
+      instructionGroups: [updatedFirstInstructionGroup, ...originalRecipe.instructionGroups.slice(1)],
+      authorId: account.id
+    }
     const patchedRecipe = await patchOriginalRecipe(graphQLClient, originalRecipe.id, patch)
     verifyPatchedRecipe(patchedRecipe, originalRecipe, patch)
   })

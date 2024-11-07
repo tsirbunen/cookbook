@@ -1,6 +1,6 @@
 import { checkboxAnatomy } from '@chakra-ui/anatomy'
 import { createMultiStyleConfigHelpers } from '@chakra-ui/react'
-import { PALE_COLOR, VERY_DARK_COLOR, VERY_PALE_COLOR } from '../../constants/color-codes'
+import { Shades } from '../../constants/shades'
 
 const { definePartsStyle, defineMultiStyleConfig } = createMultiStyleConfigHelpers(checkboxAnatomy.keys)
 
@@ -9,18 +9,18 @@ const dark = definePartsStyle({
     borderRadius: 6,
     width: '25px',
     height: '25px',
-    borderColor: VERY_DARK_COLOR,
+    borderColor: Shades.VERY_DARK,
     borderWidth: '3px',
     iconSize: 'xl',
     _checked: {
-      color: VERY_PALE_COLOR,
-      backgroundColor: VERY_DARK_COLOR,
-      borderColor: VERY_DARK_COLOR,
-      _focus: { outline: 'none', backgroundColor: VERY_DARK_COLOR, borderColor: VERY_DARK_COLOR },
-      _hover: { outline: 'none', backgroundColor: VERY_DARK_COLOR, borderColor: VERY_DARK_COLOR }
+      color: Shades.VERY_PALE,
+      backgroundColor: Shades.VERY_DARK,
+      borderColor: Shades.VERY_DARK,
+      _focus: { outline: 'none', backgroundColor: Shades.VERY_DARK, borderColor: Shades.VERY_DARK },
+      _hover: { outline: 'none', backgroundColor: Shades.VERY_DARK, borderColor: Shades.VERY_DARK }
     },
-    _focus: { outline: 'none', backgroundColor: VERY_DARK_COLOR, borderColor: VERY_DARK_COLOR },
-    _hover: { outline: 'none', backgroundColor: VERY_DARK_COLOR, borderColor: VERY_DARK_COLOR }
+    _focus: { outline: 'none', backgroundColor: Shades.VERY_DARK, borderColor: Shades.VERY_DARK },
+    _hover: { outline: 'none', backgroundColor: Shades.VERY_DARK, borderColor: Shades.VERY_DARK }
   }
 })
 
@@ -29,17 +29,17 @@ const pale = definePartsStyle({
     borderRadius: 6,
     width: '25px',
     height: '25px',
-    borderColor: VERY_DARK_COLOR,
+    borderColor: Shades.VERY_DARK,
     borderWidth: '3px',
     iconSize: 'xl',
     _checked: {
-      background: PALE_COLOR,
-      color: VERY_PALE_COLOR,
-      borderColor: PALE_COLOR,
-      _focus: { outline: 'none', backgroundColor: PALE_COLOR, borderColor: PALE_COLOR }
+      background: Shades.PALE,
+      color: Shades.VERY_PALE,
+      borderColor: Shades.PALE,
+      _focus: { outline: 'none', backgroundColor: Shades.PALE, borderColor: Shades.PALE }
     },
-    _focus: { outline: 'none', backgroundColor: VERY_DARK_COLOR, borderColor: VERY_DARK_COLOR },
-    _hover: { outline: 'none', backgroundColor: VERY_DARK_COLOR, borderColor: VERY_DARK_COLOR }
+    _focus: { outline: 'none', backgroundColor: Shades.VERY_DARK, borderColor: Shades.VERY_DARK },
+    _hover: { outline: 'none', backgroundColor: Shades.VERY_DARK, borderColor: Shades.VERY_DARK }
   }
 })
 

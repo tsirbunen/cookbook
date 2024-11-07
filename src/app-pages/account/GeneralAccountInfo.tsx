@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react'
-import { SLIGHTLY_DARK_COLOR } from '../../constants/color-codes'
 import { Fragment } from 'react'
+import { Shades } from '../../constants/shades'
 import TitleWithSpacing from './TitleWithSpacing'
 import { content } from './textContent'
 
@@ -9,11 +9,14 @@ const GeneralAccountInfo = () => {
     <Fragment>
       <TitleWithSpacing title={content.generalAccountTitle} />
 
-      {content.generalAccountInfo.map((info, index) => (
-        <Text key={`general-account-info-${index}`} {...infoCss}>
-          {info}
-        </Text>
-      ))}
+      {content.generalAccountInfo.map((info, index) => {
+        const key = `general-account-info-${index}`
+        return (
+          <Text key={key} {...infoCss}>
+            {info}
+          </Text>
+        )
+      })}
     </Fragment>
   )
 }
@@ -22,6 +25,6 @@ export default GeneralAccountInfo
 
 const infoCss = {
   lineHeight: '1.15em',
-  color: SLIGHTLY_DARK_COLOR,
+  color: Shades.SLIGHTLY_DARK,
   marginBottom: '10px'
 }

@@ -27,6 +27,8 @@ import    { pingQuery as Query_pingQuery } from './query/resolvers/Query/pingQue
 import    { validationSchemas as Query_validationSchemas } from './validation/resolvers/Query/validationSchemas';
 import    { Recipe } from './recipe/resolvers/Recipe';
 import    { Tag } from './recipe/resolvers/Tag';
+import    { UnauthenticatedError } from './error/resolvers/UnauthenticatedError';
+import    { UnauthorizedError } from './error/resolvers/UnauthorizedError';
 import    { ValidationSchema } from './validation/resolvers/ValidationSchema';
 import    { JSONResolver } from 'graphql-scalars';
     export const resolvers: Resolvers = {
@@ -46,6 +48,8 @@ Language: Language,
 Photo: Photo,
 Recipe: Recipe,
 Tag: Tag,
+UnauthenticatedError: UnauthenticatedError,
+UnauthorizedError: UnauthorizedError,
 ValidationSchema: ValidationSchema,
 JSON: JSONResolver
     }

@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { ColorCodes } from '../../theme/theme'
-import { ChakraProps, Flex } from '@chakra-ui/react'
-import { CSSProperties, SyntheticEvent, useEffect, useState } from 'react'
+import { type ChakraProps, Flex } from '@chakra-ui/react'
+import { type CSSProperties, type SyntheticEvent, useEffect, useState } from 'react'
 import { PiForkKnifeFill } from 'react-icons/pi'
+import { Shades } from '../../constants/shades'
 export const clickableRecipeCardArea = 'clickable-recipe-card-area'
 
 export enum FallbackIcon {
@@ -62,6 +62,7 @@ const ImageWithFallback = ({
   }
 
   return (
+    // biome-ignore lint/a11y/useKeyWithClickEvents:Implement later
     <img
       src={mainPhotoUrl}
       alt={imageAlt}
@@ -79,10 +80,9 @@ const getFallbackIcon = (fallbackIcon: FallbackIcon, imageWidth: number | string
   switch (fallbackIcon) {
     case FallbackIcon.FOOD:
       return (
-        // <TbSoup size={typeof imageWidth === 'number' ? imageWidth * 0.6 : '50%'} color={ColorCodes.SLIGHTLY_PALE} />
         <PiForkKnifeFill
           size={typeof imageWidth === 'number' ? imageWidth * 0.6 : '50%'}
-          color={ColorCodes.SLIGHTLY_PALE}
+          color={Shades.SLIGHTLY_PALE}
         />
       )
     default:
@@ -100,7 +100,7 @@ const iconContainerCss = (
     borderRadius,
     height: imageHeight,
     width: imageWidth,
-    backgroundColor: ColorCodes.VERY_PALE,
+    backgroundColor: Shades.VERY_PALE,
     display: 'flex',
     justifyContent: isCentered ? 'center' : 'start',
     flexDirection: 'column' as ChakraProps['flexDirection'],

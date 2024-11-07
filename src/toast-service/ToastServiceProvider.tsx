@@ -1,10 +1,10 @@
 'use client'
 
-import { ToastId, ToastPosition, useToast } from '@chakra-ui/react'
-import { createContext, MutableRefObject } from 'react'
+import { type ToastId, type ToastPosition, useToast } from '@chakra-ui/react'
 import { createStandaloneToast } from '@chakra-ui/react'
-import { toastTheme } from '../theme/alert/toast-theme'
+import { type MutableRefObject, createContext } from 'react'
 import { ToastVariant } from '../theme/alert/alert-theme'
+import { toastTheme } from '../theme/alert/toast-theme'
 
 // Note 1: We need to add the ToastContainer component for the Chakra UI toasts to work.
 // According to the Chakra UI documentation, the ChakraProvider should be enough, but
@@ -59,7 +59,7 @@ const ToastServiceProvider = ({ children }: { children: React.ReactNode }) => {
     return {
       ...toastInput,
       duration: toastInput.duration ?? defaultDurationMilliseconds,
-      isClosable: toastInput.isClosable === false ? false : true,
+      isClosable: toastInput.isClosable !== false,
       position
     }
   }

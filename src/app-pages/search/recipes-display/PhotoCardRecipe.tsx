@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import { ColorCodes } from '../../../theme/theme'
-import { Recipe } from '../../../types/graphql-schema-types.generated'
-import { SoundServiceContext, SoundType } from '../../../sounds/SoundProvider'
 import { useContext } from 'react'
+import { Shades } from '../../../constants/shades'
+import { SoundServiceContext, SoundType } from '../../../sounds/SoundProvider'
+import type { Recipe } from '../../../types/graphql-schema-types.generated'
 import ImageWithFallback, { FallbackIcon } from '../../../widgets/image-with-fallback/ImageWithFallback'
 
 export const photoRepresentationDataTestId = 'card-representation'
@@ -61,11 +61,11 @@ const cardCss = (isPicked: boolean) => css`
   margin-left: 3px;
   margin-bottom: ${SPACING}px;
   position: relative;
-  background-color: ${isPicked ? ColorCodes.VERY_DARK : 'transparent'};
+  background-color: ${isPicked ? Shades.VERY_DARK : 'transparent'};
 `
 
 const titleCss = (isPicked: boolean) => css`
-  color: ${isPicked ? ColorCodes.VERY_PALE : ColorCodes.VERY_DARK};
+  color: ${isPicked ? Shades.VERY_PALE : Shades.VERY_DARK};
   font-weight: bold;
   font-size: 12px;
   height: ${CARD_HEIGHT - IMAGE_HEIGHT - 10}px;

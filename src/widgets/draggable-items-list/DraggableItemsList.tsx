@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import { ReactElement, useEffect, useState } from 'react'
-import DraggableItem from './DraggableItem'
 import { range } from 'lodash'
+import { type ReactElement, useEffect, useState } from 'react'
+import DraggableItem from './DraggableItem'
+import { ListUpdater } from './list-updater'
 import {
   getInitialTranslateYs,
   getUpdatedKeyOrder,
@@ -11,7 +12,6 @@ import {
   getUpdatedVisualIndexOrder,
   getVisualIndexDeltas
 } from './utils'
-import { ListUpdater } from './list-updater'
 
 export type ItemListData = { current: ReactElement[]; previous: ReactElement[] }
 
@@ -41,7 +41,7 @@ const DraggableItemsList = ({
   const [translateYs, setTranslateYs] = useState(getInitialTranslateYs(items, itemHeight))
   const [shouldStop, setShouldStop] = useState(true)
   const [keyOrder, setKeyOrder] = useState(items?.map((i) => i.key) as string[])
-  const [draggableItemsInOrder, setDraggableItemsInOrder] = useState(items?.map((i) => i))
+  const [draggableItemsInOrder, setDraggableItemsInOrder] = useState(items.map((i) => i))
 
   useEffect(() => {
     setItemsList((previous) => {
@@ -49,6 +49,7 @@ const DraggableItemsList = ({
     })
   }, [items])
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Only run if itemsList changes
   useEffect(() => {
     const listUpdater = new ListUpdater(
       itemsList,
@@ -97,8 +98,8 @@ const DraggableItemsList = ({
   }
 
   return (
-    <div css={containerCss(items!.length, itemHeight)}>
-      {draggableItemsInOrder!.map((item, index) => {
+    <div css={containerCss(items.length, itemHeight)}>
+      {draggableItemsInOrder.map((item, index) => {
         const translateY = translateYs[index]
 
         return (

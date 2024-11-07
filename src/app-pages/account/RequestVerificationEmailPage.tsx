@@ -1,21 +1,24 @@
-import { ChakraProps, Flex } from '@chakra-ui/react'
-import { useForm, SubmitHandler } from 'react-hook-form'
-import FormSimpleInput, { RequestVerificationEmailValues } from '../../widgets/form-simple-input/FormSimpleInput'
-import FormActionButtons from '../../widgets/form-action-buttons/FormActionButtons'
-import { useContext, useState } from 'react'
-import { ApiServiceContext } from '../../api-service/ApiServiceProvider'
-import { pageCss } from './AccountPage'
+import { type ChakraProps, Flex } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
-import { Page } from '../../navigation/router/router'
-import TitleWithSpacing from './TitleWithSpacing'
+import { useContext, useState } from 'react'
+import { type SubmitHandler, useForm } from 'react-hook-form'
 import { AccountRoute } from '../../../app/account/[accountAction]/page'
-import { AppStateContext, AppStateContextType } from '../../state/StateContextProvider'
-import { content } from './textContent'
-import SuccessInfo from './SuccessInfo'
-import { getValidatorFromJsonSchema } from './formValidators'
+import { ApiServiceContext } from '../../api-service/ApiServiceProvider'
+import { Page } from '../../navigation/router/router'
+import { AppStateContext, type AppStateContextType } from '../../state/StateContextProvider'
 import { TargetSchema } from '../../types/graphql-schema-types.generated'
-import { getSubmitIsDisabled } from './utils'
+import { getValidatorFromJsonSchema } from '../../utils/formValidators'
+import { getSubmitIsDisabled } from '../../utils/getSubmitIsDisabled'
+import { pageCss } from '../../utils/styles'
+import FormActionButtons from '../../widgets/form-action-buttons/FormActionButtons'
+import FormSimpleStringInput from '../../widgets/form-simple-input/FormSimpleStringInput'
+import SuccessInfo from './SuccessInfo'
+import TitleWithSpacing from './TitleWithSpacing'
+import { content } from './textContent'
 
+type RequestVerificationEmailValues = {
+  email: string
+}
 const initialFormValues: RequestVerificationEmailValues = {
   email: ''
 }
@@ -61,7 +64,14 @@ const RequestVerificationEmailPage = () => {
     router.push(route)
   }
 
-  const submitIsDisabled = getSubmitIsDisabled(touchedFields, initialFormValues, errors, isSubmitting)
+  const requiredProperties = validationSchema?.required ?? []
+  const submitIsDisabled = getSubmitIsDisabled(
+    touchedFields,
+    initialFormValues,
+    errors,
+    isSubmitting,
+    requiredProperties
+  )
 
   return (
     <Flex {...pageCss} data-testid={`${Page.ACCOUNT}-${AccountRoute.VERIFICATION}-page`}>
@@ -71,11 +81,10 @@ const RequestVerificationEmailPage = () => {
         <Flex {...innerCss}>
           {!requestWasSent ? (
             <form onSubmit={handleSubmit(onSubmit)}>
-              <FormSimpleInput
+              <FormSimpleStringInput
                 label={content.emailLabel}
                 control={control}
                 name={'email'}
-                error={errors?.email}
                 info={content.emailRequestVerificationInfo}
               />
 

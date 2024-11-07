@@ -1,5 +1,5 @@
-import { ChakraProps, Flex, Text } from '@chakra-ui/react'
-import { ColorCodes } from '../../theme/theme'
+import { type ChakraProps, Flex, Text } from '@chakra-ui/react'
+import { Shades } from '../../constants/shades'
 import { NAVIGATION_BAR_ITEM_HEIGHT } from '../../navigation/navigation-bar/NavigationBarItem'
 
 type PageInfoItemProps = {
@@ -28,12 +28,12 @@ const outerCss = {
 
 const labelCss = {
   fontWeight: 'bold',
-  color: ColorCodes.DARK,
+  color: Shades.DARK,
   width: '120px'
 }
 
 const descriptionCss = {
-  color: ColorCodes.DARK,
+  color: Shades.DARK,
   fontSize: '0.9em'
 }
 

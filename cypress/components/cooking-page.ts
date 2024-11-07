@@ -9,11 +9,11 @@ import {
 import { Base } from './base'
 import { cardRadioButtonSelectorDataTestId } from '../../src/widgets/card-radio-button-selector/CardRadioButtonSelector'
 import { MULTI_COLUMN_DIV } from '../../src/layout/multi-column-wrapper/MultiColumnContent'
-import { DARK_COLOR_RGB, MEDIUM_RBG, VERY_DARK_RGB } from '../../src/constants/color-codes'
 import { clickableRecipeCardArea } from '../../src/widgets/image-with-fallback/ImageWithFallback'
 import { ingredientName, ingredientRow } from '../../src/app-pages/cook/panel/ingredients-and-scaling/IngredientRow'
 import { instructionRow } from '../../src/app-pages/cook/panel/instructions/Instructions'
 import { recipeTitle } from '../../src/app-pages/cook/panel/general/RecipeTitle'
+import { Shades } from '../../src/constants/shades'
 
 export class CookingPage extends Base {
   // Note: We cannot pick all the buttons at once and then loop through them because clicking
@@ -144,7 +144,7 @@ export class CookingPage extends Base {
   }
 
   verifyIngredientOpacity(isOpaque: boolean, targetIndex: number, recipeIndex: string) {
-    const color = isOpaque ? DARK_COLOR_RGB : VERY_DARK_RGB
+    const color = isOpaque ? Shades.DARK_RGB : Shades.VERY_DARK_RGB
 
     this.performForIngredientsOfRecipe(recipeIndex, () => {
       cy.getByDataTestId(ingredientRow).each(($ingredient, i) => {
@@ -190,7 +190,7 @@ export class CookingPage extends Base {
 
   verifyFavoriteStatus(recipeIndex: string, isFavorite: boolean) {
     this.performForTogglesOfRecipe(recipeIndex, () => {
-      const expectedColor = isFavorite ? VERY_DARK_RGB : MEDIUM_RBG
+      const expectedColor = isFavorite ? Shades.VERY_DARK_RGB : Shades.MEDIUM_RGB
 
       cy.getByDataTestId(favoriteToggleProperty).within(() => {
         cy.get('button[type="button"]').should('have.css', 'color', expectedColor)

@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom/jest-globals'
 import '@testing-library/jest-dom'
 import { expect } from '@jest/globals'
-import { render, screen, fireEvent } from '@testing-library/react'
-import CardRadioButtonSelector, { cardRadioButtonSelectorDataTestId } from '../CardRadioButtonSelector'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { CardRadioButtonSelectorVariant } from '../CardRadioButton'
+import CardRadioButtonSelector, { cardRadioButtonSelectorDataTestId } from '../CardRadioButtonSelector'
 
 const textOptions = [
   { label: 'Option 1 label', value: 'Option 1 value' },

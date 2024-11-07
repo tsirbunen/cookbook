@@ -1,21 +1,29 @@
-import { ChakraProps, Flex } from '@chakra-ui/react'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import FormSimpleInput, { CreateEmailAccountFormValues } from '../../widgets/form-simple-input/FormSimpleInput'
-import FormActionButtons from '../../widgets/form-action-buttons/FormActionButtons'
-import { useContext, useEffect, useState } from 'react'
-import { ApiServiceContext } from '../../api-service/ApiServiceProvider'
-import { AppStateContext, AppStateContextType } from '../../state/StateContextProvider'
-import { Dispatch } from '../../state/reducer'
-import { Page } from '../../navigation/router/router'
+import { type ChakraProps, Flex } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
+import { useContext, useEffect, useState } from 'react'
+import { type SubmitHandler, useForm } from 'react-hook-form'
 import { AccountRoute } from '../../../app/account/[accountAction]/page'
+import { ApiServiceContext } from '../../api-service/ApiServiceProvider'
+import { Page } from '../../navigation/router/router'
+import { AppStateContext, type AppStateContextType } from '../../state/StateContextProvider'
+import { Dispatch } from '../../state/reducer'
 import { IdentityProvider, TargetSchema } from '../../types/graphql-schema-types.generated'
-import { content } from './textContent'
+import { getEmailAccountInputValidator } from '../../utils/formValidators'
+import { getSubmitIsDisabled } from '../../utils/getSubmitIsDisabled'
+import { pageCss } from '../../utils/styles'
+import FormActionButtons from '../../widgets/form-action-buttons/FormActionButtons'
+import FormSimpleStringInput from '../../widgets/form-simple-input/FormSimpleStringInput'
 import SuccessInfo from './SuccessInfo'
-import { getEmailAccountInputValidator } from './formValidators'
-import { getPasswordVisibilityToggle, getSubmitIsDisabled } from './utils'
-import { pageCss } from './AccountPage'
 import TitleWithSpacing from './TitleWithSpacing'
+import { content } from './textContent'
+import { getPasswordVisibilityToggle } from './utils'
+
+export type CreateEmailAccountFormValues = {
+  username: string
+  email: string
+  password: string
+  passwordConfirmation: string
+}
 
 const initialFormValues: CreateEmailAccountFormValues = {
   username: '',
@@ -52,7 +60,8 @@ const CreateEmailAccountPage = () => {
       }
     })
     return () => subscription.unsubscribe()
-  }, [watch, touchedFields])
+    // FIXME: Follow if triggers too often
+  }, [watch, touchedFields, trigger])
 
   const onSubmit: SubmitHandler<CreateEmailAccountFormValues> = async (
     accountVariables: CreateEmailAccountFormValues
@@ -83,7 +92,14 @@ const CreateEmailAccountPage = () => {
   }
 
   const passwordInputType = showPasswords ? 'text' : 'password'
-  const submitIsDisabled = getSubmitIsDisabled(touchedFields, initialFormValues, errors, isSubmitting)
+  const requiredProperties = validationSchema?.required ?? []
+  const submitIsDisabled = getSubmitIsDisabled(
+    touchedFields,
+    initialFormValues,
+    errors,
+    isSubmitting,
+    requiredProperties
+  )
 
   return (
     <Flex {...pageCss} data-testid={`${Page.ACCOUNT}-${AccountRoute.CREATE}-page`}>
@@ -93,40 +109,36 @@ const CreateEmailAccountPage = () => {
         <Flex {...innerCss}>
           {!state.account ? (
             <form onSubmit={handleSubmit(onSubmit)}>
-              <FormSimpleInput
+              <FormSimpleStringInput
                 label={content.usernameLabel}
                 control={control}
                 name={'username'}
                 info={content.usernameInfo}
                 placeholder={content.usernamePlaceholder}
-                error={errors?.username}
               />
 
-              <FormSimpleInput
+              <FormSimpleStringInput
                 label={content.emailLabel}
                 control={control}
                 name={'email'}
                 info={content.emailInfo}
                 placeholder={content.emailPlaceholder}
-                error={errors?.email}
               />
-              <FormSimpleInput
+              <FormSimpleStringInput
                 label={content.passwordLabel}
                 control={control}
                 name={'password'}
                 info={content.passwordInfo}
                 placeholder={content.passwordPlaceholder}
-                error={errors?.password}
                 type={passwordInputType}
                 rightElement={getPasswordVisibilityToggle(showPasswords, setShowPasswords)}
               />
-              <FormSimpleInput
+              <FormSimpleStringInput
                 label={content.passwordConfirmationLabel}
                 control={control}
                 name={'passwordConfirmation'}
                 info={content.passwordConfirmationInfo}
                 placeholder={content.passwordConfirmationPlaceholder}
-                error={errors?.passwordConfirmation}
                 type={passwordInputType}
               />
               <FormActionButtons
@@ -143,7 +155,7 @@ const CreateEmailAccountPage = () => {
             />
           )}
         </Flex>
-      </Flex>{' '}
+      </Flex>
     </Flex>
   )
 }

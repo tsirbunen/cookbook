@@ -1,8 +1,9 @@
-import { ChakraProps, Flex } from '@chakra-ui/react'
-import { IconType } from 'react-icons/lib'
+import { Button, type ChakraProps, Flex } from '@chakra-ui/react'
+import type { IconType } from 'react-icons/lib'
+import { Shades } from '../../constants/shades'
 import ButtonWithTheme from '../../theme/buttons/ButtonWithTheme'
-import Badge from '../badge/Badge'
 import { ButtonVariant } from '../../theme/buttons/buttons-theme'
+import Badge from '../badge/Badge'
 
 export const selectModeToggleProperty = 'selectMode'
 export const pickedRecipesToggleProperty = 'pickedRecipes'
@@ -29,16 +30,39 @@ export type ToggleProps = {
 
 const Toggle = ({ isToggled, toggle, Icon, count, isDisabled, toggleProperty, children, variant }: ToggleProps) => {
   const hasCountValue = !!count
-  let badgeContent
+  let badgeContent: JSX.Element
   if (!hasCountValue) badgeContent = <Flex width={'10px'} />
-  else badgeContent = <Badge count={count!} />
+  else badgeContent = <Badge count={count as number} />
+  const hover = {
+    bg: Shades.PALE,
+    color: Shades.VERY_DARK,
+    _disabled: {
+      color: Shades.PALE
+    }
+  }
 
   return (
     <Flex {...outerCss(!!children)}>
       <Flex {...toggleStyles(hasCountValue, !!children)} data-testid={toggleProperty}>
-        <ButtonWithTheme variant={variant} onClick={toggle} isToggled={isToggled} isDisabled={isDisabled}>
-          <Icon />
-        </ButtonWithTheme>
+        {variant === ButtonVariant.SquareWithIconWithoutFill ? (
+          <Button
+            onClick={toggle}
+            size={'xl'}
+            backgroundColor={'transparent'}
+            borderColor={'transparent'}
+            borderWidth="1.5px"
+            color={isToggled ? Shades.DARK : Shades.MEDIUM}
+            fontWeight="bold"
+            _hover={hover}
+            disabled={isDisabled}
+          >
+            <Icon fontSize="1.75em" />
+          </Button>
+        ) : (
+          <ButtonWithTheme variant={variant} onClick={toggle} isToggled={isToggled} isDisabled={isDisabled}>
+            <Icon />
+          </ButtonWithTheme>
+        )}
 
         {badgeContent}
       </Flex>
@@ -55,12 +79,16 @@ const toggleStyles = (hasCountValue: boolean, isCentered: boolean) => {
       marginRight: hasCountValue ? '10px' : '0px',
       flexDirection: 'column' as ChakraProps['flexDirection'],
       alignItems: 'center'
+      // backgroundColor: 'pink'
+      // width: '65px'
     }
   }
   return {
     marginLeft: '0px',
     marginRight: hasCountValue ? '10px' : '0px',
     position: 'relative' as ChakraProps['position']
+    // backgroundColor: 'pink',
+    // width: '55px'
   }
 }
 
@@ -69,6 +97,7 @@ const outerCss = (addMargin: boolean) => {
     flexDirection: 'column' as ChakraProps['flexDirection'],
     alignItems: 'center',
     marginRight: addMargin ? '10px' : '0px'
+    // width: '55px'
   }
 }
 

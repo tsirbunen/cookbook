@@ -1,8 +1,8 @@
 import { expect } from '@jest/globals'
+import type { CreateRecipeInput, PatchRecipeInput, Recipe } from '../../modules/types.generated'
 import { getTableRowCountInDatabase, getTableRows } from './test-database-helpers'
-import { Recipe, RecipeInput } from '../../modules/types.generated'
 
-export const verifyTableRowCountsInDatabase = async (testInput: RecipeInput) => {
+export const verifyTableRowCountsInDatabase = async (testInput: CreateRecipeInput) => {
   const recipesCount = await getTableRowCountInDatabase('recipes')
   expect(recipesCount).toBe(1)
   const tagsCount = await getTableRowCountInDatabase('tags')
@@ -14,14 +14,18 @@ export const verifyTableRowCountsInDatabase = async (testInput: RecipeInput) => 
   const ingredientGroupsCount = await getTableRowCountInDatabase('ingredient_groups')
   expect(ingredientGroupsCount).toBe(testInput.ingredientGroups?.length)
   const ingredientsCount = await getTableRowCountInDatabase('ingredients')
-  expect(ingredientsCount).toBe(testInput.ingredientGroups?.reduce((acc, curr) => acc + curr.ingredients!.length, 0))
+  expect(ingredientsCount).toBe(
+    testInput.ingredientGroups?.reduce((acc, curr) => acc + (curr.ingredients ?? []).length, 0)
+  )
   const instructionGroupsCount = await getTableRowCountInDatabase('instruction_groups')
   expect(instructionGroupsCount).toBe(testInput.instructionGroups?.length)
   const instructionsCount = await getTableRowCountInDatabase('instructions')
-  expect(instructionsCount).toBe(testInput.instructionGroups?.reduce((acc, curr) => acc + curr.instructions!.length, 0))
+  expect(instructionsCount).toBe(
+    testInput.instructionGroups?.reduce((acc, curr) => acc + (curr.instructions ?? []).length, 0)
+  )
 }
 
-export const verifyRecipeInDatabase = async (testInput: RecipeInput, recipeId: number) => {
+export const verifyRecipeInDatabase = async (testInput: CreateRecipeInput, recipeId: number) => {
   const [recipeRaw] = await getTableRows('recipes', { column: 'id', id: recipeId })
   expect(recipeRaw.id).toBeDefined()
   expect(recipeRaw.title).toBe(testInput.title)
@@ -32,13 +36,13 @@ export const verifyRecipeInDatabase = async (testInput: RecipeInput, recipeId: n
   expect(recipeRaw.language_id).toBe(languageRaw.id)
 }
 
-export const verifyRecipeLanguageInDatabase = async (testInput: RecipeInput, languageId: number) => {
+export const verifyRecipeLanguageInDatabase = async (testInput: CreateRecipeInput, languageId: number) => {
   const [languageRaw] = await getTableRows('languages', { column: 'id', id: languageId })
   expect(languageRaw.id).toBeDefined()
   expect(languageRaw.language).toBe(testInput.language)
 }
 
-export const verifyRecipeTagsInDatabase = async (testInput: RecipeInput, newRecipeId: number) => {
+export const verifyRecipeTagsInDatabase = async (testInput: CreateRecipeInput, newRecipeId: number) => {
   const recipesToTagsInDB = await getTableRows('recipes_to_tags', { column: 'recipe_id', id: newRecipeId })
 
   for (let i = 0; i < recipesToTagsInDB.length; i++) {
@@ -47,17 +51,17 @@ export const verifyRecipeTagsInDatabase = async (testInput: RecipeInput, newReci
     expect(tag_id).toBeDefined()
     expect(recipe_id).toBe(newRecipeId)
     const [tagInDB] = await getTableRows('tags', { column: 'id', id: tag_id as number })
-    expect(tagInDB.tag).toBe(testInput.tags![i])
+    expect(tagInDB.tag).toBe((testInput.tags ?? [])[i])
   }
 }
 
-export const verifyRecipeIngredientsInDatabase = async (testInput: RecipeInput, newRecipeId: number) => {
+export const verifyRecipeIngredientsInDatabase = async (testInput: CreateRecipeInput, newRecipeId: number) => {
   const ingredientGroupsInput = testInput.ingredientGroups
 
   const ingredientGroupsInDB = await getTableRows('ingredient_groups', { column: 'recipe_id', id: newRecipeId })
 
-  for (let i = 0; i < ingredientGroupsInput!.length; i++) {
-    const groupInput = ingredientGroupsInput![i]
+  for (let i = 0; i < ingredientGroupsInput.length; i++) {
+    const groupInput = ingredientGroupsInput[i]
     const group = ingredientGroupsInDB[i]
     expect(group.id).toBeDefined()
     expect(group.recipe_id).toBe(newRecipeId)
@@ -66,7 +70,8 @@ export const verifyRecipeIngredientsInDatabase = async (testInput: RecipeInput, 
     const ingredientsInDB = await getTableRows('ingredients', { column: 'group_id', id: group.id as number })
     const groupIngredientsInBD = ingredientsInDB.filter((ingredient) => ingredient.ingredient_group_id === group.id)
     for (let j = 0; j < groupIngredientsInBD.length; j++) {
-      const ingredientInput = groupInput!.ingredients![j]
+      if (!groupInput.ingredients) throw new Error('No ingredients found in the input')
+      const ingredientInput = groupInput.ingredients[j]
       const ingredientInDB = groupIngredientsInBD[j]
       const { id, amount, unit, name, previous_id, ingredient_group_id } = ingredientInDB
       expect(id).toBeDefined()
@@ -80,13 +85,14 @@ export const verifyRecipeIngredientsInDatabase = async (testInput: RecipeInput, 
   }
 }
 
-export const verifyRecipeInstructionsInDatabase = async (testInput: RecipeInput, newRecipeId: number) => {
+export const verifyRecipeInstructionsInDatabase = async (testInput: CreateRecipeInput, newRecipeId: number) => {
   const instructionGroupsInput = testInput.instructionGroups
 
   const instructionGroupsInDB = await getTableRows('instruction_groups')
+  if (!instructionGroupsInDB) throw new Error('No instruction groups found in the database')
 
-  for (let i = 0; i < instructionGroupsInDB!.length; i++) {
-    const groupInput = instructionGroupsInput![i]
+  for (let i = 0; i < instructionGroupsInDB.length; i++) {
+    const groupInput = instructionGroupsInput[i]
     const group = instructionGroupsInDB[i]
     expect(group.id).toBeDefined()
     expect(group.recipe_id).toBe(newRecipeId)
@@ -95,7 +101,9 @@ export const verifyRecipeInstructionsInDatabase = async (testInput: RecipeInput,
     const instructionsInDB = await getTableRows('instructions', { column: 'group_id', id: group.id as number })
     const groupInstructionsInBD = instructionsInDB.filter((instruction) => instruction.ingredient_group_id === group.id)
     for (let j = 0; j < groupInstructionsInBD.length; j++) {
-      const instructionInput = groupInput!.instructions![j]
+      if (!groupInput.instructions) throw new Error('No instructions found in the input')
+
+      const instructionInput = groupInput.instructions[j]
       const instructionInDB = groupInstructionsInBD[j]
       const { id, content, previous_id, instruction_group_id } = instructionInDB
       expect(id).toBeDefined()
@@ -106,8 +114,7 @@ export const verifyRecipeInstructionsInDatabase = async (testInput: RecipeInput,
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const verifyPatchedRecipe = (patchedRecipe: Recipe, original: Recipe, patch: Record<string, any>) => {
+export const verifyPatchedRecipe = (patchedRecipe: Recipe, original: Recipe, patch: PatchRecipeInput) => {
   expect(patchedRecipe.id).toBe(original.id)
   expect(patchedRecipe.title).toBe(patch.title ?? original.title)
   expect(patchedRecipe.description).toBe(patch.description ?? original.description)
@@ -136,7 +143,7 @@ export const verifyPatchedRecipe = (patchedRecipe: Recipe, original: Recipe, pat
     })
   }
 
-  const expectedIngredientGroups = patch.ingredientGroups ? patch.ingredientGroups : original.ingredientGroups ?? []
+  const expectedIngredientGroups = patch.ingredientGroups ? patch.ingredientGroups : (original.ingredientGroups ?? [])
 
   patchedRecipe.ingredientGroups?.forEach((group, i) => {
     const expectedGroup = expectedIngredientGroups[i]
@@ -144,35 +151,37 @@ export const verifyPatchedRecipe = (patchedRecipe: Recipe, original: Recipe, pat
     expect(group.title).toBe(expectedGroup.title)
 
     const expectedIngredients = expectedGroup.ingredients ?? []
-    group.ingredients?.forEach((ingredient) => {
+    for (const ingredient of group.ingredients ?? []) {
       // Note: The order of ingredients is not guaranteed to be the "correct" one and usually is not.
       const expectedIngredient = expectedIngredients.find((e: { name: string }) => e.name === ingredient.name)
-      if (expectedIngredient.id) {
+      if (expectedIngredient?.id) {
         expect(ingredient.id).toBe(expectedIngredient.id)
+        expect(ingredient.amount).toBe(expectedIngredient.amount)
+        expect(ingredient.unit).toBe(expectedIngredient.unit)
+        expect(ingredient.name).toBe(expectedIngredient.name)
       }
-      expect(ingredient.amount).toBe(expectedIngredient.amount)
-      expect(ingredient.unit).toBe(expectedIngredient.unit)
-      expect(ingredient.name).toBe(expectedIngredient.name)
-    })
+    }
   })
 
-  const expectedInstructionGroups = patch.instructionGroups ? patch.instructionGroups : original.instructionGroups ?? []
+  const expectedInstructionGroups = patch.instructionGroups
+    ? patch.instructionGroups
+    : (original.instructionGroups ?? [])
   if (patch.instructionGroups) {
-    patchedRecipe.instructionGroups?.forEach((group, i) => {
+    for (const [i, group] of patchedRecipe.instructionGroups?.entries() ?? []) {
       const expectedGroup = expectedInstructionGroups[i]
       expect(group.id).toBe(expectedGroup.id)
       expect(group.title).toBe(expectedGroup.title)
       // Note: The order of instructions is not guaranteed to be the "correct" one and usually is not.
       const expectedInstructions = expectedGroup.instructions ?? []
-      group.instructions?.forEach((instruction) => {
+      for (const instruction of group.instructions ?? []) {
         const expectedInstruction = expectedInstructions.find(
           (e: { content: string }) => e.content === instruction.content
         )
-        if (expectedInstruction.id) {
+        if (expectedInstruction?.id) {
           expect(instruction.id).toBe(expectedInstruction.id)
+          expect(instruction.content).toBe(expectedInstruction.content)
         }
-        expect(instruction.content).toBe(expectedInstruction.content)
-      })
-    })
+      }
+    }
   }
 }

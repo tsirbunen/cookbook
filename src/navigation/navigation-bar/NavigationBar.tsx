@@ -1,16 +1,16 @@
 /** @jsxImportSource @emotion/react */
 'use client'
 
-import { useContext } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
 import { css } from '@emotion/react'
-import NavigationBarItem from './NavigationBarItem'
-import { navigationMenuItems } from '../router/router'
-import { ViewSizeContext } from '../../layout/view-size-service/ViewSizeProvider'
-import { ColorCodes } from '../../theme/theme'
-import MenuIconWithoutAction from './MenuIconWithoutAction'
+import { usePathname, useRouter } from 'next/navigation'
+import { useContext } from 'react'
 import { HEADER_HEIGHT, NAV_BAR_WIDTH } from '../../constants/layout'
+import { Shades } from '../../constants/shades'
 import { navigationBarZIndex } from '../../constants/z-indexes'
+import { ViewSizeContext } from '../../layout/view-size-service/ViewSizeProvider'
+import { navigationMenuItems } from '../router/router'
+import MenuIconWithoutAction from './MenuIconWithoutAction'
+import NavigationBarItem from './NavigationBarItem'
 
 type NavigationBarProps = {
   isTooSmallWindow: boolean
@@ -62,7 +62,7 @@ const container = (headerHeight: number) => css`
   justify-content: start;
   align-items: start;
   height: 100%;
-  background-color: ${ColorCodes.VERY_DARK};
+  background-color: ${Shades.VERY_DARK};
   top: ${headerHeight}px;
   width: ${NAV_BAR_WIDTH}px;
   position: fixed;

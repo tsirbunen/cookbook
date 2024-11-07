@@ -1,9 +1,9 @@
-import { Page } from '../../navigation/router/router'
-import { HEADER_HEIGHT } from '../../constants/layout'
-import { ChakraProps, Flex } from '@chakra-ui/react'
-import AccountRouteSelector from './AccountRouteSelector'
+import { Flex } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import { AccountRoute } from '../../../app/account/[accountAction]/page'
+import { Page } from '../../navigation/router/router'
+import { pageCss } from '../../utils/styles'
+import AccountRouteSelector from './AccountRouteSelector'
 import { content } from './textContent'
 
 const EmailAccountPage = () => {
@@ -38,15 +38,3 @@ const EmailAccountPage = () => {
 }
 
 export default EmailAccountPage
-
-export const pageCss = {
-  flexDirection: 'column' as ChakraProps['flexDirection'],
-  display: 'flex',
-  alignItems: 'start',
-  justifyContent: 'start',
-  marginTop: `${HEADER_HEIGHT}px`,
-  marginLeft: '25px',
-  marginRight: '25px',
-  width: '100%',
-  maxWidth: '600px'
-}

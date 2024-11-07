@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm'
-import { pgTable, serial, varchar, boolean, integer, AnyPgColumn } from 'drizzle-orm/pg-core'
+import { type AnyPgColumn, boolean, integer, pgTable, serial, varchar } from 'drizzle-orm/pg-core'
 import { recipes } from './recipes'
 
 export const photos = pgTable('photos', {

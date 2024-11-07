@@ -1,11 +1,11 @@
 import assert from 'node:assert'
 import jwt from 'jsonwebtoken'
-import { Account } from '../../modules/types.generated'
+import type { Account } from '../../modules/types.generated'
 
 type TokenInput = Pick<Account, 'id' | 'uuid' | 'username'>
 export type ProviderTokenData = { idAtProvider: string; accessToken: string }
 
-const jwtSecret = process.env.JWT_SECRET
+const jwtSecret = process.env.JWT_SECRET ?? 'fake secret'
 assert(jwtSecret, 'JWT_SECRET environment variable is missing!')
 
 const jwtIssuer = 'cooking-companion-server'
@@ -42,4 +42,11 @@ export const createProviderAccessTokenJWT = ({ idAtProvider, accessToken }: Prov
 export const verifyJWT = (token: string) => {
   const decoded = jwt.verify(token, jwtSecret, { issuer: jwtIssuer, audience: jwtAudience })
   return decoded
+}
+
+export const getAuthenticatedUserId = (token?: string) => {
+  if (!token) return null
+
+  const decodedToken = verifyJWT(token) as { data: { id: number } }
+  return decodedToken.data.id
 }

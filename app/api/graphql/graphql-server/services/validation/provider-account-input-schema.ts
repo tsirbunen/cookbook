@@ -1,5 +1,5 @@
 import { TargetSchema } from '../../../../../../src/types/graphql-schema-types.generated'
-import { ValidationSchema } from '../../modules/types.generated'
+import type { ValidationSchema } from '../../modules/types.generated'
 import { usernameSchema } from './property-schemas'
 
 const providerAccountInputJsonSchema = {

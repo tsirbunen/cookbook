@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { Page } from '../../navigation/router/router'
-import ContentInfoItem from './ContentInfoItem'
 import { HEADER_HEIGHT } from '../../constants/layout'
 import { NAVIGATION_BAR_ITEM_HEIGHT } from '../../navigation/navigation-bar/NavigationBarItem'
+import { Page } from '../../navigation/router/router'
 import AppIntro from './AppIntro'
+import ContentInfoItem from './ContentInfoItem'
 
 const HomePage = () => {
   return (

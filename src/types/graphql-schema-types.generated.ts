@@ -42,6 +42,20 @@ export type BaseSuccess = {
   successMessage: Scalars['String']['output'];
 };
 
+export type CreateRecipeInput = {
+  authorId: Scalars['Int']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  ingredientGroups: Array<IngredientGroupInput>;
+  instructionGroups: Array<InstructionGroupInput>;
+  isPrivate: Scalars['Boolean']['input'];
+  language: Scalars['String']['input'];
+  ovenNeeded: Scalars['Boolean']['input'];
+  photoFiles?: InputMaybe<Array<Scalars['File']['input']>>;
+  photoIdentifiers?: InputMaybe<Array<Scalars['String']['input']>>;
+  tags?: InputMaybe<Array<Scalars['String']['input']>>;
+  title: Scalars['String']['input'];
+};
+
 export type EmailAccountInput = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -134,9 +148,9 @@ export type Mutation = {
   __typename?: 'Mutation';
   createEmailAccount: AccountResult;
   createNonEmailAccount: AccountResult;
-  createRecipe?: Maybe<Recipe>;
+  createRecipe?: Maybe<RecipeResult>;
   deleteAccount: GeneralResult;
-  patchRecipe?: Maybe<Recipe>;
+  patchRecipe?: Maybe<RecipeResult>;
   pingMutation?: Maybe<Scalars['String']['output']>;
   requestVerificationEmail: GeneralResult;
   signInToEmailAccount: AccountResult;
@@ -154,7 +168,7 @@ export type MutationCreateNonEmailAccountArgs = {
 
 
 export type MutationCreateRecipeArgs = {
-  recipeInput: RecipeInput;
+  createRecipeInput: CreateRecipeInput;
 };
 
 
@@ -166,7 +180,7 @@ export type MutationDeleteAccountArgs = {
 
 export type MutationPatchRecipeArgs = {
   recipeId: Scalars['Int']['input'];
-  recipePatch: RecipeInput;
+  recipePatch: PatchRecipeInput;
 };
 
 
@@ -183,6 +197,20 @@ export type NonEmailAccountInput = {
   identityProvider: IdentityProvider;
   token: Scalars['String']['input'];
   username: Scalars['String']['input'];
+};
+
+export type PatchRecipeInput = {
+  authorId: Scalars['Int']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  ingredientGroups?: InputMaybe<Array<IngredientGroupInput>>;
+  instructionGroups?: InputMaybe<Array<InstructionGroupInput>>;
+  isPrivate?: InputMaybe<Scalars['Boolean']['input']>;
+  language?: InputMaybe<Scalars['String']['input']>;
+  ovenNeeded?: InputMaybe<Scalars['Boolean']['input']>;
+  photoFiles?: InputMaybe<Array<Scalars['File']['input']>>;
+  photoIdentifiers?: InputMaybe<Array<Scalars['String']['input']>>;
+  tags?: InputMaybe<Array<Scalars['String']['input']>>;
+  title?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Photo = {
@@ -232,19 +260,7 @@ export type Recipe = {
   title: Scalars['String']['output'];
 };
 
-export type RecipeInput = {
-  authorId?: InputMaybe<Scalars['Int']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  ingredientGroups?: InputMaybe<Array<IngredientGroupInput>>;
-  instructionGroups?: InputMaybe<Array<InstructionGroupInput>>;
-  isPrivate?: InputMaybe<Scalars['Boolean']['input']>;
-  language?: InputMaybe<Scalars['String']['input']>;
-  ovenNeeded?: InputMaybe<Scalars['Boolean']['input']>;
-  photoFiles?: InputMaybe<Array<Scalars['File']['input']>>;
-  photoIdentifiers?: InputMaybe<Array<Scalars['String']['input']>>;
-  tags?: InputMaybe<Array<Scalars['String']['input']>>;
-  title?: InputMaybe<Scalars['String']['input']>;
-};
+export type RecipeResult = BadInputError | Recipe | UnauthenticatedError | UnauthorizedError;
 
 export type SignInToEmailAccountInput = {
   email: Scalars['String']['input'];
@@ -258,12 +274,24 @@ export type Tag = {
 };
 
 export enum TargetSchema {
+  CreateRecipeInput = 'CREATE_RECIPE_INPUT',
   DeleteAccountInput = 'DELETE_ACCOUNT_INPUT',
   EmailAccountInput = 'EMAIL_ACCOUNT_INPUT',
+  PatchRecipeInput = 'PATCH_RECIPE_INPUT',
   ProviderAccountInput = 'PROVIDER_ACCOUNT_INPUT',
   RequestVerificationEmailInput = 'REQUEST_VERIFICATION_EMAIL_INPUT',
   SignInToEmailAccountInput = 'SIGN_IN_TO_EMAIL_ACCOUNT_INPUT'
 }
+
+export type UnauthenticatedError = BaseError & {
+  __typename?: 'UnauthenticatedError';
+  errorMessage: Scalars['String']['output'];
+};
+
+export type UnauthorizedError = BaseError & {
+  __typename?: 'UnauthorizedError';
+  errorMessage: Scalars['String']['output'];
+};
 
 export type ValidationSchema = {
   __typename?: 'ValidationSchema';

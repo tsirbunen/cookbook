@@ -1,6 +1,6 @@
 import { switchAnatomy } from '@chakra-ui/anatomy'
 import { createMultiStyleConfigHelpers } from '@chakra-ui/react'
-import { DARK_COLOR, MEDIUM_COLOR, PALE_COLOR, VERY_PALE_COLOR } from '../../constants/color-codes'
+import { Shades } from '../../constants/shades'
 
 const { definePartsStyle, defineMultiStyleConfig } = createMultiStyleConfigHelpers(switchAnatomy.keys)
 
@@ -10,22 +10,22 @@ export enum SwitchVariant {
 
 const mediumSizeDark = definePartsStyle({
   track: {
-    backgroundColor: MEDIUM_COLOR,
-    borderColor: MEDIUM_COLOR,
+    backgroundColor: Shades.MEDIUM,
+    borderColor: Shades.MEDIUM,
     borderWidth: '1.5px',
 
     _checked: {
-      backgroundColor: DARK_COLOR,
-      borderColor: DARK_COLOR,
+      backgroundColor: Shades.DARK,
+      borderColor: Shades.DARK,
       borderWidth: '1.5px'
     }
   },
   thumb: {
-    backgroundColor: PALE_COLOR,
-    borderColor: PALE_COLOR,
+    backgroundColor: Shades.PALE,
+    borderColor: Shades.PALE,
     _checked: {
-      backgroundColor: VERY_PALE_COLOR,
-      borderColor: DARK_COLOR
+      backgroundColor: Shades.VERY_PALE,
+      borderColor: Shades.DARK
     }
   }
 })

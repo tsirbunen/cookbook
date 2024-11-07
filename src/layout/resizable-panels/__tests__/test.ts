@@ -1,4 +1,5 @@
 import { expect } from '@jest/globals'
+import { MIN_PANEL_WIDTH, NAV_BAR_WIDTH } from '../../../constants/layout'
 import {
   calculateAdjustedNewPanelWidths,
   calculateNewPanelWidths,
@@ -7,7 +8,6 @@ import {
   getSmallerAbsoluteValue,
   panelWidthsAreAllowed
 } from '../utils'
-import { MIN_PANEL_WIDTH, NAV_BAR_WIDTH } from '../../../constants/layout'
 
 describe('Resizable panels view calculations:', () => {
   describe('panelWidthsAreAllowed should return correct result', () => {

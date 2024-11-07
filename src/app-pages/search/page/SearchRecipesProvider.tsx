@@ -2,8 +2,8 @@
 
 import { createContext, useContext, useState } from 'react'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
-import { ViewRecipesMode } from '../search-management/ViewModeManagementTool'
 import { LocalStorageContext, LocalStorageKeys } from '../../../state/LocalStorageProvider'
+import { ViewRecipesMode } from '../search-management/ViewModeManagementTool'
 
 type RecipesViewing = {
   mode: ViewRecipesMode

@@ -1,9 +1,9 @@
 'use client'
 
-import { Flex, Text, Button, ChakraProps } from '@chakra-ui/react'
+import { Button, type ChakraProps, Flex, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
-import { ColorCodes } from '../src/theme/theme'
 import AppIntro from '../src/app-pages/home/AppIntro'
+import { Shades } from '../src/constants/shades'
 import { APP_TITLE } from '../src/constants/text-content'
 
 export const launchPageTestId = 'cookbook-launch-page'
@@ -56,7 +56,7 @@ const innerCss = {
 
 const welcomeCss = {
   fontSize: '1.25em',
-  color: ColorCodes.DARK,
+  color: Shades.DARK,
   marginBottom: '10px'
 }
 
@@ -68,6 +68,6 @@ const introCss = {
 
 const titleCss = {
   fontSize: '1.75em',
-  color: ColorCodes.DARK,
+  color: Shades.DARK,
   fontWeight: '900'
 }

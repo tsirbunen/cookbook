@@ -1,24 +1,25 @@
-import { ChakraProps, Flex, Text } from '@chakra-ui/react'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import FormSimpleInput, {
-  CreateEmailAccountFormValues,
-  CreateProviderAccountFormValues
-} from '../../widgets/form-simple-input/FormSimpleInput'
-import FormActionButtons from '../../widgets/form-action-buttons/FormActionButtons'
-import { useContext } from 'react'
-import { ApiServiceContext } from '../../api-service/ApiServiceProvider'
-import { AppStateContext, AppStateContextType } from '../../state/StateContextProvider'
-import { Dispatch } from '../../state/reducer'
-import { Page } from '../../navigation/router/router'
+import { type ChakraProps, Flex, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
+import { useContext } from 'react'
+import { type SubmitHandler, useForm } from 'react-hook-form'
 import { AccountRoute } from '../../../app/account/[accountAction]/page'
+import { ApiServiceContext } from '../../api-service/ApiServiceProvider'
+import { Shades } from '../../constants/shades'
+import { Page } from '../../navigation/router/router'
+import { AppStateContext, type AppStateContextType } from '../../state/StateContextProvider'
+import { Dispatch } from '../../state/reducer'
 import { IdentityProvider, TargetSchema } from '../../types/graphql-schema-types.generated'
-import { content } from './textContent'
+import { getValidatorFromJsonSchema } from '../../utils/formValidators'
+import { pageCss } from '../../utils/styles'
+import FormActionButtons from '../../widgets/form-action-buttons/FormActionButtons'
+import FormSimpleStringInput from '../../widgets/form-simple-input/FormSimpleStringInput'
 import SuccessInfo from './SuccessInfo'
-import { getValidatorFromJsonSchema } from './formValidators'
-import { pageCss } from './AccountPage'
 import TitleWithSpacing from './TitleWithSpacing'
-import { SLIGHTLY_DARK_COLOR } from '../../constants/color-codes'
+import { content } from './textContent'
+
+type CreateProviderAccountFormValues = {
+  username: string
+}
 
 type CompleteGitHubAccountPageProps = {
   username: string
@@ -27,7 +28,7 @@ type CompleteGitHubAccountPageProps = {
 
 const CompleteGitHubAccountPage = ({ username, token }: CompleteGitHubAccountPageProps) => {
   const { state, dispatch } = useContext(AppStateContext) as AppStateContextType
-  const { createNonEmailAccount } = useContext(ApiServiceContext)
+  const { createNonEmailAccount, setAuthenticationToken } = useContext(ApiServiceContext)
   const router = useRouter()
 
   const validationSchema = state.validationSchemas?.[TargetSchema.ProviderAccountInput]
@@ -37,7 +38,7 @@ const CompleteGitHubAccountPage = ({ username, token }: CompleteGitHubAccountPag
     control,
     reset,
     formState: { errors, isSubmitting }
-  } = useForm<CreateEmailAccountFormValues>({
+  } = useForm<CreateProviderAccountFormValues>({
     context: 'completeProviderAccountForm',
     resolver: validationSchema && getValidatorFromJsonSchema(validationSchema),
     mode: 'onTouched',
@@ -50,7 +51,8 @@ const CompleteGitHubAccountPage = ({ username, token }: CompleteGitHubAccountPag
     const { username } = accountVariables
 
     const newAccount = await createNonEmailAccount({ username, token, identityProvider: IdentityProvider.Github })
-    if (newAccount && newAccount.token) {
+    if (newAccount?.token) {
+      setAuthenticationToken(newAccount.token)
       dispatch({
         type: Dispatch.SET_ACCOUNT,
         payload: {
@@ -86,13 +88,12 @@ const CompleteGitHubAccountPage = ({ username, token }: CompleteGitHubAccountPag
         <Flex {...innerCss}>
           {!state.account ? (
             <form onSubmit={handleSubmit(onSubmit)}>
-              <FormSimpleInput
+              <FormSimpleStringInput
                 label={content.usernameLabel}
                 control={control}
                 name={'username'}
                 info={content.usernameInfo}
                 placeholder={content.usernamePlaceholder}
-                error={errors?.username}
               />
               <FormActionButtons
                 cancelFn={() => navigateToRoute()}
@@ -125,6 +126,6 @@ const innerCss = {
 
 const infoCss = {
   lineHeight: '1.15em',
-  color: SLIGHTLY_DARK_COLOR,
+  color: Shades.SLIGHTLY_DARK,
   marginBottom: '10px'
 }

@@ -1,13 +1,13 @@
 import { eq, inArray } from 'drizzle-orm'
-import { IngredientGroupInput, IngredientInput } from '../../modules/types.generated'
 import { ingredientGroups, ingredients } from '../../database/database-schemas/ingredients'
-import {
+import type {
   DatabaseType,
-  IngredientInsert,
-  RecipeSelectDBExpanded,
+  IngredientDBSelect,
   IngredientGroupDBSelect,
-  IngredientDBSelect
+  IngredientInsert,
+  RecipeSelectDBExpanded
 } from '../../database/inferred-types/inferred-types'
+import type { IngredientGroupInput, IngredientInput } from '../../modules/types.generated'
 
 export const handleCreateOrPatchIngredientGroupsAndTheirIngredients = async (
   trx: DatabaseType,
@@ -100,8 +100,9 @@ const deleteIngredientsNotInIdsToKeep = async (
   originalGroup?: IngredientGroupDBSelect & { ingredients: IngredientDBSelect[] }
 ) => {
   const ingredientsToDeleteIds: number[] = []
-  for (let i = 0; i < (originalGroup?.ingredients ?? []).length; i++) {
-    const originalIngredient = originalGroup!.ingredients[i]
+  const groupIngredients = originalGroup?.ingredients ?? []
+  for (let i = 0; i < groupIngredients.length; i++) {
+    const originalIngredient = groupIngredients[i]
     const shouldDelete = !idsToKeep.includes(originalIngredient.id)
 
     if (shouldDelete) {

@@ -3,7 +3,7 @@ dotenv.config()
 
 import { GraphQLClient } from 'graphql-request'
 
-const TEST_HOST = Boolean(process.env.IS_GITHUB) ? 'app' : 'localhost'
+const TEST_HOST = process.env.IS_GITHUB ? 'app' : 'localhost'
 const TEST_SERVER_URL = `http://${TEST_HOST}:3000`
 const TEST_ENDPOINT = `${TEST_SERVER_URL}/api/graphql`
 

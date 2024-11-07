@@ -1,5 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react'
-import { ColorCodes } from '../../../../theme/theme'
+import { Shades } from '../../../../constants/shades'
 import { columnItemsCenterCss } from '../../../../constants/styling'
 
 type DescriptionProps = {
@@ -20,5 +20,5 @@ const containerCss = {
   ...columnItemsCenterCss,
   margin: '10px 20px 0px 20px',
   fontWeight: 'semibold',
-  color: ColorCodes.MEDIUM
+  color: Shades.MEDIUM
 }

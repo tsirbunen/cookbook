@@ -1,23 +1,23 @@
 import '@testing-library/jest-dom/jest-globals'
 import '@testing-library/jest-dom'
 import { expect } from '@jest/globals'
-import { render, screen, fireEvent, act } from '@testing-library/react'
-import { TestAppStateContextProvider } from '../../../../test-utils/TestStateContextProvider'
+import { act, fireEvent, render, screen } from '@testing-library/react'
+import type { AppState } from '../../../../state/StateContextProvider'
 import TestApiServiceProvider, {
   NO_INGREDIENTS,
   NO_LANGUAGES,
   TEST_PREFIX
 } from '../../../../test-utils/TestApiServiceProvider'
-import FilteringProvider, { RecipesFilterValues, getEmptyFilterValues } from '../FilteringProvider'
+import TestSearchRecipesProvider from '../../../../test-utils/TestSearchRecipesProvider'
+import { TestAppStateContextProvider } from '../../../../test-utils/TestStateContextProvider'
+import type { Language, Tag } from '../../../../types/graphql-schema-types.generated'
+import { formTextAreaSearchDataTestId } from '../../../../widgets/form-textarea-search/FormTextAreaSearch'
 import FilteringManagementTool, {
   applyChangesLabel,
   applyFiltersLabel,
   clearFormLabel
 } from '../../search-management/FilteringManagementTool'
-import { formTextAreaSearchDataTestId } from '../../../../widgets/form-textarea-search/FormTextAreaSearch'
-import TestSearchRecipesProvider from '../../../../test-utils/TestSearchRecipesProvider'
-import { AppState } from '../../../../state/StateContextProvider'
-import { Language, Tag } from '../../../../types/graphql-schema-types.generated'
+import FilteringProvider, { type RecipesFilterValues, getEmptyFilterValues } from '../FilteringProvider'
 
 const language = 'ENGLISH'
 const tag = 'VEGETARIAN'
@@ -38,18 +38,18 @@ describe('FilteringProvider and FilteringManagementTool', () => {
       })
     )
 
-    noFiltersTexts.forEach((text) => {
+    for (const text of noFiltersTexts) {
       expect(screen.getByText(text)).toBeInTheDocument()
-    })
+    }
 
     clickFormButtonWithLabel(language)
     clickFormButtonWithLabel(tag)
     addTextToTextArea(ingredient, formTextAreaSearchDataTestId)
     await clickApplyButton(applyFiltersLabel)
 
-    testTextDisplays.forEach((text) => {
+    for (const text of testTextDisplays) {
       expect(screen.getByText(text)).toBeInTheDocument()
-    })
+    }
   })
 
   it('enable clearing selected filter values', async () => {
@@ -67,16 +67,16 @@ describe('FilteringProvider and FilteringManagementTool', () => {
       })
     )
 
-    testTextDisplays.forEach((text) => {
+    for (const text of testTextDisplays) {
       expect(screen.getByText(text)).toBeInTheDocument()
-    })
+    }
 
     await clickClearButton(clearFormLabel)
     await clickApplyButton(applyChangesLabel)
 
-    noFiltersTexts.forEach((text) => {
+    for (const text of noFiltersTexts) {
       expect(screen.getByText(text)).toBeInTheDocument()
-    })
+    }
   })
 
   it('enable changing selected filter values', async () => {
@@ -101,20 +101,24 @@ describe('FilteringProvider and FilteringManagementTool', () => {
     clickFormButtonWithLabel(changedTag)
 
     const ingredientsComponent = screen.getByTestId(formTextAreaSearchDataTestId)
-    let trashButton
+    let trashButton: HTMLButtonElement | undefined
     const allButtons = ingredientsComponent.querySelectorAll('button')
-    allButtons.forEach((button) => {
-      if (button.textContent === '') trashButton = button
-    })
-    act(() => fireEvent.click(trashButton!))
+    for (const button of allButtons) {
+      if (button.textContent === '') {
+        trashButton = button
+        break
+      }
+    }
+    if (!trashButton) throw new Error('Trash button should not be null')
+    act(() => fireEvent.click(trashButton))
 
     addTextToTextArea(changedIngredient, formTextAreaSearchDataTestId)
 
     await clickApplyButton(applyChangesLabel)
 
-    changedTextDisplays.forEach((text) => {
+    for (const text of changedTextDisplays) {
       expect(screen.getByText(text)).toBeInTheDocument()
-    })
+    }
   })
 })
 
@@ -169,6 +173,6 @@ const clickFormButtonWithLabel = (label: string) => {
 
 const addTextToTextArea = (text: string, testId: string) => {
   const ingredientsComponent = screen.getByTestId(testId)
-  const textArea = ingredientsComponent.querySelector('textarea')
-  act(() => fireEvent.change(textArea!, { target: { value: text } }))
+  const textArea = ingredientsComponent.querySelector('textarea') as HTMLTextAreaElement
+  act(() => fireEvent.change(textArea, { target: { value: text } }))
 }

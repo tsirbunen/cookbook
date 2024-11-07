@@ -1,6 +1,6 @@
-import { Recipe } from '../types/graphql-schema-types.generated'
+import type { RecipesFilterValues } from '../app-pages/search/page/FilteringProvider'
+import type { Recipe } from '../types/graphql-schema-types.generated'
 import { SearchMode } from '../widgets/form-textarea-search/FormTextAreaSearch'
-import { RecipesFilterValues } from '../app-pages/search/page/FilteringProvider'
 
 export const getFilteredRecipes = (allRecipes: Recipe[], filters?: RecipesFilterValues) => {
   let filteredRecipes = allRecipes

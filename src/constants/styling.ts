@@ -1,4 +1,4 @@
-import { ChakraProps } from '@chakra-ui/react'
+import type { ChakraProps } from '@chakra-ui/react'
 
 export const rowItemsStartCss = {
   flexDirection: 'row' as ChakraProps['flexDirection'],

@@ -1,20 +1,22 @@
 import { relations } from 'drizzle-orm'
-import { pgTable, serial, varchar, boolean, integer, AnyPgColumn } from 'drizzle-orm/pg-core'
+import { type AnyPgColumn, boolean, integer, pgTable, serial, varchar } from 'drizzle-orm/pg-core'
+import { accounts } from './accounts'
 import { ingredientGroups } from './ingredients'
 import { instructionGroups } from './instructions'
 import { languages } from './languages'
-import { recipesToTags } from './tags'
 import { photos } from './photos'
-import { accounts } from './accounts'
+import { recipesToTags } from './tags'
 
 export const recipes = pgTable('recipes', {
   id: serial('id').primaryKey(),
   title: varchar('title', { length: 250 }).notNull(),
   description: varchar('description', { length: 500 }),
   ovenNeeded: boolean('oven_needed').notNull(),
-  languageId: integer('language_id').references((): AnyPgColumn => languages.id),
-  isPrivate: boolean('is_private'),
-  authorId: integer('author_id')
+  languageId: integer('language_id')
+    .notNull()
+    .references((): AnyPgColumn => languages.id),
+  isPrivate: boolean('is_private').notNull(),
+  authorId: integer('author_id').notNull()
 })
 
 export const recipePhotoRelations = relations(recipes, ({ many }) => ({

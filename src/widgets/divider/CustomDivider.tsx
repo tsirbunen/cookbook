@@ -1,5 +1,5 @@
-import { ChakraProps, Divider, Flex } from '@chakra-ui/react'
-import { MEDIUM_COLOR } from '../../constants/color-codes'
+import { type ChakraProps, Divider, Flex } from '@chakra-ui/react'
+import { Shades } from '../../constants/shades'
 
 type CustomDividerProps = {
   marginTop?: string
@@ -25,7 +25,7 @@ const dividerContainerCss = (marginTop?: string, marginBottom?: string) => {
 }
 
 const dividerCss = {
-  borderColor: MEDIUM_COLOR,
+  borderColor: Shades.MEDIUM,
   borderWidth: '1.0px',
   variant: 'dashed'
 }

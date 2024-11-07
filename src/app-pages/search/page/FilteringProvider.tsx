@@ -1,10 +1,10 @@
+import { xor } from 'lodash'
 import { createContext, useContext, useState } from 'react'
 import { ApiServiceContext } from '../../../api-service/ApiServiceProvider'
-import { AppStateContext, AppStateContextType } from '../../../state/StateContextProvider'
-import { SearchMode, TextAreaSearchValues } from '../../../widgets/form-textarea-search/FormTextAreaSearch'
-import { xor } from 'lodash'
+import { AppStateContext, type AppStateContextType } from '../../../state/StateContextProvider'
 import { FilterableRecipeProperty } from '../../../types/types'
-import { FormButtonsSelectorValue } from '../../../widgets/form-buttons-selector/FormButtonsSelector'
+import type { FormButtonsSelectorValue } from '../../../widgets/form-buttons-selector/FormButtonsSelector'
+import { SearchMode, type TextAreaSearchValues } from '../../../widgets/form-textarea-search/FormTextAreaSearch'
 
 export interface RecipesFilterValues {
   [FilterableRecipeProperty.languages]: FormButtonsSelectorValue

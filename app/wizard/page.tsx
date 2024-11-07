@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic'
 import LoadingPage from '../../src/widgets/loading-page/LoadingPage'
 
-const WizardPage = dynamic(() => import('../../src/app-pages/wizard/WizardPage'), {
+const WizardPage = dynamic(() => import('../../src/app-pages/wizard/page/WizardPage'), {
   ssr: false,
   loading: () => <LoadingPage />
 })

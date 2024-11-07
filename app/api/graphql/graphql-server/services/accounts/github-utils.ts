@@ -1,4 +1,4 @@
-import { ProviderTokenData, verifyJWT } from './token-utils'
+import { type ProviderTokenData, verifyJWT } from './token-utils'
 
 const gitHubGetUserDataURL = 'https://api.github.com/user'
 

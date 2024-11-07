@@ -1,6 +1,6 @@
-import { TbMoodSad } from 'react-icons/tb'
 import { Flex, Text } from '@chakra-ui/react'
-import { ColorCodes } from '../../theme/theme'
+import { TbMoodSad } from 'react-icons/tb'
+import { Shades } from '../../constants/shades'
 
 type ErrorPageProps = {
   message?: string
@@ -10,7 +10,7 @@ const oopsTitle = 'Oops!'
 const defaultMessage = 'Something went wrong...'
 
 const ErrorPage = ({ message }: ErrorPageProps) => {
-  const color = ColorCodes.DARK
+  const color = Shades.DARK
   const messageToDisplay = message ?? defaultMessage
 
   return (

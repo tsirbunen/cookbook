@@ -1,8 +1,8 @@
-import { ChakraProps, Flex, Text } from '@chakra-ui/react'
-import { SLIGHTLY_DARK_COLOR } from '../../constants/color-codes'
-import { ButtonVariant } from '../../theme/buttons/buttons-theme'
-import ButtonWithTheme from '../../theme/buttons/ButtonWithTheme'
+import { type ChakraProps, Flex, Text } from '@chakra-ui/react'
 import { Fragment } from 'react'
+import { Shades } from '../../constants/shades'
+import ButtonWithTheme from '../../theme/buttons/ButtonWithTheme'
+import { ButtonVariant } from '../../theme/buttons/buttons-theme'
 import TitleWithSpacing from './TitleWithSpacing'
 
 type AccountRouteSelectorProps = {
@@ -66,7 +66,7 @@ const optionContainerCss = {
 
 const optionTextCss = {
   lineHeight: '1.1em',
-  color: SLIGHTLY_DARK_COLOR,
+  color: Shades.SLIGHTLY_DARK,
   marginBottom: '15px',
   marginTop: '5px'
 }

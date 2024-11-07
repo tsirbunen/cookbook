@@ -41,6 +41,7 @@ const ViewSizeContextProvider = ({ children }: { children: React.ReactNode }) =>
     if (height !== windowHeight) setWindowHeight(height)
   }, [windowHeight])
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Only run once
   useEffect(() => {
     window.addEventListener('resize', onWindowResize)
     return () => window.removeEventListener('resize', onWindowResize)

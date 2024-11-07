@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { DefaultValues, FieldValues, useForm } from 'react-hook-form'
+import { type DefaultValues, type FieldValues, useForm } from 'react-hook-form'
 
 export const withTestFormWrapper = <T, P extends FieldValues>(
   WrappedFormComponent: React.ComponentType<T>,

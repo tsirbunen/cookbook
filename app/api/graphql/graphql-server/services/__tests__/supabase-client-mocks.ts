@@ -1,4 +1,4 @@
-import { AuthResponse, User } from '@supabase/supabase-js'
+import type { AuthResponse, User } from '@supabase/supabase-js'
 import { emailAccountTestData } from './test-data'
 
 const testUserId = 'JEST TEST USER'

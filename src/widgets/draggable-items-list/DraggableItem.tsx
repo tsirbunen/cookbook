@@ -37,7 +37,7 @@ const DraggableItem = ({
     const element = ref.current as unknown as HTMLDivElement
     if (!element) return
 
-    const deltaY = element.style.transform ? parseInt(element.style.transform?.split(', ')[1].split('px')[0]) : 0
+    const deltaY = element.style.transform ? Number.parseInt(element.style.transform?.split(', ')[1].split('px')[0]) : 0
     if (deltaY === translateY) return
 
     moveElementVertically(element, translateY)
@@ -96,7 +96,7 @@ const DraggableItem = ({
     if (!ele) return
 
     ele.style.zIndex = `${currentItemIndex}`
-    const deltaY = parseInt(ele.style.transform.split(', ')[1].split('px')[0])
+    const deltaY = Number.parseInt(ele.style.transform.split(', ')[1].split('px')[0])
     onItemMoved(currentItemIndex, deltaY - moveTranslateYStart, true)
     setMoveStartPosition({ x: 0, y: 0 })
   }

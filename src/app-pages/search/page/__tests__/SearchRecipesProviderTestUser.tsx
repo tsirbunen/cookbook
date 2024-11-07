@@ -1,7 +1,7 @@
-import { RecipesViewingContext } from '../SearchRecipesProvider'
-import { LocalStorageMock } from '../../../../state/__tests__/local-storage-mock'
 import { useContext } from 'react'
+import { LocalStorageMock } from '../../../../state/__tests__/local-storage-mock'
 import { ViewRecipesMode } from '../../search-management/ViewModeManagementTool'
+import { RecipesViewingContext } from '../SearchRecipesProvider'
 
 global.localStorage = new LocalStorageMock()
 
@@ -48,12 +48,24 @@ const SearchRecipesProviderTestUser = () => {
       <div>{`${SHOW_FILTERING}-${showFiltering ? 'true' : 'false'}`}</div>
       <div>{`${SOME_FEATURE_IS_TOGGLED}-${someFeatureIsToggled ? 'true' : 'false'}`}</div>
       <div>{`${FAVORITE_RECIPE_IDS}-${favoriteRecipeIds.join(',')}`}</div>
-      <button onClick={toggleHideRecipes}>{TOGGLE_HIDE_RECIPES}</button>
-      <button onClick={toggleShowSelectMode}>{TOGGLE_SHOW_SELECT_MODE}</button>
-      <button onClick={toggleShowPickedRecipes}>{TOGGLE_SHOW_PICKED_RECIPES}</button>
-      <button onClick={toggleShowFiltering}>{TOGGLE_SHOW_FILTERING}</button>
-      <button onClick={() => setMode(ViewRecipesMode.TITLES)}>{SET_MODE_TO_TITLES}</button>
-      <button onClick={() => toggleFavoriteRecipeId(1)}>{TOGGLE_FAVORITE_RECIPE_ID}</button>
+      <button onClick={toggleHideRecipes} type={'button'}>
+        {TOGGLE_HIDE_RECIPES}
+      </button>
+      <button onClick={toggleShowSelectMode} type={'button'}>
+        {TOGGLE_SHOW_SELECT_MODE}
+      </button>
+      <button onClick={toggleShowPickedRecipes} type={'button'}>
+        {TOGGLE_SHOW_PICKED_RECIPES}
+      </button>
+      <button onClick={toggleShowFiltering} type={'button'}>
+        {TOGGLE_SHOW_FILTERING}
+      </button>
+      <button onClick={() => setMode(ViewRecipesMode.TITLES)} type={'button'}>
+        {SET_MODE_TO_TITLES}
+      </button>
+      <button onClick={() => toggleFavoriteRecipeId(1)} type={'button'}>
+        {TOGGLE_FAVORITE_RECIPE_ID}
+      </button>
     </div>
   )
 }

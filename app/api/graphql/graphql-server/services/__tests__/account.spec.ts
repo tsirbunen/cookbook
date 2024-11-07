@@ -1,13 +1,13 @@
-import { client, database } from '../../database/config/config'
 import { expect } from '@jest/globals'
-import { getGraphQLClient } from './test-graphql-client'
+import { type AccountResult, IdentityProvider } from '../../../../../../src/types/graphql-schema-types.generated'
+import { client, database } from '../../database/config/config'
 import { clearDatabase } from '../../database/utils/clear-database.js'
-import { Account, BadInputError } from '../../modules/types.generated'
-import { emailAccountTestData } from './test-data'
-import { TestMutations } from './test-mutations'
-import { AccountResult, IdentityProvider } from '../../../../../../src/types/graphql-schema-types.generated'
 import { createEmailAccount } from '../../database/utils/insert-data-to-database'
+import type { Account, BadInputError } from '../../modules/types.generated'
 import { getHashedPassword } from '../accounts/password-utils'
+import { emailAccountTestData } from './test-data'
+import { getGraphQLClient } from './test-graphql-client'
+import { TestMutations } from './test-mutations'
 
 describe('Handle accounts', () => {
   beforeEach(async () => {

@@ -1,13 +1,13 @@
 /** @jsxImportSource @emotion/react */
 'use client'
-import { useContext } from 'react'
 import { css } from '@emotion/react'
+import { useContext } from 'react'
 import HeaderWithToggles from '../../widgets/header-with-optional-toggles/HeaderWithToggles'
 
-import { ViewSizeContext } from '../view-size-service/ViewSizeProvider'
-import ErrorPage from '../../navigation/router/ErrorPage'
-import NavigationBar from '../../navigation/navigation-bar/NavigationBar'
 import { usePathname } from 'next/navigation'
+import NavigationBar from '../../navigation/navigation-bar/NavigationBar'
+import ErrorPage from '../../navigation/router/ErrorPage'
+import { ViewSizeContext } from '../view-size-service/ViewSizeProvider'
 
 const tooSmallWindowMessage = 'Not available for such a small window yet'
 const root = '/'

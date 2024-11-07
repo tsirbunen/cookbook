@@ -1,80 +1,99 @@
 'use client'
 
-import { createContext, MutableRefObject, useContext, useEffect, useRef } from 'react'
-import { ApolloError, FetchResult } from '@apollo/client'
-import { AppStateContext, AppStateContextType } from '../state/StateContextProvider'
+import type { ApolloError, FetchResult } from '@apollo/client'
+import { type MutableRefObject, createContext, useContext, useEffect, useRef } from 'react'
+import { type RecipesFilterValues, getEmptyFilterValues } from '../app-pages/search/page/FilteringProvider'
+import { AppStateContext, type AppStateContextType } from '../state/StateContextProvider'
 import { Dispatch } from '../state/reducer'
-import { RecipesFilterValues, getEmptyFilterValues } from '../app-pages/search/page/FilteringProvider'
-import { getFilteredRecipes } from './utils'
 import {
-  InitialRecipesAndRelatedDataDocument,
-  InitialRecipesAndRelatedDataQuery,
-  InitialRecipesAndRelatedDataQueryVariables
-} from './graphql-queries/initialData.generated'
-import { AllRecipesDocument, AllRecipesQuery, AllRecipesQueryVariables } from './graphql-queries/allRecipes.generated'
-import {
-  FetchValidationSchemasDocument,
-  FetchValidationSchemasQuery,
-  FetchValidationSchemasQueryVariables
-} from './graphql-queries/fetchValidationSchemas.generated'
-import {
-  Account,
-  EmailAccountInput,
-  NonEmailAccountInput,
-  BaseError,
+  type Account,
+  type BaseError,
+  type CreateRecipeInput,
+  type EmailAccountInput,
+  type NonEmailAccountInput,
+  type Recipe,
   TargetSchema
 } from '../types/graphql-schema-types.generated'
 import {
   CreateEmailAccountDocument,
-  CreateEmailAccountMutation,
-  CreateEmailAccountMutationVariables
+  type CreateEmailAccountMutation,
+  type CreateEmailAccountMutationVariables
 } from './graphql-mutations/createEmailAccount.generated'
-import { GetAccountDocument, GetAccountQuery, GetAccountQueryVariables } from './graphql-queries/getAccount.generated'
 import {
   CreateNonEmailAccountDocument,
-  CreateNonEmailAccountMutation,
-  CreateNonEmailAccountMutationVariables
+  type CreateNonEmailAccountMutation,
+  type CreateNonEmailAccountMutationVariables
 } from './graphql-mutations/createNonEmailAccount.generated'
+import {
+  CreateRecipeDocument,
+  type CreateRecipeMutation,
+  type CreateRecipeMutationVariables
+} from './graphql-mutations/createRecipe.generated'
+import {
+  AllRecipesDocument,
+  type AllRecipesQuery,
+  type AllRecipesQueryVariables
+} from './graphql-queries/allRecipes.generated'
+import {
+  FetchValidationSchemasDocument,
+  type FetchValidationSchemasQuery,
+  type FetchValidationSchemasQueryVariables
+} from './graphql-queries/fetchValidationSchemas.generated'
+import {
+  GetAccountDocument,
+  type GetAccountQuery,
+  type GetAccountQueryVariables
+} from './graphql-queries/getAccount.generated'
+import {
+  InitialRecipesAndRelatedDataDocument,
+  type InitialRecipesAndRelatedDataQuery,
+  type InitialRecipesAndRelatedDataQueryVariables
+} from './graphql-queries/initialData.generated'
+import { getFilteredRecipes } from './utils'
 
 import {
   RequestVerificationEmailDocument,
-  RequestVerificationEmailMutation,
-  RequestVerificationEmailMutationVariables
+  type RequestVerificationEmailMutation,
+  type RequestVerificationEmailMutationVariables
 } from './graphql-mutations/requestVerificationEmail.generated'
 
 import {
   SignInToEmailAccountDocument,
-  SignInToEmailAccountMutation,
-  SignInToEmailAccountMutationVariables
+  type SignInToEmailAccountMutation,
+  type SignInToEmailAccountMutationVariables
 } from './graphql-mutations/signInToEmailAccount.generated'
 
+import type { ToastId } from '@chakra-ui/toast'
+import { type SimpleToast, ToastServiceContext } from '../toast-service/ToastServiceProvider'
+import type { JSONSchemaType } from '../types/types'
+import { GraphQLClientContext } from './graphql-client/graphql-client'
 import {
   DeleteAccountDocument,
-  DeleteAccountMutation,
-  DeleteAccountMutationVariables
+  type DeleteAccountMutation,
+  type DeleteAccountMutationVariables
 } from './graphql-mutations/deleteAccount.generated'
-import { GraphQLClientContext } from './graphql-client/graphql-client'
-import { SimpleToast, ToastServiceContext } from '../toast-service/ToastServiceProvider'
-import { ToastId } from '@chakra-ui/toast'
 import {
-  ToastInputs,
+  type ToastInputs,
   createAccountToasts,
+  createRecipeToasts,
   deleteAccountToasts,
   getAccountToasts,
   requestVerificationEmailToasts,
   signInToEmailAccountToasts
 } from './toast-inputs-and-errors'
-import { JSONSchemaType } from '../types/types'
 
 export type ApiService = {
-  filterRecipes: (filters: RecipesFilterValues) => Promise<void>
-  fetchValidationSchemas: () => Promise<Record<TargetSchema, JSONSchemaType> | null>
   createEmailAccount: (emailAccountInput: EmailAccountInput) => Promise<Account | null>
-  requestVerificationEmail: (email: string) => Promise<boolean | null>
-  signInToEmailAccount: (signInWithPasswordInput: { email: string; password: string }) => Promise<Account | null>
   createNonEmailAccount: (nonEmailAccountInput: NonEmailAccountInput) => Promise<Account | null>
-  getAccount: (token: string) => Promise<Account | null>
+  createRecipe: (createRecipeInput: CreateRecipeInput) => Promise<Recipe | null>
   deleteAccount: (id: number, uuid: string) => Promise<boolean | null>
+  fetchAllPublicAndUsersOwnRecipes: () => Promise<void>
+  fetchValidationSchemas: () => Promise<Record<TargetSchema, JSONSchemaType> | null>
+  filterRecipes: (filters: RecipesFilterValues) => Promise<void>
+  getAccount: (token: string) => Promise<Account | null>
+  requestVerificationEmail: (email: string) => Promise<boolean | null>
+  setAuthenticationToken: (token: string | null) => void
+  signInToEmailAccount: (signInWithPasswordInput: { email: string; password: string }) => Promise<Account | null>
 }
 
 export const ApiServiceContext = createContext<ApiService>({} as ApiService)
@@ -90,10 +109,14 @@ export const ApiServiceContext = createContext<ApiService>({} as ApiService)
  * Note: This provider does not store data. App state provider is for that purpose.
  */
 const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
-  const { client } = useContext(GraphQLClientContext)
+  const { client, setAuthentication } = useContext(GraphQLClientContext)
   const { dispatch } = useContext(AppStateContext) as AppStateContextType
   const { showUpdatableToast, updateUpdatableToast } = useContext(ToastServiceContext)
   const toastIdRef = useRef() as MutableRefObject<ToastId>
+
+  const setAuthenticationToken = (token: string | null) => {
+    setAuthentication(token)
+  }
 
   /**
    * This function performs the given graphql query or mutation within a try-catch block
@@ -102,10 +125,10 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
    * @param toastInputs The loading, success, and error toasts to be shown to the user
    * @returns The data from the query or mutation or null if an error occurred
    */
-  const performWithToasts = async function <T>(
+  const performWithToasts = async <T,>(
     fn: () => Promise<FetchResult<T>>,
     toastInputs: ToastInputs
-  ): Promise<T | null> {
+  ): Promise<T | null> => {
     const { loadingToast, successToast, errorToast, errorText } = toastInputs
     showUpdatableToast(toastIdRef, loadingToast)
 
@@ -140,6 +163,21 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
     if (process.env.NODE_ENV === 'development') console.log((error as ApolloError)?.graphQLErrors)
     const description = (error as BaseError).errorMessage ?? errorToast.description
     updateUpdatableToast(toastIdRef, { ...errorToast, description })
+  }
+
+  const createRecipe = async (createRecipeInput: CreateRecipeInput) => {
+    const fn = () =>
+      client.mutate<CreateRecipeMutation, CreateRecipeMutationVariables>({
+        mutation: CreateRecipeDocument,
+        variables: { createRecipeInput }
+      })
+
+    const data = await performWithToasts<CreateRecipeMutation>(fn, createRecipeToasts)
+    if (data?.createRecipe?.__typename === 'Recipe') {
+      return data?.createRecipe ?? null
+    }
+
+    return null
   }
 
   const createNonEmailAccount = async (nonEmailAccountInput: NonEmailAccountInput) => {
@@ -226,45 +264,43 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
     return resultType === 'GeneralSuccess' ? true : resultType === 'GeneralError' ? false : null
   }
 
-  useEffect(() => {
-    const getRecipes = async () => {
-      const initialData = await client.query<
-        InitialRecipesAndRelatedDataQuery,
-        InitialRecipesAndRelatedDataQueryVariables
-      >({
-        query: InitialRecipesAndRelatedDataDocument
+  const fetchAllPublicAndUsersOwnRecipes = async () => {
+    const initialData = await client.query<
+      InitialRecipesAndRelatedDataQuery,
+      InitialRecipesAndRelatedDataQueryVariables
+    >({
+      query: InitialRecipesAndRelatedDataDocument
+    })
+
+    const { allRecipes, allLanguages, allTags } = initialData.data
+
+    if (allRecipes !== undefined) {
+      dispatch({
+        type: Dispatch.SET_RECIPES_AND_FILTERS,
+        payload: { recipes: getFilteredRecipes(allRecipes), filters: getEmptyFilterValues() }
       })
-
-      const { allRecipes, allLanguages, allTags } = initialData.data
-
-      if (allRecipes !== undefined) {
-        dispatch({
-          type: Dispatch.SET_RECIPES_AND_FILTERS,
-          payload: { recipes: getFilteredRecipes(allRecipes), filters: getEmptyFilterValues() }
-        })
-      }
-
-      if (allLanguages !== undefined) {
-        dispatch({ type: Dispatch.SET_LANGUAGES, payload: { languages: allLanguages } })
-      }
-
-      if (allTags !== undefined) {
-        dispatch({ type: Dispatch.SET_TAGS, payload: { tags: allTags } })
-      }
     }
 
-    getRecipes()
-  }, [])
+    if (allLanguages !== undefined) {
+      dispatch({ type: Dispatch.SET_LANGUAGES, payload: { languages: allLanguages } })
+    }
 
+    if (allTags !== undefined) {
+      dispatch({ type: Dispatch.SET_TAGS, payload: { tags: allTags } })
+    }
+  }
+
+  const getValidationSchemas = async () => {
+    const schemas = await fetchValidationSchemas()
+
+    if (schemas) {
+      dispatch({ type: Dispatch.SET_VALIDATION_SCHEMAS, payload: { validationSchemas: schemas } })
+    }
+  }
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: We only want to run this effect once
   useEffect(() => {
-    const getValidationSchemas = async () => {
-      const schemas = await fetchValidationSchemas()
-
-      if (schemas) {
-        dispatch({ type: Dispatch.SET_VALIDATION_SCHEMAS, payload: { validationSchemas: schemas } })
-      }
-    }
-
+    fetchAllPublicAndUsersOwnRecipes()
     getValidationSchemas()
   }, [])
 
@@ -287,10 +323,15 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (!result.data?.validationSchemas) return null
 
-    const validationSchemas = result.data.validationSchemas.reduce((acc, { target, schema }) => {
-      acc[target] = schema
-      return acc
-    }, {} as Record<TargetSchema, JSONSchemaType>)
+    const validationSchemas = result.data.validationSchemas.reduce(
+      // FIXME: Find the rule that requires next line here so that we need not force to next line
+      // with a comment to silence biome linting error
+      (acc, { target, schema }) => {
+        acc[target] = schema
+        return acc
+      },
+      {} as Record<TargetSchema, JSONSchemaType>
+    )
 
     return validationSchemas
   }
@@ -298,14 +339,17 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <ApiServiceContext.Provider
       value={{
-        filterRecipes,
-        fetchValidationSchemas,
         createEmailAccount,
         createNonEmailAccount,
-        requestVerificationEmail,
-        signInToEmailAccount,
+        createRecipe,
+        deleteAccount,
+        fetchAllPublicAndUsersOwnRecipes,
+        fetchValidationSchemas,
+        filterRecipes,
         getAccount,
-        deleteAccount
+        requestVerificationEmail,
+        setAuthenticationToken,
+        signInToEmailAccount
       }}
     >
       {children}

@@ -3,10 +3,10 @@
 import dynamic from 'next/dynamic'
 import { useContext, useEffect } from 'react'
 
-import { AppStateContext, AppStateContextType } from '../../../../../../src/state/StateContextProvider'
-import { AccountRoute } from '../../../page'
 import { ApiServiceContext } from '../../../../../../src/api-service/ApiServiceProvider'
+import { AppStateContext, type AppStateContextType } from '../../../../../../src/state/StateContextProvider'
 import { Dispatch } from '../../../../../../src/state/reducer'
+import { AccountRoute } from '../../../page'
 
 const CompleteGitHubAccountPage = dynamic(
   () => import('../../../../../../src/app-pages/account/CompleteGitHubAccountPage'),
@@ -30,13 +30,15 @@ type ProviderUsernamePageProps = {
 
 export default function ProviderLoggedInPage({ params }: ProviderUsernamePageProps) {
   const { dispatch } = useContext(AppStateContext) as AppStateContextType
-  const { getAccount } = useContext(ApiServiceContext)
+  const { getAccount, setAuthenticationToken } = useContext(ApiServiceContext)
   const { accountAction, username, tokenType, token } = params
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: We only want to run this effect once
   useEffect(() => {
     const fetchAccount = async () => {
       const account = await getAccount(token)
-      if (account && account.token) {
+      if (account?.token) {
+        setAuthenticationToken(account.token)
         dispatch({
           type: Dispatch.SET_ACCOUNT,
           payload: {

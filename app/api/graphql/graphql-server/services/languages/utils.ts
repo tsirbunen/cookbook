@@ -1,8 +1,8 @@
 import { eq } from 'drizzle-orm'
-import { DatabaseType } from '../../database/inferred-types/inferred-types'
 import { languages } from '../../database/database-schemas/languages'
-import { Language } from '../../modules/types.generated'
 import { recipes } from '../../database/database-schemas/recipes'
+import type { DatabaseType } from '../../database/inferred-types/inferred-types'
+import type { Language } from '../../modules/types.generated'
 
 export const getAllDatabaseLanguages = async (databaseOrTransaction: DatabaseType): Promise<Language[]> => {
   const allLanguages = await databaseOrTransaction.query.languages.findMany()
@@ -35,6 +35,7 @@ export const handleFindCreateOrPatchAndPurgeLanguage = async (
     const recipesUsingOldLanguage = await trx.query.recipes.findMany({
       where: eq(recipes.languageId, oldLanguage.id)
     })
+
     if (!recipesUsingOldLanguage.length) {
       await trx.delete(languages).where(eq(languages.id, oldLanguage.id))
     }

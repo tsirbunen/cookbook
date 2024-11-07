@@ -1,6 +1,6 @@
 import { Button } from '@chakra-ui/react'
-import { ColorCodes } from '../../theme/theme'
-import { IconType } from 'react-icons'
+import type { IconType } from 'react-icons'
+import { Shades } from '../../constants/shades'
 
 export enum RoundedBordersOnSide {
   LEFT = 'LEFT',
@@ -79,11 +79,11 @@ const CardRadioButton = ({
 export default CardRadioButton
 
 const getVariantStyles = (variant: CardRadioButtonSelectorVariant, isSelected: boolean, isDisabled: boolean) => {
-  const veryPale = ColorCodes.VERY_PALE
-  const dark = ColorCodes.DARK
-  const medium = ColorCodes.MEDIUM
-  const pale = ColorCodes.PALE
-  const veryDark = ColorCodes.VERY_DARK
+  const veryPale = Shades.VERY_PALE
+  const dark = Shades.DARK
+  const medium = Shades.MEDIUM
+  const pale = Shades.PALE
+  const veryDark = Shades.VERY_DARK
 
   switch (variant) {
     case CardRadioButtonSelectorVariant.DarkWithFill:

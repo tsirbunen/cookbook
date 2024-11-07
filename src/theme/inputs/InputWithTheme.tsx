@@ -1,6 +1,6 @@
 import { Input, InputGroup, InputRightElement } from '@chakra-ui/react'
-import { InputVariant } from './inputs-theme'
-import { ChangeEvent, ReactNode } from 'react'
+import { type ChangeEvent, type ForwardedRef, type ReactNode, forwardRef } from 'react'
+import type { InputVariant } from './inputs-theme'
 
 type ButtonWithThemeProps = {
   variant: InputVariant
@@ -11,38 +11,28 @@ type ButtonWithThemeProps = {
   name?: string
   placeholder?: string
   onBlur?: () => void
+  onFocus?: () => void
   type?: 'text' | 'password'
   rightElement?: ReactNode
+  ref?: ForwardedRef<Element>
 }
 
-const InputWithTheme = ({
-  variant,
-  value,
-  isDisabled,
-  onChange,
-  size,
-  name,
-  placeholder,
-  onBlur,
-  type,
-  rightElement
-}: ButtonWithThemeProps) => {
-  if (!rightElement) {
-    return (
-      <Input
-        variant={variant}
-        isDisabled={isDisabled}
-        value={value}
-        onChange={onChange}
-        size={size ?? 'xs'}
-        name={name}
-        onBlur={onBlur}
-        placeholder={placeholder}
-        type={type ?? 'text'}
-      />
-    )
-  }
-
+const InputWithTheme = forwardRef(function InputWithTheme(
+  {
+    variant,
+    value,
+    isDisabled,
+    onChange,
+    size,
+    name,
+    placeholder,
+    onBlur,
+    type,
+    rightElement,
+    onFocus
+  }: ButtonWithThemeProps,
+  ref
+) {
   return (
     <InputGroup>
       <Input
@@ -55,10 +45,12 @@ const InputWithTheme = ({
         onBlur={onBlur}
         placeholder={placeholder}
         type={type ?? 'text'}
+        onFocus={onFocus}
+        ref={ref as ForwardedRef<HTMLInputElement>}
       />
-      <InputRightElement>{rightElement}</InputRightElement>
+      {rightElement ? <InputRightElement>{rightElement}</InputRightElement> : null}
     </InputGroup>
   )
-}
+})
 
 export default InputWithTheme

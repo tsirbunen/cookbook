@@ -1,5 +1,5 @@
-import { ViewSizeContext } from '../ViewSizeProvider'
 import { useContext } from 'react'
+import { ViewSizeContext } from '../ViewSizeProvider'
 
 export const currentWidthTestId = 'current-width'
 export const isSplitViewTestId = 'is-split-view'

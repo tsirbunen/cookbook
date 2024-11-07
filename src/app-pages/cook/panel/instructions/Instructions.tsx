@@ -1,11 +1,11 @@
+import { type ChakraProps, Flex, Text } from '@chakra-ui/react'
 import React, { useContext, useMemo } from 'react'
-import { ChakraProps, Flex, Text } from '@chakra-ui/react'
-import { ColorCodes } from '../../../../theme/theme'
-import { InstructionGroup } from '../../../../types/graphql-schema-types.generated'
+import { Shades } from '../../../../constants/shades'
+import MultiColumnContent from '../../../../layout/multi-column-wrapper/MultiColumnContent'
+import type { InstructionGroup } from '../../../../types/graphql-schema-types.generated'
 import Title, { TitleVariant } from '../../../../widgets/titles/Title'
 import { CookingContext } from '../../page/CookingProvider'
 import CheckToggle from '../general/CheckToggle'
-import MultiColumnContent from '../../../../layout/multi-column-wrapper/MultiColumnContent'
 
 export const instructionRow = 'instruction-row'
 
@@ -20,9 +20,11 @@ const INSTRUCTIONS_SECTION_TITLE = 'INSTRUCTIONS'
 const Instructions = ({ instructionGroups, columnCount, recipeId }: RecipeIngredientsProps) => {
   const { cookingRecipes, instructionsDone, toggleInstruction } = useContext(CookingContext)
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Change only if selected dependencies change
   const isCookingRecipe = useMemo(() => {
     return cookingRecipes.some((recipe) => recipe.id === recipeId)
   }, [cookingRecipes])
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Change only if selected dependencies change
   const showCheckToggles = useMemo(() => cookingRecipes.map((r) => r.id).includes(recipeId), [cookingRecipes])
 
   return (
@@ -30,10 +32,10 @@ const Instructions = ({ instructionGroups, columnCount, recipeId }: RecipeIngred
       <Flex {...containerCss}>
         {instructionGroups.map((group, groupIndex) => {
           const { title, instructions } = group
-
+          const titleKey = `instruction-${title}-${recipeId}-${groupIndex}`
           return (
             <Flex {...ingredientGroupCss} key={`${title}-${groupIndex}-${recipeId}`}>
-              <Flex style={{ marginBottom: '5px' }} key={`instruction-${title}-${recipeId}-${groupIndex}`}>
+              <Flex style={{ marginBottom: '5px' }} key={titleKey}>
                 {title ? <Title title={title} variant={TitleVariant.MediumPale} /> : null}
               </Flex>
 
@@ -97,11 +99,11 @@ const ingredientRowCss = {
 const indexCss = {
   width: '25px',
   height: '25px',
-  backgroundColor: ColorCodes.PALE,
+  backgroundColor: Shades.PALE,
   flexDirection: 'column' as ChakraProps['flexDirection'],
   alignItems: 'center' as ChakraProps['alignItems'],
   justifyContent: 'center' as ChakraProps['justifyContent'],
-  color: ColorCodes.DARK,
+  color: Shades.DARK,
   fontWeight: 'bold',
   borderRadius: '50%',
   marginRight: '5px'
@@ -111,6 +113,6 @@ const overFlowTextCss = (isPale: boolean) => {
   return {
     overflow: 'wrap',
     flex: 1,
-    color: isPale ? ColorCodes.SLIGHTLY_PALE : ColorCodes.VERY_DARK
+    color: isPale ? Shades.SLIGHTLY_PALE : Shades.VERY_DARK
   }
 }

@@ -2,12 +2,12 @@
 
 import { css } from '@emotion/react'
 
-import { ColorCodes } from '../../../theme/theme'
-import CheckboxWithTheme from '../../../theme/checkboxes/CheckboxWithTheme'
-import TitleWithLink from '../../../widgets/titles/TitleWithLink'
-import { Recipe } from '../../../types/graphql-schema-types.generated'
-import { SoundServiceContext, SoundType } from '../../../sounds/SoundProvider'
 import { useContext } from 'react'
+import { Shades } from '../../../constants/shades'
+import { SoundServiceContext, SoundType } from '../../../sounds/SoundProvider'
+import CheckboxWithTheme from '../../../theme/checkboxes/CheckboxWithTheme'
+import type { Recipe } from '../../../types/graphql-schema-types.generated'
+import TitleWithLink from '../../../widgets/titles/TitleWithLink'
 
 export const titleRepresentationDataTestId = 'title-representation'
 
@@ -48,7 +48,7 @@ const outerCss = (showBackground: boolean) => css`
   flex-direction: row;
   justify-content: start;
   align-items: center;
-  color: ${ColorCodes.VERY_DARK};
+  color: ${Shades.VERY_DARK};
   padding: ${showBackground ? 4 : 1}px 6px;
   border-radius: 6px;
   height: ${40}px;

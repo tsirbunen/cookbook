@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
-import ResizablePanel from './ResizablePanel'
-import { ViewSizeContext } from '../view-size-service/ViewSizeProvider'
 import { NAV_BAR_WIDTH } from '../../constants/layout'
+import { ViewSizeContext } from '../view-size-service/ViewSizeProvider'
+import ResizablePanel from './ResizablePanel'
 import { calculateNewPanelWidths, getEvenPanelWidths, getPanelsCount, panelWidthsAreAllowed } from './utils'
 
 type MultiResizablePanelsViewProps = {
@@ -25,6 +25,7 @@ const MultiResizablePanelsView = (props: MultiResizablePanelsViewProps) => {
   const [leftPanelWidth, setLeftPanelWidth] = useState(initialWidths.left)
   const [middlePanelWidth, setMiddlePanelWidth] = useState(initialWidths.middle)
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Only change if the value of count or windowWidth changes
   useEffect(() => {
     const panelsCountHasChanged = count !== panelsCount
 

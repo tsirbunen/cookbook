@@ -1,13 +1,13 @@
-import { ChakraProps, Flex, Text } from '@chakra-ui/react'
+import { type ChakraProps, Flex, Text } from '@chakra-ui/react'
 import { useContext } from 'react'
-import { AppStateContext, AppStateContextType } from '../../state/StateContextProvider'
-import { Dispatch } from '../../state/reducer'
-import { SLIGHTLY_DARK_COLOR, VERY_PALE_COLOR } from '../../constants/color-codes'
+import { FaPlay } from 'react-icons/fa'
+import { Shades } from '../../constants/shades'
 import { SoundServiceContext, SoundType } from '../../sounds/SoundProvider'
+import { LocalStorageContext, LocalStorageKeys } from '../../state/LocalStorageProvider'
+import { AppStateContext, type AppStateContextType } from '../../state/StateContextProvider'
+import { Dispatch } from '../../state/reducer'
 import ButtonWithTheme from '../../theme/buttons/ButtonWithTheme'
 import { ButtonVariant } from '../../theme/buttons/buttons-theme'
-import { FaPlay } from 'react-icons/fa'
-import { LocalStorageContext, LocalStorageKeys } from '../../state/LocalStorageProvider'
 import SwitchToggleWithLabel from '../../widgets/switch-toggle/SwitchToggleWithLabel'
 
 const mainInfo = [
@@ -44,11 +44,14 @@ const SoundSettings = () => {
 
   return (
     <Flex {...outerCss}>
-      {mainInfo.map((info, index) => (
-        <Text key={`sound-settings-info-${index}`} {...infoCss}>
-          {info}
-        </Text>
-      ))}
+      {mainInfo.map((info, index) => {
+        const key = `sound-settings-info-${index}`
+        return (
+          <Text key={key} {...infoCss}>
+            {info}
+          </Text>
+        )
+      })}
 
       <Flex {...switchCss}>
         <SwitchToggleWithLabel
@@ -60,11 +63,14 @@ const SoundSettings = () => {
         />
       </Flex>
 
-      {examplesInfo.map((info, index) => (
-        <Text key={`sound-settings-info-${index}`} {...infoCss}>
-          {info}
-        </Text>
-      ))}
+      {examplesInfo.map((info, index) => {
+        const key = `sound-settings-info-${index}`
+        return (
+          <Text key={key} {...infoCss}>
+            {info}
+          </Text>
+        )
+      })}
       {!soundsAreEnabled && <Text {...infoCss}>{turnSoundsOnReminder}</Text>}
 
       <Flex {...buttonsOuterCss}>
@@ -111,14 +117,14 @@ const buttonsOuterCss = {
 
 const infoCss = {
   lineHeight: '1.1em',
-  color: SLIGHTLY_DARK_COLOR
+  color: Shades.SLIGHTLY_DARK
 }
 const switchCss = {
   marginTop: '10px'
 }
 const buttonTextCss = {
   marginLeft: '10px',
-  color: VERY_PALE_COLOR
+  color: Shades.VERY_PALE
 }
 
 const buttonsBoxCss = {

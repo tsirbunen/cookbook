@@ -1,5 +1,5 @@
 import { Button } from '@chakra-ui/react'
-import { ButtonVariant } from './buttons-theme'
+import type { ButtonVariant } from './buttons-theme'
 
 type ButtonWithThemeProps = {
   variant: ButtonVariant

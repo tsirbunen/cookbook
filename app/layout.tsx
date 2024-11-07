@@ -64,6 +64,7 @@ const ToastServiceProvider = dynamic(() => import('../src/toast-service/ToastSer
  * our app with all the providers.
  */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // biome-ignore lint/suspicious/useValidTypeof: Needs to be like this
   if (typeof window === undefined) {
     return <LoadingPage />
   }

@@ -1,5 +1,5 @@
 import { MIN_PANEL_WIDTH, NAV_BAR_WIDTH } from '../../constants/layout'
-import { WindowWidth } from '../view-size-service/ViewSizeProvider'
+import type { WindowWidth } from '../view-size-service/ViewSizeProvider'
 
 type PanelCalculationParams = CorePanelCalculationParams & {
   panelsCountHasChanged: boolean

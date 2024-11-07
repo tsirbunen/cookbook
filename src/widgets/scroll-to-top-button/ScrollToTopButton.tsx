@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 'use client'
 import { css } from '@emotion/react'
-import { ColorCodes } from '../../theme/theme'
 import { useEffect, useState } from 'react'
 import { TbArrowBarToUp } from 'react-icons/tb'
+import { Shades } from '../../constants/shades'
 import { scrollToTopZIndex } from '../../constants/z-indexes'
 
 const scrollToTopButtonId = 'scrollToTopButtonId'
@@ -16,6 +16,7 @@ const ScrollToTopButton = ({ targetAnchorId }: { targetAnchorId: string }) => {
     if (button) setDisplay('float')
   }
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Only run once
   useEffect(() => {
     if (window === undefined) return
 
@@ -49,8 +50,8 @@ const buttonCss = (display: 'none' | 'float') => css`
   z-index: ${scrollToTopZIndex};
   border: none;
   outline: none;
-  background-color: ${ColorCodes.VERY_DARK};
-  color: ${ColorCodes.VERY_PALE};
+  background-color: ${Shades.VERY_DARK};
+  color: ${Shades.VERY_PALE};
   border-radius: 40px;
   padding: 5px;
   flex: 1;

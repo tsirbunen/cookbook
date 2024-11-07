@@ -1,12 +1,12 @@
 import { Flex, Spinner, Text } from '@chakra-ui/react'
-import { ColorCodes } from '../../theme/theme'
+import { Shades } from '../../constants/shades'
 
 type LoadingIndicatorProps = {
   message: string
 }
 
 const LoadingIndicator = ({ message }: LoadingIndicatorProps) => {
-  const color = ColorCodes.MEDIUM
+  const color = Shades.MEDIUM
 
   return (
     <Flex width="100%" marginTop="30px">
@@ -15,7 +15,7 @@ const LoadingIndicator = ({ message }: LoadingIndicatorProps) => {
           {message}
         </Text>
 
-        <Spinner thickness="8px" speed="1.5s" emptyColor={ColorCodes.MEDIUM} color={ColorCodes.DARK} size="xl" />
+        <Spinner thickness="8px" speed="1.5s" emptyColor={Shades.MEDIUM} color={Shades.DARK} size="xl" />
       </Flex>
     </Flex>
   )

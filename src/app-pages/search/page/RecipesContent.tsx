@@ -1,13 +1,13 @@
+import { type ChakraProps, Flex } from '@chakra-ui/react'
 import { useContext } from 'react'
 import React from 'react'
-import { Recipe } from '../../../types/graphql-schema-types.generated'
-import ScrollToTopButton from '../../../widgets/scroll-to-top-button/ScrollToTopButton'
-import { AppStateContext, AppStateContextType } from '../../../state/StateContextProvider'
-import { Dispatch } from '../../../state/reducer'
-import { RecipesViewingContext } from './SearchRecipesProvider'
 import { HEADER_HEIGHT } from '../../../constants/layout'
+import { AppStateContext, type AppStateContextType } from '../../../state/StateContextProvider'
+import { Dispatch } from '../../../state/reducer'
+import type { Recipe } from '../../../types/graphql-schema-types.generated'
+import ScrollToTopButton from '../../../widgets/scroll-to-top-button/ScrollToTopButton'
 import RecipesDisplay from '../recipes-display/RecipesDisplay'
-import { ChakraProps, Flex } from '@chakra-ui/react'
+import { RecipesViewingContext } from './SearchRecipesProvider'
 
 export const recipesContentDataTestId = 'recipes-content'
 const SCROLL_TO_TARGET_ANCHOR_ID = 'content-top'
@@ -37,7 +37,8 @@ const RecipesContent = () => {
   return (
     <Flex {...outerCss} data-testid={recipesContentDataTestId}>
       <div style={{ zIndex: 1000, position: 'relative', top: `-${HEADER_HEIGHT}px` }}>
-        <a id={SCROLL_TO_TARGET_ANCHOR_ID}></a>
+        {/* biome-ignore lint/a11y/useAnchorContent: We do not want to show any text content */}
+        <a id={SCROLL_TO_TARGET_ANCHOR_ID} href="#content-top" aria-label="Scroll to top" />
       </div>
 
       <RecipesDisplay

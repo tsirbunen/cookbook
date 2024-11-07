@@ -1,12 +1,13 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
+import { ApiServiceContext } from '../../../api-service/ApiServiceProvider'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
+import RegularTopShowOrHideView from '../../../layout/views/RegularTopShowOrHideView'
+import SplitView from '../../../layout/views/SplitView'
+import { Page } from '../../../navigation/router/router'
+import FilteringProvider from './FilteringProvider'
 import RecipesContent from './RecipesContent'
 import SearchManagement from './SearchManagement'
-import FilteringProvider from './FilteringProvider'
-import SplitView from '../../../layout/views/SplitView'
-import RegularTopShowOrHideView from '../../../layout/views/RegularTopShowOrHideView'
 import { RecipesViewingContext } from './SearchRecipesProvider'
-import { Page } from '../../../navigation/router/router'
 
 /**
  * This page displays the actual recipes and viewing management "tools" with which the user
@@ -19,6 +20,13 @@ import { Page } from '../../../navigation/router/router'
 const SearchRecipesPage = () => {
   const { isSplitView } = useContext(ViewSizeContext)
   const { someFeatureIsToggled, showFiltering } = useContext(RecipesViewingContext)
+  const { fetchAllPublicAndUsersOwnRecipes } = useContext(ApiServiceContext)
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: We only want to run this effect once
+  useEffect(() => {
+    fetchAllPublicAndUsersOwnRecipes()
+  }, [])
+
   const searchPageTestId = `${Page.SEARCH}-page`
   const viewingManagement = <SearchManagement />
   const actualRecipes = <RecipesContent />

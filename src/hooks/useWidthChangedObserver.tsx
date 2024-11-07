@@ -19,6 +19,7 @@ export const useWidthChangedObserver = (): UseWidthChangedObserver => {
     []
   )
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Only change if the value of elementRef changes
   useEffect(() => {
     if (elementRef.current) observer.observe(elementRef.current)
 

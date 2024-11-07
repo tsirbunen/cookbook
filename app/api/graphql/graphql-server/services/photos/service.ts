@@ -1,8 +1,8 @@
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-import { DatabaseType } from '../../database/inferred-types/inferred-types'
 import { photos } from '../../database/database-schemas/photos'
+import type { DatabaseType } from '../../database/inferred-types/inferred-types'
 
 export const uploadPhotoFile = async (_photoFile: File): Promise<string> => {
   return 'done'

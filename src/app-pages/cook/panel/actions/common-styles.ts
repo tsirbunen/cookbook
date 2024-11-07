@@ -1,5 +1,5 @@
 import { css } from '@emotion/react'
-import { ColorCodes } from '../../../../theme/theme'
+import { Shades } from '../../../../constants/shades'
 
 export const outerCss = css`
   display: flex;
@@ -14,7 +14,7 @@ export const innerCss = css`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: ${ColorCodes.SLIGHTLY_DARK};
+  color: ${Shades.DARK};
   padding: 0px 5px 0px 5px;
   border-radius: 4px;
   font-weight: bold;

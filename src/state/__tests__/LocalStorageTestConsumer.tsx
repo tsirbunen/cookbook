@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useContext, useState } from 'react'
 import { LocalStorageContext, LocalStorageKeys } from '../LocalStorageProvider'
 
 export const areEnabled = 'are enabled'
@@ -22,6 +22,7 @@ const LocalStorageTestConsumer = () => {
           toggleValueForKey(LocalStorageKeys.SOUNDS_ARE_ENABLED, !soundsAreOn)
           setSoundsAreOn(!soundsAreOn)
         }}
+        type={'button'}
       >
         {toggleSoundsLabel}
       </button>
@@ -32,6 +33,7 @@ const LocalStorageTestConsumer = () => {
           toggleValueForKey(LocalStorageKeys.FAVORITE_RECIPE_IDS, newValue)
           setFavoriteRecipeIds([...favoriteRecipeIds, newValue])
         }}
+        type={'button'}
       >
         {addFavoriteLabel}
       </button>
@@ -42,6 +44,7 @@ const LocalStorageTestConsumer = () => {
           toggleValueForKey(LocalStorageKeys.FAVORITE_RECIPE_IDS, newValue)
           setFavoriteRecipeIds((previous) => previous.filter((id) => id !== newValue))
         }}
+        type={'button'}
       >
         {removeFavoriteLabel}
       </button>
@@ -52,6 +55,7 @@ const LocalStorageTestConsumer = () => {
           setSoundsAreOn(false)
           setFavoriteRecipeIds([])
         }}
+        type={'button'}
       >
         {clearAllLabel}
       </button>
@@ -61,6 +65,7 @@ const LocalStorageTestConsumer = () => {
           clearValueForKey(LocalStorageKeys.SOUNDS_ARE_ENABLED)
           setSoundsAreOn(false)
         }}
+        type={'button'}
       >
         {clearSoundsLabel}
       </button>

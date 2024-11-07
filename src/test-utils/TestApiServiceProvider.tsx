@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { RecipesFilterValues } from '../app-pages/search/page/FilteringProvider'
 import { ApiServiceContext } from '../api-service/ApiServiceProvider'
-import { EmailAccountInput } from '../types/graphql-schema-types.generated'
+import type { RecipesFilterValues } from '../app-pages/search/page/FilteringProvider'
+import type { EmailAccountInput } from '../types/graphql-schema-types.generated'
 
 const TestApiServiceProvider = ({
   filterValues,
@@ -31,16 +31,36 @@ const TestApiServiceProvider = ({
   const fetchValidationSchemas = async () => {
     throw new Error('Not implemented')
   }
+  const getAccount = async () => {
+    throw new Error('Not implemented')
+  }
+  const createNonEmailAccount = async () => {
+    throw new Error('Not implemented')
+  }
+  const createRecipe = async () => {
+    throw new Error('Not implemented')
+  }
+  const fetchAllPublicAndUsersOwnRecipes = async () => {
+    throw new Error('Not implemented')
+  }
+  const setAuthenticationToken = async () => {
+    throw new Error('Not implemented')
+  }
 
   return (
     <ApiServiceContext.Provider
       value={{
-        filterRecipes,
         createEmailAccount,
-        requestVerificationEmail,
-        signInToEmailAccount,
+        createNonEmailAccount,
+        createRecipe,
         deleteAccount,
-        fetchValidationSchemas
+        fetchAllPublicAndUsersOwnRecipes,
+        fetchValidationSchemas,
+        filterRecipes,
+        getAccount,
+        requestVerificationEmail,
+        setAuthenticationToken,
+        signInToEmailAccount
       }}
     >
       {children}

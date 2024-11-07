@@ -1,20 +1,20 @@
-import { ChakraProps, Flex } from '@chakra-ui/react'
+import { type ChakraProps, Flex } from '@chakra-ui/react'
+import { type ChangeEvent, useEffect, useState } from 'react'
+import { type Control, type FieldPath, type FieldValues, useController } from 'react-hook-form'
+import { TbTrash } from 'react-icons/tb'
 import ButtonWithTheme from '../../theme/buttons/ButtonWithTheme'
 import { ButtonVariant } from '../../theme/buttons/buttons-theme'
-import { ChangeEvent, useEffect, useState } from 'react'
-import { TbTrash } from 'react-icons/tb'
-import { Control, FieldPath, FieldValues, useController } from 'react-hook-form'
-import Title, { TitleVariant } from '../titles/Title'
-import CardRadioButtonSelector from '../card-radio-button-selector/CardRadioButtonSelector'
 import TextAreaWithTheme from '../../theme/textareas/TextAreaWithTheme'
 import { TextAreaVariant } from '../../theme/textareas/textareas-theme'
 import { CardRadioButtonSelectorVariant } from '../card-radio-button-selector/CardRadioButton'
+import CardRadioButtonSelector from '../card-radio-button-selector/CardRadioButtonSelector'
+import Title, { TitleVariant } from '../titles/Title'
 
 export const formTextAreaSearchDataTestId = 'form-text-area-search'
 
 export enum SearchMode {
-  'AND' = 'AND',
-  'OR' = 'OR'
+  AND = 'AND',
+  OR = 'OR'
 }
 
 export type TextAreaSearchValues = {

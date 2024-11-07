@@ -1,5 +1,5 @@
-import { ReactElement } from 'react'
-import { ItemListData } from './DraggableItemsList'
+import type { ReactElement } from 'react'
+import type { ItemListData } from './DraggableItemsList'
 
 export class ListUpdater {
   updatedCurrentIndexOrder: number[]
@@ -82,7 +82,7 @@ export class ListUpdater {
       for (let j = 0; j < this.updatedCurrentIndexOrder.length; j++) {
         const item = this.updatedCurrentIndexOrder[j]
         if (item === -1 || item < itemToRemove) continue
-        else if (item === itemToRemove) this.updatedCurrentIndexOrder[j] = -1
+        if (item === itemToRemove) this.updatedCurrentIndexOrder[j] = -1
         else this.updatedCurrentIndexOrder[j] = item - 1
       }
 
@@ -90,7 +90,7 @@ export class ListUpdater {
       for (let j = 0; j < this.updatedCurrentIndexOrder.length; j++) {
         const t = this.translateYs[j]
         if (t === -1 || t < translateToRemove) continue
-        else if (t === translateToRemove) this.updatedTranslateYs[j] = -1
+        if (t === translateToRemove) this.updatedTranslateYs[j] = -1
         else this.updatedTranslateYs[j] = t - this.listItemHeight
       }
     }
@@ -113,9 +113,9 @@ export class ListUpdater {
       newIndex++
     }
 
-    this.addedItemsList.forEach((item) => {
+    for (const item of this.addedItemsList) {
       this.updatedOriginalKeyOrder.push(item.key as string)
-    })
+    }
   }
 
   updateKeysOrder() {

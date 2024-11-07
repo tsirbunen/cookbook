@@ -7,6 +7,7 @@ import { localDatabaseOptions } from '../utils/get-database-local-options.js'
 import { clearDatabase } from '../utils/clear-database.js'
 import {
   getOrCreateLanguage,
+  createAccount,
   createRecipe,
   getOrCreateTags,
   createRecipesToTags,
@@ -18,9 +19,9 @@ import { lemonyLentilSoup } from './example-data-2.js'
 import { belugaBolognese } from './example-data-1.js'
 import { maximumDeliciousDal } from './example-data-3.js'
 
-const START_INFO = `\x1b[36mStart inserting example data to database...\x1b[0m`
-const COMPLETED_INFO = `\x1b[36mInsert example data completed!\x1b[0m`
-const CLEAR_DATABASE_INFO = `\x1b[35mClear existing data from database!\x1b[0m`
+const START_INFO = '\x1b[36mStart inserting example data to database...\x1b[0m'
+const COMPLETED_INFO = '\x1b[36mInsert example data completed!\x1b[0m'
+const CLEAR_DATABASE_INFO = '\x1b[35mClear existing data from database!\x1b[0m'
 const CREATED_RECIPE_INFO = `\x1b[33mCreated recipe with title "{title}"\x1b[0m`
 
 const insertExampleData = async () => {
@@ -32,10 +33,17 @@ const insertExampleData = async () => {
   const database = drizzle(client)
   await clearDatabase(database)
 
+  const authorAccount = await createAccount(database, {
+    username: 'example-author',
+    identityProvider: 'GITHUB',
+    idAtProvider: 'example-id-at-provider'
+  })
+  const authorId = authorAccount.id
+
   const exampleRecipeInputs = [lemonyLentilSoup, belugaBolognese, maximumDeliciousDal]
   for await (const recipeInput of exampleRecipeInputs) {
     const language = await getOrCreateLanguage(database, recipeInput.language)
-    const recipe = await createRecipe(database, recipeInput, language.id)
+    const recipe = await createRecipe(database, { ...recipeInput, authorId, isPrivate: false }, language.id)
     const tags = await getOrCreateTags(database, recipeInput.tags)
     await createRecipesToTags(database, recipe.id, tags)
     await createIngredientGroups(database, recipeInput.ingredientGroups, recipe.id)

@@ -1,5 +1,5 @@
-import { createClient } from '@supabase/supabase-js'
 import assert from 'assert'
+import { createClient } from '@supabase/supabase-js'
 import { getAdminClientMock, getGeneralClientMock } from '../__tests__/supabase-client-mocks'
 
 type SupabaseInput = { email: string; password: string }
@@ -18,12 +18,12 @@ const isJestTest = process.env.IS_JEST
 
 const getGeneralClient = () => {
   if (isJestTest) return getGeneralClientMock()
-  return createClient(supabaseUrl!, supabaseAnonKey!)
+  return createClient(supabaseUrl, supabaseAnonKey)
 }
 
 const getAdminClient = () => {
   if (isJestTest) return getAdminClientMock()
-  return createClient(supabaseUrl!, supabaseServiceRoleKey!)
+  return createClient(supabaseUrl, supabaseServiceRoleKey)
 }
 
 export const getExistingEmailAuthUser = async (supabaseId: string) => {

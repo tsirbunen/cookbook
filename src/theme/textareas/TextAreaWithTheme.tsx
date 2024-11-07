@@ -1,6 +1,6 @@
 import { Textarea } from '@chakra-ui/react'
-import { TextAreaVariant } from './textareas-theme'
-import { ChangeEvent } from 'react'
+import type { ChangeEvent } from 'react'
+import type { TextAreaVariant } from './textareas-theme'
 
 type TextAreaWithThemeProps = {
   variant: TextAreaVariant

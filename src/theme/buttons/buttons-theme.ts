@@ -1,14 +1,5 @@
 import { defineStyle, defineStyleConfig } from '@chakra-ui/react'
-import {
-  DARK_COLOR,
-  ERROR_COLOR,
-  EXTREMELY_PALE_COLOR,
-  MEDIUM_COLOR,
-  PALE_COLOR,
-  SLIGHTLY_DARK_COLOR,
-  VERY_DARK_COLOR,
-  VERY_PALE_COLOR
-} from '../../constants/color-codes'
+import { Shades } from '../../constants/shades'
 
 export enum ButtonVariant {
   SquareWithIcon = 'squareWithIcon',
@@ -18,12 +9,13 @@ export enum ButtonVariant {
   MediumSizePale = 'mediumSizePale',
   LargeDark = 'largeDark',
   SmallDark = 'smallDark',
-  DeleteLarge = 'deleteLarge'
+  DeleteLarge = 'deleteLarge',
+  Pale = 'pale'
 }
 
 const mediumSizeDark = defineStyle({
-  background: VERY_DARK_COLOR,
-  color: VERY_PALE_COLOR,
+  background: Shades.VERY_DARK,
+  color: Shades.VERY_PALE,
   fontSize: '1em',
   variant: 'unstyled',
   borderRadius: '6px',
@@ -34,20 +26,20 @@ const mediumSizeDark = defineStyle({
   marginTop: '5px',
   _focus: { outline: 'none' },
   _disabled: {
-    background: DARK_COLOR,
-    color: PALE_COLOR,
+    background: Shades.DARK,
+    color: Shades.PALE,
     _hover: {
-      background: DARK_COLOR,
-      color: PALE_COLOR
+      background: Shades.DARK,
+      color: Shades.PALE
     }
   },
   _hover: {
     _disabled: {
-      background: DARK_COLOR,
-      color: PALE_COLOR
+      background: Shades.DARK,
+      color: Shades.PALE
     },
-    background: DARK_COLOR,
-    color: PALE_COLOR
+    background: Shades.DARK,
+    color: Shades.PALE
   },
   height: '30px'
 })
@@ -58,12 +50,28 @@ const mediumSizePale = defineStyle({
   borderRadius: '4px',
   paddingLeft: '10px',
   paddingRight: '10px',
-  bg: DARK_COLOR,
-  color: VERY_PALE_COLOR,
+  bg: Shades.DARK,
+  color: Shades.VERY_PALE,
   _focus: { outline: 'none' },
   _hover: {
-    bg: VERY_PALE_COLOR,
-    color: DARK_COLOR
+    bg: Shades.VERY_PALE,
+    color: Shades.DARK
+  },
+  height: '30px'
+})
+
+const pale = defineStyle({
+  size: 'sm',
+  variant: 'solid',
+  borderRadius: '4px',
+  paddingLeft: '10px',
+  paddingRight: '10px',
+  bg: Shades.PALE,
+  color: Shades.DARK,
+  _focus: { outline: 'none' },
+  _hover: {
+    bg: Shades.DARK,
+    color: Shades.PALE
   },
   height: '30px'
 })
@@ -74,12 +82,12 @@ const largeDark = defineStyle({
   borderRadius: '4px',
   paddingLeft: '15px',
   paddingRight: '15px',
-  bg: DARK_COLOR,
-  color: EXTREMELY_PALE_COLOR,
+  bg: Shades.DARK,
+  color: Shades.EXTREMELY_PALE,
   _focus: { outline: 'none' },
   _hover: {
-    bg: EXTREMELY_PALE_COLOR,
-    color: DARK_COLOR
+    bg: Shades.EXTREMELY_PALE,
+    color: Shades.DARK
   },
   height: '40px'
 })
@@ -90,12 +98,12 @@ const deleteLarge = defineStyle({
   borderRadius: '4px',
   paddingLeft: '15px',
   paddingRight: '15px',
-  bg: ERROR_COLOR,
-  color: EXTREMELY_PALE_COLOR,
+  bg: Shades.ERROR,
+  color: Shades.EXTREMELY_PALE,
   _focus: { outline: 'none' },
   _hover: {
-    bg: EXTREMELY_PALE_COLOR,
-    color: ERROR_COLOR
+    bg: Shades.EXTREMELY_PALE,
+    color: Shades.ERROR
   },
   height: '40px'
 })
@@ -107,15 +115,15 @@ const squareWithIcon = (toggled: boolean) => {
     borderRadius: '6px',
     fontSize: '1.75em',
     padding: '5px',
-    bg: toggled ? VERY_DARK_COLOR : SLIGHTLY_DARK_COLOR,
-    color: toggled ? VERY_PALE_COLOR : PALE_COLOR,
+    bg: toggled ? Shades.VERY_DARK : Shades.SLIGHTLY_DARK,
+    color: toggled ? Shades.VERY_PALE : Shades.PALE,
     _focus: { outline: 'none' },
     _hover: {
-      bg: toggled ? VERY_DARK_COLOR : DARK_COLOR,
-      color: toggled ? VERY_PALE_COLOR : PALE_COLOR,
+      bg: toggled ? Shades.VERY_DARK : Shades.DARK,
+      color: toggled ? Shades.VERY_PALE : Shades.PALE,
       _disabled: {
-        background: DARK_COLOR,
-        color: PALE_COLOR
+        background: Shades.DARK,
+        color: Shades.PALE
       }
     }
   }
@@ -126,16 +134,15 @@ const squareWithIconWithoutFill = (toggled: boolean) => {
     size: 'xl',
     variant: 'solid',
     borderRadius: '6px',
-    borderWidth: '1px',
+    height: '30px',
     fontSize: '1.75em',
-    padding: '5px',
-    color: toggled ? VERY_DARK_COLOR : MEDIUM_COLOR,
+    color: toggled ? Shades.VERY_DARK : Shades.MEDIUM,
     _focus: { outline: 'none' },
     _hover: {
-      bg: toggled ? PALE_COLOR : PALE_COLOR,
-      color: toggled ? VERY_DARK_COLOR : VERY_DARK_COLOR,
+      bg: Shades.PALE,
+      color: toggled ? Shades.VERY_DARK : Shades.VERY_DARK,
       _disabled: {
-        color: PALE_COLOR
+        color: Shades.PALE
       }
     }
   }
@@ -148,15 +155,15 @@ const headerToggle = (toggled: boolean) => {
     borderRadius: '6px',
     fontSize: '1.75em',
     padding: '5px',
-    bg: toggled ? VERY_PALE_COLOR : VERY_DARK_COLOR,
-    color: toggled ? VERY_DARK_COLOR : VERY_PALE_COLOR,
+    bg: toggled ? Shades.VERY_PALE : Shades.VERY_DARK,
+    color: toggled ? Shades.VERY_DARK : Shades.VERY_PALE,
     _focus: { outline: 'none' },
     _hover: {
-      bg: toggled ? MEDIUM_COLOR : MEDIUM_COLOR,
-      color: toggled ? VERY_DARK_COLOR : VERY_DARK_COLOR,
+      bg: Shades.MEDIUM,
+      color: toggled ? Shades.VERY_DARK : Shades.VERY_DARK,
       _disabled: {
-        background: VERY_DARK_COLOR,
-        color: PALE_COLOR
+        background: Shades.VERY_DARK,
+        color: Shades.PALE
       }
     }
   }
@@ -173,12 +180,12 @@ const smallDark = (toggled: boolean) => {
     paddingBottom: '1px',
     marginRight: '5px',
     marginTop: '5px',
-    bg: toggled ? VERY_DARK_COLOR : MEDIUM_COLOR,
-    color: toggled ? VERY_PALE_COLOR : PALE_COLOR,
+    bg: toggled ? Shades.VERY_DARK : Shades.MEDIUM,
+    color: toggled ? Shades.VERY_PALE : Shades.PALE,
     _focus: { outline: 'none' },
     _hover: {
-      bg: toggled ? DARK_COLOR : DARK_COLOR,
-      color: toggled ? PALE_COLOR : PALE_COLOR
+      bg: Shades.DARK,
+      color: Shades.PALE
     },
     height: '20px'
   }
@@ -190,6 +197,7 @@ export const buttonsTheme = defineStyleConfig({
     mediumSizePale,
     largeDark,
     deleteLarge,
+    pale,
     squareWithIcon: ({ toggled }) => ({
       ...squareWithIcon(toggled)
     }),

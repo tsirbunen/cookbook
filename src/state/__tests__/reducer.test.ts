@@ -1,5 +1,5 @@
 import { expect } from '@jest/globals'
-import { reducer, Dispatch } from '../reducer'
+import { Dispatch, reducer } from '../reducer'
 
 const applePieRecipe = { id: 1, name: 'Apple Pie' }
 const chocolateCakeRecipe = { id: 2, name: 'Chocolate Cake' }

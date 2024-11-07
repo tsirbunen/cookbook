@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import { HEADER_HEIGHT, NAV_BAR_WIDTH } from '../../constants/layout'
-import { recipesViewingManagementZIndex } from '../../constants/z-indexes'
-import { ColorCodes } from '../../theme/theme'
-import { ViewSizeContext } from '../view-size-service/ViewSizeProvider'
 import { useContext } from 'react'
+import { HEADER_HEIGHT, NAV_BAR_WIDTH } from '../../constants/layout'
+import { Shades } from '../../constants/shades'
+import { recipesViewingManagementZIndex } from '../../constants/z-indexes'
+import { ViewSizeContext } from '../view-size-service/ViewSizeProvider'
 
 type RegularTopShowOrHideViewProps = {
   topShowOrHideContent: JSX.Element
@@ -81,7 +81,7 @@ const topInnerCss = (showFullHeightTools: boolean) => css`
   position: sticky;
   top: ${HEADER_HEIGHT}px;
   z-index: ${recipesViewingManagementZIndex};
-  background-color: ${ColorCodes.VERY_DARK};
+  background-color: ${Shades.VERY_DARK};
   width: 100%;
   display: flex;
   flex-direction: column;

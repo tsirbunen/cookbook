@@ -1,5 +1,5 @@
-import { Maybe } from '../../../../types/graphql-schema-types.generated'
-import { SelectedScalingIngredient } from './Ingredients'
+import type { Maybe } from '../../../../types/graphql-schema-types.generated'
+import type { SelectedScalingIngredient } from './Ingredients'
 
 export const getScaledIngredientAmount = (
   id: number,
@@ -27,7 +27,7 @@ export const getRoundedIngredientAmount = (amount: number): number => {
 
   const ceiled = Math.ceil(amount)
   const floored = Math.floor(amount)
-  const middle = parseFloat(((ceiled + floored) / 2).toFixed(2))
+  const middle = Number.parseFloat(((ceiled + floored) / 2).toFixed(2))
   if (amount > 10) {
     const diffCeiled = Math.abs(amount - ceiled)
     const diffFloored = Math.abs(amount - floored)
@@ -37,5 +37,5 @@ export const getRoundedIngredientAmount = (amount: number): number => {
     return middle
   }
 
-  return parseFloat(amount.toFixed(2))
+  return Number.parseFloat(amount.toFixed(2))
 }

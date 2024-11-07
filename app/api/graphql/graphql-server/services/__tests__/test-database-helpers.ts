@@ -1,5 +1,5 @@
+import { type SQL, sql } from 'drizzle-orm'
 import { database } from '../../database/config/config'
-import { SQL, sql } from 'drizzle-orm'
 
 type Table =
   | 'recipes'
@@ -17,7 +17,7 @@ export const getTableRowCountInDatabase = async (table: Table, where?: { column:
   const query: SQL = sql.raw(`SELECT COUNT(*) FROM ${table} ${whereCondition}`)
 
   const [{ count }] = await database.execute(query)
-  return parseInt(count as string)
+  return Number.parseInt(count as string)
 }
 
 export const getTableRows = async (table: Table, where?: { column: string; id: number }) => {

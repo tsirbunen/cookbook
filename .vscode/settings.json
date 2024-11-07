@@ -1,18 +1,23 @@
 {
   "eslint.validate": ["typescript", "typescriptreact", "javascript", "javascriptreact"],
   "eslint.workingDirectories": [{ "directory": "./src", "changeProcessCWD": true }],
-  "editor.defaultFormatter": null,
-  "[json]": {
-    "editor.defaultFormatter": "vscode.json-language-features"
+  "editor.defaultFormatter": "biomejs.biome",
+  "files.exclude": {
+    "**/.git": true
   },
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "quickfix.biome": "explicit",
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports.biome": "explicit"
   },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "[json]": {
+    "editor.defaultFormatter": "biomejs.biome"
   },
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
   },
   "cSpell.words": ["testid"]
 }

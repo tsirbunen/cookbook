@@ -1,5 +1,5 @@
 import { ToastVariant } from '../theme/alert/alert-theme'
-import { SimpleToast } from '../toast-service/ToastServiceProvider'
+import type { SimpleToast } from '../toast-service/ToastServiceProvider'
 
 export type ToastInputs = {
   loadingToast: SimpleToast
@@ -29,6 +29,29 @@ export const getAccountToasts: ToastInputs = {
     isClosable: true
   },
   errorText: 'Account loading failed'
+}
+
+export const createRecipeToasts: ToastInputs = {
+  loadingToast: {
+    title: 'CREATING RECIPE',
+    description: 'Please wait...',
+    variant: ToastVariant.Loading
+  },
+  successToast: {
+    title: 'RECIPE CREATED',
+    description: 'The recipe was successfully created',
+    variant: ToastVariant.Success,
+    duration: 6000,
+    isClosable: true
+  },
+  errorToast: {
+    title: 'FAILED CREATE RECIPE',
+    description: 'Something went wrong and the recipe was not created',
+    variant: ToastVariant.Error,
+    duration: 9000,
+    isClosable: true
+  },
+  errorText: 'Recipe creation failed'
 }
 
 export const createAccountToasts: ToastInputs = {

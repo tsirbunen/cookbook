@@ -1,10 +1,11 @@
 'use client'
 
-import React, { createContext, useReducer } from 'react'
-import { DispatchAction, reducer } from './reducer'
-import { RecipesFilterValues } from '../app-pages/search/page/FilteringProvider'
-import { AccountInfo, JSONSchemaType, Settings } from '../types/types'
-import { Language, Recipe, Tag, TargetSchema } from '../types/graphql-schema-types.generated'
+import type React from 'react'
+import { createContext, useReducer } from 'react'
+import type { RecipesFilterValues } from '../app-pages/search/page/FilteringProvider'
+import type { Language, Recipe, Tag, TargetSchema } from '../types/graphql-schema-types.generated'
+import type { AccountInfo, JSONSchemaType, Settings } from '../types/types'
+import { type DispatchAction, reducer } from './reducer'
 
 export type AppStateContextType = {
   state: AppState

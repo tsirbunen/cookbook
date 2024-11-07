@@ -1,10 +1,10 @@
-import { Flex, ChakraProps } from '@chakra-ui/react'
+import { type ChakraProps, Flex } from '@chakra-ui/react'
+import { isEqual } from 'lodash'
 import { useEffect, useState } from 'react'
-import { Control, FieldPath, FieldValues, useController } from 'react-hook-form'
+import { type Control, type FieldPath, type FieldValues, useController } from 'react-hook-form'
 import ButtonWithTheme from '../../theme/buttons/ButtonWithTheme'
 import { ButtonVariant } from '../../theme/buttons/buttons-theme'
 import Title, { TitleVariant } from '../titles/Title'
-import { isEqual } from 'lodash'
 
 export const formButtonsSelectorDataTestId = 'form-buttons-selector'
 export type FormButtonsSelectorValue = string[]
@@ -28,6 +28,7 @@ const FormButtonsSelector = <
   const [selectedOptions, setSelectedOptions] = useState<string[]>([])
   const { field } = useController<FormButtonsSelectorValue, T>({ name, control })
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Only change when field changes
   useEffect(() => {
     // Note: This is only to detect form reset performed in parent from component.
     if (!isEqual(field.value, selectedOptions)) {

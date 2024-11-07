@@ -1,0 +1,5 @@
+mutation CreateRecipe($createRecipeInput: CreateRecipeInput!) {
+  createRecipe(createRecipeInput: $createRecipeInput) {
+    ...RecipeResultFull
+  }
+}

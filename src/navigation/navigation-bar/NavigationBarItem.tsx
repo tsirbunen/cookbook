@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import { NavigationMenuItem } from '../router/router'
-import { ColorCodes } from '../../theme/theme'
 import { NAV_BAR_WIDTH } from '../../constants/layout'
+import { Shades } from '../../constants/shades'
+import type { NavigationMenuItem } from '../router/router'
 
 export const navigationBarDataTestId = 'navigation-bar-item'
 
@@ -19,6 +19,7 @@ const NavigationBarItem = ({ menuItem, currentPath, navigateTo }: NavigationBarI
 
   return (
     <div key={menuItem.page} css={tabCss(isSelected)}>
+      {/* biome-ignore lint/a11y/useKeyWithClickEvents: Implement later */}
       <div css={itemContainer} onClick={navigateTo} data-testid={navigationBarDataTestId}>
         <div css={iconContainer}>
           <IconElement fontSize="1.75em" />
@@ -31,8 +32,8 @@ const NavigationBarItem = ({ menuItem, currentPath, navigateTo }: NavigationBarI
 
 export default NavigationBarItem
 
-const selectedColor = ColorCodes.VERY_PALE
-const notSelectedColor = ColorCodes.VERY_DARK
+const selectedColor = Shades.VERY_PALE
+const notSelectedColor = Shades.VERY_DARK
 export const NAVIGATION_BAR_ITEM_HEIGHT = 70
 
 const tabCss = (isSelected: boolean) => css`
@@ -50,7 +51,7 @@ const tabCss = (isSelected: boolean) => css`
 
   background-color: ${isSelected ? selectedColor : notSelectedColor};
   &:hover {
-    background-color: ${isSelected ? selectedColor : ColorCodes.MEDIUM};
+    background-color: ${isSelected ? selectedColor : Shades.MEDIUM};
   }
   color: ${isSelected ? notSelectedColor : selectedColor};
   &:hover {

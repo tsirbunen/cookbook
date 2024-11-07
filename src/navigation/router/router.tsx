@@ -1,15 +1,16 @@
-import React from 'react'
-import { IconType } from 'react-icons/lib'
-import { TbSettings, TbBasket, TbWand, TbChefHat, TbSearch } from 'react-icons/tb'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import type React from 'react'
 import { IoHomeOutline } from 'react-icons/io5'
+import type { IconType } from 'react-icons/lib'
 import { RiAccountCircleLine } from 'react-icons/ri'
+import { TbBasket, TbChefHat, TbSearch, TbSettings, TbWand } from 'react-icons/tb'
+import AccountPage from '../../app-pages/account/AccountPage'
+import CookPage from '../../app-pages/cook/page/CookPage'
+import HomePage from '../../app-pages/home/HomePage'
 import RecipesPage from '../../app-pages/search/page/SearchRecipesPage'
 import SettingsPage from '../../app-pages/settings/SettingsPage'
 import ShoppingPage from '../../app-pages/shopping/ShoppingPage'
-import WizardPage from '../../app-pages/wizard/WizardPage'
-import CookPage from '../../app-pages/cook/page/CookPage'
-import HomePage from '../../app-pages/home/HomePage'
-import AccountPage from '../../app-pages/account/AccountPage'
+import WizardPage from '../../app-pages/wizard/page/WizardPage'
 
 export enum Page {
   HOME = 'home',
@@ -31,13 +32,18 @@ export const pagePaths: Record<Page, string> = {
   [Page.ACCOUNT]: '/account'
 }
 
+type PageComponent = () => React.ReactNode
+
+// biome-ignore lint/suspicious/noExplicitAny: Allow any props to be passed to the component
+type PageWithPropsComponent = (props: any) => JSX.Element
+
 export type NavigationMenuItem = {
   page: Page | 'not found'
   label: string
   iconElement: IconType
   path: string
-  element: () => React.ReactNode
-  errorElement?: () => React.ReactNode
+  element: PageWithPropsComponent
+  errorElement?: PageComponent
   headerHasTools: boolean
 }
 

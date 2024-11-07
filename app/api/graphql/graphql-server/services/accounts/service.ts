@@ -2,6 +2,12 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 import { database } from '../../database/config/config'
+import type {
+  EmailAccountInput,
+  IdentityProvider,
+  NonEmailAccountInput,
+  SignInToEmailAccountInput
+} from '../../modules/types.generated'
 import {
   getExistingEmailAuthUser,
   resendVerificationEmail,
@@ -9,29 +15,23 @@ import {
   signUpEmailAuthUser
 } from './email-provider-utils'
 import {
-  EmailAccountInput,
-  IdentityProvider,
-  NonEmailAccountInput,
-  SignInToEmailAccountInput
-} from '../../modules/types.generated'
-import {
-  handleSignUpCredentialsTakenError,
-  handleEmailAuthAuthError,
   AuthError,
   getError,
+  handleEmailAuthAuthError,
+  handleSignUpCredentialsTakenError,
   hasEmailAuthError
 } from './error-utils'
-import {
-  getExistingAccounts,
-  insertEmailAccount,
-  fetchEmailAuthProviderUserAndUpsertAccount,
-  setEmailIsVerified,
-  getAccountBy,
-  getVerifiedAccountWithTokenAdded,
-  insertNonEmailAccount
-} from './utils'
 import { getAndVerifyGitHubUser } from './github-utils'
 import { verifyJWT } from './token-utils'
+import {
+  fetchEmailAuthProviderUserAndUpsertAccount,
+  getAccountBy,
+  getExistingAccounts,
+  getVerifiedAccountWithTokenAdded,
+  insertEmailAccount,
+  insertNonEmailAccount,
+  setEmailIsVerified
+} from './utils'
 
 export const getAccountByToken = async (token: string) => {
   // FIXME: Implement proper validation elsewhere
@@ -91,14 +91,16 @@ export const createNewEmailAccount = async ({ email, password, username }: Email
 
     // If an auth user with the same email already exists at the current auth provider's database, then creating a new
     // auth user returns a fake user. We need a new query to find out whether a new auth user was truly created or not.
-    const newAuthUserCheckResponse = await getExistingEmailAuthUser(signUpResponse.data!.user!.id)
+    const newAuthUserCheckResponse = await getExistingEmailAuthUser(
+      (signUpResponse as { data: { user: { id: string } } }).data.user.id
+    )
     const newRealAuthUser = newAuthUserCheckResponse.data.user
 
     if (newRealAuthUser) {
       return await insertEmailAccount(database, { email, username, password }, newRealAuthUser.id)
-    } else {
-      return await fetchEmailAuthProviderUserAndUpsertAccount(database, { email, username, password })
     }
+
+    return await fetchEmailAuthProviderUserAndUpsertAccount(database, { email, username, password })
   } catch (error) {
     // FIXME: Implement proper error handling logging
     console.error(error)

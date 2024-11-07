@@ -1,13 +1,13 @@
-import { ChakraProps, Flex, Text } from '@chakra-ui/react'
-import { SwitchVariant } from '../../theme/switch/switch-theme'
+import { type ChakraProps, Flex, Text } from '@chakra-ui/react'
+import type { ChangeEvent } from 'react'
+import { Shades } from '../../constants/shades'
 import SwitchWithTheme from '../../theme/switch/SwitchWithTheme'
-import { DARK_COLOR, SLIGHTLY_DARK_COLOR } from '../../constants/color-codes'
-import { ChangeEvent } from 'react'
+import { SwitchVariant } from '../../theme/switch/switch-theme'
 
 type SwitchToggleWithLabelProps = {
   isChecked: boolean
   onChange: (event?: ChangeEvent<HTMLInputElement>) => void
-  labelChecked: string
+  labelChecked?: string
   labelNotChecked?: string
   emphasizedLabelChecked?: string
   emphasizedLabelNotChecked?: string
@@ -21,14 +21,15 @@ const SwitchToggleWithLabel = ({
   emphasizedLabelChecked,
   emphasizedLabelNotChecked
 }: SwitchToggleWithLabelProps) => {
-  const labelToDisplay = isChecked ? labelChecked : labelNotChecked ?? labelChecked
+  const labelToDisplay = isChecked ? labelChecked : labelNotChecked ? labelNotChecked : labelChecked
+  const emphasizeLabelCss = labelChecked ? emphasizeBoldCss : emphasizeMildCss
 
   return (
     <Flex {...switchCss}>
       <SwitchWithTheme isChecked={isChecked} onChange={onChange} variant={SwitchVariant.MediumSizeDark} size="md" />
-      <Text {...textCss}>{labelToDisplay}</Text>
+      {labelToDisplay ? <Text {...textCss}>{labelToDisplay}</Text> : null}
       {emphasizedLabelChecked && emphasizedLabelNotChecked ? (
-        <Text {...emphasizeCss}>{isChecked ? emphasizedLabelChecked : emphasizedLabelNotChecked}</Text>
+        <Text {...emphasizeLabelCss}>{isChecked ? emphasizedLabelChecked : emphasizedLabelNotChecked}</Text>
       ) : null}
     </Flex>
   )
@@ -44,7 +45,7 @@ const switchCss = {
 }
 const textCss = {
   marginLeft: '10px',
-  color: SLIGHTLY_DARK_COLOR,
+  color: Shades.SLIGHTLY_DARK,
   fontWeight: 'bold'
 }
 
@@ -54,9 +55,16 @@ export const rowCentered = {
   justifyContent: 'center'
 }
 
-const emphasizeCss = {
+const emphasizeBoldCss = {
   marginLeft: '10px',
-  color: DARK_COLOR,
+  color: Shades.DARK,
   fontWeight: '900',
   fontSize: '1.25em'
+}
+
+const emphasizeMildCss = {
+  marginLeft: '10px',
+  color: Shades.DARK,
+  fontWeight: '800'
+  // fontSize: '1.25em'
 }

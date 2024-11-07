@@ -1,6 +1,6 @@
 import { TargetSchema } from '../../../../../../src/types/graphql-schema-types.generated'
-import { ValidationSchema } from '../../modules/types.generated'
-import { usernameSchema, emailSchema, passwordSchema } from './property-schemas'
+import type { ValidationSchema } from '../../modules/types.generated'
+import { emailSchema, passwordSchema, usernameSchema } from './property-schemas'
 
 const emailAccountInputJsonSchema = {
   title: 'Email account input',

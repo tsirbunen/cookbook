@@ -1,22 +1,29 @@
 import { expect } from '@jest/globals'
 import { client, database } from '../../database/config/config'
 import { clearDatabase } from '../../database/utils/clear-database.js'
-import { getOrCreateTags, createRecipe, getOrCreateLanguage } from '../../database/utils/insert-data-to-database.js'
+import {
+  createAccount,
+  createRecipe,
+  getOrCreateLanguage,
+  getOrCreateTags
+} from '../../database/utils/insert-data-to-database.js'
 
-import { getTableRowCountInDatabase, getTableRows } from './test-database-helpers'
 import { handleFindExistingOrCreateNewTagsWithRelations } from '../tags/utils'
+import { getTableRowCountInDatabase, getTableRows } from './test-database-helpers'
 
 let newRecipeId: number
 
 describe('Handle tags', () => {
   beforeEach(async () => {
     await clearDatabase(database)
+    const account = await createAccount(database, {
+      username: 'username',
+      identityProvider: 'GITHUB',
+      idAtProvider: 'test-id'
+    })
+    const testRecipeInput = { title: 'Fried rice', ovenNeeded: false, authorId: account.id, isPrivate: false }
     const { id: languageId } = await getOrCreateLanguage(database, 'Chinese')
-    const newRecipe = (await createRecipe(
-      database,
-      { title: 'Fried rice', ovenNeeded: false },
-      languageId as number
-    )) as { id: number }
+    const newRecipe = await createRecipe(database, testRecipeInput, languageId as number)
     newRecipeId = newRecipe.id
   })
 
@@ -28,8 +35,9 @@ describe('Handle tags', () => {
     const recipeTags = indexes.map((index) => tags[index])
 
     const allTags = await handleFindExistingOrCreateNewTagsWithRelations(database, newRecipeId, recipeTags)
+    if (!allTags) throw new Error('Tags not found')
 
-    allTags!.forEach((tag, index) => {
+    allTags.forEach((tag, index) => {
       const expectedTag = expectedTags[index]
       expect(tag.tag).toBe(expectedTag.tag)
       expect(tag.id).toBe(expectedTag.id)
@@ -41,11 +49,11 @@ describe('Handle tags', () => {
     expect(recipeTagRelationsCount).toBe(recipeTags.length)
     const recipeTagRelations = await getTableRows('recipes_to_tags')
     const recipeTagIds = expectedTags.map((tag) => tag.id)
-    recipeTagRelations.forEach((relation) => {
+    for (const relation of recipeTagRelations) {
       expect(relation.recipe_id).toBe(newRecipeId)
       const containsId = recipeTagIds.includes(relation.tag_id)
       expect(containsId).toBe(true)
-    })
+    }
   })
 
   it('Missing new tags are created', async () => {
@@ -56,10 +64,12 @@ describe('Handle tags', () => {
 
     const allTags = await handleFindExistingOrCreateNewTagsWithRelations(database, newRecipeId, recipeTags)
     const existingTag = existingTags[existingIndex]
-    expect(allTags![0].tag).toBe(existingTag.tag)
-    expect(allTags![0].id).toBe(existingTag.id)
+    if (!allTags) throw new Error('Tags not found')
+
+    expect(allTags[0].tag).toBe(existingTag.tag)
+    expect(allTags[0].id).toBe(existingTag.id)
     const existingTagIds = existingTags.map((tag) => tag.id)
-    const isIncluded = existingTagIds.includes(allTags![1].id)
+    const isIncluded = existingTagIds.includes(allTags[1].id)
     expect(isIncluded).toBe(false)
 
     const rowCount = await getTableRowCountInDatabase('tags')
@@ -68,9 +78,9 @@ describe('Handle tags', () => {
     const recipeTagRelationsCount = await getTableRowCountInDatabase('recipes_to_tags')
     expect(recipeTagRelationsCount).toBe(recipeTags.length)
     const recipeTagRelations = await getTableRows('recipes_to_tags')
-    recipeTagRelations.forEach((relation) => {
+    for (const relation of recipeTagRelations) {
       expect(relation.recipe_id).toBe(newRecipeId)
-    })
+    }
   })
 
   afterAll(async () => {

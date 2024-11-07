@@ -1,13 +1,13 @@
 import '@testing-library/jest-dom/jest-globals'
 import '@testing-library/jest-dom'
 import { expect } from '@jest/globals'
-import { render, screen, fireEvent, act } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import TestApiServiceProvider from '../../../../test-utils/TestApiServiceProvider'
 import { getEmptyFilterValues } from '../FilteringProvider'
 
-import SearchRecipesProvider from '../SearchRecipesProvider'
-import { LocalStorageMock } from '../../../../state/__tests__/local-storage-mock'
 import LocalStorageProvider, { LocalStorageKeys } from '../../../../state/LocalStorageProvider'
+import { LocalStorageMock } from '../../../../state/__tests__/local-storage-mock'
+import SearchRecipesProvider from '../SearchRecipesProvider'
 import SearchRecipesProviderTestUser, {
   MODE,
   SET_MODE_TO_TITLES,
@@ -78,12 +78,14 @@ describe('SearchRecipesProvider', () => {
     render(getSearchRecipesProviderToRender())
 
     let valueInStore = localStorage.getItem(LocalStorageKeys.FAVORITE_RECIPE_IDS)
-    let valueAsArray = JSON.parse(valueInStore!)
+    if (!valueInStore) throw new Error('Value in store should not be null')
+    let valueAsArray = JSON.parse(valueInStore)
     expect(valueAsArray).toBeNull()
 
     await clickTestButton(TOGGLE_FAVORITE_RECIPE_ID)
     valueInStore = localStorage.getItem(LocalStorageKeys.FAVORITE_RECIPE_IDS)
-    valueAsArray = JSON.parse(valueInStore!)
+    if (!valueInStore) throw new Error('Value in store should not be null')
+    valueAsArray = JSON.parse(valueInStore)
 
     expect(valueAsArray.length).toBe(1)
     expect(valueAsArray[0]).toBe(1)
@@ -91,7 +93,8 @@ describe('SearchRecipesProvider', () => {
 
     await clickTestButton(TOGGLE_FAVORITE_RECIPE_ID)
     valueInStore = localStorage.getItem(LocalStorageKeys.FAVORITE_RECIPE_IDS)
-    valueAsArray = JSON.parse(valueInStore!)
+    if (!valueInStore) throw new Error('Value in store should not be null')
+    valueAsArray = JSON.parse(valueInStore)
 
     expect(valueAsArray.length).toBe(0)
   })

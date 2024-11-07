@@ -1,5 +1,5 @@
 import { Flex, Spinner, Text } from '@chakra-ui/react'
-import { ColorCodes } from '../../theme/theme'
+import { Shades } from '../../constants/shades'
 
 const defaultMessage = 'Loading page, please wait...'
 type LoadingPageProps = {
@@ -7,7 +7,7 @@ type LoadingPageProps = {
 }
 
 const LoadingPage = ({ message }: LoadingPageProps) => {
-  const color = ColorCodes.DARK
+  const color = Shades.DARK
 
   return (
     <Flex width="100%" height="100vh">
@@ -16,7 +16,7 @@ const LoadingPage = ({ message }: LoadingPageProps) => {
           {message ?? defaultMessage}
         </Text>
 
-        <Spinner thickness="12px" speed="1.5s" emptyColor={ColorCodes.MEDIUM} color={ColorCodes.DARK} size="xl" />
+        <Spinner thickness="12px" speed="1.5s" emptyColor={Shades.MEDIUM} color={Shades.DARK} size="xl" />
       </Flex>
     </Flex>
   )

@@ -1,13 +1,13 @@
+import { type ChakraProps, Flex } from '@chakra-ui/react'
 import React, { Fragment, useContext, useMemo, useState } from 'react'
-import { ChakraProps, Flex } from '@chakra-ui/react'
-import { IngredientGroup } from '../../../../types/graphql-schema-types.generated'
+import { rowStartCss } from '../../../../constants/styling'
+import MultiColumnContent from '../../../../layout/multi-column-wrapper/MultiColumnContent'
+import type { IngredientGroup } from '../../../../types/graphql-schema-types.generated'
+import Title, { TitleVariant } from '../../../../widgets/titles/Title'
 import { CookingContext } from '../../page/CookingProvider'
+import CheckToggle from '../general/CheckToggle'
 import IngredientRow from './IngredientRow'
 import PresetMultiplierSelection from './PresetMultiplierSelection'
-import CheckToggle from '../general/CheckToggle'
-import Title, { TitleVariant } from '../../../../widgets/titles/Title'
-import MultiColumnContent from '../../../../layout/multi-column-wrapper/MultiColumnContent'
-import { rowStartCss } from '../../../../constants/styling'
 
 export type SelectedScalingIngredient = {
   id: number
@@ -29,8 +29,11 @@ const Ingredients = ({ ingredientGroups, columnCount, recipeId }: IngredientsPro
   const [presetMultiplier, setPresetMultiplier] = useState<number | undefined>(1)
   const [selectedIngredient, setSelectedIngredient] = useState<SelectedScalingIngredient | undefined>(undefined)
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Change only if selected dependencies change
   const isCooking = useMemo(() => cookingRecipes.some((recipe) => recipe.id === recipeId), [cookingRecipes])
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Change only if selected dependencies change
   const currentScaling = useMemo(() => scalingByRecipeId[recipeId], [scalingByRecipeId])
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Change only if selected dependencies change
   const isScaling = useMemo(() => isScalingRecipeIds.includes(recipeId), [isScalingRecipeIds])
 
   const selectPresetMultiplier = (value: number) => {
@@ -47,15 +50,15 @@ const Ingredients = ({ ingredientGroups, columnCount, recipeId }: IngredientsPro
   }
 
   const setIngredientBaseAmount = (id: number, amount: string, originalAmount: number) => {
-    let preset
-    let ingredient
+    let preset: number | undefined
+    let ingredient: SelectedScalingIngredient | undefined
     if (amount === originalAmount.toString()) {
       preset = 1
     } else {
       ingredient = {
         id,
         newAmount: amount,
-        multiplier: amount !== '' ? parseFloat(amount) / originalAmount : 1
+        multiplier: amount !== '' ? Number.parseFloat(amount) / originalAmount : 1
       }
     }
     setPresetMultiplier(preset)
@@ -80,9 +83,10 @@ const Ingredients = ({ ingredientGroups, columnCount, recipeId }: IngredientsPro
         <Flex {...containerCss} key={`ingredients-columns-${recipeId}`}>
           {ingredientGroups.map((group, groupIndex) => {
             const { title, ingredients } = group
+            const titleKey = `ingredient-${title}-${recipeId}-${groupIndex}`
             return (
               <Flex {...ingredientGroupCss} key={`${title}-${groupIndex}-${recipeId}`}>
-                <Flex style={{ marginBottom: '5px' }} key={`ingredient-${title}-${recipeId}-${groupIndex}`}>
+                <Flex style={{ marginBottom: '5px' }} key={titleKey}>
                   {title ? <Title title={title.toUpperCase()} variant={TitleVariant.SmallPale} /> : null}
                 </Flex>
                 {ingredients.map((ingredient, index) => {

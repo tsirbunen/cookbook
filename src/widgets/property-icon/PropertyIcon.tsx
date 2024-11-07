@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import { ColorCodes } from '../../theme/theme'
-import { TbCooker, TbStar, TbStarFilled, TbTag } from 'react-icons/tb'
+import type { IconType } from 'react-icons'
 import { FaTag } from 'react-icons/fa6'
-import { IconType } from 'react-icons'
+import { TbCooker, TbStar, TbStarFilled, TbTag } from 'react-icons/tb'
+import { Shades } from '../../constants/shades'
 
 export enum PropertyVariant {
   Favorite = 'Favorite',
@@ -30,7 +30,7 @@ const PropertyIcon = ({ property, isSelected, isCentered = false }: PropertyIcon
   if (!PropertyIcon) return null
 
   return (
-    <div css={containerCss(isSelected, isCentered)}>
+    <div css={containerCss(isCentered)}>
       <PropertyIcon fontSize="1.3em" strokeWidth="2" />
     </div>
   )
@@ -38,16 +38,16 @@ const PropertyIcon = ({ property, isSelected, isCentered = false }: PropertyIcon
 
 export default PropertyIcon
 
-const containerCss = (isSelected: boolean, isCentered: boolean) => css`
+const containerCss = (isCentered: boolean) => css`
   width: 28px;
   height: 28px;
-  background-color: ${isSelected ? ColorCodes.DARK : ColorCodes.DARK};
+  background-color: ${Shades.DARK};
   border-radius: 28px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: ${ColorCodes.VERY_PALE};
+  color: ${Shades.VERY_PALE};
   margin-right: ${isCentered ? 3 : 7}px;
   margin-left: ${isCentered ? 3 : 0}px;
 `

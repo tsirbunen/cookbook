@@ -1,7 +1,7 @@
-import { Flex, ChakraProps } from '@chakra-ui/react'
-import CardRadioButton, { CardRadioButtonSelectorVariant, RoundedBordersOnSide } from './CardRadioButton'
+import { type ChakraProps, Flex } from '@chakra-ui/react'
 import { Fragment } from 'react'
-import { IconType } from 'react-icons'
+import type { IconType } from 'react-icons'
+import CardRadioButton, { type CardRadioButtonSelectorVariant, RoundedBordersOnSide } from './CardRadioButton'
 
 export const cardRadioButtonSelectorDataTestId = 'card-radio-button-selector'
 

@@ -1,5 +1,5 @@
 import { expect } from '@jest/globals'
-import { getScaledIngredientAmount, getRoundedIngredientAmount } from '../utils'
+import { getRoundedIngredientAmount, getScaledIngredientAmount } from '../utils'
 
 describe('Scale recipe utils', () => {
   describe('ingredient amount is properly rounded to correct number of digits', () => {

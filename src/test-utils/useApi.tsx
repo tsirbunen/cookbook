@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react'
 import {
-  getTestRecipesForCypressGitHubActionsTests,
   getTestLanguagesForCypressGitHubActionsTests,
+  getTestRecipesForCypressGitHubActionsTests,
   getTestTagsForCypressGitHubActionsTests
-} from '../../app/api/test-data-migrations/test-recipes-migration-data'
+} from '../../app/api/graphql/graphql-server/database/example-data/extract-recipe-data-for-github-actions-tests'
 
 export const useApi = () => {
   const [allRecipes] = useState(getTestRecipesForCypressGitHubActionsTests())

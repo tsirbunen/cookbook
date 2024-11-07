@@ -1,9 +1,9 @@
 import { expect } from '@jest/globals'
 import { client, database } from '../../database/config/config'
-import { handleFindCreateOrPatchAndPurgeLanguage } from '../languages/utils'
-import { getTableRowCountInDatabase } from './test-database-helpers'
 import { clearDatabase } from '../../database/utils/clear-database.js'
 import { createLanguages } from '../../database/utils/insert-data-to-database.js'
+import { handleFindCreateOrPatchAndPurgeLanguage } from '../languages/utils'
+import { getTableRowCountInDatabase } from './test-database-helpers'
 
 describe('Handle languages', () => {
   beforeEach(async () => {
@@ -28,10 +28,10 @@ describe('Handle languages', () => {
     const newLanguage = 'German'
 
     const languageId = await handleFindCreateOrPatchAndPurgeLanguage(database, newLanguage)
-    existingLanguages.forEach((language) => {
+    for (const language of existingLanguages) {
       expect(language.language).not.toBe(newLanguage)
       expect(language.id).not.toBe(languageId)
-    })
+    }
     const rowCount = await getTableRowCountInDatabase('languages')
     expect(rowCount).toBe(languages.length + 1)
   })

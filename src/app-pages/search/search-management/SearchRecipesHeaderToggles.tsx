@@ -6,11 +6,11 @@ import Toggle, {
   selectModeToggleProperty
 } from '../../../widgets/toggles/Toggle'
 
-import { AppStateContext, AppStateContextType } from '../../../state/StateContextProvider'
-import { RecipesViewingContext } from '../page/SearchRecipesProvider'
-import { FiltersContext } from '../page/FilteringProvider'
-import Toggles from '../../../widgets/toggles/Toggles'
+import { AppStateContext, type AppStateContextType } from '../../../state/StateContextProvider'
 import { ButtonVariant } from '../../../theme/buttons/buttons-theme'
+import Toggles from '../../../widgets/toggles/Toggles'
+import { FiltersContext } from '../page/FilteringProvider'
+import { RecipesViewingContext } from '../page/SearchRecipesProvider'
 
 const SearchRecipesHeaderToggles = () => {
   const { state } = useContext(AppStateContext) as AppStateContextType

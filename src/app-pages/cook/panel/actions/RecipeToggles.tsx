@@ -1,8 +1,15 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import Toggles from '../../../../widgets/toggles/Toggles'
 import { useContext, useMemo } from 'react'
+import { FaBalanceScale } from 'react-icons/fa'
+import { IoAlarmOutline } from 'react-icons/io5'
+import { TbChefHat, TbColumns, TbStar, TbStarFilled } from 'react-icons/tb'
+import { TbRulerMeasure } from 'react-icons/tb'
+import { TbWashDrycleanOff } from 'react-icons/tb'
+import { cookTogglesZIndex } from '../../../../constants/z-indexes'
+import { ButtonVariant } from '../../../../theme/buttons/buttons-theme'
+import type { Recipe } from '../../../../types/graphql-schema-types.generated'
 import Toggle, {
   clearAllToggleProperty,
   cookToggleProperty,
@@ -12,18 +19,11 @@ import Toggle, {
   metricOnlyToggleProperty,
   multiColumnToggleProperty
 } from '../../../../widgets/toggles/Toggle'
-import { TbChefHat, TbColumns, TbStar, TbStarFilled } from 'react-icons/tb'
-import { IoAlarmOutline } from 'react-icons/io5'
-import { FaBalanceScale } from 'react-icons/fa'
-import { TbRulerMeasure } from 'react-icons/tb'
-import { TbWashDrycleanOff } from 'react-icons/tb'
-import { cookTogglesZIndex } from '../../../../constants/z-indexes'
-import { CookingContext } from '../../page/CookingProvider'
-import { Recipe } from '../../../../types/graphql-schema-types.generated'
+import Toggles from '../../../../widgets/toggles/Toggles'
 import { RecipesViewingContext } from '../../../search/page/SearchRecipesProvider'
+import { CookingContext } from '../../page/CookingProvider'
 import CountDown from './CountDown'
 import Multiplier from './Multiplier'
-import { ButtonVariant } from '../../../../theme/buttons/buttons-theme'
 
 type RecipeTogglesProps = {
   recipe: Recipe
@@ -47,33 +47,22 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
     clearAllRecipeSettings
   } = useContext(CookingContext)
 
-  const isCooking = useMemo(() => {
-    return cookingRecipes.some((recipe) => recipe.id === recipe.id)
-  }, [cookingRecipes])
-
-  const isMultiColumn = useMemo(() => {
-    return multiColumnRecipes.some((recipeId) => recipeId === recipe.id)
-  }, [multiColumnRecipes])
-
-  const recipeTimer = useMemo(() => {
-    return timersByRecipeId[recipe.id]
-  }, [timersByRecipeId])
-
-  const isFavorite = useMemo(() => {
-    return favoriteRecipeIds.includes(recipe.id)
-  }, [favoriteRecipeIds])
-
-  const multiplier = useMemo(() => {
-    return scalingByRecipeId[recipe.id]?.multiplier
-  }, [scalingByRecipeId])
-
-  const isScaling = useMemo(() => {
-    return isScalingRecipeIds.includes(recipe.id)
-  }, [isScalingRecipeIds])
-
-  const hasOnlyMetric = useMemo(() => {
-    return onlyMetricRecipeIds.some((recipeId) => recipeId === recipe.id)
-  }, [onlyMetricRecipeIds])
+  const isCooking = useMemo(
+    () => cookingRecipes.some((someRecipe) => someRecipe.id === recipe.id),
+    [cookingRecipes, recipe.id]
+  )
+  const isMultiColumn = useMemo(
+    () => multiColumnRecipes.some((recipeId) => recipeId === recipe.id),
+    [multiColumnRecipes, recipe.id]
+  )
+  const recipeTimer = useMemo(() => timersByRecipeId[recipe.id], [timersByRecipeId, recipe.id])
+  const isFavorite = useMemo(() => favoriteRecipeIds.includes(recipe.id), [favoriteRecipeIds, recipe.id])
+  const multiplier = useMemo(() => scalingByRecipeId[recipe.id]?.multiplier, [scalingByRecipeId, recipe.id])
+  const isScaling = useMemo(() => isScalingRecipeIds.includes(recipe.id), [isScalingRecipeIds, recipe.id])
+  const hasOnlyMetric = useMemo(
+    () => onlyMetricRecipeIds.some((recipeId) => recipeId === recipe.id),
+    [onlyMetricRecipeIds, recipe.id]
+  )
 
   const hasSomethingToClear = isCooking || isScaling || isMultiColumn || hasOnlyMetric || !!recipeTimer || !!multiplier
   const toggleVariant = ButtonVariant.SquareWithIconWithoutFill
@@ -112,7 +101,7 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
         </Toggle>
 
         <Toggle
-          isToggled={isScaling}
+          isToggled={isScaling || Object.keys(scalingByRecipeId).includes(recipe.id.toString())}
           toggle={() => toggleIsScaling(recipe.id)}
           Icon={FaBalanceScale}
           toggleProperty={ingredientScalingToggleProperty}

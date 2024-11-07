@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 
-import { TimerData } from '../../../../types/types'
 import { differenceInSeconds } from 'date-fns'
 import { useEffect, useState } from 'react'
+import type { TimerData } from '../../../../types/types'
 import { outerCss, timeInnerCss } from './common-styles'
 
 const COUNTDOWN_ZERO = '00:00'
@@ -12,6 +12,7 @@ const CountDown = ({ timer }: { timer: TimerData }) => {
   //   FIXME: Implement alarm sound
   //   const [isDone, setIsDone] = useState(false)
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Only run once
   useEffect(() => {
     const interval = setInterval(() => {
       const timeLeft = getTimeLeft(timer.startedAt, timer.secondsAtStart)
