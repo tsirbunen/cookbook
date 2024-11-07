@@ -1,5 +1,5 @@
-import { TargetSchema } from '../../../../../../src/types/graphql-schema-types.generated'
-import type { ValidationSchema } from '../../modules/types.generated'
+import { ValidationTarget } from '../../../../../../../src/types/graphql-schema-types.generated'
+import type { ValidationSchema } from '../../../modules/types.generated'
 import {
   ingredientGroupSchema,
   instructionGroupSchema,
@@ -58,6 +58,6 @@ const createRecipeInputJsonSchema = {
 }
 
 export const createRecipeInputSchema: ValidationSchema = {
-  target: TargetSchema.CreateRecipeInput,
+  target: ValidationTarget.CreateRecipeInput,
   schema: createRecipeInputJsonSchema
 }

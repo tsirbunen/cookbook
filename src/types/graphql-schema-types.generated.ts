@@ -242,7 +242,7 @@ export type QueryGetAccountArgs = {
 
 
 export type QueryValidationSchemasArgs = {
-  schemas: Array<TargetSchema>;
+  schemas: Array<ValidationTarget>;
 };
 
 export type Recipe = {
@@ -273,16 +273,6 @@ export type Tag = {
   tag: Scalars['String']['output'];
 };
 
-export enum TargetSchema {
-  CreateRecipeInput = 'CREATE_RECIPE_INPUT',
-  DeleteAccountInput = 'DELETE_ACCOUNT_INPUT',
-  EmailAccountInput = 'EMAIL_ACCOUNT_INPUT',
-  PatchRecipeInput = 'PATCH_RECIPE_INPUT',
-  ProviderAccountInput = 'PROVIDER_ACCOUNT_INPUT',
-  RequestVerificationEmailInput = 'REQUEST_VERIFICATION_EMAIL_INPUT',
-  SignInToEmailAccountInput = 'SIGN_IN_TO_EMAIL_ACCOUNT_INPUT'
-}
-
 export type UnauthenticatedError = BaseError & {
   __typename?: 'UnauthenticatedError';
   errorMessage: Scalars['String']['output'];
@@ -296,5 +286,15 @@ export type UnauthorizedError = BaseError & {
 export type ValidationSchema = {
   __typename?: 'ValidationSchema';
   schema: Scalars['JSON']['output'];
-  target: TargetSchema;
+  target: ValidationTarget;
 };
+
+export enum ValidationTarget {
+  CreateRecipeInput = 'CREATE_RECIPE_INPUT',
+  DeleteAccountInput = 'DELETE_ACCOUNT_INPUT',
+  EmailAccountInput = 'EMAIL_ACCOUNT_INPUT',
+  PatchRecipeInput = 'PATCH_RECIPE_INPUT',
+  ProviderAccountInput = 'PROVIDER_ACCOUNT_INPUT',
+  RequestVerificationEmailInput = 'REQUEST_VERIFICATION_EMAIL_INPUT',
+  SignInToEmailAccountInput = 'SIGN_IN_TO_EMAIL_ACCOUNT_INPUT'
+}

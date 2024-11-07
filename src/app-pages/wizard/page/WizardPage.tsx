@@ -5,7 +5,7 @@ import { ApiServiceContext } from '../../../api-service/ApiServiceProvider'
 import { Page } from '../../../navigation/router/router'
 import { AppStateContext, type AppStateContextType } from '../../../state/StateContextProvider'
 import { Dispatch } from '../../../state/reducer'
-import { TargetSchema } from '../../../types/graphql-schema-types.generated'
+import { ValidationTarget } from '../../../types/graphql-schema-types.generated'
 import { type ErrorMapArrays, getValidatorFromJsonSchema } from '../../../utils/formValidators'
 import { pageCss } from '../../../utils/styles'
 import FormActionButtons from '../../../widgets/form-action-buttons/FormActionButtons'
@@ -78,7 +78,7 @@ const WizardPage = ({ recipeId }: WizardPageProps) => {
   const { createRecipe } = useContext(ApiServiceContext)
   const isSignedIn = !!state.account?.token
   const isCreate = !recipeId
-  const schemaType = isCreate ? TargetSchema.CreateRecipeInput : TargetSchema.PatchRecipeInput
+  const schemaType = isCreate ? ValidationTarget.CreateRecipeInput : ValidationTarget.PatchRecipeInput
   const validationSchema = state.validationSchemas?.[schemaType]
 
   const {

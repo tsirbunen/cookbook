@@ -1,5 +1,5 @@
 import { produce } from 'immer'
-import type { TargetSchema } from '../../app/api/graphql/graphql-server/modules/types.generated'
+import type { ValidationTarget } from '../../app/api/graphql/graphql-server/modules/types.generated'
 import type { RecipesFilterValues } from '../app-pages/search/page/FilteringProvider'
 import type { Language, Recipe, Tag } from '../types/graphql-schema-types.generated'
 import type { AccountInfo, JSONSchemaType } from '../types/types'
@@ -25,7 +25,7 @@ export type DispatchAction =
   | { type: Dispatch.SET_TAGS; payload: { tags: Tag[] } }
   | { type: Dispatch.SET_LANGUAGES; payload: { languages: Language[] } }
   | { type: Dispatch.SET_ACCOUNT; payload: { account: AccountInfo | null } }
-  | { type: Dispatch.SET_VALIDATION_SCHEMAS; payload: { validationSchemas: Record<TargetSchema, JSONSchemaType> } }
+  | { type: Dispatch.SET_VALIDATION_SCHEMAS; payload: { validationSchemas: Record<ValidationTarget, JSONSchemaType> } }
   | { type: Dispatch.ADD_RECIPE; payload: { newRecipe: Recipe } }
 
 export const reducer = produce((draft: AppState, { type, payload }: DispatchAction) => {

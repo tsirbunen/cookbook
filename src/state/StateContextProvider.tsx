@@ -3,7 +3,7 @@
 import type React from 'react'
 import { createContext, useReducer } from 'react'
 import type { RecipesFilterValues } from '../app-pages/search/page/FilteringProvider'
-import type { Language, Recipe, Tag, TargetSchema } from '../types/graphql-schema-types.generated'
+import type { Language, Recipe, Tag, ValidationTarget } from '../types/graphql-schema-types.generated'
 import type { AccountInfo, JSONSchemaType, Settings } from '../types/types'
 import { type DispatchAction, reducer } from './reducer'
 
@@ -21,7 +21,7 @@ export type AppState = {
   pickedRecipes: Recipe[]
   settings: Settings
   account: AccountInfo | null
-  validationSchemas: Record<TargetSchema, JSONSchemaType> | null
+  validationSchemas: Record<ValidationTarget, JSONSchemaType> | null
 }
 
 export const initialAppState = {

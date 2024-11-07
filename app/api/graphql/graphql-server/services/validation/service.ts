@@ -1,38 +1,38 @@
-import { TargetSchema } from '../../../../../../src/types/graphql-schema-types.generated'
+import { ValidationTarget } from '../../../../../../src/types/graphql-schema-types.generated'
 import { validator } from '../../../route'
-import type { TargetSchema as Target, ValidationSchema } from '../../modules/types.generated'
-import { createRecipeInputSchema } from './create-recipe-input-schema'
-import { deleteAccountInputSchema } from './delete-account-input-schema'
-import { emailAccountInputSchema } from './email-account-input-schema'
-import { patchRecipeInputSchema } from './patch-recipe-input-schema'
-import { providerAccountInputSchema } from './provider-account-input-schema'
-import { requestVerificationEmailInputSchema } from './request-verification-email-input-schema'
-import { signInToEmailAccountInputSchema } from './sign-in-to-email-account-input-schema'
+import type { ValidationTarget as Target, ValidationSchema } from '../../modules/types.generated'
+import { createRecipeInputSchema } from './validation-schemas/create-recipe-input-schema'
+import { deleteAccountInputSchema } from './validation-schemas/delete-account-input-schema'
+import { emailAccountInputSchema } from './validation-schemas/email-account-input-schema'
+import { patchRecipeInputSchema } from './validation-schemas/patch-recipe-input-schema'
+import { providerAccountInputSchema } from './validation-schemas/provider-account-input-schema'
+import { requestVerificationEmailInputSchema } from './validation-schemas/request-verification-email-input-schema'
+import { signInToEmailAccountInputSchema } from './validation-schemas/sign-in-to-email-account-input-schema'
 
-const availableSchemas = {
-  [TargetSchema.EmailAccountInput]: emailAccountInputSchema,
-  [TargetSchema.SignInToEmailAccountInput]: signInToEmailAccountInputSchema,
-  [TargetSchema.RequestVerificationEmailInput]: requestVerificationEmailInputSchema,
-  [TargetSchema.ProviderAccountInput]: providerAccountInputSchema,
-  [TargetSchema.DeleteAccountInput]: deleteAccountInputSchema,
-  [TargetSchema.CreateRecipeInput]: createRecipeInputSchema,
-  [TargetSchema.PatchRecipeInput]: patchRecipeInputSchema
+const validationSchemas = {
+  [ValidationTarget.EmailAccountInput]: emailAccountInputSchema,
+  [ValidationTarget.SignInToEmailAccountInput]: signInToEmailAccountInputSchema,
+  [ValidationTarget.RequestVerificationEmailInput]: requestVerificationEmailInputSchema,
+  [ValidationTarget.ProviderAccountInput]: providerAccountInputSchema,
+  [ValidationTarget.DeleteAccountInput]: deleteAccountInputSchema,
+  [ValidationTarget.CreateRecipeInput]: createRecipeInputSchema,
+  [ValidationTarget.PatchRecipeInput]: patchRecipeInputSchema
 }
 
-export const getValidationSchemas = async (targetSchemas: Target[]) => {
+export const getValidationSchemas = async (validationTargets: Target[]) => {
   const schemasToReturn: ValidationSchema[] = []
 
-  for (const targetSchema of targetSchemas) {
-    if (availableSchemas[targetSchema]) {
-      schemasToReturn.push(availableSchemas[targetSchema])
+  for (const target of validationTargets) {
+    if (validationSchemas[target]) {
+      schemasToReturn.push(validationSchemas[target])
     }
   }
 
   return schemasToReturn
 }
 
-export const validateInput = (input: unknown, targetSchema: TargetSchema) => {
-  const inputValidator = validator.getSchema(targetSchema)
+export const validateInput = (input: unknown, target: ValidationTarget) => {
+  const inputValidator = validator.getSchema(target)
   const isValid = inputValidator?.(input)
   if (isValid) return null
 

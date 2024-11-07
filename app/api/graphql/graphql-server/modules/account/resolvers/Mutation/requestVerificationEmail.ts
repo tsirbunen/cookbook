@@ -1,4 +1,4 @@
-import { TargetSchema } from '../../../../../../../../src/types/graphql-schema-types.generated'
+import { ValidationTarget } from '../../../../../../../../src/types/graphql-schema-types.generated'
 import { requestNewVerificationEmail } from '../../../../services/accounts/service'
 import { validateInput } from '../../../../services/validation/service'
 import type { MutationResolvers } from './../../../types.generated'
@@ -10,7 +10,7 @@ export const requestVerificationEmail: NonNullable<MutationResolvers['requestVer
   { email },
   _ctx
 ) => {
-  const validationError = validateInput({ email }, TargetSchema.RequestVerificationEmailInput)
+  const validationError = validateInput({ email }, ValidationTarget.RequestVerificationEmailInput)
   if (validationError) return { errorMessage: validationError }
 
   return await requestNewVerificationEmail(email)

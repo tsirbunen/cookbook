@@ -1,4 +1,4 @@
-import { TargetSchema } from '../../../../../../../../src/types/graphql-schema-types.generated'
+import { ValidationTarget } from '../../../../../../../../src/types/graphql-schema-types.generated'
 import { createNewNonEmailAccount } from '../../../../services/accounts/service'
 import { validateInput } from '../../../../services/validation/service'
 import type { MutationResolvers } from './../../../types.generated'
@@ -10,7 +10,7 @@ export const createNonEmailAccount: NonNullable<MutationResolvers['createNonEmai
   { nonEmailAccountInput },
   _ctx
 ) => {
-  const validationError = validateInput(nonEmailAccountInput, TargetSchema.ProviderAccountInput)
+  const validationError = validateInput(nonEmailAccountInput, ValidationTarget.ProviderAccountInput)
   if (validationError) return { errorMessage: validationError }
 
   return await createNewNonEmailAccount(nonEmailAccountInput)

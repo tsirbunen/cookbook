@@ -1,5 +1,5 @@
-import { TargetSchema } from '../../../../../../src/types/graphql-schema-types.generated'
-import type { ValidationSchema } from '../../modules/types.generated'
+import { ValidationTarget } from '../../../../../../../src/types/graphql-schema-types.generated'
+import type { ValidationSchema } from '../../../modules/types.generated'
 import { emailSchema } from './property-schemas'
 
 const requestVerificationEmailInputJsonSchema = {
@@ -16,6 +16,6 @@ const requestVerificationEmailInputJsonSchema = {
 }
 
 export const requestVerificationEmailInputSchema: ValidationSchema = {
-  target: TargetSchema.RequestVerificationEmailInput,
+  target: ValidationTarget.RequestVerificationEmailInput,
   schema: requestVerificationEmailInputJsonSchema
 }

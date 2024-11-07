@@ -1,4 +1,4 @@
-import { TargetSchema } from '../../../../../../../../src/types/graphql-schema-types.generated'
+import { ValidationTarget } from '../../../../../../../../src/types/graphql-schema-types.generated'
 import { signInToExistingEmailAccount } from '../../../../services/accounts/service'
 import { validateInput } from '../../../../services/validation/service'
 import type { MutationResolvers } from './../../../types.generated'
@@ -10,7 +10,7 @@ export const signInToEmailAccount: NonNullable<MutationResolvers['signInToEmailA
   { signInToEmailAccountInput },
   _ctx
 ) => {
-  const validationError = validateInput(signInToEmailAccountInput, TargetSchema.SignInToEmailAccountInput)
+  const validationError = validateInput(signInToEmailAccountInput, ValidationTarget.SignInToEmailAccountInput)
   if (validationError) return { errorMessage: validationError }
 
   return await signInToExistingEmailAccount(signInToEmailAccountInput)

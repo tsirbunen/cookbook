@@ -1,4 +1,4 @@
-query FetchValidationSchemas($schemas: [TargetSchema!]!) {
+query FetchValidationSchemas($schemas: [ValidationTarget!]!) {
   validationSchemas(schemas: $schemas) {
     target
     schema

@@ -1,4 +1,4 @@
-import { TargetSchema } from '../../../../../../../../src/types/graphql-schema-types.generated'
+import { ValidationTarget } from '../../../../../../../../src/types/graphql-schema-types.generated'
 import { patchExistingRecipe } from '../../../../services/recipes/service'
 import { validateInput } from '../../../../services/validation/service'
 import type { MutationResolvers } from './../../../types.generated'
@@ -10,7 +10,7 @@ export const patchRecipe: NonNullable<MutationResolvers['patchRecipe']> = async 
   { recipeId, recipePatch },
   _ctx
 ) => {
-  const validationError = validateInput(recipePatch, TargetSchema.PatchRecipeInput)
+  const validationError = validateInput(recipePatch, ValidationTarget.PatchRecipeInput)
   if (validationError) return { errorMessage: validationError }
 
   return {

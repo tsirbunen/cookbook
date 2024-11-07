@@ -7,7 +7,7 @@ import { ApiServiceContext } from '../../api-service/ApiServiceProvider'
 import { Page } from '../../navigation/router/router'
 import { AppStateContext, type AppStateContextType } from '../../state/StateContextProvider'
 import { Dispatch } from '../../state/reducer'
-import { IdentityProvider, TargetSchema } from '../../types/graphql-schema-types.generated'
+import { IdentityProvider, ValidationTarget } from '../../types/graphql-schema-types.generated'
 import { getEmailAccountInputValidator } from '../../utils/formValidators'
 import { getSubmitIsDisabled } from '../../utils/getSubmitIsDisabled'
 import { pageCss } from '../../utils/styles'
@@ -37,7 +37,7 @@ const CreateEmailAccountPage = () => {
   const { createEmailAccount } = useContext(ApiServiceContext)
   const [showPasswords, setShowPasswords] = useState(false)
   const router = useRouter()
-  const validationSchema = state.validationSchemas?.[TargetSchema.EmailAccountInput]
+  const validationSchema = state.validationSchemas?.[ValidationTarget.EmailAccountInput]
 
   const {
     handleSubmit,

@@ -1,5 +1,5 @@
-import { TargetSchema } from '../../../../../../src/types/graphql-schema-types.generated'
-import type { ValidationSchema } from '../../modules/types.generated'
+import { ValidationTarget } from '../../../../../../../src/types/graphql-schema-types.generated'
+import type { ValidationSchema } from '../../../modules/types.generated'
 import { idSchema, uuidSchema } from './property-schemas'
 
 const deleteAccountInputJsonSchema = {
@@ -17,6 +17,6 @@ const deleteAccountInputJsonSchema = {
 }
 
 export const deleteAccountInputSchema: ValidationSchema = {
-  target: TargetSchema.DeleteAccountInput,
+  target: ValidationTarget.DeleteAccountInput,
   schema: deleteAccountInputJsonSchema
 }

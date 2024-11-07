@@ -1,6 +1,6 @@
 import type { FieldErrors, FieldValues } from 'react-hook-form'
 import { BiSolidHide, BiSolidShow } from 'react-icons/bi'
-import { TargetSchema } from '../../types/graphql-schema-types.generated'
+import { ValidationTarget } from '../../types/graphql-schema-types.generated'
 import type { JSONSchemaType } from '../../types/types'
 import type { SignInWithEmailAndPasswordFormValues } from './SignInWithEmailAndPasswordPage'
 
@@ -20,14 +20,16 @@ export const getSignInSubmitIsDisabled = <T extends FieldValues>(
   return submitIsDisabled
 }
 
-export const accountRelatedValidationSchemasAreFetched = (schemas?: Record<TargetSchema, JSONSchemaType> | null) => {
+export const accountRelatedValidationSchemasAreFetched = (
+  schemas?: Record<ValidationTarget, JSONSchemaType> | null
+) => {
   if (schemas === null) return false
 
-  const fetchedTargets = Object.values(TargetSchema)
+  const fetchedTargets = Object.values(ValidationTarget)
   const accountRelatedTargets = [
-    TargetSchema.EmailAccountInput,
-    TargetSchema.SignInToEmailAccountInput,
-    TargetSchema.RequestVerificationEmailInput
+    ValidationTarget.EmailAccountInput,
+    ValidationTarget.SignInToEmailAccountInput,
+    ValidationTarget.RequestVerificationEmailInput
   ]
 
   return accountRelatedTargets.every((target) => fetchedTargets.includes(target))

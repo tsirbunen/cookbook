@@ -7,7 +7,7 @@ import { ApiServiceContext } from '../../api-service/ApiServiceProvider'
 import { Page } from '../../navigation/router/router'
 import { AppStateContext, type AppStateContextType } from '../../state/StateContextProvider'
 import { Dispatch } from '../../state/reducer'
-import { IdentityProvider, TargetSchema } from '../../types/graphql-schema-types.generated'
+import { IdentityProvider, ValidationTarget } from '../../types/graphql-schema-types.generated'
 import { getValidatorFromJsonSchema } from '../../utils/formValidators'
 import { pageCss } from '../../utils/styles'
 import FormActionButtons from '../../widgets/form-action-buttons/FormActionButtons'
@@ -32,7 +32,7 @@ const SignInWithEmailAndPasswordPage = () => {
   const [showPassword, setShowPassword] = useState(false)
   const router = useRouter()
   // Parent component ensures that the relevant validation schema has been fetched
-  const validationSchema = state.validationSchemas?.[TargetSchema.SignInToEmailAccountInput]
+  const validationSchema = state.validationSchemas?.[ValidationTarget.SignInToEmailAccountInput]
 
   const {
     handleSubmit,

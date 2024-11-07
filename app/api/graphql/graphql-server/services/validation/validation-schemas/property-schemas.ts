@@ -1,5 +1,3 @@
-// Here we try to provide the user as detailed an error message as possible in each case.
-
 const getMinLengthMessage = (length: number, field: string) => `${field} must be at least ${length} characters long!`
 const getMaxLengthMessage = (length: number, field: string) => `${field} must be at most ${length} characters long!`
 
@@ -103,31 +101,31 @@ export const recipeDescriptionSchema = {
   }
 }
 
-const recipeTagLengthRange = [3, 20]
+const tagLengthRange = [3, 20]
 
 export const recipeTagSchema = {
   title: 'Recipe tag',
   description: 'A tag of a recipe',
   type: 'string',
-  minLength: recipeTagLengthRange[0],
-  maxLength: recipeTagLengthRange[1],
+  minLength: tagLengthRange[0],
+  maxLength: tagLengthRange[1],
   errorMessage: {
-    minLength: getMinLengthMessage(recipeTagLengthRange[0], 'Recipe tag'),
-    maxLength: getMaxLengthMessage(recipeTagLengthRange[1], 'Recipe tag')
+    minLength: getMinLengthMessage(tagLengthRange[0], 'Recipe tag'),
+    maxLength: getMaxLengthMessage(tagLengthRange[1], 'Recipe tag')
   }
 }
 
-const recipeLanguageLengthRange = [3, 20]
+const languageLengthRange = [3, 20]
 
 export const recipeLanguageSchema = {
   title: 'Recipe language',
   description: 'A language of a recipe',
   type: 'string',
-  minLength: recipeLanguageLengthRange[0],
-  maxLength: recipeLanguageLengthRange[1],
+  minLength: languageLengthRange[0],
+  maxLength: languageLengthRange[1],
   errorMessage: {
-    minLength: getMinLengthMessage(recipeLanguageLengthRange[0], 'Recipe language'),
-    maxLength: getMaxLengthMessage(recipeLanguageLengthRange[1], 'Recipe language')
+    minLength: getMinLengthMessage(languageLengthRange[0], 'Recipe language'),
+    maxLength: getMaxLengthMessage(languageLengthRange[1], 'Recipe language')
   }
 }
 
@@ -149,6 +147,9 @@ export const isPrivateSchema = {
   }
 }
 
+const ingredientNameLengthRange = [2, 50]
+const ingredientUnitMaxLength = 20
+
 export const recipeIngredientSchema = {
   title: 'Recipe ingredient',
   description: 'An ingredient of a recipe',
@@ -158,11 +159,11 @@ export const recipeIngredientSchema = {
     id: idSchema,
     name: {
       type: 'string',
-      minLength: 2,
-      maxLength: 50,
+      minLength: ingredientNameLengthRange[0],
+      maxLength: ingredientNameLengthRange[1],
       errorMessage: {
-        minLength: getMinLengthMessage(2, 'Ingredient name'),
-        maxLength: getMaxLengthMessage(50, 'Ingredient name')
+        minLength: getMinLengthMessage(ingredientNameLengthRange[0], 'Ingredient name'),
+        maxLength: getMaxLengthMessage(ingredientNameLengthRange[1], 'Ingredient name')
       }
     },
     amount: {
@@ -173,9 +174,9 @@ export const recipeIngredientSchema = {
     },
     unit: {
       type: ['string', 'null'],
-      maxLength: 20,
+      maxLength: ingredientUnitMaxLength,
       errorMessage: {
-        maxLength: getMaxLengthMessage(20, 'Ingredient unit')
+        maxLength: getMaxLengthMessage(ingredientUnitMaxLength, 'Ingredient unit')
       }
     },
     groupId: idSchema,
@@ -188,6 +189,8 @@ export const recipeIngredientSchema = {
   }
 }
 
+const ingredientGroupTitleLengthRange = [2, 50]
+
 export const ingredientGroupSchema = {
   title: 'Ingredient group',
   description: 'A group of ingredients of a recipe',
@@ -197,11 +200,11 @@ export const ingredientGroupSchema = {
     id: idSchema,
     title: {
       type: 'string',
-      minLength: 2,
-      maxLength: 50,
+      minLength: ingredientGroupTitleLengthRange[0],
+      maxLength: ingredientGroupTitleLengthRange[1],
       errorMessage: {
-        minLength: getMinLengthMessage(2, 'Ingredient group title'),
-        maxLength: getMaxLengthMessage(50, 'Ingredient group title')
+        minLength: getMinLengthMessage(ingredientGroupTitleLengthRange[0], 'Ingredient group title'),
+        maxLength: getMaxLengthMessage(ingredientGroupTitleLengthRange[1], 'Ingredient group title')
       }
     },
     ingredients: {
@@ -220,6 +223,8 @@ export const ingredientGroupSchema = {
   }
 }
 
+const instructionContentLengthRange = [2, 250]
+
 export const recipeInstructionSchema = {
   title: 'Recipe instruction',
   description: 'An instruction of a recipe',
@@ -229,11 +234,11 @@ export const recipeInstructionSchema = {
     id: idSchema,
     content: {
       type: 'string',
-      minLength: 2,
-      maxLength: 250,
+      minLength: instructionContentLengthRange[0],
+      maxLength: instructionContentLengthRange[1],
       errorMessage: {
-        minLength: getMinLengthMessage(2, 'Instruction content'),
-        maxLength: getMaxLengthMessage(250, 'Instruction content')
+        minLength: getMinLengthMessage(instructionContentLengthRange[0], 'Instruction content'),
+        maxLength: getMaxLengthMessage(instructionContentLengthRange[1], 'Instruction content')
       }
     },
     groupId: idSchema,
@@ -246,6 +251,8 @@ export const recipeInstructionSchema = {
   }
 }
 
+const instructionGroupTitleLengthRange = [2, 50]
+
 export const instructionGroupSchema = {
   title: 'Instruction group',
   description: 'A group of instructions of a recipe',
@@ -255,11 +262,11 @@ export const instructionGroupSchema = {
     id: idSchema,
     title: {
       type: 'string',
-      minLength: 2,
-      maxLength: 50,
+      minLength: instructionGroupTitleLengthRange[0],
+      maxLength: instructionGroupTitleLengthRange[1],
       errorMessage: {
-        minLength: getMinLengthMessage(2, 'Instruction group title'),
-        maxLength: getMaxLengthMessage(50, 'Instruction group title')
+        minLength: getMinLengthMessage(instructionGroupTitleLengthRange[0], 'Instruction group title'),
+        maxLength: getMaxLengthMessage(instructionGroupTitleLengthRange[1], 'Instruction group title')
       }
     },
     ingredients: {

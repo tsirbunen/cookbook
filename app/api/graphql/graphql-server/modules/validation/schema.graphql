@@ -1,6 +1,6 @@
 scalar JSON
 
-enum TargetSchema {
+enum ValidationTarget {
   EMAIL_ACCOUNT_INPUT
   SIGN_IN_TO_EMAIL_ACCOUNT_INPUT
   REQUEST_VERIFICATION_EMAIL_INPUT
@@ -11,10 +11,10 @@ enum TargetSchema {
 }
 
 type ValidationSchema {
-  target: TargetSchema!
+  target: ValidationTarget!
   schema: JSON!
 }
 
 extend type Query {
-  validationSchemas(schemas: [TargetSchema!]!): [ValidationSchema!]
+  validationSchemas(schemas: [ValidationTarget!]!): [ValidationSchema!]
 }

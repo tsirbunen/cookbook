@@ -6,7 +6,7 @@ import { AccountRoute } from '../../../app/account/[accountAction]/page'
 import { ApiServiceContext } from '../../api-service/ApiServiceProvider'
 import { Page } from '../../navigation/router/router'
 import { AppStateContext, type AppStateContextType } from '../../state/StateContextProvider'
-import { TargetSchema } from '../../types/graphql-schema-types.generated'
+import { ValidationTarget } from '../../types/graphql-schema-types.generated'
 import { getValidatorFromJsonSchema } from '../../utils/formValidators'
 import { getSubmitIsDisabled } from '../../utils/getSubmitIsDisabled'
 import { pageCss } from '../../utils/styles'
@@ -28,7 +28,7 @@ const RequestVerificationEmailPage = () => {
   const { requestVerificationEmail } = useContext(ApiServiceContext)
   const [requestWasSent, setRequestWasSent] = useState(false)
   const router = useRouter()
-  const validationSchema = state.validationSchemas?.[TargetSchema.RequestVerificationEmailInput]
+  const validationSchema = state.validationSchemas?.[ValidationTarget.RequestVerificationEmailInput]
 
   // FIXME: Implement storing the phone number in the browser's local storage.
   // This is here just for development purposes.

@@ -243,7 +243,7 @@ export type QuerygetAccountArgs = {
 
 
 export type QueryvalidationSchemasArgs = {
-  schemas: Array<TargetSchema>;
+  schemas: Array<ValidationTarget>;
 };
 
 export type Recipe = {
@@ -274,15 +274,6 @@ export type Tag = {
   tag: Scalars['String']['output'];
 };
 
-export type TargetSchema =
-  | 'CREATE_RECIPE_INPUT'
-  | 'DELETE_ACCOUNT_INPUT'
-  | 'EMAIL_ACCOUNT_INPUT'
-  | 'PATCH_RECIPE_INPUT'
-  | 'PROVIDER_ACCOUNT_INPUT'
-  | 'REQUEST_VERIFICATION_EMAIL_INPUT'
-  | 'SIGN_IN_TO_EMAIL_ACCOUNT_INPUT';
-
 export type UnauthenticatedError = BaseError & {
   __typename?: 'UnauthenticatedError';
   errorMessage: Scalars['String']['output'];
@@ -296,8 +287,17 @@ export type UnauthorizedError = BaseError & {
 export type ValidationSchema = {
   __typename?: 'ValidationSchema';
   schema: Scalars['JSON']['output'];
-  target: TargetSchema;
+  target: ValidationTarget;
 };
+
+export type ValidationTarget =
+  | 'CREATE_RECIPE_INPUT'
+  | 'DELETE_ACCOUNT_INPUT'
+  | 'EMAIL_ACCOUNT_INPUT'
+  | 'PATCH_RECIPE_INPUT'
+  | 'PROVIDER_ACCOUNT_INPUT'
+  | 'REQUEST_VERIFICATION_EMAIL_INPUT'
+  | 'SIGN_IN_TO_EMAIL_ACCOUNT_INPUT';
 
 
 
@@ -417,10 +417,10 @@ export type ResolversTypes = {
   RecipeResult: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['RecipeResult']>;
   SignInToEmailAccountInput: SignInToEmailAccountInput;
   Tag: ResolverTypeWrapper<Tag>;
-  TargetSchema: TargetSchema;
   UnauthenticatedError: ResolverTypeWrapper<UnauthenticatedError>;
   UnauthorizedError: ResolverTypeWrapper<UnauthorizedError>;
   ValidationSchema: ResolverTypeWrapper<ValidationSchema>;
+  ValidationTarget: ValidationTarget;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -625,7 +625,7 @@ export type UnauthorizedErrorResolvers<ContextType = any, ParentType extends Res
 
 export type ValidationSchemaResolvers<ContextType = any, ParentType extends ResolversParentTypes['ValidationSchema'] = ResolversParentTypes['ValidationSchema']> = {
   schema?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
-  target?: Resolver<ResolversTypes['TargetSchema'], ParentType, ContextType>;
+  target?: Resolver<ResolversTypes['ValidationTarget'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

@@ -1,4 +1,4 @@
-import { TargetSchema } from '../../../../../../../../src/types/graphql-schema-types.generated'
+import { ValidationTarget } from '../../../../../../../../src/types/graphql-schema-types.generated'
 import { createNewEmailAccount } from '../../../../services/accounts/service'
 import { validateInput } from '../../../../services/validation/service'
 import type { MutationResolvers } from './../../../types.generated'
@@ -10,7 +10,7 @@ export const createEmailAccount: NonNullable<MutationResolvers['createEmailAccou
   { emailAccountInput },
   _ctx
 ) => {
-  const validationError = validateInput(emailAccountInput, TargetSchema.EmailAccountInput)
+  const validationError = validateInput(emailAccountInput, ValidationTarget.EmailAccountInput)
   if (validationError) return { errorMessage: validationError }
 
   return await createNewEmailAccount(emailAccountInput)

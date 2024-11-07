@@ -12,7 +12,7 @@ import {
   type EmailAccountInput,
   type NonEmailAccountInput,
   type Recipe,
-  TargetSchema
+  ValidationTarget
 } from '../types/graphql-schema-types.generated'
 import {
   CreateEmailAccountDocument,
@@ -88,7 +88,7 @@ export type ApiService = {
   createRecipe: (createRecipeInput: CreateRecipeInput) => Promise<Recipe | null>
   deleteAccount: (id: number, uuid: string) => Promise<boolean | null>
   fetchAllPublicAndUsersOwnRecipes: () => Promise<void>
-  fetchValidationSchemas: () => Promise<Record<TargetSchema, JSONSchemaType> | null>
+  fetchValidationSchemas: () => Promise<Record<ValidationTarget, JSONSchemaType> | null>
   filterRecipes: (filters: RecipesFilterValues) => Promise<void>
   getAccount: (token: string) => Promise<Account | null>
   requestVerificationEmail: (email: string) => Promise<boolean | null>
@@ -318,7 +318,7 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
   const fetchValidationSchemas = async () => {
     const result = await client.query<FetchValidationSchemasQuery, FetchValidationSchemasQueryVariables>({
       query: FetchValidationSchemasDocument,
-      variables: { schemas: Object.values(TargetSchema) }
+      variables: { schemas: Object.values(ValidationTarget) }
     })
 
     if (!result.data?.validationSchemas) return null
@@ -330,7 +330,7 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
         acc[target] = schema
         return acc
       },
-      {} as Record<TargetSchema, JSONSchemaType>
+      {} as Record<ValidationTarget, JSONSchemaType>
     )
 
     return validationSchemas

@@ -8,7 +8,7 @@ import { Shades } from '../../constants/shades'
 import { Page } from '../../navigation/router/router'
 import { AppStateContext, type AppStateContextType } from '../../state/StateContextProvider'
 import { Dispatch } from '../../state/reducer'
-import { IdentityProvider, TargetSchema } from '../../types/graphql-schema-types.generated'
+import { IdentityProvider, ValidationTarget } from '../../types/graphql-schema-types.generated'
 import { getValidatorFromJsonSchema } from '../../utils/formValidators'
 import { pageCss } from '../../utils/styles'
 import FormActionButtons from '../../widgets/form-action-buttons/FormActionButtons'
@@ -31,7 +31,7 @@ const CompleteGitHubAccountPage = ({ username, token }: CompleteGitHubAccountPag
   const { createNonEmailAccount, setAuthenticationToken } = useContext(ApiServiceContext)
   const router = useRouter()
 
-  const validationSchema = state.validationSchemas?.[TargetSchema.ProviderAccountInput]
+  const validationSchema = state.validationSchemas?.[ValidationTarget.ProviderAccountInput]
 
   const {
     handleSubmit,
