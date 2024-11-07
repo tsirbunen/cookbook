@@ -1,25 +1,9 @@
 import { MapperKind, getDirective, mapSchema } from '@graphql-tools/utils'
 import { type GraphQLSchema, defaultFieldResolver } from 'graphql'
-import { unauthenticatedError } from './isAuthenticatedDirective'
+import type { GraphQLContext } from '../../route'
+import { getUnauthenticatedError } from './isAuthenticatedDirective'
 
 const directiveName = 'isAuthor'
-
-export const authorDirectiveTypeDefs = `directive @${directiveName}`
-const isNotAuthorError = {
-  __typename: 'BadInputError',
-  errorMessage: 'You are not the author of the recipe'
-}
-
-type WithAuthorId = Record<string, { authorId: number }>
-const getPossibleAuthorId = (input: WithAuthorId) => {
-  for (const key in input) {
-    if (input[key] && typeof input[key].authorId === 'number') {
-      return input[key].authorId
-    }
-  }
-
-  return null
-}
 
 export const isAuthorTransformer = (schema: GraphQLSchema) =>
   mapSchema(schema, {
@@ -32,11 +16,8 @@ export const isAuthorTransformer = (schema: GraphQLSchema) =>
         return {
           ...fieldConfig,
           resolve: async (source, args, context, info) => {
-            const authenticatedUserId = context.userId
-            if (!authenticatedUserId) return unauthenticatedError
-
-            const authorId = getPossibleAuthorId(args)
-            if (authorId !== authenticatedUserId) return isNotAuthorError
+            const error = getIsAuthenticatedAuthorError(args, context)
+            if (error) return error
 
             const result = await resolve(source, args, context, info)
             return result
@@ -45,3 +26,30 @@ export const isAuthorTransformer = (schema: GraphQLSchema) =>
       }
     }
   })
+
+type ArgsWithAuthorId = Record<string, { authorId: number }>
+
+const getIsAuthenticatedAuthorError = (args: ArgsWithAuthorId, context: GraphQLContext) => {
+  const authenticatedUserId = context.userId
+  if (!authenticatedUserId) return getUnauthenticatedError()
+
+  const authorId = getPossibleAuthorId(args)
+  if (authorId !== authenticatedUserId) return getIsNotAuthorError()
+}
+
+const getPossibleAuthorId = (args: ArgsWithAuthorId) => {
+  for (const key in args) {
+    if (args[key] && typeof args[key].authorId === 'number') {
+      return args[key].authorId
+    }
+  }
+
+  return null
+}
+
+const getIsNotAuthorError = () => {
+  return {
+    __typename: 'BadInputError',
+    errorMessage: 'You are not the author of the recipe'
+  }
+}

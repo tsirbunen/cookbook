@@ -3,8 +3,7 @@ import * as Types from '../../types/graphql-schema-types.generated';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type DeleteAccountMutationVariables = Types.Exact<{
-  id: Types.Scalars['Int']['input'];
-  uuid: Types.Scalars['String']['input'];
+  deleteAccountInput: Types.DeleteAccountInput;
 }>;
 
 
@@ -12,8 +11,8 @@ export type DeleteAccountMutation = { __typename?: 'Mutation', deleteAccount: { 
 
 
 export const DeleteAccountDocument = gql`
-    mutation DeleteAccount($id: Int!, $uuid: String!) {
-  deleteAccount(id: $id, uuid: $uuid) {
+    mutation DeleteAccount($deleteAccountInput: DeleteAccountInput!) {
+  deleteAccount(deleteAccountInput: $deleteAccountInput) {
     __typename
     ... on GeneralSuccess {
       successMessage

@@ -58,10 +58,19 @@ export type CreateRecipeInput = {
   title: Scalars['String']['input'];
 };
 
+export type DeleteAccountInput = {
+  id: Scalars['Int']['input'];
+  uuid: Scalars['String']['input'];
+};
+
 export type EmailAccountInput = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
   username: Scalars['String']['input'];
+};
+
+export type EmailInput = {
+  email: Scalars['String']['input'];
 };
 
 export type GeneralError = BaseError & {
@@ -174,8 +183,7 @@ export type MutationcreateRecipeArgs = {
 
 
 export type MutationdeleteAccountArgs = {
-  id: Scalars['Int']['input'];
-  uuid: Scalars['String']['input'];
+  deleteAccountInput: DeleteAccountInput;
 };
 
 
@@ -186,7 +194,7 @@ export type MutationpatchRecipeArgs = {
 
 
 export type MutationrequestVerificationEmailArgs = {
-  email: Scalars['String']['input'];
+  emailInput: EmailInput;
 };
 
 
@@ -390,7 +398,9 @@ export type ResolversTypes = {
   BaseError: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['BaseError']>;
   BaseSuccess: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['BaseSuccess']>;
   CreateRecipeInput: CreateRecipeInput;
+  DeleteAccountInput: DeleteAccountInput;
   EmailAccountInput: EmailAccountInput;
+  EmailInput: EmailInput;
   File: ResolverTypeWrapper<Scalars['File']['output']>;
   GeneralError: ResolverTypeWrapper<GeneralError>;
   GeneralResult: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['GeneralResult']>;
@@ -434,7 +444,9 @@ export type ResolversParentTypes = {
   BaseError: ResolversInterfaceTypes<ResolversParentTypes>['BaseError'];
   BaseSuccess: ResolversInterfaceTypes<ResolversParentTypes>['BaseSuccess'];
   CreateRecipeInput: CreateRecipeInput;
+  DeleteAccountInput: DeleteAccountInput;
   EmailAccountInput: EmailAccountInput;
+  EmailInput: EmailInput;
   File: Scalars['File']['output'];
   GeneralError: GeneralError;
   GeneralResult: ResolversUnionTypes<ResolversParentTypes>['GeneralResult'];
@@ -472,6 +484,10 @@ export type isAuthenticatedDirectiveResolver<Result, Parent, ContextType = any, 
 export type isAuthorDirectiveArgs = { };
 
 export type isAuthorDirectiveResolver<Result, Parent, ContextType = any, Args = isAuthorDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
+export type isValidInputDirectiveArgs = { };
+
+export type isValidInputDirectiveResolver<Result, Parent, ContextType = any, Args = isValidInputDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type AccountResolvers<ContextType = any, ParentType extends ResolversParentTypes['Account'] = ResolversParentTypes['Account']> = {
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -565,10 +581,10 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createEmailAccount?: Resolver<ResolversTypes['AccountResult'], ParentType, ContextType, RequireFields<MutationcreateEmailAccountArgs, 'emailAccountInput'>>;
   createNonEmailAccount?: Resolver<ResolversTypes['AccountResult'], ParentType, ContextType, RequireFields<MutationcreateNonEmailAccountArgs, 'nonEmailAccountInput'>>;
   createRecipe?: Resolver<Maybe<ResolversTypes['RecipeResult']>, ParentType, ContextType, RequireFields<MutationcreateRecipeArgs, 'createRecipeInput'>>;
-  deleteAccount?: Resolver<ResolversTypes['GeneralResult'], ParentType, ContextType, RequireFields<MutationdeleteAccountArgs, 'id' | 'uuid'>>;
+  deleteAccount?: Resolver<ResolversTypes['GeneralResult'], ParentType, ContextType, RequireFields<MutationdeleteAccountArgs, 'deleteAccountInput'>>;
   patchRecipe?: Resolver<Maybe<ResolversTypes['RecipeResult']>, ParentType, ContextType, RequireFields<MutationpatchRecipeArgs, 'recipeId' | 'recipePatch'>>;
   pingMutation?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  requestVerificationEmail?: Resolver<ResolversTypes['GeneralResult'], ParentType, ContextType, RequireFields<MutationrequestVerificationEmailArgs, 'email'>>;
+  requestVerificationEmail?: Resolver<ResolversTypes['GeneralResult'], ParentType, ContextType, RequireFields<MutationrequestVerificationEmailArgs, 'emailInput'>>;
   signInToEmailAccount?: Resolver<ResolversTypes['AccountResult'], ParentType, ContextType, RequireFields<MutationsignInToEmailAccountArgs, 'signInToEmailAccountInput'>>;
 };
 
@@ -659,4 +675,5 @@ export type Resolvers<ContextType = any> = {
 export type DirectiveResolvers<ContextType = any> = {
   isAuthenticated?: isAuthenticatedDirectiveResolver<any, any, ContextType>;
   isAuthor?: isAuthorDirectiveResolver<any, any, ContextType>;
+  isValidInput?: isValidInputDirectiveResolver<any, any, ContextType>;
 };

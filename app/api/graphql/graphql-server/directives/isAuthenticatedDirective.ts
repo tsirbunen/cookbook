@@ -3,12 +3,6 @@ import { type GraphQLSchema, defaultFieldResolver } from 'graphql'
 
 const directiveName = 'isAuthenticated'
 
-export const authDirectiveTypeDefs = `directive @${directiveName}`
-export const unauthenticatedError = {
-  __typename: 'UnauthenticatedError',
-  errorMessage: 'You are not authenticated. Please sign in.'
-}
-
 export const isAuthenticatedTransformer = (schema: GraphQLSchema) =>
   mapSchema(schema, {
     [MapperKind.OBJECT_FIELD]: (fieldConfig) => {
@@ -20,8 +14,7 @@ export const isAuthenticatedTransformer = (schema: GraphQLSchema) =>
         return {
           ...fieldConfig,
           resolve: async (source, args, context, info) => {
-            const userId = context.userId
-            if (!userId) return unauthenticatedError
+            if (!context.userId) return getUnauthenticatedError()
 
             const result = await resolve(source, args, context, info)
             return result
@@ -30,3 +23,10 @@ export const isAuthenticatedTransformer = (schema: GraphQLSchema) =>
       }
     }
   })
+
+export const getUnauthenticatedError = () => {
+  return {
+    __typename: 'UnauthenticatedError',
+    errorMessage: 'You are not authenticated. Please sign in.'
+  }
+}

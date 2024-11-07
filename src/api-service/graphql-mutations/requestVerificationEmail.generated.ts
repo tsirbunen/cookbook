@@ -3,7 +3,7 @@ import * as Types from '../../types/graphql-schema-types.generated';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type RequestVerificationEmailMutationVariables = Types.Exact<{
-  email: Types.Scalars['String']['input'];
+  emailInput: Types.EmailInput;
 }>;
 
 
@@ -11,8 +11,8 @@ export type RequestVerificationEmailMutation = { __typename?: 'Mutation', reques
 
 
 export const RequestVerificationEmailDocument = gql`
-    mutation RequestVerificationEmail($email: String!) {
-  requestVerificationEmail(email: $email) {
+    mutation RequestVerificationEmail($emailInput: EmailInput!) {
+  requestVerificationEmail(emailInput: $emailInput) {
     __typename
     ... on GeneralSuccess {
       successMessage

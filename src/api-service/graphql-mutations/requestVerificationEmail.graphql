@@ -1,5 +1,5 @@
-mutation RequestVerificationEmail($email: String!) {
-  requestVerificationEmail(email: $email) {
+mutation RequestVerificationEmail($emailInput: EmailInput!) {
+  requestVerificationEmail(emailInput: $emailInput) {
     __typename
 
     ... on GeneralSuccess {

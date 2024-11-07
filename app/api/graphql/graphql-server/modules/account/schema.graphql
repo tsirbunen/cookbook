@@ -20,6 +20,15 @@ input EmailAccountInput {
   password: String!
 }
 
+input EmailInput {
+  email: String!
+}
+
+input DeleteAccountInput {
+  id: Int!
+  uuid: String!
+} 
+
 union AccountResult = Account | BadInputError
 
 input SignInToEmailAccountInput {
@@ -38,11 +47,11 @@ input NonEmailAccountInput {
 # error replies to be properly typed so that the client has an easier job of guiding the
 # user when something goes wrong.
 extend type Mutation {
-  createEmailAccount(emailAccountInput: EmailAccountInput!): AccountResult!
-  requestVerificationEmail(email: String!): GeneralResult!
-  signInToEmailAccount(signInToEmailAccountInput: SignInToEmailAccountInput!): AccountResult!
-  createNonEmailAccount(nonEmailAccountInput: NonEmailAccountInput!): AccountResult!
-  deleteAccount(id: Int!, uuid: String!): GeneralResult!
+  createEmailAccount(emailAccountInput: EmailAccountInput!): AccountResult! @isValidInput
+  requestVerificationEmail(emailInput: EmailInput!): GeneralResult! @isValidInput
+  signInToEmailAccount(signInToEmailAccountInput: SignInToEmailAccountInput!): AccountResult! @isValidInput
+  createNonEmailAccount(nonEmailAccountInput: NonEmailAccountInput!): AccountResult! @isValidInput
+  deleteAccount(deleteAccountInput: DeleteAccountInput!): GeneralResult! @isValidInput
 }
 
 extend type Query {

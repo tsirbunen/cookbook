@@ -56,10 +56,19 @@ export type CreateRecipeInput = {
   title: Scalars['String']['input'];
 };
 
+export type DeleteAccountInput = {
+  id: Scalars['Int']['input'];
+  uuid: Scalars['String']['input'];
+};
+
 export type EmailAccountInput = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
   username: Scalars['String']['input'];
+};
+
+export type EmailInput = {
+  email: Scalars['String']['input'];
 };
 
 export type GeneralError = BaseError & {
@@ -173,8 +182,7 @@ export type MutationCreateRecipeArgs = {
 
 
 export type MutationDeleteAccountArgs = {
-  id: Scalars['Int']['input'];
-  uuid: Scalars['String']['input'];
+  deleteAccountInput: DeleteAccountInput;
 };
 
 
@@ -185,7 +193,7 @@ export type MutationPatchRecipeArgs = {
 
 
 export type MutationRequestVerificationEmailArgs = {
-  email: Scalars['String']['input'];
+  emailInput: EmailInput;
 };
 
 

@@ -5,6 +5,7 @@ import { GraphQLJSON } from 'graphql-scalars'
 import { type YogaInitialContext, createSchema, createYoga } from 'graphql-yoga'
 import { isAuthenticatedTransformer } from './graphql-server/directives/isAuthenticatedDirective'
 import { isAuthorTransformer } from './graphql-server/directives/isAuthorDirective'
+import { isValidInputTransformer } from './graphql-server/directives/isValidInput'
 import { resolvers } from './graphql-server/modules/resolvers.generated'
 import { typeDefs } from './graphql-server/modules/typeDefs.generated'
 import { getAuthenticatedUserId } from './graphql-server/services/accounts/token-utils'
@@ -14,12 +15,10 @@ const isProduction = process.env.NODE_ENV === 'production'
 
 export type GraphQLContext = { userId: number | null }
 
-const getSchemaWithDirectives = () => {
-  return isAuthorTransformer(
-    isAuthenticatedTransformer(
-      createSchema<GraphQLContext>({ typeDefs, resolvers: { ...resolvers, JSON: GraphQLJSON } })
-    )
-  )
+const wrapSchemaWithDirectives = () => {
+  const graphQLSchema = createSchema<GraphQLContext>({ typeDefs, resolvers: { ...resolvers, JSON: GraphQLJSON } })
+  const directives = [isAuthenticatedTransformer, isAuthorTransformer, isValidInputTransformer]
+  return directives.reduce((schema, directive) => directive(schema), graphQLSchema)
 }
 
 const getGraphQLContext = async (initialContext: YogaInitialContext) => {
@@ -28,7 +27,7 @@ const getGraphQLContext = async (initialContext: YogaInitialContext) => {
 }
 
 const { handleRequest } = createYoga<GraphQLContext>({
-  schema: getSchemaWithDirectives(),
+  schema: wrapSchemaWithDirectives(),
   graphqlEndpoint: '/api/graphql',
   fetchAPI: { Response },
   cors: {

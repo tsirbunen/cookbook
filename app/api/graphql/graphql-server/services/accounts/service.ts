@@ -3,7 +3,9 @@ dotenv.config()
 
 import { database } from '../../database/config/config'
 import type {
+  DeleteAccountInput,
   EmailAccountInput,
+  EmailInput,
   IdentityProvider,
   NonEmailAccountInput,
   SignInToEmailAccountInput
@@ -109,7 +111,7 @@ export const createNewEmailAccount = async ({ email, password, username }: Email
   return getError(AuthError.SOMETHING_WENT_WRONG)
 }
 
-export const requestNewVerificationEmail = async (email: string) => {
+export const requestNewVerificationEmail = async ({ email }: EmailInput) => {
   try {
     const existingAccount = await getAccountBy(database, 'email', email)
     if (!existingAccount) return getError(AuthError.ACCOUNT_NOT_FOUND, { email })
@@ -153,7 +155,7 @@ export const signInToExistingEmailAccount = async ({ email, password }: SignInTo
   return getError(AuthError.SOMETHING_WENT_WRONG)
 }
 
-export const deleteAllAccountData = async (id: number, uuid: string) => {
+export const deleteAllAccountData = async ({ id: _, uuid }: DeleteAccountInput) => {
   const existingAccount = await getAccountBy(database, 'uuid', uuid)
   if (!existingAccount) return getError(AuthError.ACCOUNT_NOT_FOUND)
 

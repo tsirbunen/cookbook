@@ -1,5 +1,5 @@
-mutation DeleteAccount($id: Int!, $uuid: String!) {
-  deleteAccount(id: $id, uuid: $uuid) {
+mutation DeleteAccount($deleteAccountInput: DeleteAccountInput!) {
+  deleteAccount(deleteAccountInput: $deleteAccountInput) {
     __typename
 
     ... on GeneralSuccess {

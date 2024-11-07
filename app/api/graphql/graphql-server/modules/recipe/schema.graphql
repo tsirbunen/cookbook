@@ -121,6 +121,8 @@ directive @isAuthenticated on FIELD_DEFINITION
 
 directive @isAuthor on FIELD_DEFINITION
 
+directive @isValidInput on FIELD_DEFINITION
+
 extend type Query {
   allRecipes: [Recipe!]!
   allLanguages: [Language!]!
@@ -128,6 +130,6 @@ extend type Query {
 }
 
 extend type Mutation {
-  createRecipe(createRecipeInput: CreateRecipeInput!): RecipeResult @isAuthor
-  patchRecipe(recipeId: Int!, recipePatch: PatchRecipeInput!): RecipeResult @isAuthor
+  createRecipe(createRecipeInput: CreateRecipeInput!): RecipeResult @isAuthor @isValidInput
+  patchRecipe(recipeId: Int!, recipePatch: PatchRecipeInput!): RecipeResult @isAuthor @isValidInput
 }

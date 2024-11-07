@@ -214,7 +214,7 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
     const fn = () =>
       client.mutate<RequestVerificationEmailMutation, RequestVerificationEmailMutationVariables>({
         mutation: RequestVerificationEmailDocument,
-        variables: { email }
+        variables: { emailInput: { email } }
       })
 
     const data = await performWithToasts<RequestVerificationEmailMutation>(fn, requestVerificationEmailToasts)
@@ -256,7 +256,7 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
     const fn = () =>
       client.mutate<DeleteAccountMutation, DeleteAccountMutationVariables>({
         mutation: DeleteAccountDocument,
-        variables: { id, uuid }
+        variables: { deleteAccountInput: { id, uuid } }
       })
 
     const data = await performWithToasts<DeleteAccountMutation>(fn, deleteAccountToasts)
