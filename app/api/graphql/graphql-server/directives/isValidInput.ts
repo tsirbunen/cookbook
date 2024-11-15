@@ -1,7 +1,7 @@
 import { MapperKind, getDirective, mapSchema } from '@graphql-tools/utils'
 import { type GraphQLSchema, defaultFieldResolver } from 'graphql'
 import { ValidationTarget } from '../../../../../src/types/graphql-schema-types.generated'
-import { validateInput } from '../services/validation/service'
+import { validateInput } from '../handlers/validation/handler'
 
 const directiveName = 'isValidInput'
 

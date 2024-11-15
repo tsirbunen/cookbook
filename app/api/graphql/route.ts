@@ -3,17 +3,19 @@ dotenv.config()
 
 import { GraphQLJSON } from 'graphql-scalars'
 import { type YogaInitialContext, createSchema, createYoga } from 'graphql-yoga'
+import { database } from './graphql-server/database/config/config'
+import { DataStore } from './graphql-server/database/data-stores/data-store'
 import { isAuthenticatedTransformer } from './graphql-server/directives/isAuthenticatedDirective'
 import { isAuthorTransformer } from './graphql-server/directives/isAuthorDirective'
 import { isValidInputTransformer } from './graphql-server/directives/isValidInput'
+import { getAuthenticatedUserId } from './graphql-server/handlers/accounts/token-utils'
+import { validator } from './graphql-server/handlers/validation/validators'
 import { resolvers } from './graphql-server/modules/resolvers.generated'
 import { typeDefs } from './graphql-server/modules/typeDefs.generated'
-import { getAuthenticatedUserId } from './graphql-server/services/accounts/token-utils'
-import { validator } from './graphql-server/services/validation/validators'
 
 const isProduction = process.env.NODE_ENV === 'production'
 
-export type GraphQLContext = { userId: number | null }
+export type GraphQLContext = { userId: number | null; dataStore: DataStore }
 
 const wrapSchemaWithDirectives = () => {
   const graphQLSchema = createSchema<GraphQLContext>({ typeDefs, resolvers: { ...resolvers, JSON: GraphQLJSON } })
@@ -23,7 +25,8 @@ const wrapSchemaWithDirectives = () => {
 
 const getGraphQLContext = async (initialContext: YogaInitialContext) => {
   const token = initialContext.request.headers.get('authorization')?.replace('Bearer ', '')
-  return { userId: getAuthenticatedUserId(token) }
+  const dataStore = new DataStore(database)
+  return { userId: getAuthenticatedUserId(token), dataStore }
 }
 
 const { handleRequest } = createYoga<GraphQLContext>({

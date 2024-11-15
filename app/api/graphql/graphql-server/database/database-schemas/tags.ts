@@ -4,8 +4,12 @@ import { recipes } from './recipes'
 
 export const recipesToTags = pgTable('recipes_to_tags', {
   id: serial('id').primaryKey(),
-  recipeId: integer('recipe_id').references((): AnyPgColumn => recipes.id),
-  tagId: integer('tag_id').references((): AnyPgColumn => tags.id)
+  recipeId: integer('recipe_id')
+    .references((): AnyPgColumn => recipes.id)
+    .notNull(),
+  tagId: integer('tag_id')
+    .references((): AnyPgColumn => tags.id)
+    .notNull()
 })
 
 export const tags = pgTable('tags', {

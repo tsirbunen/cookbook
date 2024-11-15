@@ -1,4 +1,4 @@
-import { getValidationSchemas } from '../../../../services/validation/service'
+import { getValidationSchemas } from '../../../../handlers/validation/handler'
 import type { QueryResolvers } from './../../../types.generated'
 
 export const validationSchemas: NonNullable<QueryResolvers['validationSchemas']> = async (

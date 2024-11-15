@@ -1,6 +1,6 @@
-import { ValidationTarget } from '../../../../../../../../src/types/graphql-schema-types.generated'
-import { patchExistingRecipe } from '../../../../services/recipes/service'
-import { validateInput } from '../../../../services/validation/service'
+import { dataStore } from '../../../../database/data-stores/data-store'
+import { RecipeHandler } from '../../../../handlers/recipes/handler'
+import type { PatchRecipeInput } from '../../../../handlers/types-and-interfaces/types'
 import type { MutationResolvers } from './../../../types.generated'
 
 // @ts-expect-error The __typename will be correctly set due to the __isTypeOf implementation
@@ -10,11 +10,12 @@ export const patchRecipe: NonNullable<MutationResolvers['patchRecipe']> = async 
   { recipeId, recipePatch },
   _ctx
 ) => {
-  const validationError = validateInput(recipePatch, ValidationTarget.PatchRecipeInput)
-  if (validationError) return { errorMessage: validationError }
+  const handler = new RecipeHandler(dataStore)
+  // FIXME: Get rid of type casting to domain types
+  const patchedRecipe = await handler.patchExistingRecipe(recipeId, recipePatch as PatchRecipeInput)
 
   return {
     __typename: 'Recipe',
-    ...(await patchExistingRecipe(recipeId, recipePatch))
+    ...patchedRecipe
   }
 }

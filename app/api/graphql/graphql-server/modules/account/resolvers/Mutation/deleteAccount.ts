@@ -1,4 +1,4 @@
-import { deleteAllAccountData } from '../../../../services/accounts/service'
+import { AccountHandler } from '../../../../handlers/accounts/handler'
 import type { MutationResolvers } from './../../../types.generated'
 
 // @ts-expect-error The __typename will be correctly set due to the __isTypeOf implementation
@@ -6,7 +6,8 @@ import type { MutationResolvers } from './../../../types.generated'
 export const deleteAccount: NonNullable<MutationResolvers['deleteAccount']> = async (
   _parent,
   { deleteAccountInput },
-  _ctx
+  context
 ) => {
-  return await deleteAllAccountData(deleteAccountInput)
+  const handler = new AccountHandler(context.dataStore)
+  return await handler.deleteAllAccountData(deleteAccountInput)
 }

@@ -2,7 +2,8 @@ import { eq } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
 import { database } from '../../graphql/graphql-server/database/config/config'
 import { accounts } from '../../graphql/graphql-server/database/database-schemas/accounts'
-import { createJWT, createProviderAccessTokenJWT } from '../../graphql/graphql-server/services/accounts/token-utils'
+import { createJWT, createProviderAccessTokenJWT } from '../../graphql/graphql-server/handlers/accounts/token-utils'
+import { IdentityProvider } from '../../graphql/graphql-server/handlers/types-and-interfaces/types'
 
 const gitHubGetAccessTokenBaseURL = 'https://github.com/login/oauth/access_token'
 const gitHubGetUserDataURL = 'https://api.github.com/user'
@@ -49,11 +50,16 @@ export async function GET(request: Request) {
   }
 
   const account = await database.query.accounts.findFirst({ where: eq(accounts.idAtProvider, gitHubId) })
+  const identityProvider = IdentityProvider.GITHUB
   if (account) {
-    const token = createJWT({ id: account.id, uuid: account.uuid, username: account.username })
+    const token = createJWT({ identityProvider, id: account.id, uuid: account.uuid, username: account.username })
     redirect(`/account/github/${gitHubUsername}/app/${token}`)
   }
 
-  const token = createProviderAccessTokenJWT({ idAtProvider: gitHubId, accessToken: access_token })
+  const token = createProviderAccessTokenJWT({
+    identityProvider,
+    idAtProvider: gitHubId,
+    accessToken: access_token
+  })
   redirect(`/account/github/${gitHubUsername}/access/${token}`)
 }

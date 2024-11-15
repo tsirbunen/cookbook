@@ -27,7 +27,7 @@ input EmailInput {
 input DeleteAccountInput {
   id: Int!
   uuid: String!
-} 
+}
 
 union AccountResult = Account | BadInputError
 

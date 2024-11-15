@@ -1,4 +1,4 @@
-import { signInToExistingEmailAccount } from '../../../../services/accounts/service'
+import { AccountHandler } from '../../../../handlers/accounts/handler'
 import type { MutationResolvers } from './../../../types.generated'
 
 // @ts-expect-error The __typename will be correctly set due to the __isTypeOf implementation
@@ -6,7 +6,8 @@ import type { MutationResolvers } from './../../../types.generated'
 export const signInToEmailAccount: NonNullable<MutationResolvers['signInToEmailAccount']> = async (
   _parent,
   { signInToEmailAccountInput },
-  _ctx
+  context
 ) => {
-  return await signInToExistingEmailAccount(signInToEmailAccountInput)
+  const handler = new AccountHandler(context.dataStore)
+  return await handler.signInToExistingEmailAccount(signInToEmailAccountInput)
 }

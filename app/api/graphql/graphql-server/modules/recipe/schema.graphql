@@ -24,7 +24,7 @@ type IngredientGroup {
 input IngredientGroupInput {
   id: Int
   title: String
-  ingredients: [IngredientInput!]
+  ingredients: [IngredientInput!]!
 }
 
 type Instruction {

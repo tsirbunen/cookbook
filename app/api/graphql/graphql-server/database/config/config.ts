@@ -12,6 +12,8 @@ import * as recipeSchema from '../database-schemas/recipes'
 import * as tagSchema from '../database-schemas/tags'
 import { localDatabaseOptions } from '../utils/get-database-local-options.js'
 
+export type Database = typeof database
+
 const isProduction = process.env.NODE_ENV === 'production'
 let client: postgres.Sql
 
