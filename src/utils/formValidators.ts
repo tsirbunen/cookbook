@@ -43,7 +43,9 @@ export const getEmailAccountInputValidator = (schema: JSONSchemaType) => {
   }
 }
 
-export const getValidatorFromJsonSchema = <T extends FieldValues>(schema: JSONSchemaType) => {
+export const getValidatorFromJsonSchema = <T extends FieldValues>(schema?: JSONSchemaType) => {
+  if (!schema) return undefined
+
   const validateFn = ajv.compile(schema)
 
   return async (data: T, _context: string) => {
@@ -142,7 +144,6 @@ const formatFieldErrors = <T extends FieldValues>(validateFn: ValidateFunction<u
     },
     {} as FieldErrors<T>
   )
-  console.log({ fieldErrors })
 
   return (fieldErrors ?? {}) as FieldErrors<T>
 }

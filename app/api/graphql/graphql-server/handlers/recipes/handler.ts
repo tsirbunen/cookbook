@@ -6,6 +6,8 @@ import { IngredientGroupHandler } from '../ingredients/handler'
 import { InstructionGroupHandler } from '../instructions/handler'
 import { TagHandler } from '../tags/handler'
 import type { CreateRecipeInput, PatchRecipeInput, Recipe, RecipeExpanded } from '../types-and-interfaces/types'
+import { getDeletePhotoError, getOriginalRecipeNotFoundError, getPhotoUploadUrlError } from '../utils/error-utils'
+import { createSignedUploadUrl, removePhotos } from '../utils/photo-utils'
 
 export class RecipeHandler {
   dataStore: DataStore
@@ -26,8 +28,25 @@ export class RecipeHandler {
     })
   }
 
+  async getPhotoUploadUrls(photoIdentifiers?: string[]) {
+    if (!photoIdentifiers) return []
+
+    const photoUploadDetails = []
+    for await (const uuid of photoIdentifiers) {
+      const signedUrl = await createSignedUploadUrl(uuid)
+      if (!signedUrl) return null
+      const token = signedUrl.split('token=')[1]
+      photoUploadDetails.push({ photoId: uuid, token })
+    }
+
+    return photoUploadDetails
+  }
+
   public async createNewRecipe(input: CreateRecipeInput) {
     const actions = async () => {
+      const photoUploadDetails = await this.getPhotoUploadUrls(input.photoIdentifiers)
+      if (photoUploadDetails === null) return getPhotoUploadUrlError()
+
       const { title, description, ovenNeeded, ingredientGroups, instructionGroups, isPrivate, authorId } = input
       const languageId = await this.dataStore.upsertLanguage(input.language)
       const newRecipeId = await this.dataStore.createRecipe({
@@ -40,13 +59,19 @@ export class RecipeHandler {
       })
       await this.tagHandler.findOrCreateTagsAndSetRelations(newRecipeId, input.tags)
       if (input.photoIdentifiers) {
-        await this.dataStore.handlePhotoIdentifiers(input.photoIdentifiers, newRecipeId)
-      } else if (input.photoFiles) {
-        // FIXME: Create this! And check that only identifiers or files are passed, not both
+        await this.dataStore.handleCreatePhotoIdentifiers(
+          input.photoIdentifiers.map((identifier, index) => {
+            return { id: identifier, isMainPhoto: index === 0 }
+          }),
+          newRecipeId
+        )
       }
       await this.ingredientGroupHandler.handleUpsertIngredientGroupsAndIngredients(newRecipeId, ingredientGroups ?? [])
       await this.instructionsHandler.createGroupsWithInstructions(newRecipeId, instructionGroups)
-      return await this.dataStore.getRecipeExpandedById(newRecipeId)
+
+      const recipeExpanded = await this.dataStore.getRecipeExpandedById(newRecipeId)
+      if (!photoUploadDetails.length) return recipeExpanded
+      return { ...recipeExpanded, photoUploadDetails }
     }
 
     return await this.dataStore.withinTransaction(actions)
@@ -54,10 +79,33 @@ export class RecipeHandler {
 
   async patchExistingRecipe(recipeId: number, recipePatch: PatchRecipeInput) {
     const actions = async () => {
-      const { tags, language, title, description, ovenNeeded, ingredientGroups, instructionGroups } = recipePatch
+      const { tags, photoIdentifiers, language, title, description, ovenNeeded, ingredientGroups, instructionGroups } =
+        recipePatch
 
       const original = await this.dataStore.getRecipeExpandedByIdNoTagFormatting(recipeId)
-      if (!original) throw new Error('Recipe not found')
+      if (!original) return getOriginalRecipeNotFoundError()
+
+      const originalPhotoUuids = original.photos.map((photo) => photo.url)
+      const originalPhotoUuidsToDelete = originalPhotoUuids.filter((uuid) => !photoIdentifiers?.includes(uuid))
+      const newPhotoUuids = photoIdentifiers?.filter((uuid) => !originalPhotoUuids.includes(uuid))
+      const newPhotoUploadDetails = await this.getPhotoUploadUrls(newPhotoUuids)
+      if (newPhotoUploadDetails === null) return getPhotoUploadUrlError()
+      if (newPhotoUuids?.length) {
+        await this.dataStore.handleCreatePhotoIdentifiers(
+          newPhotoUuids.map((identifier) => {
+            return { id: identifier, isMainPhoto: identifier === photoIdentifiers?.[0] }
+          }),
+          original.id
+        )
+      }
+
+      if (originalPhotoUuidsToDelete.length) {
+        const deletedFilesCount = await removePhotos(originalPhotoUuidsToDelete)
+        if (deletedFilesCount === null) return getDeletePhotoError()
+      }
+      if (originalPhotoUuidsToDelete.length) {
+        await this.dataStore.handleDeletePhotoIdentifiers(originalPhotoUuidsToDelete)
+      }
 
       const newLanguageId = language ? await this.dataStore.upsertLanguage(language) : original.language.id
 
@@ -65,8 +113,6 @@ export class RecipeHandler {
       if (recipeHasChanges) await this.handlePatchRecipe(recipePatch, original, newLanguageId)
 
       if (tags?.length) await this.tagHandler.handlePatchAndPurgeRecipeTags(tags, original)
-
-      // FIXME: Handle patch of photos
 
       if (ingredientGroups?.length) {
         await this.ingredientGroupHandler.handleUpsertIngredientGroupsAndIngredients(
@@ -80,7 +126,9 @@ export class RecipeHandler {
         await this.instructionsHandler.patchInstructionGroups(instructionGroups, original.instructionGroups)
       }
 
-      return await this.dataStore.getRecipeExpandedById(recipeId)
+      const recipeExpanded = await this.dataStore.getRecipeExpandedById(recipeId)
+      if (!newPhotoUploadDetails.length) return recipeExpanded
+      return { ...recipeExpanded, photoUploadDetails: newPhotoUploadDetails }
     }
 
     return await this.dataStore.withinTransaction(actions)

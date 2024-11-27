@@ -38,6 +38,10 @@ fragment RecipeEntity on Recipe {
     url
     isMainPhoto
   }
+  photoUploadDetails {
+    photoId 
+    token
+  }
   tags {
     id
     tag
@@ -74,4 +78,12 @@ fragment RecipeResultFull on RecipeResult {
   ... on BadInputError {
     errorMessage
   }
+
+  ... on PhotoUploadUrlError {
+    errorMessage
+  }
+
+  ... on DeletePhotoError {
+    errorMessage
+  } 
 }

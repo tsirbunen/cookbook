@@ -17,7 +17,7 @@ import {
   resendVerificationEmail,
   signInEmailAuthUser,
   signUpEmailAuthUser
-} from './email-auth-provider-utils'
+} from '../utils/storage-client'
 import {
   AuthError,
   getError,
@@ -59,7 +59,6 @@ export class AccountHandler {
     const actions = async () => {
       try {
         const idAtProvider = await this.getAndVerifyIdAtProvider(token, identityProvider)
-        console.log('idAtProvider:', idAtProvider)
 
         const accountsWithCredentials = await this.dataStore.getExistingAccounts({ idAtProvider, username })
         if (accountsWithCredentials?.length) {

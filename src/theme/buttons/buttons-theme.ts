@@ -10,7 +10,8 @@ export enum ButtonVariant {
   LargeDark = 'largeDark',
   SmallDark = 'smallDark',
   DeleteLarge = 'deleteLarge',
-  Pale = 'pale'
+  Pale = 'pale',
+  Error = 'error'
 }
 
 const mediumSizeDark = defineStyle({
@@ -56,6 +57,22 @@ const mediumSizePale = defineStyle({
   _hover: {
     bg: Shades.VERY_PALE,
     color: Shades.DARK
+  },
+  height: '30px'
+})
+
+const error = defineStyle({
+  size: 'sm',
+  variant: 'solid',
+  borderRadius: '4px',
+  paddingLeft: '10px',
+  paddingRight: '10px',
+  bg: Shades.ERROR,
+  color: Shades.BACKGROUND,
+  _focus: { outline: 'none' },
+  _hover: {
+    bg: Shades.VERY_PALE,
+    color: Shades.BACKGROUND
   },
   height: '30px'
 })
@@ -198,6 +215,7 @@ export const buttonsTheme = defineStyleConfig({
     largeDark,
     deleteLarge,
     pale,
+    error,
     squareWithIcon: ({ toggled }) => ({
       ...squareWithIcon(toggled)
     }),

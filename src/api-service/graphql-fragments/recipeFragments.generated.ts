@@ -9,17 +9,21 @@ export type InstructionEntityFragment = { __typename?: 'Instruction', id: number
 
 export type InstructionGroupEntityFragment = { __typename?: 'InstructionGroup', id: number, title?: string | null, instructions: Array<{ __typename?: 'Instruction', id: number, content: string, previousId?: number | null }> };
 
-export type RecipeEntityFragment = { __typename?: 'Recipe', id: number, authorId?: number | null, title: string, description?: string | null, ovenNeeded: boolean, isPrivate?: boolean | null, photos?: Array<{ __typename?: 'Photo', id: number, url: string, isMainPhoto: boolean }> | null, tags?: Array<{ __typename?: 'Tag', id: number, tag: string }> | null, language: { __typename?: 'Language', id: number, language: string }, ingredientGroups: Array<{ __typename?: 'IngredientGroup', id: number, title?: string | null, ingredients: Array<{ __typename?: 'Ingredient', id: number, name: string, amount?: number | null, unit?: string | null, previousId?: number | null }> }>, instructionGroups: Array<{ __typename?: 'InstructionGroup', id: number, title?: string | null, instructions: Array<{ __typename?: 'Instruction', id: number, content: string, previousId?: number | null }> }> };
+export type RecipeEntityFragment = { __typename?: 'Recipe', id: number, authorId?: number | null, title: string, description?: string | null, ovenNeeded: boolean, isPrivate?: boolean | null, photos?: Array<{ __typename?: 'Photo', id: number, url: string, isMainPhoto: boolean }> | null, photoUploadDetails?: Array<{ __typename?: 'PhotoUploadDetails', photoId: string, token: string }> | null, tags?: Array<{ __typename?: 'Tag', id: number, tag: string }> | null, language: { __typename?: 'Language', id: number, language: string }, ingredientGroups: Array<{ __typename?: 'IngredientGroup', id: number, title?: string | null, ingredients: Array<{ __typename?: 'Ingredient', id: number, name: string, amount?: number | null, unit?: string | null, previousId?: number | null }> }>, instructionGroups: Array<{ __typename?: 'InstructionGroup', id: number, title?: string | null, instructions: Array<{ __typename?: 'Instruction', id: number, content: string, previousId?: number | null }> }> };
 
 export type RecipeResultFull_BadInputError_Fragment = { __typename: 'BadInputError', errorMessage: string };
 
-export type RecipeResultFull_Recipe_Fragment = { __typename: 'Recipe', id: number, authorId?: number | null, title: string, description?: string | null, ovenNeeded: boolean, isPrivate?: boolean | null, photos?: Array<{ __typename?: 'Photo', id: number, url: string, isMainPhoto: boolean }> | null, tags?: Array<{ __typename?: 'Tag', id: number, tag: string }> | null, language: { __typename?: 'Language', id: number, language: string }, ingredientGroups: Array<{ __typename?: 'IngredientGroup', id: number, title?: string | null, ingredients: Array<{ __typename?: 'Ingredient', id: number, name: string, amount?: number | null, unit?: string | null, previousId?: number | null }> }>, instructionGroups: Array<{ __typename?: 'InstructionGroup', id: number, title?: string | null, instructions: Array<{ __typename?: 'Instruction', id: number, content: string, previousId?: number | null }> }> };
+export type RecipeResultFull_DeletePhotoError_Fragment = { __typename: 'DeletePhotoError', errorMessage: string };
+
+export type RecipeResultFull_PhotoUploadUrlError_Fragment = { __typename: 'PhotoUploadUrlError', errorMessage: string };
+
+export type RecipeResultFull_Recipe_Fragment = { __typename: 'Recipe', id: number, authorId?: number | null, title: string, description?: string | null, ovenNeeded: boolean, isPrivate?: boolean | null, photos?: Array<{ __typename?: 'Photo', id: number, url: string, isMainPhoto: boolean }> | null, photoUploadDetails?: Array<{ __typename?: 'PhotoUploadDetails', photoId: string, token: string }> | null, tags?: Array<{ __typename?: 'Tag', id: number, tag: string }> | null, language: { __typename?: 'Language', id: number, language: string }, ingredientGroups: Array<{ __typename?: 'IngredientGroup', id: number, title?: string | null, ingredients: Array<{ __typename?: 'Ingredient', id: number, name: string, amount?: number | null, unit?: string | null, previousId?: number | null }> }>, instructionGroups: Array<{ __typename?: 'InstructionGroup', id: number, title?: string | null, instructions: Array<{ __typename?: 'Instruction', id: number, content: string, previousId?: number | null }> }> };
 
 export type RecipeResultFull_UnauthenticatedError_Fragment = { __typename: 'UnauthenticatedError', errorMessage: string };
 
 export type RecipeResultFull_UnauthorizedError_Fragment = { __typename: 'UnauthorizedError', errorMessage: string };
 
-export type RecipeResultFullFragment = RecipeResultFull_BadInputError_Fragment | RecipeResultFull_Recipe_Fragment | RecipeResultFull_UnauthenticatedError_Fragment | RecipeResultFull_UnauthorizedError_Fragment;
+export type RecipeResultFullFragment = RecipeResultFull_BadInputError_Fragment | RecipeResultFull_DeletePhotoError_Fragment | RecipeResultFull_PhotoUploadUrlError_Fragment | RecipeResultFull_Recipe_Fragment | RecipeResultFull_UnauthenticatedError_Fragment | RecipeResultFull_UnauthorizedError_Fragment;
 
 export const IngredientEntityFragmentDoc = gql`
     fragment IngredientEntity on Ingredient {
@@ -66,6 +70,10 @@ export const RecipeEntityFragmentDoc = gql`
     url
     isMainPhoto
   }
+  photoUploadDetails {
+    photoId
+    token
+  }
   tags {
     id
     tag
@@ -98,6 +106,12 @@ export const RecipeResultFullFragmentDoc = gql`
     errorMessage
   }
   ... on BadInputError {
+    errorMessage
+  }
+  ... on PhotoUploadUrlError {
+    errorMessage
+  }
+  ... on DeletePhotoError {
     errorMessage
   }
 }

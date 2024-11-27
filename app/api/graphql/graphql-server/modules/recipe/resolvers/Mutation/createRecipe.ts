@@ -1,6 +1,6 @@
 import { RecipeHandler } from '../../../../handlers/recipes/handler'
 import type { CreateRecipeInput } from '../../../../handlers/types-and-interfaces/types'
-import type { MutationResolvers } from './../../../types.generated'
+import type { BaseError, MutationResolvers } from './../../../types.generated'
 
 // @ts-expect-error The __typename will be correctly set due to the __isTypeOf implementation
 // so we need not add additional type resolving here as required by TypeScript
@@ -11,10 +11,11 @@ export const createRecipe: NonNullable<MutationResolvers['createRecipe']> = asyn
 ) => {
   const handler = new RecipeHandler(context.dataStore)
   // FIXME: Get rid of type casting to domain types
-  const newRecipe = await handler.createNewRecipe(createRecipeInput as CreateRecipeInput)
+  const result = await handler.createNewRecipe(createRecipeInput as CreateRecipeInput)
+  if ((result as BaseError).errorMessage) return result
 
   return {
     __typename: 'Recipe',
-    ...newRecipe
+    ...result
   }
 }

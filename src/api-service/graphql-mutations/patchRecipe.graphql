@@ -1,0 +1,8 @@
+mutation PatchRecipe($recipeId: Int!, $recipePatch: PatchRecipeInput!) {
+  patchRecipe(recipeId: $recipeId, recipePatch: $recipePatch) {
+    ...RecipeResultFull
+  }
+  
+}
+
+

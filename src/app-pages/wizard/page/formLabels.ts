@@ -35,9 +35,16 @@ const instructionGroupsInfo = 'Instructions can be listed as such or divided int
 const contentPlaceholder = 'Content'
 
 const signInRequired = 'You need to sign in to create a recipe.'
+const photosInfo =
+  'Add photos to make the recipe more appealing. Drag and drop the relevant files here. You can add a maximum of 4 photos. To remove a photo, click on it.'
+const photosTitle = 'Photos'
+const modifyRecipe = 'Modify recipe'
 
 export const formLabels = {
   signInRequired,
+  modifyRecipe,
+  photosInfo,
+  photosTitle,
   title,
   titlePlaceholder,
   titleInfo,

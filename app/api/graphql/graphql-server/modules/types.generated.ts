@@ -52,8 +52,7 @@ export type CreateRecipeInput = {
   isPrivate: Scalars['Boolean']['input'];
   language: Scalars['String']['input'];
   ovenNeeded: Scalars['Boolean']['input'];
-  photoFiles?: InputMaybe<Array<Scalars['File']['input']>>;
-  photoIdentifiers?: InputMaybe<Array<Scalars['String']['input']>>;
+  photoIdentifiers: Array<Scalars['String']['input']>;
   tags?: InputMaybe<Array<Scalars['String']['input']>>;
   title: Scalars['String']['input'];
 };
@@ -61,6 +60,11 @@ export type CreateRecipeInput = {
 export type DeleteAccountInput = {
   id: Scalars['Int']['input'];
   uuid: Scalars['String']['input'];
+};
+
+export type DeletePhotoError = BaseError & {
+  __typename?: 'DeletePhotoError';
+  errorMessage: Scalars['String']['output'];
 };
 
 export type EmailAccountInput = {
@@ -108,7 +112,7 @@ export type IngredientGroup = {
 
 export type IngredientGroupInput = {
   id?: InputMaybe<Scalars['Int']['input']>;
-  ingredients?: InputMaybe<Array<IngredientInput>>;
+  ingredients: Array<IngredientInput>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -216,8 +220,7 @@ export type PatchRecipeInput = {
   isPrivate?: InputMaybe<Scalars['Boolean']['input']>;
   language?: InputMaybe<Scalars['String']['input']>;
   ovenNeeded?: InputMaybe<Scalars['Boolean']['input']>;
-  photoFiles?: InputMaybe<Array<Scalars['File']['input']>>;
-  photoIdentifiers?: InputMaybe<Array<Scalars['String']['input']>>;
+  photoIdentifiers: Array<Scalars['String']['input']>;
   tags?: InputMaybe<Array<Scalars['String']['input']>>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
@@ -232,6 +235,17 @@ export type Photo = {
 export type PhotoInput = {
   isMainPhoto: Scalars['Boolean']['input'];
   url: Scalars['String']['input'];
+};
+
+export type PhotoUploadDetails = {
+  __typename?: 'PhotoUploadDetails';
+  photoId: Scalars['String']['output'];
+  token: Scalars['String']['output'];
+};
+
+export type PhotoUploadUrlError = BaseError & {
+  __typename?: 'PhotoUploadUrlError';
+  errorMessage: Scalars['String']['output'];
 };
 
 export type Query = {
@@ -264,12 +278,13 @@ export type Recipe = {
   isPrivate?: Maybe<Scalars['Boolean']['output']>;
   language: Language;
   ovenNeeded: Scalars['Boolean']['output'];
+  photoUploadDetails?: Maybe<Array<PhotoUploadDetails>>;
   photos?: Maybe<Array<Photo>>;
   tags?: Maybe<Array<Tag>>;
   title: Scalars['String']['output'];
 };
 
-export type RecipeResult = BadInputError | Recipe | UnauthenticatedError | UnauthorizedError;
+export type RecipeResult = BadInputError | DeletePhotoError | PhotoUploadUrlError | Recipe | UnauthenticatedError | UnauthorizedError;
 
 export type SignInToEmailAccountInput = {
   email: Scalars['String']['input'];
@@ -378,12 +393,12 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversUnionTypes<RefType extends Record<string, unknown>> = {
   AccountResult: ( Account & { __typename: 'Account' } ) | ( BadInputError & { __typename: 'BadInputError' } );
   GeneralResult: ( GeneralError & { __typename: 'GeneralError' } ) | ( GeneralSuccess & { __typename: 'GeneralSuccess' } );
-  RecipeResult: ( BadInputError & { __typename: 'BadInputError' } ) | ( Recipe & { __typename: 'Recipe' } ) | ( UnauthenticatedError & { __typename: 'UnauthenticatedError' } ) | ( UnauthorizedError & { __typename: 'UnauthorizedError' } );
+  RecipeResult: ( BadInputError & { __typename: 'BadInputError' } ) | ( DeletePhotoError & { __typename: 'DeletePhotoError' } ) | ( PhotoUploadUrlError & { __typename: 'PhotoUploadUrlError' } ) | ( Recipe & { __typename: 'Recipe' } ) | ( UnauthenticatedError & { __typename: 'UnauthenticatedError' } ) | ( UnauthorizedError & { __typename: 'UnauthorizedError' } );
 };
 
 /** Mapping of interface types */
 export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = {
-  BaseError: ( BadInputError & { __typename: 'BadInputError' } ) | ( GeneralError & { __typename: 'GeneralError' } ) | ( UnauthenticatedError & { __typename: 'UnauthenticatedError' } ) | ( UnauthorizedError & { __typename: 'UnauthorizedError' } );
+  BaseError: ( BadInputError & { __typename: 'BadInputError' } ) | ( DeletePhotoError & { __typename: 'DeletePhotoError' } ) | ( GeneralError & { __typename: 'GeneralError' } ) | ( PhotoUploadUrlError & { __typename: 'PhotoUploadUrlError' } ) | ( UnauthenticatedError & { __typename: 'UnauthenticatedError' } ) | ( UnauthorizedError & { __typename: 'UnauthorizedError' } );
   BaseSuccess: ( GeneralSuccess & { __typename: 'GeneralSuccess' } );
 };
 
@@ -399,6 +414,7 @@ export type ResolversTypes = {
   BaseSuccess: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['BaseSuccess']>;
   CreateRecipeInput: CreateRecipeInput;
   DeleteAccountInput: DeleteAccountInput;
+  DeletePhotoError: ResolverTypeWrapper<DeletePhotoError>;
   EmailAccountInput: EmailAccountInput;
   EmailInput: EmailInput;
   File: ResolverTypeWrapper<Scalars['File']['output']>;
@@ -422,6 +438,8 @@ export type ResolversTypes = {
   PatchRecipeInput: PatchRecipeInput;
   Photo: ResolverTypeWrapper<Photo>;
   PhotoInput: PhotoInput;
+  PhotoUploadDetails: ResolverTypeWrapper<PhotoUploadDetails>;
+  PhotoUploadUrlError: ResolverTypeWrapper<PhotoUploadUrlError>;
   Query: ResolverTypeWrapper<{}>;
   Recipe: ResolverTypeWrapper<Recipe>;
   RecipeResult: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['RecipeResult']>;
@@ -445,6 +463,7 @@ export type ResolversParentTypes = {
   BaseSuccess: ResolversInterfaceTypes<ResolversParentTypes>['BaseSuccess'];
   CreateRecipeInput: CreateRecipeInput;
   DeleteAccountInput: DeleteAccountInput;
+  DeletePhotoError: DeletePhotoError;
   EmailAccountInput: EmailAccountInput;
   EmailInput: EmailInput;
   File: Scalars['File']['output'];
@@ -467,6 +486,8 @@ export type ResolversParentTypes = {
   PatchRecipeInput: PatchRecipeInput;
   Photo: Photo;
   PhotoInput: PhotoInput;
+  PhotoUploadDetails: PhotoUploadDetails;
+  PhotoUploadUrlError: PhotoUploadUrlError;
   Query: {};
   Recipe: Recipe;
   RecipeResult: ResolversUnionTypes<ResolversParentTypes>['RecipeResult'];
@@ -510,13 +531,18 @@ export type BadInputErrorResolvers<ContextType = any, ParentType extends Resolve
 };
 
 export type BaseErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['BaseError'] = ResolversParentTypes['BaseError']> = {
-  __resolveType?: TypeResolveFn<'BadInputError' | 'GeneralError' | 'UnauthenticatedError' | 'UnauthorizedError', ParentType, ContextType>;
+  __resolveType?: TypeResolveFn<'BadInputError' | 'DeletePhotoError' | 'GeneralError' | 'PhotoUploadUrlError' | 'UnauthenticatedError' | 'UnauthorizedError', ParentType, ContextType>;
   errorMessage?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
 export type BaseSuccessResolvers<ContextType = any, ParentType extends ResolversParentTypes['BaseSuccess'] = ResolversParentTypes['BaseSuccess']> = {
   __resolveType?: TypeResolveFn<'GeneralSuccess', ParentType, ContextType>;
   successMessage?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+};
+
+export type DeletePhotoErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['DeletePhotoError'] = ResolversParentTypes['DeletePhotoError']> = {
+  errorMessage?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export interface FileScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['File'], any> {
@@ -595,6 +621,17 @@ export type PhotoResolvers<ContextType = any, ParentType extends ResolversParent
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type PhotoUploadDetailsResolvers<ContextType = any, ParentType extends ResolversParentTypes['PhotoUploadDetails'] = ResolversParentTypes['PhotoUploadDetails']> = {
+  photoId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PhotoUploadUrlErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['PhotoUploadUrlError'] = ResolversParentTypes['PhotoUploadUrlError']> = {
+  errorMessage?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   allLanguages?: Resolver<Array<ResolversTypes['Language']>, ParentType, ContextType>;
   allRecipes?: Resolver<Array<ResolversTypes['Recipe']>, ParentType, ContextType>;
@@ -613,6 +650,7 @@ export type RecipeResolvers<ContextType = any, ParentType extends ResolversParen
   isPrivate?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   language?: Resolver<ResolversTypes['Language'], ParentType, ContextType>;
   ovenNeeded?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  photoUploadDetails?: Resolver<Maybe<Array<ResolversTypes['PhotoUploadDetails']>>, ParentType, ContextType>;
   photos?: Resolver<Maybe<Array<ResolversTypes['Photo']>>, ParentType, ContextType>;
   tags?: Resolver<Maybe<Array<ResolversTypes['Tag']>>, ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -620,7 +658,7 @@ export type RecipeResolvers<ContextType = any, ParentType extends ResolversParen
 };
 
 export type RecipeResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['RecipeResult'] = ResolversParentTypes['RecipeResult']> = {
-  __resolveType?: TypeResolveFn<'BadInputError' | 'Recipe' | 'UnauthenticatedError' | 'UnauthorizedError', ParentType, ContextType>;
+  __resolveType?: TypeResolveFn<'BadInputError' | 'DeletePhotoError' | 'PhotoUploadUrlError' | 'Recipe' | 'UnauthenticatedError' | 'UnauthorizedError', ParentType, ContextType>;
 };
 
 export type TagResolvers<ContextType = any, ParentType extends ResolversParentTypes['Tag'] = ResolversParentTypes['Tag']> = {
@@ -651,6 +689,7 @@ export type Resolvers<ContextType = any> = {
   BadInputError?: BadInputErrorResolvers<ContextType>;
   BaseError?: BaseErrorResolvers<ContextType>;
   BaseSuccess?: BaseSuccessResolvers<ContextType>;
+  DeletePhotoError?: DeletePhotoErrorResolvers<ContextType>;
   File?: GraphQLScalarType;
   GeneralError?: GeneralErrorResolvers<ContextType>;
   GeneralResult?: GeneralResultResolvers<ContextType>;
@@ -663,6 +702,8 @@ export type Resolvers<ContextType = any> = {
   Language?: LanguageResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Photo?: PhotoResolvers<ContextType>;
+  PhotoUploadDetails?: PhotoUploadDetailsResolvers<ContextType>;
+  PhotoUploadUrlError?: PhotoUploadUrlErrorResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Recipe?: RecipeResolvers<ContextType>;
   RecipeResult?: RecipeResultResolvers<ContextType>;

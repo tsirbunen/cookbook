@@ -203,8 +203,12 @@ export class DataStore implements IDataStore {
     return language
   }
 
-  async handlePhotoIdentifiers(photoUrls: string[], recipeId: number) {
-    return await this.photoStore.handlePhotoIdentifiers(this.getTrx(), photoUrls, recipeId)
+  async handleCreatePhotoIdentifiers(photoIdentifiers: { id: string; isMainPhoto: boolean }[], recipeId: number) {
+    return await this.photoStore.handleCreatePhotoIdentifiers(this.getTrx(), photoIdentifiers, recipeId)
+  }
+
+  async handleDeletePhotoIdentifiers(photoIdentifiers: string[]) {
+    return await this.photoStore.handleDeletePhotoIdentifiers(this.getTrx(), photoIdentifiers)
   }
 }
 

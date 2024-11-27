@@ -41,6 +41,18 @@ export const getAdminClientMock = () => {
           return { data: { users: [testUser] } }
         }
       }
+    },
+    storage: {
+      from: () => {
+        return {
+          createSignedUploadUrl: async () => {
+            return { data: { signedUrl: 'http://mock-signed-url.com' } }
+          },
+          remove: async () => {
+            return { data: { length: 1 } }
+          }
+        }
+      }
     }
   }
   return mockClient

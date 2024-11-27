@@ -11,6 +11,7 @@ import {
   type CreateRecipeInput,
   type EmailAccountInput,
   type NonEmailAccountInput,
+  type PatchRecipeInput,
   type Recipe,
   ValidationTarget
 } from '../types/graphql-schema-types.generated'
@@ -29,6 +30,11 @@ import {
   type CreateRecipeMutation,
   type CreateRecipeMutationVariables
 } from './graphql-mutations/createRecipe.generated'
+import {
+  PatchRecipeDocument,
+  type PatchRecipeMutation,
+  type PatchRecipeMutationVariables
+} from './graphql-mutations/patchRecipe.generated'
 import {
   AllRecipesDocument,
   type AllRecipesQuery,
@@ -78,6 +84,7 @@ import {
   createRecipeToasts,
   deleteAccountToasts,
   getAccountToasts,
+  patchRecipeToasts,
   requestVerificationEmailToasts,
   signInToEmailAccountToasts
 } from './toast-inputs-and-errors'
@@ -86,6 +93,7 @@ export type ApiService = {
   createEmailAccount: (emailAccountInput: EmailAccountInput) => Promise<Account | null>
   createNonEmailAccount: (nonEmailAccountInput: NonEmailAccountInput) => Promise<Account | null>
   createRecipe: (createRecipeInput: CreateRecipeInput) => Promise<Recipe | null>
+  patchRecipe: (recipeId: number, recipePatch: PatchRecipeInput) => Promise<Recipe | null>
   deleteAccount: (id: number, uuid: string) => Promise<boolean | null>
   fetchAllPublicAndUsersOwnRecipes: () => Promise<void>
   fetchValidationSchemas: () => Promise<Record<ValidationTarget, JSONSchemaType> | null>
@@ -175,6 +183,21 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
     const data = await performWithToasts<CreateRecipeMutation>(fn, createRecipeToasts)
     if (data?.createRecipe?.__typename === 'Recipe') {
       return data?.createRecipe ?? null
+    }
+
+    return null
+  }
+
+  const patchRecipe = async (recipeId: number, recipePatch: PatchRecipeInput) => {
+    const fn = () =>
+      client.mutate<PatchRecipeMutation, PatchRecipeMutationVariables>({
+        mutation: PatchRecipeDocument,
+        variables: { recipeId, recipePatch }
+      })
+
+    const data = await performWithToasts<PatchRecipeMutation>(fn, patchRecipeToasts)
+    if (data?.patchRecipe?.__typename === 'Recipe') {
+      return data?.patchRecipe ?? null
     }
 
     return null
@@ -342,6 +365,7 @@ const ApiServiceProvider = ({ children }: { children: React.ReactNode }) => {
         createEmailAccount,
         createNonEmailAccount,
         createRecipe,
+        patchRecipe,
         deleteAccount,
         fetchAllPublicAndUsersOwnRecipes,
         fetchValidationSchemas,

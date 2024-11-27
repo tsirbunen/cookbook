@@ -2,6 +2,7 @@
     import type   { Resolvers } from './types.generated';
     import    { Account } from './account/resolvers/Account';
 import    { BadInputError } from './error/resolvers/BadInputError';
+import    { DeletePhotoError } from './error/resolvers/DeletePhotoError';
 import    { File } from './mutation/resolvers/File';
 import    { GeneralError } from './error/resolvers/GeneralError';
 import    { GeneralSuccess } from './success/resolvers/GeneralSuccess';
@@ -19,6 +20,8 @@ import    { pingMutation as Mutation_pingMutation } from './mutation/resolvers/M
 import    { requestVerificationEmail as Mutation_requestVerificationEmail } from './account/resolvers/Mutation/requestVerificationEmail';
 import    { signInToEmailAccount as Mutation_signInToEmailAccount } from './account/resolvers/Mutation/signInToEmailAccount';
 import    { Photo } from './recipe/resolvers/Photo';
+import    { PhotoUploadDetails } from './recipe/resolvers/PhotoUploadDetails';
+import    { PhotoUploadUrlError } from './error/resolvers/PhotoUploadUrlError';
 import    { allLanguages as Query_allLanguages } from './recipe/resolvers/Query/allLanguages';
 import    { allRecipes as Query_allRecipes } from './recipe/resolvers/Query/allRecipes';
 import    { allTags as Query_allTags } from './recipe/resolvers/Query/allTags';
@@ -37,6 +40,7 @@ import    { JSONResolver } from 'graphql-scalars';
       
       Account: Account,
 BadInputError: BadInputError,
+DeletePhotoError: DeletePhotoError,
 File: File,
 GeneralError: GeneralError,
 GeneralSuccess: GeneralSuccess,
@@ -46,6 +50,8 @@ Instruction: Instruction,
 InstructionGroup: InstructionGroup,
 Language: Language,
 Photo: Photo,
+PhotoUploadDetails: PhotoUploadDetails,
+PhotoUploadUrlError: PhotoUploadUrlError,
 Recipe: Recipe,
 Tag: Tag,
 UnauthenticatedError: UnauthenticatedError,

@@ -1,4 +1,5 @@
-import type { CreateRecipeInput } from '../../../types/graphql-schema-types.generated'
+import { type CreateRecipeInput, type Recipe, ValidationTarget } from '../../../types/graphql-schema-types.generated'
+import type { AccountInfo, JSONSchemaType } from '../../../types/types'
 import type { GeneralItem, GeneralItemGroup, ItemField } from './GroupInput'
 import { GroupType } from './GroupsInputWithHover'
 import type {
@@ -11,6 +12,84 @@ import type {
 
 const emptyIngredient = { amount: '', unit: '', name: '' }
 const emptyInstruction = { content: '' }
+const initialFormValues: CreateOrModifyRecipeFormValues = {
+  title: '',
+  description: null,
+  tags: [],
+  language: '',
+  ovenNeeded: false,
+  isPrivate: false,
+  ingredientGroups: [],
+  instructionGroups: []
+}
+
+export enum RecipeMode {
+  CREATE = 'CREATE',
+  EDIT_OWN = 'EDIT_OWN',
+  EDIT_OTHER = 'EDIT_OTHER'
+}
+
+export const getMode = (isMyRecipe?: boolean, recipeId?: string) => {
+  return isMyRecipe ? RecipeMode.EDIT_OWN : recipeId ? RecipeMode.EDIT_OTHER : RecipeMode.CREATE
+}
+
+export const getExistingRecipe = (recipes: Recipe[], recipeId?: string) => {
+  return recipeId ? recipes.filter((recipe) => recipe.id === Number(recipeId))?.[0] : undefined
+}
+
+export const getIsMyRecipe = (existingRecipe?: Recipe, account?: AccountInfo | null) => {
+  return !!existingRecipe && existingRecipe.authorId === account?.id
+}
+
+export const getValidationSchema = (
+  recipeId?: string,
+  validationSchemas?: Record<ValidationTarget, JSONSchemaType> | null
+) => {
+  const schemaType = !recipeId ? ValidationTarget.CreateRecipeInput : ValidationTarget.PatchRecipeInput
+  return validationSchemas?.[schemaType]
+}
+
+export const getInitialFormValues = (
+  recipeId: string | undefined,
+  existingRecipe: Recipe | undefined,
+  isMyRecipe: boolean
+): CreateOrModifyRecipeFormValues => {
+  if (!recipeId) return initialFormValues
+  if (!existingRecipe) return initialFormValues
+
+  return {
+    title: existingRecipe.title,
+    description: existingRecipe.description ?? null,
+    tags: existingRecipe.tags?.map((tag) => tag.tag) ?? [],
+    language: existingRecipe.language.language ?? '',
+    ovenNeeded: existingRecipe.ovenNeeded,
+    isPrivate: existingRecipe.isPrivate ?? false,
+    ingredientGroups: existingRecipe.ingredientGroups.map((group) => ({
+      id: isMyRecipe ? group.id : undefined,
+      title: group.title ?? '',
+      ingredients: group.ingredients.map((item) => {
+        return {
+          id: isMyRecipe ? item.id : undefined,
+          amount: item.amount ?? null,
+          unit: item.unit ?? '',
+          name: item.name ?? ''
+        }
+      }),
+      uiKey: Math.random()
+    })),
+    instructionGroups: existingRecipe.instructionGroups.map((group) => ({
+      id: isMyRecipe ? group.id : undefined,
+      title: group.title ?? '',
+      instructions: group.instructions.map((item) => {
+        return {
+          id: isMyRecipe ? item.id : undefined,
+          content: item.content ?? ''
+        }
+      }),
+      uiKey: Math.random()
+    }))
+  }
+}
 
 export const getNewGroup = (groupType: GroupType, title?: string) => {
   const newGroup = { title: title ?? '', uiKey: Math.random() }
@@ -181,20 +260,62 @@ const groupsWithoutUiKeys = (groups: IngredientGroupInputType[] | InstructionGro
 
 export const formDataToRecipeInput = (
   formData: CreateOrModifyRecipeFormValues,
-  authorId: number
+  authorId: number,
+  photoIdentifiers?: string[]
 ): CreateRecipeInput => {
-  const { title, description, tags, language, ovenNeeded, isPrivate, ingredientGroups, instructionGroups } = formData
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { id, title, description, tags, language, ovenNeeded, isPrivate, ingredientGroups, instructionGroups } =
+    formData
 
   return {
-    ...formData,
     authorId,
     title,
     description,
     tags,
+    photoIdentifiers: photoIdentifiers?.length ? photoIdentifiers : [],
     language,
     ovenNeeded,
     isPrivate,
-    ingredientGroups: groupsWithoutUiKeys(ingredientGroups),
-    instructionGroups: groupsWithoutUiKeys(instructionGroups)
+    ingredientGroups: groupsWithoutUiKeys(ingredientGroups) as CreateRecipeInput['ingredientGroups'],
+    instructionGroups: groupsWithoutUiKeys(instructionGroups) as CreateRecipeInput['instructionGroups']
+  }
+}
+
+export const getFormValuesPopulatedWithIds = (
+  formData: CreateOrModifyRecipeFormValues,
+  recipe: Recipe
+): CreateOrModifyRecipeFormValues => {
+  return {
+    ...formData,
+    ingredientGroups: formData.ingredientGroups.map((group, groupIndex) => {
+      const savedGroup = recipe.ingredientGroups[groupIndex]
+      return {
+        id: savedGroup.id,
+        title: group.title,
+        ingredients: group.ingredients.map((item, itemIndex) => {
+          const savedItem = savedGroup.ingredients[itemIndex]
+          return {
+            ...item,
+            id: savedItem.id
+          }
+        }),
+        uiKey: group.uiKey
+      }
+    }),
+    instructionGroups: formData.instructionGroups.map((group, groupIndex) => {
+      const savedGroup = recipe.instructionGroups[groupIndex]
+      return {
+        id: savedGroup.id,
+        title: group.title,
+        instructions: group.instructions.map((item, itemIndex) => {
+          const savedItem = savedGroup.instructions[itemIndex]
+          return {
+            ...item,
+            id: savedItem.id
+          }
+        }),
+        uiKey: group.uiKey
+      }
+    })
   }
 }

@@ -1,13 +1,16 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
+import { useRouter } from 'next/navigation'
 import { useContext, useMemo } from 'react'
 import { FaBalanceScale } from 'react-icons/fa'
+import { FaEdit } from 'react-icons/fa'
 import { IoAlarmOutline } from 'react-icons/io5'
 import { TbChefHat, TbColumns, TbStar, TbStarFilled } from 'react-icons/tb'
 import { TbRulerMeasure } from 'react-icons/tb'
 import { TbWashDrycleanOff } from 'react-icons/tb'
 import { cookTogglesZIndex } from '../../../../constants/z-indexes'
+import { Page } from '../../../../navigation/router/router'
 import { ButtonVariant } from '../../../../theme/buttons/buttons-theme'
 import type { Recipe } from '../../../../types/graphql-schema-types.generated'
 import Toggle, {
@@ -17,6 +20,7 @@ import Toggle, {
   favoriteToggleProperty,
   ingredientScalingToggleProperty,
   metricOnlyToggleProperty,
+  modifyToggleProperty,
   multiColumnToggleProperty
 } from '../../../../widgets/toggles/Toggle'
 import Toggles from '../../../../widgets/toggles/Toggles'
@@ -31,6 +35,7 @@ type RecipeTogglesProps = {
 }
 
 const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
+  const router = useRouter()
   const { favoriteRecipeIds, toggleFavoriteRecipeId } = useContext(RecipesViewingContext)
 
   const {
@@ -63,6 +68,10 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
     () => onlyMetricRecipeIds.some((recipeId) => recipeId === recipe.id),
     [onlyMetricRecipeIds, recipe.id]
   )
+
+  const modifyRecipe = (recipeId: number) => {
+    router.push(`/${Page.WIZARD}/${recipeId}`)
+  }
 
   const hasSomethingToClear = isCooking || isScaling || isMultiColumn || hasOnlyMetric || !!recipeTimer || !!multiplier
   const toggleVariant = ButtonVariant.SquareWithIconWithoutFill
@@ -120,17 +129,27 @@ const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
           count={null}
           variant={toggleVariant}
         />
-        {
-          <Toggle
-            isToggled={hasSomethingToClear}
-            toggle={() => clearAllRecipeSettings(recipe.id)}
-            Icon={TbWashDrycleanOff}
-            toggleProperty={clearAllToggleProperty}
-            isDisabled={!hasSomethingToClear}
-            count={null}
-            variant={toggleVariant}
-          />
-        }
+
+        <Toggle
+          isToggled={hasSomethingToClear}
+          toggle={() => clearAllRecipeSettings(recipe.id)}
+          Icon={TbWashDrycleanOff}
+          toggleProperty={clearAllToggleProperty}
+          isDisabled={!hasSomethingToClear}
+          count={null}
+          variant={toggleVariant}
+        />
+
+        <Toggle
+          isToggled={false}
+          toggle={() => modifyRecipe(recipe.id)}
+          Icon={FaEdit}
+          toggleProperty={modifyToggleProperty}
+          isDisabled={false}
+          count={null}
+          variant={toggleVariant}
+        />
+
         <Toggle
           isToggled={isCooking}
           toggle={() => toggleIsCookingRecipe(recipe.id)}

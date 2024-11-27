@@ -50,8 +50,7 @@ export type CreateRecipeInput = {
   isPrivate: Scalars['Boolean']['input'];
   language: Scalars['String']['input'];
   ovenNeeded: Scalars['Boolean']['input'];
-  photoFiles?: InputMaybe<Array<Scalars['File']['input']>>;
-  photoIdentifiers?: InputMaybe<Array<Scalars['String']['input']>>;
+  photoIdentifiers: Array<Scalars['String']['input']>;
   tags?: InputMaybe<Array<Scalars['String']['input']>>;
   title: Scalars['String']['input'];
 };
@@ -59,6 +58,11 @@ export type CreateRecipeInput = {
 export type DeleteAccountInput = {
   id: Scalars['Int']['input'];
   uuid: Scalars['String']['input'];
+};
+
+export type DeletePhotoError = BaseError & {
+  __typename?: 'DeletePhotoError';
+  errorMessage: Scalars['String']['output'];
 };
 
 export type EmailAccountInput = {
@@ -107,7 +111,7 @@ export type IngredientGroup = {
 
 export type IngredientGroupInput = {
   id?: InputMaybe<Scalars['Int']['input']>;
-  ingredients?: InputMaybe<Array<IngredientInput>>;
+  ingredients: Array<IngredientInput>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -215,8 +219,7 @@ export type PatchRecipeInput = {
   isPrivate?: InputMaybe<Scalars['Boolean']['input']>;
   language?: InputMaybe<Scalars['String']['input']>;
   ovenNeeded?: InputMaybe<Scalars['Boolean']['input']>;
-  photoFiles?: InputMaybe<Array<Scalars['File']['input']>>;
-  photoIdentifiers?: InputMaybe<Array<Scalars['String']['input']>>;
+  photoIdentifiers: Array<Scalars['String']['input']>;
   tags?: InputMaybe<Array<Scalars['String']['input']>>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
@@ -231,6 +234,17 @@ export type Photo = {
 export type PhotoInput = {
   isMainPhoto: Scalars['Boolean']['input'];
   url: Scalars['String']['input'];
+};
+
+export type PhotoUploadDetails = {
+  __typename?: 'PhotoUploadDetails';
+  photoId: Scalars['String']['output'];
+  token: Scalars['String']['output'];
+};
+
+export type PhotoUploadUrlError = BaseError & {
+  __typename?: 'PhotoUploadUrlError';
+  errorMessage: Scalars['String']['output'];
 };
 
 export type Query = {
@@ -263,12 +277,13 @@ export type Recipe = {
   isPrivate?: Maybe<Scalars['Boolean']['output']>;
   language: Language;
   ovenNeeded: Scalars['Boolean']['output'];
+  photoUploadDetails?: Maybe<Array<PhotoUploadDetails>>;
   photos?: Maybe<Array<Photo>>;
   tags?: Maybe<Array<Tag>>;
   title: Scalars['String']['output'];
 };
 
-export type RecipeResult = BadInputError | Recipe | UnauthenticatedError | UnauthorizedError;
+export type RecipeResult = BadInputError | DeletePhotoError | PhotoUploadUrlError | Recipe | UnauthenticatedError | UnauthorizedError;
 
 export type SignInToEmailAccountInput = {
   email: Scalars['String']['input'];

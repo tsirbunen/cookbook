@@ -13,6 +13,7 @@ export const recipeTestInput: Omit<CreateRecipeInput, 'authorId'> = {
   description: 'A delicious and healthy soup with a hint of lemon.',
   language: 'English',
   isPrivate: false,
+  photoIdentifiers: [],
   ingredientGroups: [
     {
       ingredients: [

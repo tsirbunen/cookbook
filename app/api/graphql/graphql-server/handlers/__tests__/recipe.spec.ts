@@ -77,7 +77,7 @@ describe('Handle recipes', () => {
     const graphQLClient = getGraphQLClient(token)
     const originalRecipe = await createOriginalRecipe(graphQLClient, account.id)
 
-    const patch = { title: 'New title', authorId: account.id }
+    const patch = { title: 'New title', authorId: account.id, photoIdentifiers: [] }
     const patchedRecipe = await patchOriginalRecipe(graphQLClient, originalRecipe.id, patch)
     verifyPatchedRecipe(patchedRecipe, originalRecipe, patch)
   })
@@ -87,7 +87,7 @@ describe('Handle recipes', () => {
     const graphQLClient = getGraphQLClient(token)
     const originalRecipe = await createOriginalRecipe(graphQLClient, account.id)
 
-    const patch = { description: 'New description', authorId: account.id }
+    const patch = { description: 'New description', authorId: account.id, photoIdentifiers: [] }
     const patchedRecipe = await patchOriginalRecipe(graphQLClient, originalRecipe.id, patch)
     verifyPatchedRecipe(patchedRecipe, originalRecipe, patch)
   })
@@ -98,7 +98,7 @@ describe('Handle recipes', () => {
     const graphQLClient = getGraphQLClient(token)
     const originalRecipe = await createOriginalRecipe(graphQLClient, account.id)
 
-    const patch = { ovenNeeded: !recipeTestInput.ovenNeeded, authorId: account.id }
+    const patch = { ovenNeeded: !recipeTestInput.ovenNeeded, authorId: account.id, photoIdentifiers: [] }
     const patchedRecipe = await patchOriginalRecipe(graphQLClient, originalRecipe.id, patch)
     verifyPatchedRecipe(patchedRecipe, originalRecipe, patch)
   })
@@ -109,7 +109,7 @@ describe('Handle recipes', () => {
     const graphQLClient = getGraphQLClient(token)
     const originalRecipe = await createOriginalRecipe(graphQLClient, account.id)
 
-    const patch = { language: 'New language', authorId: account.id }
+    const patch = { language: 'New language', authorId: account.id, photoIdentifiers: [] }
     const patchedRecipe = await patchOriginalRecipe(graphQLClient, originalRecipe.id, patch)
     verifyPatchedRecipe(patchedRecipe, originalRecipe, patch)
   })
@@ -120,7 +120,7 @@ describe('Handle recipes', () => {
     const graphQLClient = getGraphQLClient(token)
     const originalRecipe = await createOriginalRecipe(graphQLClient, account.id)
 
-    const patch = { tags: ['lentils', 'healthy'], authorId: account.id }
+    const patch = { tags: ['lentils', 'healthy'], authorId: account.id, photoIdentifiers: [] }
     const patchedRecipe = await patchOriginalRecipe(graphQLClient, originalRecipe.id, patch)
     verifyPatchedRecipe(patchedRecipe, originalRecipe, patch)
   })
@@ -142,7 +142,8 @@ describe('Handle recipes', () => {
     }
     const patch = {
       ingredientGroups: [updatedFirstIngredientGroup, ...originalRecipe.ingredientGroups.slice(1)],
-      authorId: account.id
+      authorId: account.id,
+      photoIdentifiers: []
     }
 
     const patchedRecipe = await patchOriginalRecipe(graphQLClient, originalRecipe.id, patch)
@@ -166,7 +167,8 @@ describe('Handle recipes', () => {
     }
     const patch = {
       instructionGroups: [updatedFirstInstructionGroup, ...originalRecipe.instructionGroups.slice(1)],
-      authorId: account.id
+      authorId: account.id,
+      photoIdentifiers: []
     }
     const patchedRecipe = await patchOriginalRecipe(graphQLClient, originalRecipe.id, patch)
     verifyPatchedRecipe(patchedRecipe, originalRecipe, patch)

@@ -35,7 +35,7 @@ export interface IDataStore {
   removePreviousIngredientReferences(ingredientsToDeleteIds: number[]): Promise<void>
   deleteIngredients(ingredientsToDeleteIds: number[]): Promise<void>
   createIngredientGroup(groupInsert: { recipeId: number; title?: string | null }): Promise<{ insertedId: number }>
-  createInstructionGroup(input: { recipeId: number; title?: string | null }): Promise<number>
+  createInstructionGroup(input: { recipeId: number; title?: string | null }): Promise<{ insertedId: number }>
   patchInstructionGroup(groupId: number, group: { title?: string | null }): Promise<void>
   deleteInstructionGroups(groupIds: number[]): Promise<void>
   deleteInstructions(ids: number[]): Promise<void>
@@ -51,5 +51,6 @@ export interface IDataStore {
   removeTag(tagId: number): Promise<void>
   getAllLanguages(): Promise<Language[]>
   upsertLanguage(patchedLanguage: string): Promise<number>
-  handlePhotoIdentifiers(photoUrls: string[], recipeId: number): Promise<void>
+  handleCreatePhotoIdentifiers(photoUrls: { id: string; isMainPhoto: boolean }[], recipeId: number): Promise<void>
+  handleDeletePhotoIdentifiers(photoIdentifiers: string[]): Promise<void>
 }

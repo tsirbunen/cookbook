@@ -1,5 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react'
-import { Shades, VERY_PALE_COLOR } from '../../constants/shades'
+import { Shades } from '../../constants/shades'
 import ButtonWithTheme from '../../theme/buttons/ButtonWithTheme'
 import { ButtonVariant } from '../../theme/buttons/buttons-theme'
 
@@ -7,7 +7,7 @@ const cancelLabel = 'CANCEL'
 const submitLabel = 'SUBMIT'
 
 type FormActionButtonsProps = {
-  cancelFn: () => void
+  cancelFn?: () => void
   clearFn?: () => void
   submitIsDisabled: boolean
 }
@@ -15,11 +15,13 @@ type FormActionButtonsProps = {
 const FormActionButtons = ({ cancelFn, clearFn, submitIsDisabled }: FormActionButtonsProps) => {
   return (
     <Flex {...buttonsBoxCss}>
-      <Flex {...buttonContainerCss}>
-        <ButtonWithTheme variant={ButtonVariant.MediumSizePale} onClick={cancelFn} isToggled={true} isSubmit={false}>
-          <Text {...buttonTextNoIconCss}>{cancelLabel}</Text>
-        </ButtonWithTheme>
-      </Flex>
+      {cancelFn ? (
+        <Flex {...buttonContainerCss}>
+          <ButtonWithTheme variant={ButtonVariant.MediumSizePale} onClick={cancelFn} isToggled={true} isSubmit={false}>
+            <Text {...buttonTextNoIconCss}>{cancelLabel}</Text>
+          </ButtonWithTheme>
+        </Flex>
+      ) : null}
 
       {clearFn && (
         <Flex {...buttonContainerCss}>

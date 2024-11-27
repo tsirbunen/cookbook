@@ -37,7 +37,7 @@ const FormBooleanInput = <T extends Record<string, unknown>, P extends FieldPath
   const showIsRequired = isRequired && field.value === '' ? ' *' : ''
   return (
     <Flex {...outerCss} {...outerCss(showInput)} id={hoverId}>
-      <Text {...labelCss(false)}>
+      <Text {...labelCss}>
         {label}
         {showIsRequired ? <RequiredAsterisk /> : null}
       </Text>
@@ -102,15 +102,13 @@ const infoCss = {
   marginTop: '3px'
 }
 
-const labelCss = (isDark: boolean) => {
-  return {
-    fontWeight: 'bold',
-    fontSize: '1em',
-    color: isDark ? Shades.DARK : Shades.MEDIUM,
-    margin: '10px 0px 0px 0px',
-    width: '100%',
-    justifyContent: 'start'
-  }
+const labelCss = {
+  fontWeight: 'bold',
+  fontSize: '1em',
+  color: Shades.DARK,
+  margin: '10px 0px 0px 0px',
+  width: '100%',
+  justifyContent: 'start'
 }
 
 const innerCss = {

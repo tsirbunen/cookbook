@@ -1,13 +1,14 @@
 import { type ChakraProps, Flex } from '@chakra-ui/react'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { type FieldError, type SubmitHandler, useForm } from 'react-hook-form'
 import { ApiServiceContext } from '../../../api-service/ApiServiceProvider'
 import { Page } from '../../../navigation/router/router'
 import { AppStateContext, type AppStateContextType } from '../../../state/StateContextProvider'
 import { Dispatch } from '../../../state/reducer'
-import { ValidationTarget } from '../../../types/graphql-schema-types.generated'
+import type { Recipe } from '../../../types/graphql-schema-types.generated'
 import { type ErrorMapArrays, getValidatorFromJsonSchema } from '../../../utils/formValidators'
 import { pageCss } from '../../../utils/styles'
+import DragAndDropWithHover from '../../../widgets/drag-and-drop/DragAndDropWithHover'
 import FormActionButtons from '../../../widgets/form-action-buttons/FormActionButtons'
 import FormBooleanInput from '../../../widgets/form-boolean-input/FormBooleanInput'
 import FormRadioInputWithHover from '../../../widgets/form-radio-input/FormRadioInputWithHover'
@@ -16,7 +17,17 @@ import FormSingleStringInputWithHover from '../../../widgets/form-simple-input/F
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
 import GroupsInputWithHover, { GroupType } from './GroupsInputWithHover'
 import { formLabels } from './formLabels'
-import { formDataToRecipeInput } from './helpers'
+import {
+  RecipeMode,
+  formDataToRecipeInput,
+  getExistingRecipe,
+  getFormValuesPopulatedWithIds,
+  getInitialFormValues,
+  getIsMyRecipe,
+  getMode,
+  getValidationSchema
+} from './helpers'
+import { useFileManager } from './useFileManager'
 
 const createRecipeTitle = 'CREATE NEW RECIPE'
 const modifyRecipeTitle = 'MODIFY RECIPE'
@@ -48,6 +59,7 @@ export type InstructionGroupInputType = {
 }
 
 export type CreateOrModifyRecipeFormValues = {
+  id?: number
   title: string
   description: string | null
   tags: string[]
@@ -58,29 +70,18 @@ export type CreateOrModifyRecipeFormValues = {
   instructionGroups: InstructionGroupInputType[]
 }
 
-const initialFormValues: CreateOrModifyRecipeFormValues = {
-  title: '',
-  description: null,
-  tags: [],
-  language: '',
-  ovenNeeded: false,
-  isPrivate: false,
-  ingredientGroups: [],
-  instructionGroups: []
-}
-
 type WizardPageProps = {
-  recipeId?: number
+  recipeId?: string
 }
 
 const WizardPage = ({ recipeId }: WizardPageProps) => {
   const { state, dispatch } = useContext(AppStateContext) as AppStateContextType
-  const { createRecipe } = useContext(ApiServiceContext)
-  const isSignedIn = !!state.account?.token
-  const isCreate = !recipeId
-  const schemaType = isCreate ? ValidationTarget.CreateRecipeInput : ValidationTarget.PatchRecipeInput
-  const validationSchema = state.validationSchemas?.[schemaType]
-
+  const { createRecipe, patchRecipe } = useContext(ApiServiceContext)
+  const existingRecipe = getExistingRecipe(state.recipes, recipeId)
+  const isMyRecipe = getIsMyRecipe(existingRecipe, state.account)
+  const [mode, setMode] = useState<RecipeMode>(getMode(isMyRecipe, recipeId))
+  const validationSchema = getValidationSchema(recipeId, state.validationSchemas)
+  const { photoDetails, onFilesChanged, uploadFiles, failedUploadIds, retryUpload } = useFileManager(existingRecipe)
   const {
     handleSubmit,
     control,
@@ -89,30 +90,40 @@ const WizardPage = ({ recipeId }: WizardPageProps) => {
     formState: { errors, isSubmitting }
   } = useForm<CreateOrModifyRecipeFormValues>({
     context: 'createOrModifyRecipe',
-    resolver: validationSchema && getValidatorFromJsonSchema(validationSchema),
     mode: 'onTouched',
-    defaultValues: initialFormValues
+    resolver: getValidatorFromJsonSchema(validationSchema),
+    defaultValues: getInitialFormValues(recipeId, existingRecipe, isMyRecipe)
   })
 
   const triggerValidation = (fieldName: keyof CreateOrModifyRecipeFormValues) => {
     trigger(fieldName)
   }
 
-  const onSubmit: SubmitHandler<CreateOrModifyRecipeFormValues> = async (
-    recipeInputVariables: CreateOrModifyRecipeFormValues
-  ) => {
-    const accountId = state.account?.id
-    if (!accountId) return
+  const onSubmit: SubmitHandler<CreateOrModifyRecipeFormValues> = async (formData: CreateOrModifyRecipeFormValues) => {
+    if (!state.account?.id) return
+    const photoUuids = photoDetails.map(({ uuid }) => uuid)
+    const formattedRecipeInput = formDataToRecipeInput(formData, state.account.id, photoUuids)
 
-    const newRecipe = await createRecipe(formDataToRecipeInput(recipeInputVariables, accountId))
-    if (!newRecipe) return
-    dispatch({ type: Dispatch.ADD_RECIPE, payload: { newRecipe } })
+    const id = recipeId ?? formData.id ?? null
+    let savedRecipe: Recipe | null = null
+    if (!id) {
+      savedRecipe = await createRecipe(formattedRecipeInput)
+    } else {
+      savedRecipe = await patchRecipe(Number(recipeId), formattedRecipeInput)
+    }
+
+    if (!savedRecipe) return
+    reset(getFormValuesPopulatedWithIds(formData, savedRecipe))
+    setMode(RecipeMode.EDIT_OWN)
+
+    dispatch({ type: Dispatch.ADD_RECIPE, payload: { newRecipe: savedRecipe } })
+    uploadFiles(savedRecipe.photoUploadDetails)
   }
 
   const requiredProperties = validationSchema?.required ?? []
   const languages = state.languages.map(({ language }) => language)
 
-  if (!isSignedIn) {
+  if (!state.account?.id) {
     return (
       <Flex {...pageCss} data-testid={`${Page.WIZARD}-page`}>
         <Flex {...outerCss}>
@@ -128,8 +139,12 @@ const WizardPage = ({ recipeId }: WizardPageProps) => {
     <Flex {...pageCss} data-testid={`${Page.WIZARD}-page`}>
       <Flex {...outerCss}>
         <Flex {...titleCss}>
-          <Title variant={TitleVariant.MediumMedium} title={isCreate ? createRecipeTitle : modifyRecipeTitle} />
+          <Title
+            variant={TitleVariant.MediumMedium}
+            title={mode === RecipeMode.CREATE ? createRecipeTitle : modifyRecipeTitle}
+          />
         </Flex>
+
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormSingleStringInputWithHover
             label={formLabels.title}
@@ -139,6 +154,16 @@ const WizardPage = ({ recipeId }: WizardPageProps) => {
             info={formLabels.titleInfo}
             isRequired={requiredProperties.includes('title')}
             hoverId={'recipe-title-hover-id'}
+          />
+
+          <DragAndDropWithHover
+            label={formLabels.photosTitle}
+            hoverId={'recipe-photos-hover-id'}
+            info={formLabels.photosInfo}
+            photoDetails={photoDetails}
+            onFilesChanged={onFilesChanged}
+            failedUploadIds={failedUploadIds}
+            retryUpload={retryUpload}
           />
 
           <FormSingleStringInputWithHover
@@ -224,7 +249,7 @@ const WizardPage = ({ recipeId }: WizardPageProps) => {
           />
 
           <Flex {...buttonsCss}>
-            <FormActionButtons cancelFn={() => {}} clearFn={reset} submitIsDisabled={isSubmitting} />
+            <FormActionButtons submitIsDisabled={isSubmitting} />
           </Flex>
         </form>
       </Flex>
@@ -244,8 +269,9 @@ const outerCss = {
 }
 
 const buttonsCss = {
-  marginBottom: '30px',
-  marginLeft: '10px'
+  flexDirection: 'row' as ChakraProps['flexDirection'],
+  justifyContent: 'flex-end',
+  marginBottom: '40px'
 }
 
 const titleCss = {

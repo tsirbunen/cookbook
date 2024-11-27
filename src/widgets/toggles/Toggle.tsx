@@ -16,6 +16,7 @@ export const ingredientScalingToggleProperty = 'ingredientScaling'
 export const metricOnlyToggleProperty = 'metricOnly'
 export const cookingTimerToggleProperty = 'cookingTimer'
 export const clearAllToggleProperty = 'clearAll'
+export const modifyToggleProperty = 'modify'
 
 export type ToggleProps = {
   isToggled: boolean
@@ -79,16 +80,12 @@ const toggleStyles = (hasCountValue: boolean, isCentered: boolean) => {
       marginRight: hasCountValue ? '10px' : '0px',
       flexDirection: 'column' as ChakraProps['flexDirection'],
       alignItems: 'center'
-      // backgroundColor: 'pink'
-      // width: '65px'
     }
   }
   return {
     marginLeft: '0px',
     marginRight: hasCountValue ? '10px' : '0px',
     position: 'relative' as ChakraProps['position']
-    // backgroundColor: 'pink',
-    // width: '55px'
   }
 }
 
@@ -97,7 +94,6 @@ const outerCss = (addMargin: boolean) => {
     flexDirection: 'column' as ChakraProps['flexDirection'],
     alignItems: 'center',
     marginRight: addMargin ? '10px' : '0px'
-    // width: '55px'
   }
 }
 

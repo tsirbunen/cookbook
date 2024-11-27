@@ -54,6 +54,29 @@ export const createRecipeToasts: ToastInputs = {
   errorText: 'Recipe creation failed'
 }
 
+export const patchRecipeToasts: ToastInputs = {
+  loadingToast: {
+    title: 'UPDATING RECIPE',
+    description: 'Please wait...',
+    variant: ToastVariant.Loading
+  },
+  successToast: {
+    title: 'RECIPE UPDATED',
+    description: 'The recipe was successfully updated',
+    variant: ToastVariant.Success,
+    duration: 6000,
+    isClosable: true
+  },
+  errorToast: {
+    title: 'FAILED UPDATE RECIPE',
+    description: 'Something went wrong and the recipe was not updated',
+    variant: ToastVariant.Error,
+    duration: 9000,
+    isClosable: true
+  },
+  errorText: 'Recipe update failed'
+}
+
 export const createAccountToasts: ToastInputs = {
   loadingToast: {
     title: 'CREATING ACCOUNT',

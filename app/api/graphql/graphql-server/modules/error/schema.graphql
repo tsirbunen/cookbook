@@ -17,3 +17,11 @@ type UnauthorizedError implements BaseError {
 type UnauthenticatedError implements BaseError {
   errorMessage: String!
 }
+
+type PhotoUploadUrlError implements BaseError {
+  errorMessage: String!
+}
+
+type DeletePhotoError implements BaseError {
+  errorMessage: String!
+}

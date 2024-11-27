@@ -73,11 +73,17 @@ type Language {
   language: String!
 }
 
+type PhotoUploadDetails {
+  photoId: String!
+  token: String!
+}
+
 type Recipe {
   id: Int!
   title: String!
   description: String
   photos: [Photo!]
+  photoUploadDetails: [PhotoUploadDetails!]
   tags: [Tag!]
   ovenNeeded: Boolean!
   language: Language!
@@ -87,11 +93,11 @@ type Recipe {
   instructionGroups: [InstructionGroup!]!
 }
 
+
 input CreateRecipeInput {
   title: String!
   description: String
-  photoFiles: [File!]
-  photoIdentifiers: [String!]
+  photoIdentifiers: [String!]!
   tags: [String!]
   language: String!
   ovenNeeded: Boolean!
@@ -104,8 +110,7 @@ input CreateRecipeInput {
 input PatchRecipeInput {
   title: String
   description: String
-  photoFiles: [File!]
-  photoIdentifiers: [String!]
+  photoIdentifiers: [String!]!
   tags: [String!]
   language: String
   ovenNeeded: Boolean
@@ -115,7 +120,7 @@ input PatchRecipeInput {
   instructionGroups: [InstructionGroupInput!]
 }
 
-union RecipeResult = Recipe | UnauthenticatedError | UnauthorizedError | BadInputError
+union RecipeResult = Recipe | UnauthenticatedError | UnauthorizedError | BadInputError | PhotoUploadUrlError  | DeletePhotoError
 
 directive @isAuthenticated on FIELD_DEFINITION
 
@@ -132,4 +137,5 @@ extend type Query {
 extend type Mutation {
   createRecipe(createRecipeInput: CreateRecipeInput!): RecipeResult @isAuthor @isValidInput
   patchRecipe(recipeId: Int!, recipePatch: PatchRecipeInput!): RecipeResult @isAuthor @isValidInput
+  
 }
