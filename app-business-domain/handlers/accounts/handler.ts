@@ -214,43 +214,6 @@ export class AccountHandler {
     return await this.dataStore.withinTransaction(actions)
   }
 
-
-  // async signInToExistingEmailAccount({ email, password }: SignInToEmailAccountInput) {
-  //   const actions = async () => {
-  //     // const existingAccount = await this.dataStore.getAccountBy('email', email)
-  //     // if (!existingAccount) return getError(AuthError.ACCOUNT_NOT_FOUND, { email })
-
-  //     try {
-  //       const signInResponse = await signInEmailAuthUser({ email, password })
-
-  //       if (hasEmailAuthError(signInResponse)) {
-  //         return handleEmailAuthAuthError(signInResponse, { email })
-  //       }
-
-  //       // if (!existingAccount.emailVerified) {
-  //       //   await this.dataStore.setEmailIsVerified(existingAccount.id)
-  //       // }
-
-  //       const username = 'tsirbunen'
-  //       const user = signInResponse.data.user
-  //       if (!user) return getError(AuthError.ACCOUNT_NOT_FOUND, { email })
-  //       const passwordHash = await getHashedPassword(password)
-  //       const account = await this.dataStore.insertEmailAccount({ email, username, password }, user.id, passwordHash)
-
-  //       return this.getVerifiedAccountWithTokenAdded({
-  //         ...account,
-  //         identityProvider: IdentityProvider.EMAIL
-  //       })
-  //     } catch (error) {
-  //       console.error(error)
-  //     }
-
-  //     return getError(AuthError.SOMETHING_WENT_WRONG)
-  //   }
-
-  //   return await this.dataStore.withinTransaction(actions)
-  // }
-
   async deleteAllAccountData({ id: _, uuid }: DeleteAccountInput) {
     const actions = async () => {
       const existingAccount = await this.dataStore.getAccountBy('uuid', uuid)

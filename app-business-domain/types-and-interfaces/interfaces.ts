@@ -14,6 +14,11 @@ import type {
   Tag
 } from './types'
 
+
+/**
+ * This interface determines what methods the business logic needs, i.e. what methods 
+ * should be implemented by the data storage solution selected.
+ */
 export interface IDataStore {
   withinTransaction<T>(actions: () => Promise<T>): Promise<T>
   getExistingAccounts(queryParams: QueryAccountsParams): Promise<Account[]>
