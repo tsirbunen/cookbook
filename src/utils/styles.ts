@@ -1,4 +1,4 @@
-import type { ChakraProps } from '@chakra-ui/react'
+import type { ChakraProps, Placement } from '@chakra-ui/react'
 import { HEADER_HEIGHT } from '../constants/layout'
 import { Shades } from '../constants/shades'
 
@@ -33,4 +33,28 @@ export const pageCss = {
   marginRight: '25px',
   width: '100%',
   maxWidth: '600px'
+}
+
+export const pageInfoCss = {
+  lineHeight: '1.1em',
+  color: Shades.SLIGHTLY_DARK,
+  marginBottom: '5px',
+  marginTop: '10px'
+}
+
+export const outerColumnCss = (marginTop = 20, marginBottom = 20) => {
+  return {
+    flexDirection: 'column' as ChakraProps['flexDirection'],
+    alignItems: 'start',
+    justifyContent: 'start',
+    marginTop: `${marginTop}px`,
+    marginBottom: `${marginBottom}px`,
+    width: '100%',
+    flex: 1
+  }
+}
+
+export const tooltipCss = {
+  backgroundColor: Shades.VERY_DARK,
+  placement: 'bottom' as Placement
 }

@@ -1,20 +1,13 @@
-/** @jsxImportSource @emotion/react */
-
-import { css } from '@emotion/react'
+import { Flex } from '@chakra-ui/react'
 import { Page } from '../../navigation/router/router'
+import { pageCss } from '../../utils/styles'
 
 const ShoppingPage = () => {
   return (
-    <div css={container} data-testid={`${Page.SHOPPING}-page`}>
-      <div>SHOPPING</div>
+    <Flex {...pageCss} data-testid={`${Page.SHOPPING}-page`}>
       <p>Content coming later</p>
-    </div>
+    </Flex>
   )
 }
 
 export default ShoppingPage
-
-const container = css`
-  margin-top: 30px;
-  margin-left: 30px;
-`

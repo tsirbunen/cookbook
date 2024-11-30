@@ -41,6 +41,7 @@ const switchCss = {
   flexDirection: 'row' as ChakraProps['flexDirection'],
   alignItems: 'center',
   justifyContent: 'start',
+  marginTop: '10px',
   marginBottom: '10px'
 }
 const textCss = {
@@ -66,5 +67,4 @@ const emphasizeMildCss = {
   marginLeft: '10px',
   color: Shades.DARK,
   fontWeight: '800'
-  // fontSize: '1.25em'
 }

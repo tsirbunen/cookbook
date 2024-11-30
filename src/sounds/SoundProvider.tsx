@@ -27,19 +27,13 @@ const SoundServiceProvider = ({ children }: { children: React.ReactNode }) => {
   const { state, dispatch } = useContext(AppStateContext) as AppStateContextType
   const audioContextRef = useRef<AudioContext | null>(null)
   const [permissionError, setPermissionError] = useState<string | null>(null)
-  const [audioIsEnabled, setAudioIsEnabled] = useState<boolean>(false)
   const { soundsAreEnabled: storedSoundsAreEnabled } = useContext(LocalStorageContext)
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: Only change if selected value changes
   useEffect(() => {
     if (!state.settings.soundsEnabled && storedSoundsAreEnabled) {
       dispatch({ type: Dispatch.TOGGLE_SOUNDS_ENABLED, payload: { enabled: storedSoundsAreEnabled } })
     }
-  }, [storedSoundsAreEnabled])
-
-  useEffect(() => {
-    setAudioIsEnabled(state.settings.soundsEnabled ?? false)
-  }, [state.settings.soundsEnabled])
+  }, [storedSoundsAreEnabled, dispatch, state.settings.soundsEnabled])
 
   const getAudioContext = () => {
     if (audioContextRef.current) return audioContextRef.current
@@ -86,6 +80,7 @@ const SoundServiceProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const playSound = (soundType: SoundType) => {
+    const audioIsEnabled = state.settings.soundsEnabled
     if (!audioIsEnabled) return
 
     const audioContext = getAudioContext()
@@ -95,7 +90,6 @@ const SoundServiceProvider = ({ children }: { children: React.ReactNode }) => {
     applyTypeAndFrequenciesToSound(sound, soundType, audioContext.currentTime)
 
     const volumeControl = audioContext.createGain()
-    // volumeControl.gain.exponentialRampToValueAtTime(0.005, audioContext.currentTime + 0.2)
     volumeControl.gain.setValueAtTime(0.05, 0)
 
     sound.connect(volumeControl)

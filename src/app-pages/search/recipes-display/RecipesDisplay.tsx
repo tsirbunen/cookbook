@@ -1,7 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { type SerializedStyles, css } from '@emotion/react'
-import { useEffect, useState } from 'react'
+import { uniq } from 'lodash'
+import { useRouter } from 'next/navigation'
+import { useContext, useEffect, useState } from 'react'
 import { Shades } from '../../../constants/shades'
+import { Page } from '../../../navigation/router/router'
+import { AppStateContext, type AppStateContextType } from '../../../state/StateContextProvider'
+import { Dispatch } from '../../../state/reducer'
 import type { Recipe } from '../../../types/graphql-schema-types.generated'
 import DraggableItemsList from '../../../widgets/draggable-items-list/DraggableItemsList'
 import { ViewRecipesMode } from '../search-management/ViewModeManagementTool'
@@ -37,6 +42,8 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
     canDragAndDrop,
     onChangedRecipeOrder
   } = props
+  const { state, dispatch } = useContext(AppStateContext) as AppStateContextType
+  const router = useRouter()
   const [recipesInOrder, setRecipesInOrder] = useState(recipes)
   const RecipeElement = recipesElementsByMode[mode]
   const recipesCss = cssByMode[mode]
@@ -44,6 +51,13 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
   useEffect(() => {
     setRecipesInOrder(recipes)
   }, [recipes])
+
+  const navigateToRecipe = (id: number) => {
+    const newOrderOfIds = uniq([id, ...state.pickedRecipeIds])
+    onPickRecipeChanged(id)
+    dispatch({ type: Dispatch.CHANGE_RECIPES_ORDER, payload: { newOrderOfIds } })
+    router.push(`/${Page.COOK}`)
+  }
 
   const onConfirmNewOrder = (newOrderOfKeys: string[]) => {
     const recipeIds = newOrderOfKeys.map(getRecipeIdFromKey)
@@ -75,6 +89,7 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
               isPicked={isPicked}
               showBackground={showBackground}
               isFavorite={favoriteRecipeIds.includes(recipeId)}
+              navigateToRecipe={() => navigateToRecipe(recipeId)}
             />
           )
         })}
@@ -99,6 +114,7 @@ const RecipesDisplay = (props: RecipesDisplayProps) => {
             onPickRecipeChanged={() => onPickRecipeChanged(recipeId)}
             isPicked={isPicked}
             showBackground={showBackground}
+            navigateToRecipe={() => navigateToRecipe(recipeId)}
           />
         )
       })}

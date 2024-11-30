@@ -1,30 +1,18 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react'
-import { HEADER_HEIGHT } from '../../constants/layout'
+import { Flex } from '@chakra-ui/react'
 import { Page } from '../../navigation/router/router'
+import { pageCss } from '../../utils/styles'
 import SettingsItem from './SettingsItem'
 import SoundSettings from './SoundSettings'
-
-const soundSettingsTitle = 'Sound effects'
+import { labels } from './labels'
 
 const SettingsPage = () => {
   return (
-    <div css={container} data-testid={`${Page.SETTINGS}-page`}>
-      <SettingsItem title={soundSettingsTitle}>
+    <Flex {...pageCss} data-testid={`${Page.SETTINGS}-page`}>
+      <SettingsItem title={labels.soundSettingsTitle}>
         <SoundSettings />
       </SettingsItem>
-    </div>
+    </Flex>
   )
 }
 
 export default SettingsPage
-
-const container = css`
-  margin-top: ${HEADER_HEIGHT}px;
-  margin-left: 25px;
-  margin-right: 25px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-`

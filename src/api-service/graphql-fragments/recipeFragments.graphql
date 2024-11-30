@@ -39,7 +39,7 @@ fragment RecipeEntity on Recipe {
     isMainPhoto
   }
   photoUploadDetails {
-    photoId 
+    photoId
     token
   }
   tags {
@@ -52,7 +52,6 @@ fragment RecipeEntity on Recipe {
     language
   }
   isPrivate
-
   ingredientGroups {
     ...IngredientGroupEntity
   }
@@ -85,5 +84,5 @@ fragment RecipeResultFull on RecipeResult {
 
   ... on DeletePhotoError {
     errorMessage
-  } 
+  }
 }

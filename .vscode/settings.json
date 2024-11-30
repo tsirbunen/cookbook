@@ -5,6 +5,7 @@
   "files.exclude": {
     "**/.git": true
   },
+  "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "quickfix.biome": "explicit",
     "source.fixAll.eslint": "explicit",
@@ -17,6 +18,9 @@
     "editor.defaultFormatter": "biomejs.biome"
   },
   "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
   "cSpell.words": ["testid"]

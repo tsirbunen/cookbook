@@ -56,7 +56,7 @@ const DragAndDropWithHover = ({
     setPhotos(
       photoDetails.map(({ uuid, file, url }) => {
         return {
-          url: file ? URL.createObjectURL(file) : url ?? '',
+          url: file ? URL.createObjectURL(file) : (url ?? ''),
           uploadFailed: failedUploadIds.includes(uuid)
         }
       })

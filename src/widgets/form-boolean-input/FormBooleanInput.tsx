@@ -47,14 +47,12 @@ const FormBooleanInput = <T extends Record<string, unknown>, P extends FieldPath
       {showInput ? (
         <Fragment>
           <Flex {...innerCss}>
-            <Flex {...switchCss}>
-              <SwitchToggleWithLabel
-                isChecked={field.value as boolean}
-                onChange={field.onChange}
-                emphasizedLabelChecked={labelTrue}
-                emphasizedLabelNotChecked={labelFalse}
-              />
-            </Flex>
+            <SwitchToggleWithLabel
+              isChecked={field.value as boolean}
+              onChange={field.onChange}
+              emphasizedLabelChecked={labelTrue}
+              emphasizedLabelNotChecked={labelFalse}
+            />
           </Flex>
         </Fragment>
       ) : (
@@ -88,10 +86,6 @@ const simpleTextCss = (isPlaceholder: boolean) => {
     margin: '5px 0px 0px 0px',
     width: '100%'
   }
-}
-
-const switchCss = {
-  marginTop: '5px'
 }
 
 const infoCss = {

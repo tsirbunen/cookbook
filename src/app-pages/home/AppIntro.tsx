@@ -25,6 +25,7 @@ const introBoxCss = (alignment: 'center' | 'start') => {
     fontSize: '0.9em',
     height: `${NAVIGATION_BAR_ITEM_HEIGHT}px`,
     marginTop: '10px',
+    marginBottom: '10px',
     display: 'flex' as ChakraProps['display'],
     flexDirection: 'column' as ChakraProps['flexDirection'],
     alignItems: alignment,

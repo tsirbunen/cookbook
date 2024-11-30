@@ -71,7 +71,7 @@ const cardCss = {
   justifyContent: 'start',
   marginTop: '5px',
   marginBottom: '10px',
-  background: Shades.VERY_DARK,
+  background: Shades.VERY_PALE,
   padding: '20px 20px 10px 20px',
   borderRadius: '10px',
   borderWidth: '2.5px',

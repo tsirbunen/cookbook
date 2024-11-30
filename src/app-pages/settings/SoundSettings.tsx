@@ -8,23 +8,9 @@ import { AppStateContext, type AppStateContextType } from '../../state/StateCont
 import { Dispatch } from '../../state/reducer'
 import ButtonWithTheme from '../../theme/buttons/ButtonWithTheme'
 import { ButtonVariant } from '../../theme/buttons/buttons-theme'
+import { pageInfoCss } from '../../utils/styles'
 import SwitchToggleWithLabel from '../../widgets/switch-toggle/SwitchToggleWithLabel'
-
-const mainInfo = [
-  'User actions (like clicking a button) sometimes have a sound effect attached to them.',
-  'To enable / disable these sound effects, use the switch below.'
-]
-const valuePrefix = 'Sound effects are '
-const enabledText = 'ON'
-const disabledText = 'OFF'
-
-const examplesInfo = [
-  'There are different kinds of sounds for different kinds of events.',
-  'Click the buttons below to hear the sounds used in the app.'
-]
-const turnSoundsOnReminder = 'Turn the sound effects on to enable the buttons.'
-const positiveButtonLabel = 'POSITIVE'
-const negativeButtonLabel = 'NEGATIVE'
+import { labels } from './labels'
 
 const SoundSettings = () => {
   const { state, dispatch } = useContext(AppStateContext) as AppStateContextType
@@ -42,36 +28,24 @@ const SoundSettings = () => {
   const playPositiveSound = () => playSound(SoundType.POSITIVE)
   const playNegativeSound = () => playSound(SoundType.NEGATIVE)
 
+  const getExamplesInfo = () => {
+    if (soundsAreEnabled) return labels.examplesInfo
+    return `${labels.examplesInfo} ${labels.turnSoundsOnReminder}`
+  }
+
   return (
     <Flex {...outerCss}>
-      {mainInfo.map((info, index) => {
-        const key = `sound-settings-info-${index}`
-        return (
-          <Text key={key} {...infoCss}>
-            {info}
-          </Text>
-        )
-      })}
+      <Text {...pageInfoCss}>{labels.mainInfo}</Text>
 
-      <Flex {...switchCss}>
-        <SwitchToggleWithLabel
-          isChecked={soundsAreEnabled}
-          onChange={toggleSoundsEnabled}
-          labelChecked={valuePrefix}
-          emphasizedLabelChecked={enabledText}
-          emphasizedLabelNotChecked={disabledText}
-        />
-      </Flex>
+      <SwitchToggleWithLabel
+        isChecked={soundsAreEnabled}
+        onChange={toggleSoundsEnabled}
+        labelChecked={labels.valuePrefix}
+        emphasizedLabelChecked={labels.enabledText}
+        emphasizedLabelNotChecked={labels.disabledText}
+      />
 
-      {examplesInfo.map((info, index) => {
-        const key = `sound-settings-info-${index}`
-        return (
-          <Text key={key} {...infoCss}>
-            {info}
-          </Text>
-        )
-      })}
-      {!soundsAreEnabled && <Text {...infoCss}>{turnSoundsOnReminder}</Text>}
+      <Text {...pageInfoCss}>{getExamplesInfo()}</Text>
 
       <Flex {...buttonsOuterCss}>
         <Flex {...buttonsBoxCss}>
@@ -82,9 +56,10 @@ const SoundSettings = () => {
             isDisabled={!soundsAreEnabled}
           >
             <FaPlay />
-            <Text {...buttonTextCss}>{positiveButtonLabel}</Text>
+            <Text {...buttonTextCss}>{labels.positiveButtonLabel}</Text>
           </ButtonWithTheme>
         </Flex>
+
         <ButtonWithTheme
           variant={ButtonVariant.MediumSizePale}
           onClick={playNegativeSound}
@@ -92,7 +67,7 @@ const SoundSettings = () => {
           isDisabled={!soundsAreEnabled}
         >
           <FaPlay />
-          <Text {...buttonTextCss}>{negativeButtonLabel}</Text>
+          <Text {...buttonTextCss}>{labels.negativeButtonLabel}</Text>
         </ButtonWithTheme>
       </Flex>
     </Flex>
@@ -115,13 +90,6 @@ const buttonsOuterCss = {
   marginBottom: '10px'
 }
 
-const infoCss = {
-  lineHeight: '1.1em',
-  color: Shades.SLIGHTLY_DARK
-}
-const switchCss = {
-  marginTop: '10px'
-}
 const buttonTextCss = {
   marginLeft: '10px',
   color: Shades.VERY_PALE

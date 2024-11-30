@@ -19,13 +19,12 @@ export default function Cook({ params }: { params: { recipeIds: string } }) {
   const { state, dispatch } = useContext(AppStateContext) as AppStateContextType
   const recipeIds = params ? getRecipeIdsFromRouteParams(params) : undefined
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies:Only run if recipeIds or state.recipes change
   useEffect(() => {
     if (!recipeIds || state.pickedRecipeIds.length) return
-    const recipesArePicked = recipeIds.every((id) => state.pickedRecipeIds.includes(id))
-    if (recipesArePicked) return
-    dispatch({ type: Dispatch.UPDATE_PICKED_RECIPES, payload: { recipeIds } })
-  }, [recipeIds, state.recipes])
+    const unpickedRecipeIds = getUnpickedRecipes(state.pickedRecipeIds, recipeIds)
+    if (!unpickedRecipeIds.length) return
+    dispatch({ type: Dispatch.UPDATE_PICKED_RECIPES, payload: { recipeIds: unpickedRecipeIds } })
+  }, [recipeIds, state.pickedRecipeIds, dispatch])
 
   return <CookPage />
 }
@@ -36,4 +35,9 @@ const getRecipeIdsFromRouteParams = ({ recipeIds }: { recipeIds: string }): numb
     .map((id) => Number.parseInt(id))
     .filter(Boolean)
   return ids
+}
+
+const getUnpickedRecipes = (pickedRecipeIds: number[], recipeIds: number[]) => {
+  if (!pickedRecipeIds?.length) return recipeIds
+  return recipeIds.filter((id) => !pickedRecipeIds.includes(id))
 }

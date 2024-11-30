@@ -93,7 +93,6 @@ type Recipe {
   instructionGroups: [InstructionGroup!]!
 }
 
-
 input CreateRecipeInput {
   title: String!
   description: String
@@ -120,7 +119,13 @@ input PatchRecipeInput {
   instructionGroups: [InstructionGroupInput!]
 }
 
-union RecipeResult = Recipe | UnauthenticatedError | UnauthorizedError | BadInputError | PhotoUploadUrlError  | DeletePhotoError
+union RecipeResult =
+  | Recipe
+  | UnauthenticatedError
+  | UnauthorizedError
+  | BadInputError
+  | PhotoUploadUrlError
+  | DeletePhotoError
 
 directive @isAuthenticated on FIELD_DEFINITION
 
@@ -137,5 +142,4 @@ extend type Query {
 extend type Mutation {
   createRecipe(createRecipeInput: CreateRecipeInput!): RecipeResult @isAuthor @isValidInput
   patchRecipe(recipeId: Int!, recipePatch: PatchRecipeInput!): RecipeResult @isAuthor @isValidInput
-  
 }

@@ -1,7 +1,6 @@
-/** @jsxImportSource @emotion/react */
 'use client'
 
-import { css } from '@emotion/react'
+import { type ChakraProps, Flex } from '@chakra-ui/react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useContext } from 'react'
 import { HEADER_HEIGHT, NAV_BAR_WIDTH } from '../../constants/layout'
@@ -28,9 +27,10 @@ const NavigationBar = ({ isTooSmallWindow }: NavigationBarProps) => {
   if (isTooSmallWindow) return null
 
   return (
-    <div css={outerContainer(windowHeight)}>
-      <div css={container(HEADER_HEIGHT)}>
+    <Flex {...outerCss(windowHeight)}>
+      <Flex {...innerCss(HEADER_HEIGHT)}>
         <MenuIconWithoutAction height={HEADER_HEIGHT} />
+
         {navigationMenuItems.map((menuItem) => {
           return (
             <NavigationBarItem
@@ -41,29 +41,31 @@ const NavigationBar = ({ isTooSmallWindow }: NavigationBarProps) => {
             />
           )
         })}
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   )
 }
 
 export default NavigationBar
 
-const outerContainer = (windowHeight: number) => {
-  const headerHeight = HEADER_HEIGHT
-  return css`
-    z-index: ${navigationBarZIndex};
-    height: ${windowHeight - headerHeight}px;
-    width: ${NAV_BAR_WIDTH}px;
-  `
+const outerCss = (windowHeight: number) => {
+  return {
+    zIndex: navigationBarZIndex,
+    height: `${windowHeight - HEADER_HEIGHT}px`,
+    width: `${NAV_BAR_WIDTH}px`
+  }
 }
-const container = (headerHeight: number) => css`
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: start;
-  height: 100%;
-  background-color: ${Shades.VERY_DARK};
-  top: ${headerHeight}px;
-  width: ${NAV_BAR_WIDTH}px;
-  position: fixed;
-`
+
+const innerCss = (headerHeight: number) => {
+  return {
+    display: 'flex' as ChakraProps['display'],
+    flexDirection: 'column' as ChakraProps['flexDirection'],
+    justifyContent: 'start',
+    alignItems: 'start',
+    height: '100%',
+    backgroundColor: Shades.VERY_DARK,
+    top: `${headerHeight}px`,
+    width: `${NAV_BAR_WIDTH}px`,
+    position: 'fixed' as ChakraProps['position']
+  }
+}

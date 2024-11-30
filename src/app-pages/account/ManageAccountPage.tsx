@@ -55,6 +55,7 @@ const ManageAccount = () => {
 
   const account = state.account
   if (account === null) {
+    router.push(`/${Page.ACCOUNT}`)
     return null
   }
 
