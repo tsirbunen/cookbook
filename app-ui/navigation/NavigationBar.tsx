@@ -3,13 +3,13 @@
 import { type ChakraProps, Flex } from '@chakra-ui/react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useContext } from 'react'
-import { HEADER_HEIGHT, NAV_BAR_WIDTH } from '../../constants/layout'
-import { Shades } from '../../constants/shades'
-import { navigationBarZIndex } from '../../constants/z-indexes'
-import { ViewSizeContext } from '../../layout/view-size-service/ViewSizeProvider'
-import { navigationMenuItems } from '../router/router'
-import MenuIconWithoutAction from './MenuIconWithoutAction'
+import { HEADER_HEIGHT, NAV_BAR_WIDTH } from '../constants/layout'
+import { Shades } from '../constants/shades'
+import { navigationBarZIndex } from '../constants/z-indexes'
+import { ViewSizeContext } from '../layout/view-size-service/ViewSizeProvider'
+import { navigationMenuItems } from './page-paths'
 import NavigationBarItem from './NavigationBarItem'
+import { TbMenu2 } from 'react-icons/tb'
 
 type NavigationBarProps = {
   isTooSmallWindow: boolean
@@ -29,8 +29,13 @@ const NavigationBar = ({ isTooSmallWindow }: NavigationBarProps) => {
   return (
     <Flex {...outerCss(windowHeight)}>
       <Flex {...innerCss(HEADER_HEIGHT)}>
-        <MenuIconWithoutAction height={HEADER_HEIGHT} />
 
+      <Flex {...menuBoxCss(HEADER_HEIGHT)}>
+        <Flex {...menuCss}>
+          <TbMenu2 />
+        </Flex>
+      </Flex>
+      
         {navigationMenuItems.map((menuItem) => {
           return (
             <NavigationBarItem
@@ -68,4 +73,30 @@ const innerCss = (headerHeight: number) => {
     width: `${NAV_BAR_WIDTH}px`,
     position: 'fixed' as ChakraProps['position']
   }
+}
+
+const menuBoxCss = (height: number) => {
+  return {
+    display: 'flex' as ChakraProps['display'],
+    flexDirection: 'column' as ChakraProps['flexDirection'],
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: `${NAV_BAR_WIDTH}px`,
+    backgroundColor: Shades.VERY_DARK,
+    position: 'fixed' as ChakraProps['position'],
+    top: 0,
+    height: `${height}px`,
+    flex: 1
+  }
+}
+
+const menuCss = {
+  display: 'flex' as ChakraProps['display'],
+  flex: 1,
+  flexDirection: 'row' as ChakraProps['flexDirection'],
+  justifyContent: 'center',
+  alignItems: 'center',
+  fontSize: '2.2em',
+  color: Shades.VERY_PALE,
+  height: '100%'
 }

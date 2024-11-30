@@ -1,5 +1,5 @@
 import { Base } from './base'
-import { navigationBarDataTestId } from '../../app-ui/navigation/navigation-bar/NavigationBarItem'
+import { navigationBarDataTestId } from '../../app-ui/navigation/NavigationBarItem'
 import { launchPageTestId, startButtonTestId } from '../../app/page'
 
 const CLIENT = 'localhost'

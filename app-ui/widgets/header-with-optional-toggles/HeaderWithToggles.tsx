@@ -6,7 +6,7 @@ import { HEADER_HEIGHT, NAV_BAR_WIDTH } from '../../constants/layout'
 import { Shades } from '../../constants/shades'
 import { APP_TITLE } from '../../constants/text-content'
 import { headerZIndex } from '../../constants/z-indexes'
-import { getRouteLabelByPath } from '../../navigation/router/router'
+import { getRouteLabelByPath } from '../../navigation/page-paths'
 
 export const toolsElementId = 'toolsElementId'
 

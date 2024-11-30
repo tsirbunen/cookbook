@@ -1,6 +1,6 @@
 import { type ChakraProps, Flex } from '@chakra-ui/react'
-import { NAVIGATION_BAR_ITEM_HEIGHT } from '../../navigation/navigation-bar/NavigationBarItem'
-import { Page } from '../../navigation/router/router'
+import { NAVIGATION_BAR_ITEM_HEIGHT } from '../../navigation/NavigationBarItem'
+import { Page } from '../../navigation/page-paths'
 import { pageCss } from '../../utils/styles'
 import AppIntro from './AppIntro'
 import ContentInfoItem from './ContentInfoItem'

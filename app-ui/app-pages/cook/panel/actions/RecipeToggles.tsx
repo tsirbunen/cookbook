@@ -10,7 +10,7 @@ import { TbChefHat, TbColumns, TbStar, TbStarFilled } from 'react-icons/tb'
 import { TbRulerMeasure } from 'react-icons/tb'
 import { TbWashDrycleanOff } from 'react-icons/tb'
 import { cookTogglesZIndex } from '../../../../constants/z-indexes'
-import { Page } from '../../../../navigation/router/router'
+import { Page } from '../../../../navigation/page-paths'
 import { ButtonVariant } from '../../../../theme/buttons/buttons-theme'
 import type { Recipe } from '../../../../types/graphql-schema-types.generated'
 import Toggle, {

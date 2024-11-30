@@ -5,8 +5,8 @@ import { useContext } from 'react'
 import HeaderWithToggles from '../../widgets/header-with-optional-toggles/HeaderWithToggles'
 
 import { usePathname } from 'next/navigation'
-import NavigationBar from '../../navigation/navigation-bar/NavigationBar'
-import ErrorPage from '../../navigation/router/ErrorPage'
+import NavigationBar from '../../navigation/NavigationBar'
+import ErrorPage from '../../widgets/error-page/ErrorPage'
 import { ViewSizeContext } from '../view-size-service/ViewSizeProvider'
 
 const tooSmallWindowMessage = 'Not available for such a small window yet'

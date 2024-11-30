@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import { AccountRoute } from '../../../app/account/[accountAction]/page'
-import { Page } from '../../navigation/router/router'
+import { Page } from '../../navigation/page-paths'
 import { pageCss } from '../../utils/styles'
 import AccountRouteSelector from './AccountRouteSelector'
 import { content } from './textContent'

@@ -1,7 +1,7 @@
 import { type ChakraProps, Flex, Text } from '@chakra-ui/react'
 import { Shades } from '../../constants/shades'
 import { APP_INTRO_TEXTS } from '../../constants/text-content'
-import { NAVIGATION_BAR_ITEM_HEIGHT } from '../../navigation/navigation-bar/NavigationBarItem'
+import { NAVIGATION_BAR_ITEM_HEIGHT } from '../../navigation/NavigationBarItem'
 
 type AppIntroProps = {
   alignment: 'center' | 'start'

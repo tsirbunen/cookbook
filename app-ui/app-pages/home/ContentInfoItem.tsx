@@ -1,6 +1,6 @@
 import { type ChakraProps, Flex, Text } from '@chakra-ui/react'
 import { Shades } from '../../constants/shades'
-import { NAVIGATION_BAR_ITEM_HEIGHT } from '../../navigation/navigation-bar/NavigationBarItem'
+import { NAVIGATION_BAR_ITEM_HEIGHT } from '../../navigation/NavigationBarItem'
 
 type PageInfoItemProps = {
   label: string

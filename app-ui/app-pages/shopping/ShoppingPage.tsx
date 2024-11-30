@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react'
-import { Page } from '../../navigation/router/router'
+import { Page } from '../../navigation/page-paths'
 import { pageCss } from '../../utils/styles'
 
 const ShoppingPage = () => {

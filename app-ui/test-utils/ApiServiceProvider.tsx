@@ -9,7 +9,7 @@ import {
   allLanguages,
   allTags,
   allTestRecipes
-} from '../../app/api/graphql/graphql-server/database/example-data/extract-recipe-data-for-github-actions-tests.js'
+} from '../../app-datastore/example-data/extract-recipe-data-for-github-actions-tests.js'
 import type { Account, EmailAccountInput, Recipe } from '../types/graphql-schema-types.generated'
 import { SearchMode } from '../widgets/form-textarea-search/FormTextAreaSearch'
 
