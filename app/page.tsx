@@ -2,9 +2,9 @@
 
 import { Button, type ChakraProps, Flex, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
-import AppIntro from '../src/app-pages/home/AppIntro'
-import { Shades } from '../src/constants/shades'
-import { APP_TITLE } from '../src/constants/text-content'
+import AppIntro from '../app-ui/app-pages/home/AppIntro'
+import { Shades } from '../app-ui/constants/shades'
+import { APP_TITLE } from '../app-ui/constants/text-content'
 
 export const launchPageTestId = 'cookbook-launch-page'
 export const startButtonTestId = 'start-button'

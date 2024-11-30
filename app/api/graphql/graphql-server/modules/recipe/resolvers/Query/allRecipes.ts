@@ -1,5 +1,5 @@
+import { RecipeHandler } from '../../../../../../../../app-business-domain/handlers/recipes/handler'
 import type { GraphQLContext } from '../../../../../route'
-import { RecipeHandler } from '../../../../handlers/recipes/handler'
 import type { QueryResolvers } from '../../../types.generated'
 
 export const allRecipes: NonNullable<QueryResolvers['allRecipes']> = async (_parent, _arg, context: GraphQLContext) => {

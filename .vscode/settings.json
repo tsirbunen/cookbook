@@ -23,5 +23,7 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
-  "cSpell.words": ["testid"]
+  "cSpell.words": [
+    "testid"
+  ]
 }

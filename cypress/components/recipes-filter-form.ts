@@ -1,9 +1,9 @@
 import { Base } from './base'
-import { formButtonsSelectorDataTestId } from '../../src/widgets/form-buttons-selector/FormButtonsSelector'
-import { formTextAreaSearchDataTestId } from '../../src/widgets/form-textarea-search/FormTextAreaSearch'
-import { formSubmitButtonsDataTestId } from '../../src/widgets/form-submit-buttons/FormSubmitButtons'
-import { photoRepresentationDataTestId } from '../../src/app-pages/search/recipes-display/PhotoCardRecipe'
-import { filteringManagementToolDataTestId } from '../../src/app-pages/search/search-management/FilteringManagementTool'
+import { formButtonsSelectorDataTestId } from '../../app-ui/widgets/form-buttons-selector/FormButtonsSelector'
+import { formTextAreaSearchDataTestId } from '../../app-ui/widgets/form-textarea-search/FormTextAreaSearch'
+import { formSubmitButtonsDataTestId } from '../../app-ui/widgets/form-submit-buttons/FormSubmitButtons'
+import { photoRepresentationDataTestId } from '../../app-ui/app-pages/search/recipes-display/PhotoCardRecipe'
+import { filteringManagementToolDataTestId } from '../../app-ui/app-pages/search/search-management/FilteringManagementTool'
 
 export class RecipesFilterForm extends Base {
   verifyFormContainsElement(element: string) {

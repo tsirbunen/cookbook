@@ -1,6 +1,6 @@
 import { When, Then, Given } from '@badeball/cypress-cucumber-preprocessor'
 import { App } from '../../components/app'
-import { Page } from '../../../src/navigation/router/router'
+import { Page } from '../../../app-ui/navigation/router/router'
 import { AccountRoute } from '../../../app/account/[accountAction]/page'
 
 const app = new App()

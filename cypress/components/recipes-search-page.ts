@@ -1,22 +1,22 @@
 import { Base } from './base'
-import { togglesTestId } from '../../src/widgets/toggles/Toggles'
+import { togglesTestId } from '../../app-ui/widgets/toggles/Toggles'
 import {
   ViewRecipesMode,
   viewModeManagementToolDataTestId
-} from '../../src/app-pages/search/search-management/ViewModeManagementTool'
-import { pickedRecipesManagementToolDataTestId } from '../../src/app-pages/search/search-management/PickedRecipesManagementTool'
-import { filteringManagementToolDataTestId } from '../../src/app-pages/search/search-management/FilteringManagementTool'
-import { photoRepresentationDataTestId } from '../../src/app-pages/search/recipes-display/PhotoCardRecipe'
-import { summaryRepresentationDataTestId } from '../../src/app-pages/search/recipes-display/SummaryRecipe'
-import { titleRepresentationDataTestId } from '../../src/app-pages/search/recipes-display/TitleRecipe'
-import { cardRadioButtonSelectorDataTestId } from '../../src/widgets/card-radio-button-selector/CardRadioButtonSelector'
-import { recipesContentDataTestId } from '../../src/app-pages/search/page/RecipesContent'
+} from '../../app-ui/app-pages/search/search-management/ViewModeManagementTool'
+import { pickedRecipesManagementToolDataTestId } from '../../app-ui/app-pages/search/search-management/PickedRecipesManagementTool'
+import { filteringManagementToolDataTestId } from '../../app-ui/app-pages/search/search-management/FilteringManagementTool'
+import { photoRepresentationDataTestId } from '../../app-ui/app-pages/search/recipes-display/PhotoCardRecipe'
+import { summaryRepresentationDataTestId } from '../../app-ui/app-pages/search/recipes-display/SummaryRecipe'
+import { titleRepresentationDataTestId } from '../../app-ui/app-pages/search/recipes-display/TitleRecipe'
+import { cardRadioButtonSelectorDataTestId } from '../../app-ui/widgets/card-radio-button-selector/CardRadioButtonSelector'
+import { recipesContentDataTestId } from '../../app-ui/app-pages/search/page/RecipesContent'
 import {
   selectModeToggleProperty,
   pickedRecipesToggleProperty,
   filteringToggleProperty,
   cookToggleProperty
-} from '../../src/widgets/toggles/Toggle'
+} from '../../app-ui/widgets/toggles/Toggle'
 
 const CLIENT = 'localhost'
 const CLIENT_BASE_URL = `http://${CLIENT}:3000`

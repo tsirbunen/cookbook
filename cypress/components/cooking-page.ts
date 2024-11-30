@@ -1,19 +1,19 @@
-import { presetMultiplierTestId } from '../../src/app-pages/cook/panel/ingredients-and-scaling/PresetMultiplierSelection'
+import { presetMultiplierTestId } from '../../app-ui/app-pages/cook/panel/ingredients-and-scaling/PresetMultiplierSelection'
 import {
   clearAllToggleProperty,
   cookToggleProperty,
   favoriteToggleProperty,
   ingredientScalingToggleProperty,
   multiColumnToggleProperty
-} from '../../src/widgets/toggles/Toggle'
+} from '../../app-ui/widgets/toggles/Toggle'
 import { Base } from './base'
-import { cardRadioButtonSelectorDataTestId } from '../../src/widgets/card-radio-button-selector/CardRadioButtonSelector'
-import { MULTI_COLUMN_DIV } from '../../src/layout/multi-column-wrapper/MultiColumnContent'
-import { clickableRecipeCardArea } from '../../src/widgets/image-with-fallback/ImageWithFallback'
-import { ingredientName, ingredientRow } from '../../src/app-pages/cook/panel/ingredients-and-scaling/IngredientRow'
-import { instructionRow } from '../../src/app-pages/cook/panel/instructions/Instructions'
-import { recipeTitle } from '../../src/app-pages/cook/panel/general/RecipeTitle'
-import { Shades } from '../../src/constants/shades'
+import { cardRadioButtonSelectorDataTestId } from '../../app-ui/widgets/card-radio-button-selector/CardRadioButtonSelector'
+import { MULTI_COLUMN_DIV } from '../../app-ui/layout/multi-column-wrapper/MultiColumnContent'
+import { clickableRecipeCardArea } from '../../app-ui/widgets/image-with-fallback/ImageWithFallback'
+import { ingredientName, ingredientRow } from '../../app-ui/app-pages/cook/panel/ingredients-and-scaling/IngredientRow'
+import { instructionRow } from '../../app-ui/app-pages/cook/panel/instructions/Instructions'
+import { recipeTitle } from '../../app-ui/app-pages/cook/panel/general/RecipeTitle'
+import { Shades } from '../../app-ui/constants/shades'
 
 export class CookingPage extends Base {
   // Note: We cannot pick all the buttons at once and then loop through them because clicking

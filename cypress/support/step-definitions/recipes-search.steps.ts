@@ -1,7 +1,7 @@
 import { When, Then, Given } from '@badeball/cypress-cucumber-preprocessor'
 import { App } from '../../components/app'
 import { RecipesSearchPage } from '../../components/recipes-search-page'
-import { ViewRecipesMode } from '../../../src/app-pages/search/search-management/ViewModeManagementTool'
+import { ViewRecipesMode } from '../../../app-ui/app-pages/search/search-management/ViewModeManagementTool'
 
 const app = new App()
 const recipesSearchPage = new RecipesSearchPage()

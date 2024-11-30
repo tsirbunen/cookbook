@@ -3,13 +3,13 @@ dotenv.config()
 
 import { GraphQLJSON } from 'graphql-scalars'
 import { type YogaInitialContext, createSchema, createYoga } from 'graphql-yoga'
-import { database } from './graphql-server/database/config/config'
-import { DataStore } from './graphql-server/database/data-stores/data-store'
+import { getAuthenticatedUserId } from '../../../app-business-domain/handlers/accounts/token-utils'
+import { validator } from '../../../app-business-domain/handlers/validation/validators'
+import { database } from '../../../app-datastore/config/config'
+import { DataStore } from '../../../app-datastore/data-stores/data-store'
 import { isAuthenticatedTransformer } from './graphql-server/directives/isAuthenticatedDirective'
 import { isAuthorTransformer } from './graphql-server/directives/isAuthorDirective'
 import { isValidInputTransformer } from './graphql-server/directives/isValidInput'
-import { getAuthenticatedUserId } from './graphql-server/handlers/accounts/token-utils'
-import { validator } from './graphql-server/handlers/validation/validators'
 import { resolvers } from './graphql-server/modules/resolvers.generated'
 import { typeDefs } from './graphql-server/modules/typeDefs.generated'
 

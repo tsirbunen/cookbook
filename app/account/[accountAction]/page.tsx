@@ -2,34 +2,34 @@
 
 import dynamic from 'next/dynamic'
 import { useContext } from 'react'
-import { accountRelatedValidationSchemasAreFetched } from '../../../src/app-pages/account/utils'
-import { AppStateContext, type AppStateContextType } from '../../../src/state/StateContextProvider'
+import { accountRelatedValidationSchemasAreFetched } from '../../../app-ui/app-pages/account/utils'
+import { AppStateContext, type AppStateContextType } from '../../../app-ui/state/StateContextProvider'
 
-const EmailAccountPage = dynamic(() => import('../../../src/app-pages/account/EmailAccountPage'), {
+const EmailAccountPage = dynamic(() => import('../../../app-ui/app-pages/account/EmailAccountPage'), {
   ssr: false
 })
 
-const CreateEmailAccountPage = dynamic(() => import('../../../src/app-pages/account/CreateEmailAccountPage'), {
+const CreateEmailAccountPage = dynamic(() => import('../../../app-ui/app-pages/account/CreateEmailAccountPage'), {
   ssr: false
 })
 
 const SignInWithEmailAndPasswordPage = dynamic(
-  () => import('../../../src/app-pages/account/SignInWithEmailAndPasswordPage'),
+  () => import('../../../app-ui/app-pages/account/SignInWithEmailAndPasswordPage'),
   {
     ssr: false
   }
 )
 
-const ManageAccountPage = dynamic(() => import('../../../src/app-pages/account/ManageAccountPage'), {
+const ManageAccountPage = dynamic(() => import('../../../app-ui/app-pages/account/ManageAccountPage'), {
   ssr: false
 })
 
 const RequestVerificationEmailPage = dynamic(
-  () => import('../../../src/app-pages/account/RequestVerificationEmailPage'),
+  () => import('../../../app-ui/app-pages/account/RequestVerificationEmailPage'),
   { ssr: false }
 )
 
-const AccountPage = dynamic(() => import('../../../src/app-pages/account/AccountPage'), {
+const AccountPage = dynamic(() => import('../../../app-ui/app-pages/account/AccountPage'), {
   ssr: false
 })
 

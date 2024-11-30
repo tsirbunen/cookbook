@@ -1,6 +1,6 @@
-import { dataStore } from '../../../../database/data-stores/data-store'
-import { RecipeHandler } from '../../../../handlers/recipes/handler'
-import type { PatchRecipeInput } from '../../../../handlers/types-and-interfaces/types'
+import { RecipeHandler } from '../../../../../../../../app-business-domain/handlers/recipes/handler'
+import type { PatchRecipeInput } from '../../../../../../../../app-business-domain/types-and-interfaces/types'
+import { dataStore } from '../../../../../../../../app-datastore/data-stores/data-store'
 import type { BaseError, MutationResolvers } from './../../../types.generated'
 
 // @ts-expect-error The __typename will be correctly set due to the __isTypeOf implementation

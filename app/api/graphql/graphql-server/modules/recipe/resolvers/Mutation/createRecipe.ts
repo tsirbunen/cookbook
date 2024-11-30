@@ -1,5 +1,5 @@
-import { RecipeHandler } from '../../../../handlers/recipes/handler'
-import type { CreateRecipeInput } from '../../../../handlers/types-and-interfaces/types'
+import { RecipeHandler } from '../../../../../../../../app-business-domain/handlers/recipes/handler'
+import type { CreateRecipeInput } from '../../../../../../../../app-business-domain/types-and-interfaces/types'
 import type { BaseError, MutationResolvers } from './../../../types.generated'
 
 // @ts-expect-error The __typename will be correctly set due to the __isTypeOf implementation

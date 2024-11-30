@@ -1,9 +1,9 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import LoadingPage from '../../src/widgets/loading-page/LoadingPage'
+import LoadingPage from '../../app-ui/widgets/loading-page/LoadingPage'
 
-const CookPage = dynamic(() => import('../../src/app-pages/cook/page/CookPage'), {
+const CookPage = dynamic(() => import('../../app-ui/app-pages/cook/page/CookPage'), {
   ssr: false,
   loading: () => <LoadingPage />
 })

@@ -10,15 +10,15 @@
     "lint": "next lint",
     "lint:biome": "biome check",
     "generate:types": "graphql-codegen --config graphql-codegen.yml",
-    "migrations:local": "node app/api/graphql/graphql-server/database/migrations/perform-migrations.js",
-    "migrations:production": "NODE_ENV=production node app/api/graphql/graphql-server/database/migrations/perform-migrations.js",
-    "insert_example_data": "node app/api/graphql/graphql-server/database/example-data/insert-example-data.js",
-    "cypress:open": "node app/api/graphql/graphql-server/database/example-data/insert-example-data.js && cypress open",
-    "cypress:run": "node app/api/graphql/graphql-server/database/example-data/insert-example-data.js && cypress run  --reporter mochawesome",
+    "migrations:local": "node app-datastore/migrations/perform-migrations.js",
+    "migrations:production": "NODE_ENV=production node app-datastore/migrations/perform-migrations.js",
+    "insert_example_data": "node app-datastore/example-data/insert-example-data.js",
+    "cypress:open": "node app-datastore/example-data/insert-example-data.js && cypress open",
+    "cypress:run": "node app-datastore/example-data/insert-example-data.js && cypress run  --reporter mochawesome",
     "test:ui": "NODE_ENV=test jest --config=jest.config.ui.ts --runInBand --silent=false --verbose",
     "test:api": "jest --config=jest.config.api.ts --runInBand --silent=false --verbose",
     "test:ui:watch": "NODE_ENV=test jest --watch --config=jest.config.ui.ts --runInBand --verbose",
-    "test:api:watch": "jest --watch --config=jest.config.api.ts --runInBand  --verbose"
+    "test:api:watch": "IS_JEST=true jest --watch --config=jest.config.api.ts --runInBand  --verbose"
   },
   "dependencies": {
     "@apollo/client": "^3.8.8",

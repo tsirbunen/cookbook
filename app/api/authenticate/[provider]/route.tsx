@@ -1,10 +1,9 @@
 import { eq } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
-import { database } from '../../graphql/graphql-server/database/config/config'
-import { accounts } from '../../graphql/graphql-server/database/database-schemas/accounts'
-import { createJWT, createProviderAccessTokenJWT } from '../../graphql/graphql-server/handlers/accounts/token-utils'
-import { IdentityProvider } from '../../graphql/graphql-server/handlers/types-and-interfaces/types'
-
+import { createJWT, createProviderAccessTokenJWT } from '../../../../app-business-domain/handlers/accounts/token-utils'
+import { IdentityProvider } from '../../../../app-business-domain/types-and-interfaces/types'
+import { database } from '../../../../app-datastore/config/config'
+import { accounts } from '../../../../app-datastore/database-schemas/accounts'
 const gitHubGetAccessTokenBaseURL = 'https://github.com/login/oauth/access_token'
 const gitHubGetUserDataURL = 'https://api.github.com/user'
 // FIXME: Implement a better way to handle errors

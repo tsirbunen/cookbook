@@ -77,9 +77,9 @@ _Note 2:_ The cypress E2E tests are truly E2E only when run locally. For some re
 
 ### Database
 
-The tables of the database are configured using the Typescript files in **[database-schemas](/app/api/graphql/graphql-server/database/database-schemas/)**. Whenever a change is made to this folder's files, the database schema needs to be updated by running
+The tables of the database are configured using the Typescript files in **[database-schemas](/app-datastore/database-schemas/)**. Whenever a change is made to this folder's files, the database schema needs to be updated by running
 &nbsp;&nbsp;&nbsp;&nbsp; **`npx drizzle-kit generate:pg`**
-This will generate migration SQL-files into the **[migrations](/app/api/graphql/graphql-server/database/migrations/)**-folder specified in **[drizzle.config.ts](./drizzle.config.ts)** at project root.
+This will generate migration SQL-files into the **[migrations](/app-datastore/migrations/)**-folder specified in **[drizzle.config.ts](./drizzle.config.ts)** at project root.
 
 To run the newly generated migrations to the local database use
 &nbsp;&nbsp;&nbsp;&nbsp; **`npm run migrations:local`**
@@ -94,7 +94,7 @@ and open **[https://local.drizzle.studio](https://local.drizzle.studio)** with y
 
 ### Database-related Typescript types
 
-As **[Drizzle ORM](https://orm.drizzle.team/docs/overview)** is used to configure database tables' schemas, we simultaneously get the Typescript types of the database table entities "for free" (see for example table **[recipes](/app/api/graphql/graphql-server/database/database-schemas/recipes.ts)**).
+As **[Drizzle ORM](https://orm.drizzle.team/docs/overview)** is used to configure database tables' schemas, we simultaneously get the Typescript types of the database table entities "for free" (see for example table **[recipes](/app-datastore/database-schemas/recipes.ts)**).
 
 ### GraphQL-related code and Typescript type generation
 
@@ -134,8 +134,8 @@ When investigating how to best inform the frontend GraphQL clients about errors 
 
 ##### General
 
-- Components should be smaller !!!
-- Functions should be smaller !!!
+- Components should be smaller!
+- Functions should be smaller!
 - Css-styles are placed in the same files that they are used in, below the component code at the end of the file.
 
 ### Codebase overall structure
@@ -144,49 +144,39 @@ The structure of the project is very much **dictated by the selected Next.js fra
 
 ```
 cookbook/
-├── app/
-    ├── layout.tsx
-    ├── page.tsx
-    ├── recipes/
-            └── page.tsx
-    ├── api/
-        └── graphql/
-            ├── route.ts
-            └── graphql-server/
-                ├── database/
-                ├── modules/
-                └── services/
-    ...
-├── cypress/
-├── src/
-    ├── app-pages/
-    ├── assets/
-    ├── constants/
-    ├── graphql-client/
-    ├── layout/
-    ├── navigation/
-    ├── recipes-service/
-    ├── state/
-    ├── test-utils/
-    ├── theme/
-    ├── types/
-    ├── widgets/
-    ...
-...
+    ├── app/
+        ├── account/...
+        ├── api/
+            ├── authenticate/...
+            ├── graphql/
+                ├── graphql-server/...
+                └── route.ts
+            └── login/...
+        ...
+        ├── layout.tsx
+        └── page.tsx
+    ├── app-datastore/...
+    ├── app-business-domain/...
+    ├── app-ui/
+        ├── api-service/...
+        ├── app-pages/...
+        ├── layout/...
+        ├── navigation/...
+        ...
+        └── widgets/...
+
 
 ```
 
 | Folder / file      | Description                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | :----------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| layout.tsx         | Top level layout element (required by Next.js; needed to modify HTML on initial load). All common providers are introduced here to be available to application throughout                                                                                                                                                                                                                                                                              |
-| page.tsx           | The launch page of the application (the default starting route "/" required by Next.js)                                                                                                                                                                                                                                                                                                                                                                |
-| **app/**           | Due to selecting the **Next.js framework** with the new App Router, all the routes need to be defined in the app folder as sub-folders that are named according to the route they serve, and that contain a file named **page.tsx** with the page content (for example, for route "recipes/" there is app/recipes/page.tsx). The page.tsx files only contain "wrappers" that return the actual components that have there code in src/app-pages folder |
-| **api/**           | The "internal" api is contained as an app route in the app folder (required byt Next.js)                                                                                                                                                                                                                                                                                                                                                               |
-| **graphql/**       | The api route named graphql is in the api folder in a folder with the same name (i.e. _graphql_). The folder contains a file named route.ts (required by Next.js)                                                                                                                                                                                                                                                                                      |
-| route.ts           | The file containing the route handler. In this project, the handler returns a Yoga request handler                                                                                                                                                                                                                                                                                                                                                     |
-| **cypress/**       | Cypress E2E testing related files                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| **app/**           | Due to selecting the **Next.js framework** with the new App Router, all the routes need to be defined in the app folder as sub-folders that (1) are named according to the route they serve and (2) contain a file named **page.tsx** with the page content (for example, for route "account/" there is app/account/page.tsx). The page.tsx files only contain "wrappers" that return the actual (dynamically loaded) components that have their code in app-ui/app-pages folder |
+| **app**/layout.tsx         | Top level layout element (required by Next.js; needed to modify HTML on initial load). All common providers are introduced here to be available to application throughout                                                                                                                                                                                                                                                                              |
+| **app**/page.tsx           | The launch page of the application (the default starting route "/" required by Next.js)                                                                                                                                                                                                                                                                                                                                                                |
+| **app/api/**           | The "internal" Next api is contained as an app route in the app folder (required byt Next.js)                                                                                                                                                                                                                                                                                                                                                               |
+| **app/api/graphql/**       | The graphql-server () is in api route graphql. In this project, the handler (in file route.ts) returns a Yoga request handler.                                                                                                                                                                                                                                                                                     |
 | **\_\_tests\_\_**  | These folders (that are scattered around) contain test files that test the code nearby.                                                                                                                                                                                                                                                                                                                                                                |
-| **src/app-layout** |                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| **app-ui/** |  The actual client code.                                                                                                                                                                                                               |
 
 ### File structure
 

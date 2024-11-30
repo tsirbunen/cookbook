@@ -2,10 +2,10 @@
 
 import dynamic from 'next/dynamic'
 import { useContext, useEffect } from 'react'
-import { AppStateContext, type AppStateContextType } from '../../../src/state/StateContextProvider'
-import { Dispatch } from '../../../src/state/reducer'
+import { AppStateContext, type AppStateContextType } from '../../../app-ui/state/StateContextProvider'
+import { Dispatch } from '../../../app-ui/state/reducer'
 
-const CookPage = dynamic(() => import('../../../src/app-pages/cook/page/CookPage'), {
+const CookPage = dynamic(() => import('../../../app-ui/app-pages/cook/page/CookPage'), {
   ssr: false
 })
 

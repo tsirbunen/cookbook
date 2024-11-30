@@ -1,4 +1,4 @@
-import { AccountHandler } from '../../../../handlers/accounts/handler'
+import { AccountHandler } from '../../../../../../../../app-business-domain/handlers/accounts/handler'
 import type { QueryResolvers } from './../../../types.generated'
 
 // @ts-expect-error The __typename will be correctly set due to the __isTypeOf implementation

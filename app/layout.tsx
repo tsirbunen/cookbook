@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 import { Inter } from 'next/font/google'
-import LoadingPage from '../src/widgets/loading-page/LoadingPage'
+import LoadingPage from '../app-ui/widgets/loading-page/LoadingPage'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,47 +13,47 @@ export const metadata: Metadata = {
 // Note: We need to perform dynamic imports for - at least for some of - our providers since
 // they cannot be built on the server, so we dynamically import them all.
 
-const AppStateContextProvider = dynamic(() => import('../src/state/StateContextProvider'), {
+const AppStateContextProvider = dynamic(() => import('../app-ui/state/StateContextProvider'), {
   ssr: false
 })
 
-const GraphQLClientProvider = dynamic(() => import('../src/api-service/graphql-client/graphql-client'), {
+const GraphQLClientProvider = dynamic(() => import('../app-ui/api-service/graphql-client/graphql-client'), {
   ssr: false
 })
 
-const ThemeProvider = dynamic(() => import('../src/theme/ThemeProvider'), {
+const ThemeProvider = dynamic(() => import('../app-ui/theme/ThemeProvider'), {
   ssr: false
 })
 
-const ViewSizeContextProvider = dynamic(() => import('../src/layout/view-size-service/ViewSizeProvider'), {
+const ViewSizeContextProvider = dynamic(() => import('../app-ui/layout/view-size-service/ViewSizeProvider'), {
   ssr: false
 })
 
-const MainAppLayout = dynamic(() => import('../src/layout/main-app-layout/MainAppLayout'), {
+const MainAppLayout = dynamic(() => import('../app-ui/layout/main-app-layout/MainAppLayout'), {
   ssr: false
 })
 
-const ApiServiceProvider = dynamic(() => import('../src/api-service/ApiServiceProvider'), {
+const ApiServiceProvider = dynamic(() => import('../app-ui/api-service/ApiServiceProvider'), {
   ssr: false
 })
 
-const CookingProvider = dynamic(() => import('../src/app-pages/cook/page/CookingProvider'), {
+const CookingProvider = dynamic(() => import('../app-ui/app-pages/cook/page/CookingProvider'), {
   ssr: false
 })
 
-const SearchRecipesProvider = dynamic(() => import('../src/app-pages/search/page/SearchRecipesProvider'), {
+const SearchRecipesProvider = dynamic(() => import('../app-ui/app-pages/search/page/SearchRecipesProvider'), {
   ssr: false
 })
 
-const SoundProvider = dynamic(() => import('../src/sounds/SoundProvider'), {
+const SoundProvider = dynamic(() => import('../app-ui/sounds/SoundProvider'), {
   ssr: false
 })
 
-const LocalStorageProvider = dynamic(() => import('../src/state/LocalStorageProvider'), {
+const LocalStorageProvider = dynamic(() => import('../app-ui/state/LocalStorageProvider'), {
   ssr: false
 })
 
-const ToastServiceProvider = dynamic(() => import('../src/toast-service/ToastServiceProvider'), {
+const ToastServiceProvider = dynamic(() => import('../app-ui/toast-service/ToastServiceProvider'), {
   ssr: false
 })
 

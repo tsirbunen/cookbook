@@ -1,5 +1,5 @@
-import { AccountHandler } from '../../../../handlers/accounts/handler'
-import type { NonEmailAccountInput } from '../../../../handlers/types-and-interfaces/types'
+import { AccountHandler } from '../../../../../../../../app-business-domain/handlers/accounts/handler'
+import type { NonEmailAccountInput } from '../../../../../../../../app-business-domain/types-and-interfaces/types'
 import type { MutationResolvers } from './../../../types.generated'
 
 // @ts-expect-error The __typename will be correctly set due to the __isTypeOf implementation

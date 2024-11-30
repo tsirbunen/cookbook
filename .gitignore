@@ -45,3 +45,7 @@ next-env.d.ts
 
 /temporary-stuff
 /temporary-and-deleted
+
+/app/api/graphql/graphql-server/database/example-data/insert-dev-account.js
+/app-datastore/example-data/insert-dev-account.js
+app-datastore/example-data/insert-dev-account.js

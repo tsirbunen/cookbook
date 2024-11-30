@@ -3,19 +3,19 @@
 import dynamic from 'next/dynamic'
 import { useContext, useEffect } from 'react'
 
-import { ApiServiceContext } from '../../../../../../src/api-service/ApiServiceProvider'
-import { AppStateContext, type AppStateContextType } from '../../../../../../src/state/StateContextProvider'
-import { Dispatch } from '../../../../../../src/state/reducer'
+import { ApiServiceContext } from '../../../../../../app-ui/api-service/ApiServiceProvider'
+import { AppStateContext, type AppStateContextType } from '../../../../../../app-ui/state/StateContextProvider'
+import { Dispatch } from '../../../../../../app-ui/state/reducer'
 import { AccountRoute } from '../../../page'
 
 const CompleteGitHubAccountPage = dynamic(
-  () => import('../../../../../../src/app-pages/account/CompleteGitHubAccountPage'),
+  () => import('../../../../../../app-ui/app-pages/account/CompleteGitHubAccountPage'),
   {
     ssr: false
   }
 )
 
-const AccountPage = dynamic(() => import('../../../../../../src/app-pages/account/AccountPage'), {
+const AccountPage = dynamic(() => import('../../../../../../app-ui/app-pages/account/AccountPage'), {
   ssr: false
 })
 
