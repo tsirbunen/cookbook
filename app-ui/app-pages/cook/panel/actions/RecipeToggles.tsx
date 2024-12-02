@@ -24,10 +24,10 @@ import Toggle, {
   multiColumnToggleProperty
 } from '../../../../widgets/toggles/Toggle'
 import Toggles from '../../../../widgets/toggles/Toggles'
-import { RecipesViewingContext } from '../../../search/page/SearchRecipesProvider'
 import { CookingContext } from '../../page/CookingProvider'
 import CountDown from './CountDown'
 import Multiplier from './Multiplier'
+import { RecipesViewingContext } from '../../../search/search-management/SearchRecipesProvider'
 
 type RecipeTogglesProps = {
   recipe: Recipe

@@ -4,8 +4,8 @@ import { Shades } from '../../../constants/shades'
 import { AppStateContext, type AppStateContextType } from '../../../state/StateContextProvider'
 import { Dispatch } from '../../../state/reducer'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
-import RecipesDisplay from '../recipes-display/RecipesDisplay'
 import { ViewRecipesMode } from './ViewModeManagementTool'
+import RecipeWidgets from '../recipe-widgets/RecipeWidgets'
 
 export const pickedRecipesManagementToolDataTestId = 'picked-recipes-management-tool'
 
@@ -32,7 +32,7 @@ const PickedRecipesManagementTool = () => {
       <Title title={title.toUpperCase()} variant={TitleVariant.MediumRegular} />
 
       <Flex {...innerCss(noRecipesPickedYet)}>
-        <RecipesDisplay
+        <RecipeWidgets
           recipes={pickedRecipes}
           onPickRecipeChanged={updatePickedRecipes}
           mode={ViewRecipesMode.TITLES}

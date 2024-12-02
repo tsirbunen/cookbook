@@ -18,34 +18,27 @@ import {
 
 export const summaryRepresentationDataTestId = 'summary-representation'
 
-export type SummaryRecipeProps = {
+export type SummaryWidgetProps = {
   recipe: Recipe
-  onPickRecipeChanged: () => void
   isPicked: boolean
   isFavorite?: boolean
   index: number
   navigateToRecipe: () => void
+  toggleIsPickedWithSound: () => void
 }
 
 const imageWidth = 110
 const imageHeight = 120
 const borderRadius = 6
 
-const SummaryRecipe = ({
+const SummaryWidget = ({
   recipe,
-  onPickRecipeChanged,
   isPicked,
   isFavorite,
-  navigateToRecipe,
+  navigateToRecipe,toggleIsPickedWithSound,
   index
-}: SummaryRecipeProps) => {
-  const { playSound } = useContext(SoundServiceContext)
+}: SummaryWidgetProps) => {
 
-  const toggleIsPickedWithSound = () => {
-    const soundType = isPicked ? SoundType.NEGATIVE : SoundType.POSITIVE
-    playSound(soundType)
-    onPickRecipeChanged()
-  }
 
   const { title, tags, ovenNeeded, language, photos } = recipe
   const mainPhotoUrl = (photos ?? []).find((photo) => photo.isMainPhoto)?.url
@@ -101,7 +94,7 @@ const SummaryRecipe = ({
   )
 }
 
-export default SummaryRecipe
+export default SummaryWidget
 
 const outerCss = {
   flexDirection: 'column' as ChakraProps['flexDirection']

@@ -7,8 +7,8 @@ import FormButtonsSelector from '../../../widgets/form-buttons-selector/FormButt
 import FormSubmitButtons from '../../../widgets/form-submit-buttons/FormSubmitButtons'
 import FormTextAreaSearch from '../../../widgets/form-textarea-search/FormTextAreaSearch'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
-import { FiltersContext, type RecipesFilterValues, getEmptyFilterValues } from '../page/FilteringProvider'
-import { RecipesViewingContext } from '../page/SearchRecipesProvider'
+import { FiltersContext, type RecipesFilterValues, getEmptyFilterValues } from './FilteringProvider'
+import { RecipesViewingContext } from './SearchRecipesProvider'
 
 export const filteringManagementToolDataTestId = 'filtering-management-tool'
 

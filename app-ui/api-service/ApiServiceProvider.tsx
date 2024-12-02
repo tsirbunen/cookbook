@@ -2,7 +2,7 @@
 
 import type { ApolloError, FetchResult } from '@apollo/client'
 import { type MutableRefObject, createContext, useContext, useEffect, useRef } from 'react'
-import { type RecipesFilterValues, getEmptyFilterValues } from '../app-pages/search/page/FilteringProvider'
+import { type RecipesFilterValues, getEmptyFilterValues } from '../app-pages/search/search-management/FilteringProvider'
 import { AppStateContext, type AppStateContextType } from '../state/StateContextProvider'
 import { Dispatch } from '../state/reducer'
 import {

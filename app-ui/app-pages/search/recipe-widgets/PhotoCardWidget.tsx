@@ -1,7 +1,5 @@
 import { type ChakraProps, Flex, Tooltip } from '@chakra-ui/react'
-import { useContext } from 'react'
 import { Shades } from '../../../constants/shades'
-import { SoundServiceContext, SoundType } from '../../../sounds/SoundProvider'
 import type { Recipe } from '../../../types/graphql-schema-types.generated'
 import { tooltipCss } from '../../../utils/styles'
 import ImageWithFallback, { FallbackIcon } from '../../../widgets/image-with-fallback/ImageWithFallback'
@@ -21,26 +19,20 @@ const CARD_WIDTH = 170
 
 export type RecipeForPhotoCardProps = {
   recipe: Recipe
-  onPickRecipeChanged: () => void
   isPicked: boolean
   index: number
   navigateToRecipe: () => void
+  toggleIsPickedWithSound: () => void
 }
 
-const PhotoCardRecipe = ({
+const PhotoCardWidget = ({
   recipe,
-  onPickRecipeChanged,
   isPicked,
   navigateToRecipe,
+  toggleIsPickedWithSound,
   index
 }: RecipeForPhotoCardProps) => {
-  const { playSound } = useContext(SoundServiceContext)
 
-  const toggleIsPickedWithSound = () => {
-    const soundType = isPicked ? SoundType.NEGATIVE : SoundType.POSITIVE
-    playSound(soundType)
-    onPickRecipeChanged()
-  }
 
   const mainPhotoUrl = (recipe.photos ?? []).find((photo) => photo.isMainPhoto)?.url
 
@@ -74,7 +66,7 @@ const PhotoCardRecipe = ({
   )
 }
 
-export default PhotoCardRecipe
+export default PhotoCardWidget
 
 const outerCss = (isPicked: boolean) => {
   return {

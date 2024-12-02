@@ -5,7 +5,6 @@ import { Shades } from '../../../../constants/shades'
 import { useWidthChangedObserver } from '../../../../hooks/useWidthChangedObserver'
 import type { Recipe } from '../../../../types/graphql-schema-types.generated'
 import RecipePropertyIcons from '../../../../widgets/property-icon/RecipePropertyIcons'
-import { RecipesViewingContext } from '../../../search/page/SearchRecipesProvider'
 import { CookingContext } from '../../page/CookingProvider'
 import RecipeToggles from '../actions/RecipeToggles'
 import Ingredients from '../ingredients-and-scaling/Ingredients'
@@ -14,6 +13,7 @@ import Description from './Description'
 import Photos, { IMAGE_CONTAINER_HEIGHT } from './Photos'
 import RecipeTags from './RecipeTags'
 import RecipeTitle from './RecipeTitle'
+import { RecipesViewingContext } from '../../../search/search-management/SearchRecipesProvider'
 
 type RecipePanelProps = {
   recipe?: Recipe

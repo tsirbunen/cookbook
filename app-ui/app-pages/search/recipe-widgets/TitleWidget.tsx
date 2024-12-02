@@ -1,7 +1,5 @@
 import { type ChakraProps, Flex, Tooltip } from '@chakra-ui/react'
-import { useContext } from 'react'
 import { Shades } from '../../../constants/shades'
-import { SoundServiceContext, SoundType } from '../../../sounds/SoundProvider'
 import CheckboxWithTheme from '../../../theme/checkboxes/CheckboxWithTheme'
 import type { Recipe } from '../../../types/graphql-schema-types.generated'
 import { tooltipCss } from '../../../utils/styles'
@@ -14,30 +12,30 @@ import {
 
 export const titleRepresentationDataTestId = 'title-representation'
 
-export type TitleRecipeProps = {
+export type TitleWidgetProps = {
   recipe: Recipe
-  onPickRecipeChanged: () => void
   isPicked: boolean
   showBackground: boolean
   index: number
   confirmNewPosition?: (recipeId: number) => void
   onTargetChanged?: (direction?: 'up' | 'down', index?: number) => void
   navigateToRecipe: () => void
+  toggleIsPickedWithSound: () => void
+  id: string
+  itemHeight?: number
 }
 
-const TitleRecipe = ({ recipe, isPicked, onPickRecipeChanged, navigateToRecipe, showBackground }: TitleRecipeProps) => {
-  const { playSound } = useContext(SoundServiceContext)
-
-  const toggleIsPickedWithSound = () => {
-    const soundType = isPicked ? SoundType.NEGATIVE : SoundType.POSITIVE
-    playSound(soundType)
-    onPickRecipeChanged()
-  }
-
-  const { title } = recipe
-
+const TitleWidget = ({
+  recipe,
+  isPicked,
+  toggleIsPickedWithSound,
+  navigateToRecipe,
+  showBackground,
+  itemHeight,
+  id
+}: TitleWidgetProps) => {
   return (
-    <Flex {...outerCss(isPicked && showBackground)} data-testid={titleRepresentationDataTestId}>
+    <Flex {...outerCss(isPicked && showBackground, itemHeight)} data-testid={titleRepresentationDataTestId} id={id}>
       <Tooltip
         label={isPicked ? clickToRemoveSelectionTooltipLabel : clickToSelectTooltipLabel}
         {...tooltipCss}
@@ -51,7 +49,7 @@ const TitleRecipe = ({ recipe, isPicked, onPickRecipeChanged, navigateToRecipe, 
       <Flex onKeyDown={navigateToRecipe} onClick={navigateToRecipe}>
         <Tooltip label={clickToStartCookingTooltipLabel} {...tooltipCss} placement="bottom-start">
           <div>
-            <TitleWithLink title={title} url="TODO" />
+            <TitleWithLink title={recipe.title} url="TODO" />
           </div>
         </Tooltip>
       </Flex>
@@ -59,9 +57,9 @@ const TitleRecipe = ({ recipe, isPicked, onPickRecipeChanged, navigateToRecipe, 
   )
 }
 
-export default TitleRecipe
+export default TitleWidget
 
-const outerCss = (showBackground: boolean) => {
+const outerCss = (showBackground: boolean, itemHeight = 40) => {
   return {
     display: 'flex',
     flexDirection: 'row' as ChakraProps['flexDirection'],
@@ -70,7 +68,7 @@ const outerCss = (showBackground: boolean) => {
     color: Shades.VERY_DARK,
     padding: `${showBackground ? 4 : 2}px 8px`,
     borderRadius: 6,
-    height: 40,
+    height: `${itemHeight}px`,
     touchaction: 'none',
     width: '100%',
     flex: 1

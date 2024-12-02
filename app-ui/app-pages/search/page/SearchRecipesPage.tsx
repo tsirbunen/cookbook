@@ -4,10 +4,10 @@ import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvi
 import RegularTopShowOrHideView from '../../../layout/views/RegularTopShowOrHideView'
 import SplitView from '../../../layout/views/SplitView'
 import { Page } from '../../../navigation/page-paths'
-import FilteringProvider from './FilteringProvider'
-import RecipesContent from './RecipesContent'
-import SearchManagement from './SearchManagement'
-import { RecipesViewingContext } from './SearchRecipesProvider'
+import FilteringProvider from '../search-management/FilteringProvider'
+import RecipesContent from '../search-management/RecipesContent'
+import SearchManagement from '../search-management/SearchManagement'
+import { RecipesViewingContext } from '../search-management/SearchRecipesProvider'
 
 /**
  * This page displays the actual recipes and viewing management "tools" with which the user

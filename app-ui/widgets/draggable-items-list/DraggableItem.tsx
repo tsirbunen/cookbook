@@ -1,6 +1,4 @@
-/** @jsxImportSource @emotion/react */
-
-import { css } from '@emotion/react'
+import { type ChakraProps, Flex } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import { FaHand } from 'react-icons/fa6'
 
@@ -102,8 +100,8 @@ const DraggableItem = ({
   }
 
   return (
-    <div
-      css={draggableCss(itemHeight, isMoving, onMoveBgColor)}
+    <Flex
+      {...draggableCss(itemHeight, isMoving, onMoveBgColor)}
       ref={ref}
       onMouseDown={onMouseDown}
       onMouseMove={(event: React.MouseEvent) => onMove(event)}
@@ -114,23 +112,25 @@ const DraggableItem = ({
     >
       {draggableContent}
       <FaHand size="25px" color={handColor} />
-    </div>
+    </Flex>
   )
 }
 
 export default DraggableItem
 
-const draggableCss = (itemHeight: number, isMoving: boolean, onMoveBgColor: string) => css`
-  position: absolute;
-  cursor: move;
-  user-select: none;
-  height: ${itemHeight}px;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
-  background-color: ${isMoving ? onMoveBgColor : 'transparent'};
-  border-radius: 6px;
-  padding-right: 10px;
-`
+const draggableCss = (itemHeight: number, isMoving: boolean, onMoveBgColor: string) => {
+  return {
+    position: 'absolute' as ChakraProps['position'],
+    cursor: 'move',
+    userSelect: 'none' as ChakraProps['userSelect'],
+    height: `${itemHeight}px`,
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row' as ChakraProps['flexDirection'],
+    justifyContent: 'start',
+    alignItems: 'center',
+    backgroundColor: isMoving ? onMoveBgColor : 'transparent',
+    borderRadius: '6px',
+    paddingRight: '10px'
+  }
+}

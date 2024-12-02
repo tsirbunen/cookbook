@@ -4,7 +4,7 @@ import { Shades } from '../../../constants/shades'
 import { CardRadioButtonSelectorVariant } from '../../../widgets/card-radio-button-selector/CardRadioButton'
 import CardRadioButtonSelector from '../../../widgets/card-radio-button-selector/CardRadioButtonSelector'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
-import { RecipesViewingContext } from '../page/SearchRecipesProvider'
+import { RecipesViewingContext } from './SearchRecipesProvider'
 
 export const viewModeManagementToolDataTestId = 'view-mode-management-tool'
 export enum ViewRecipesMode {

@@ -2,7 +2,7 @@ import { Base } from './base'
 import { formButtonsSelectorDataTestId } from '../../app-ui/widgets/form-buttons-selector/FormButtonsSelector'
 import { formTextAreaSearchDataTestId } from '../../app-ui/widgets/form-textarea-search/FormTextAreaSearch'
 import { formSubmitButtonsDataTestId } from '../../app-ui/widgets/form-submit-buttons/FormSubmitButtons'
-import { photoRepresentationDataTestId } from '../../app-ui/app-pages/search/recipes-display/PhotoCardRecipe'
+import { photoRepresentationDataTestId } from '../../app-ui/app-pages/search/recipe-widgets/PhotoCardWidget'
 import { filteringManagementToolDataTestId } from '../../app-ui/app-pages/search/search-management/FilteringManagementTool'
 
 export class RecipesFilterForm extends Base {

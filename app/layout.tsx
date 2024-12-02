@@ -41,9 +41,12 @@ const CookingProvider = dynamic(() => import('../app-ui/app-pages/cook/page/Cook
   ssr: false
 })
 
-const SearchRecipesProvider = dynamic(() => import('../app-ui/app-pages/search/page/SearchRecipesProvider'), {
-  ssr: false
-})
+const SearchRecipesProvider = dynamic(
+  () => import('../app-ui/app-pages/search/search-management/SearchRecipesProvider'),
+  {
+    ssr: false
+  }
+)
 
 const SoundProvider = dynamic(() => import('../app-ui/sounds/SoundProvider'), {
   ssr: false

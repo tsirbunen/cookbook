@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { ApiServiceContext } from '../api-service/ApiServiceProvider'
-import type { RecipesFilterValues } from '../app-pages/search/page/FilteringProvider'
+import type { RecipesFilterValues } from '../app-pages/search/search-management/FilteringProvider'
 import type { EmailAccountInput } from '../types/graphql-schema-types.generated'
 
 const TestApiServiceProvider = ({

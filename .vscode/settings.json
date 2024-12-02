@@ -1,6 +1,6 @@
 {
   "eslint.validate": ["typescript", "typescriptreact", "javascript", "javascriptreact"],
-  "eslint.workingDirectories": [{ "directory": "./src", "changeProcessCWD": true }],
+  "eslint.workingDirectories": [{ "directory": "./app-ui", "changeProcessCWD": true }],
   "editor.defaultFormatter": "biomejs.biome",
   "files.exclude": {
     "**/.git": true
@@ -8,7 +8,6 @@
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "quickfix.biome": "explicit",
-    "source.fixAll.eslint": "explicit",
     "source.organizeImports.biome": "explicit"
   },
   "[json]": {
@@ -18,6 +17,9 @@
     "editor.defaultFormatter": "biomejs.biome"
   },
   "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[javascriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
   "[typescriptreact]": {

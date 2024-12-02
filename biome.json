@@ -8,7 +8,7 @@
   "files": {
     "ignoreUnknown": false,
     "ignore": ["*.js", ".next/", "*generated*", "**/*/migrations"],
-    "include": ["src/**/*", "app/**/*"]
+    "include": ["src/**/*", "app/**/*", "app-ui/", "app-datastore/", "app-business-domain/"]
   },
   "formatter": {
     "enabled": true,

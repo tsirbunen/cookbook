@@ -3,7 +3,7 @@ import '@testing-library/jest-dom'
 import { expect } from '@jest/globals'
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import TestApiServiceProvider from '../../../../test-utils/TestApiServiceProvider'
-import { getEmptyFilterValues } from '../FilteringProvider'
+import { getEmptyFilterValues } from '../../search-management/FilteringProvider'
 
 import LocalStorageProvider, { LocalStorageKeys } from '../../../../state/LocalStorageProvider'
 import { LocalStorageMock } from '../../../../state/__tests__/local-storage-mock'

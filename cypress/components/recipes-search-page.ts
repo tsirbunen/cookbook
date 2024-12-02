@@ -6,11 +6,11 @@ import {
 } from '../../app-ui/app-pages/search/search-management/ViewModeManagementTool'
 import { pickedRecipesManagementToolDataTestId } from '../../app-ui/app-pages/search/search-management/PickedRecipesManagementTool'
 import { filteringManagementToolDataTestId } from '../../app-ui/app-pages/search/search-management/FilteringManagementTool'
-import { photoRepresentationDataTestId } from '../../app-ui/app-pages/search/recipes-display/PhotoCardRecipe'
-import { summaryRepresentationDataTestId } from '../../app-ui/app-pages/search/recipes-display/SummaryRecipe'
-import { titleRepresentationDataTestId } from '../../app-ui/app-pages/search/recipes-display/TitleRecipe'
+import { photoRepresentationDataTestId } from '../../app-ui/app-pages/search/recipe-widgets/PhotoCardWidget'
+import { summaryRepresentationDataTestId } from '../../app-ui/app-pages/search/recipe-widgets/SummaryWidget'
+import { titleRepresentationDataTestId } from '../../app-ui/app-pages/search/recipe-widgets/TitleWidget'
 import { cardRadioButtonSelectorDataTestId } from '../../app-ui/widgets/card-radio-button-selector/CardRadioButtonSelector'
-import { recipesContentDataTestId } from '../../app-ui/app-pages/search/page/RecipesContent'
+import { recipesContentDataTestId } from '../../app-ui/app-pages/search/search-management/RecipesContent'
 import {
   selectModeToggleProperty,
   pickedRecipesToggleProperty,

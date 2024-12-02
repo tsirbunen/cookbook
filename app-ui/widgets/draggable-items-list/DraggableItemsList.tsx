@@ -1,6 +1,4 @@
-/** @jsxImportSource @emotion/react */
-
-import { css } from '@emotion/react'
+import { type ChakraProps, Flex } from '@chakra-ui/react'
 import { range } from 'lodash'
 import { type ReactElement, useEffect, useState } from 'react'
 import DraggableItem from './DraggableItem'
@@ -98,7 +96,7 @@ const DraggableItemsList = ({
   }
 
   return (
-    <div css={containerCss(items.length, itemHeight)}>
+    <Flex {...containerCss(items.length, itemHeight)}>
       {draggableItemsInOrder.map((item, index) => {
         const translateY = translateYs[index]
 
@@ -117,14 +115,16 @@ const DraggableItemsList = ({
           />
         )
       })}
-    </div>
+    </Flex>
   )
 }
 
 export default DraggableItemsList
 
-const containerCss = (itemsCount: number, listItemHeight: number) => css`
-  position: relative;
-  height: ${itemsCount * listItemHeight}px;
-  width: 100%;
-`
+const containerCss = (itemsCount: number, listItemHeight: number) => {
+  return {
+    position: 'relative' as ChakraProps['position'],
+    height: `${itemsCount * listItemHeight}px`,
+    width: '100%'
+  }
+}
