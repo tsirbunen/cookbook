@@ -4,8 +4,8 @@ import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvi
 import RegularTopShowOrHideView from '../../../layout/views/RegularTopShowOrHideView'
 import SplitView from '../../../layout/views/SplitView'
 import { Page } from '../../../navigation/page-paths'
+import RecipesContent from '../recipe-widgets/RecipesContent'
 import FilteringProvider from '../search-management/FilteringProvider'
-import RecipesContent from '../search-management/RecipesContent'
 import SearchManagement from '../search-management/SearchManagement'
 import { RecipesViewingContext } from '../search-management/SearchRecipesProvider'
 
@@ -13,9 +13,9 @@ import { RecipesViewingContext } from '../search-management/SearchRecipesProvide
  * This page displays the actual recipes and viewing management "tools" with which the user
  * can manage what is displayed in the UI. For example, the user can manage the displayed recipes to
  * present the recipes in different modes (as cards with large images, as cards with main details or
- * as simply as plain titles), pick recipes and select whether to view a list of the picked recipes,
+ * simply as plain titles), pick recipes and select whether to view a list of the picked recipes,
  * and set filters. If the window width is large enough, the view management "tools" are displayed
- * on the left.
+ * on the left (UI is a "split view").
  */
 const SearchRecipesPage = () => {
   const { isSplitView } = useContext(ViewSizeContext)

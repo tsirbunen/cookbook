@@ -48,7 +48,6 @@ const RecipeWidgets = (props: RecipeWidgetsProps) => {
   const router = useRouter()
   const [recipesInOrder, setRecipesInOrder] = useState(recipes)
   const { playSound } = useContext(SoundServiceContext)
-  const RecipeElement = recipesElementsByMode[mode]
 
   useEffect(() => {
     setRecipesInOrder(recipes)
@@ -77,6 +76,7 @@ const RecipeWidgets = (props: RecipeWidgetsProps) => {
     return Number.parseInt(parts[parts.length - 1])
   }
 
+  const RecipeElement = recipesElementsByMode[mode]
   const items = canDragAndDrop ? recipesInOrder : recipes
   const elements = items.map((recipe, index) => {
     const recipeId = recipe.id

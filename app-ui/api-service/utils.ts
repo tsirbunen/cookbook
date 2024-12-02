@@ -32,5 +32,5 @@ export const getFilteredRecipes = (allRecipes: Recipe[], filters?: RecipesFilter
     })
   }
 
-  return filteredRecipes
+  return [...filteredRecipes]
 }

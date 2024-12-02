@@ -6,8 +6,9 @@ import { AppStateContext, type AppStateContextType } from '../../../state/StateC
 import { Dispatch } from '../../../state/reducer'
 import type { Recipe } from '../../../types/graphql-schema-types.generated'
 import ScrollToTopButton from '../../../widgets/scroll-to-top-button/ScrollToTopButton'
-import RecipeWidgets from '../recipe-widgets/RecipeWidgets'
-import { RecipesViewingContext } from './SearchRecipesProvider'
+import ScrollToTopTargetAnchor from '../../../widgets/scroll-to-top-button/ScrollToTopTargetAnchor'
+import { RecipesViewingContext } from '../search-management/SearchRecipesProvider'
+import RecipeWidgets from './RecipeWidgets'
 
 export const recipesContentDataTestId = 'recipes-content'
 const SCROLL_TO_TARGET_ANCHOR_ID = 'content-top'
@@ -36,10 +37,7 @@ const RecipesContent = () => {
 
   return (
     <Flex {...outerCss} data-testid={recipesContentDataTestId}>
-      <div style={{ zIndex: 1000, position: 'relative', top: `-${HEADER_HEIGHT}px` }}>
-        {/* biome-ignore lint/a11y/useAnchorContent: We do not want to show any text content */}
-        <a id={SCROLL_TO_TARGET_ANCHOR_ID} href="#content-top" aria-label="Scroll to top" />
-      </div>
+      <ScrollToTopTargetAnchor targetAnchorId={SCROLL_TO_TARGET_ANCHOR_ID} />
 
       <RecipeWidgets
         recipes={state.recipes}

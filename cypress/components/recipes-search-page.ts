@@ -10,7 +10,7 @@ import { photoRepresentationDataTestId } from '../../app-ui/app-pages/search/rec
 import { summaryRepresentationDataTestId } from '../../app-ui/app-pages/search/recipe-widgets/SummaryWidget'
 import { titleRepresentationDataTestId } from '../../app-ui/app-pages/search/recipe-widgets/TitleWidget'
 import { cardRadioButtonSelectorDataTestId } from '../../app-ui/widgets/card-radio-button-selector/CardRadioButtonSelector'
-import { recipesContentDataTestId } from '../../app-ui/app-pages/search/search-management/RecipesContent'
+import { recipesContentDataTestId } from '../../app-ui/app-pages/search/recipe-widgets/RecipesContent'
 import {
   selectModeToggleProperty,
   pickedRecipesToggleProperty,
