@@ -4,7 +4,8 @@ import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvi
 import RegularTopShowOrHideView from '../../../layout/views/RegularTopShowOrHideView'
 import SplitView from '../../../layout/views/SplitView'
 import { Page } from '../../../navigation/page-paths'
-import RecipesContent from '../recipe-widgets/RecipesContent'
+import { AppStateContext, type AppStateContextType } from '../../../state/StateContextProvider'
+import RecipeWidgets from '../recipe-widgets/RecipeWidgets'
 import FilteringProvider from '../search-management/FilteringProvider'
 import SearchManagement from '../search-management/SearchManagement'
 import { RecipesViewingContext } from '../search-management/SearchRecipesProvider'
@@ -17,10 +18,12 @@ import { RecipesViewingContext } from '../search-management/SearchRecipesProvide
  * and set filters. If the window width is large enough, the view management "tools" are displayed
  * on the left (UI is a "split view").
  */
-const SearchRecipesPage = () => {
+const SearchPage = () => {
   const { isSplitView } = useContext(ViewSizeContext)
-  const { someFeatureIsToggled, showFiltering } = useContext(RecipesViewingContext)
+  const { someFeatureIsToggled, showFiltering, showRecipes, mode, favoriteRecipeIds } =
+    useContext(RecipesViewingContext)
   const { fetchAllPublicAndUsersOwnRecipes } = useContext(ApiServiceContext)
+  const { state } = useContext(AppStateContext) as AppStateContextType
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: We only want to run this effect once
   useEffect(() => {
@@ -29,7 +32,15 @@ const SearchRecipesPage = () => {
 
   const searchPageTestId = `${Page.SEARCH}-page`
   const viewingManagement = <SearchManagement />
-  const actualRecipes = <RecipesContent />
+  const actualRecipes = showRecipes ? (
+    <RecipeWidgets
+      recipes={state.recipes}
+      mode={mode}
+      showBackground={true}
+      canDragAndDrop={false}
+      favoriteRecipeIds={favoriteRecipeIds}
+    />
+  ) : null
 
   return (
     <FilteringProvider>
@@ -52,4 +63,4 @@ const SearchRecipesPage = () => {
   )
 }
 
-export default SearchRecipesPage
+export default SearchPage

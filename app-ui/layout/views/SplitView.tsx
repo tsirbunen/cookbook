@@ -7,12 +7,14 @@ import { recipesViewingManagementZIndex } from '../../constants/z-indexes'
 
 type SplitViewProps = {
   splitContent: JSX.Element
-  mainContent: JSX.Element
+  mainContent: JSX.Element | null
   hideSplit: boolean
   testId?: string
 }
 
 const SplitView = ({ splitContent, mainContent, hideSplit, testId }: SplitViewProps) => {
+  if (!mainContent) return null
+
   return (
     <div css={view} data-testid={testId}>
       <div css={container}>

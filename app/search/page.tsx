@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic'
 import LoadingPage from '../../app-ui/widgets/loading-page/LoadingPage'
 
-const SearchRecipesPage = dynamic(() => import('../../app-ui/app-pages/search/page/SearchRecipesPage'), {
+const SearchPage = dynamic(() => import('../../app-ui/app-pages/search/page/SearchPage'), {
   ssr: false,
   loading: () => <LoadingPage />
 })
@@ -14,5 +14,5 @@ const SearchRecipesPage = dynamic(() => import('../../app-ui/app-pages/search/pa
  * src/app-pages folder.
  */
 export default function Recipes() {
-  return <SearchRecipesPage />
+  return <SearchPage />
 }

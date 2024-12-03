@@ -9,7 +9,7 @@ import { ViewSizeContext } from '../view-size-service/ViewSizeProvider'
 
 type RegularTopShowOrHideViewProps = {
   topShowOrHideContent: JSX.Element
-  mainContent: JSX.Element
+  mainContent: JSX.Element | null
   isMultiPanel?: boolean
   showFullHeightTools: boolean
   testId?: string
@@ -27,7 +27,7 @@ const RegularTopShowOrHideView = ({
   return (
     <div css={viewCss} data-testid={testId}>
       <div css={pageCss(width)}>
-        <div css={containerCss(showFullHeightTools)} id={'GGG'}>
+        <div css={containerCss(showFullHeightTools)}>
           <div css={topOuterCss}>
             <div css={topInnerCss(showFullHeightTools)}>{topShowOrHideContent}</div>
           </div>

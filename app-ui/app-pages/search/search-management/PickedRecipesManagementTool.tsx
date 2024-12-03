@@ -2,10 +2,9 @@ import { type ChakraProps, Flex } from '@chakra-ui/react'
 import { useContext } from 'react'
 import { Shades } from '../../../constants/shades'
 import { AppStateContext, type AppStateContextType } from '../../../state/StateContextProvider'
-import { Dispatch } from '../../../state/reducer'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
-import { ViewRecipesMode } from './ViewModeManagementTool'
 import RecipeWidgets from '../recipe-widgets/RecipeWidgets'
+import { ViewRecipesMode } from './ViewModeManagementTool'
 
 export const pickedRecipesManagementToolDataTestId = 'picked-recipes-management-tool'
 
@@ -13,15 +12,7 @@ const noRecipesPickedYetTitle = 'Pick some recipes to start cooking!'
 const pickRecipesTitle = 'Picked recipes'
 
 const PickedRecipesManagementTool = () => {
-  const { state, dispatch } = useContext(AppStateContext) as AppStateContextType
-
-  const updatePickedRecipes = (recipeId: number) => {
-    dispatch({ type: Dispatch.UPDATE_PICKED_RECIPES, payload: { recipeIds: [recipeId] } })
-  }
-
-  const onChangedRecipeOrder = (newOrderOfIds: number[]) => {
-    dispatch({ type: Dispatch.CHANGE_RECIPES_ORDER, payload: { newOrderOfIds } })
-  }
+  const { state } = useContext(AppStateContext) as AppStateContextType
 
   const pickedRecipes = state.pickedRecipes
   const noRecipesPickedYet = pickedRecipes.length === 0
@@ -34,12 +25,9 @@ const PickedRecipesManagementTool = () => {
       <Flex {...innerCss(noRecipesPickedYet)}>
         <RecipeWidgets
           recipes={pickedRecipes}
-          onPickRecipeChanged={updatePickedRecipes}
           mode={ViewRecipesMode.TITLES}
           showBackground={false}
-          pickedRecipeIds={pickedRecipes.map((recipe) => recipe.id)}
           canDragAndDrop={true}
-          onChangedRecipeOrder={onChangedRecipeOrder}
           favoriteRecipeIds={[]}
         />
       </Flex>

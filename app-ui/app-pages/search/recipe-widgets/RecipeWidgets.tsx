@@ -1,53 +1,44 @@
-import { Flex } from '@chakra-ui/react'
+import { type ChakraProps, Flex } from '@chakra-ui/react'
 import { uniq } from 'lodash'
 import { useRouter } from 'next/navigation'
 import { useContext, useEffect, useState } from 'react'
 import { Shades } from '../../../constants/shades'
 import { Page } from '../../../navigation/page-paths'
-import { SoundServiceContext, SoundType } from '../../../sounds/SoundProvider'
+import { SoundServiceContext, SoundType } from '../../../state/SoundProvider'
 import { AppStateContext, type AppStateContextType } from '../../../state/StateContextProvider'
 import { Dispatch } from '../../../state/reducer'
 import type { Recipe } from '../../../types/graphql-schema-types.generated'
 import DraggableItemsList from '../../../widgets/draggable-items-list/DraggableItemsList'
+import ScrollToTopButton from '../../../widgets/scroll-to-top-button/ScrollToTopButton'
+import ScrollToTopTargetAnchor from '../../../widgets/scroll-to-top-button/ScrollToTopTargetAnchor'
 import { ViewRecipesMode } from '../search-management/ViewModeManagementTool'
-import PhotoCardWidget from './PhotoCardWidget'
+import PhotoWidget from './PhotoWidget'
 import SummaryWidget from './SummaryWidget'
 import TitleWidget from './TitleWidget'
 
 const listItemHeight = 40
+export const recipesContentDataTestId = 'recipes-content'
+const SCROLL_TO_TARGET_ANCHOR_ID = 'content-top'
 
 const recipesElementsByMode = {
-  PHOTOS: PhotoCardWidget,
+  PHOTOS: PhotoWidget,
   SUMMARIES: SummaryWidget,
   TITLES: TitleWidget
 }
 
 export type RecipeWidgetsProps = {
   recipes: Recipe[]
-  onPickRecipeChanged: (recipeId: number) => void
   mode: ViewRecipesMode
   showBackground: boolean
   favoriteRecipeIds: number[]
-  pickedRecipeIds: number[]
   canDragAndDrop: boolean
-  onChangedRecipeOrder?: (newOrderOfIds: number[]) => void
 }
 
-const RecipeWidgets = (props: RecipeWidgetsProps) => {
-  const {
-    recipes,
-    mode,
-    onPickRecipeChanged,
-    showBackground,
-    favoriteRecipeIds,
-    pickedRecipeIds,
-    canDragAndDrop,
-    onChangedRecipeOrder
-  } = props
+const RecipeWidgets = ({ recipes, mode, showBackground, favoriteRecipeIds, canDragAndDrop }: RecipeWidgetsProps) => {
   const { state, dispatch } = useContext(AppStateContext) as AppStateContextType
-  const router = useRouter()
-  const [recipesInOrder, setRecipesInOrder] = useState(recipes)
   const { playSound } = useContext(SoundServiceContext)
+  const [recipesInOrder, setRecipesInOrder] = useState(recipes)
+  const router = useRouter()
 
   useEffect(() => {
     setRecipesInOrder(recipes)
@@ -56,19 +47,19 @@ const RecipeWidgets = (props: RecipeWidgetsProps) => {
   const toggleIsPickedWithSound = (isPicked: boolean, id: number) => {
     const soundType = isPicked ? SoundType.NEGATIVE : SoundType.POSITIVE
     playSound(soundType)
-    onPickRecipeChanged(id)
+    dispatch({ type: Dispatch.UPDATE_PICKED_RECIPES, payload: { recipeIds: [id] } })
   }
 
   const navigateToRecipe = (id: number) => {
     const newOrderOfIds = uniq([id, ...state.pickedRecipeIds])
-    onPickRecipeChanged(id)
+    dispatch({ type: Dispatch.UPDATE_PICKED_RECIPES, payload: { recipeIds: [id] } })
     dispatch({ type: Dispatch.CHANGE_RECIPES_ORDER, payload: { newOrderOfIds } })
     router.push(`/${Page.COOK}`)
   }
 
   const onConfirmNewOrder = (newOrderOfKeys: string[]) => {
     const recipeIds = newOrderOfKeys.map(getRecipeIdFromKey)
-    onChangedRecipeOrder?.(recipeIds)
+    dispatch({ type: Dispatch.CHANGE_RECIPES_ORDER, payload: { newOrderOfIds: recipeIds } })
   }
 
   const getRecipeIdFromKey = (key: string) => {
@@ -76,6 +67,7 @@ const RecipeWidgets = (props: RecipeWidgetsProps) => {
     return Number.parseInt(parts[parts.length - 1])
   }
 
+  const pickedRecipeIds = state.pickedRecipeIds // state.pickedRecipes.map((recipe) => recipe.id)
   const RecipeElement = recipesElementsByMode[mode]
   const items = canDragAndDrop ? recipesInOrder : recipes
   const elements = items.map((recipe, index) => {
@@ -99,7 +91,14 @@ const RecipeWidgets = (props: RecipeWidgetsProps) => {
   })
 
   if (!canDragAndDrop) {
-    return <Flex {...cssByMode[mode]}>{elements}</Flex>
+    return (
+      <Flex {...outerCss} data-testid={recipesContentDataTestId}>
+        <ScrollToTopTargetAnchor targetAnchorId={SCROLL_TO_TARGET_ANCHOR_ID} />
+
+        <Flex {...cssByMode[mode]}>{elements}</Flex>
+        <ScrollToTopButton targetAnchorId={SCROLL_TO_TARGET_ANCHOR_ID} />
+      </Flex>
+    )
   }
 
   return (
@@ -116,6 +115,14 @@ const RecipeWidgets = (props: RecipeWidgetsProps) => {
 }
 
 export default RecipeWidgets
+
+const outerCss = {
+  display: 'flex' as ChakraProps['display'],
+  flexDirection: 'column' as ChakraProps['flexDirection'],
+  justifyContent: 'start',
+  alignItems: 'start',
+  width: '100%'
+}
 
 const commonCss = {
   display: 'flex',

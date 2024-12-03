@@ -1,9 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { type ChakraProps, Flex, Tooltip } from '@chakra-ui/react'
-import { useContext } from 'react'
 import { Shades } from '../../../constants/shades'
-import { SoundServiceContext, SoundType } from '../../../sounds/SoundProvider'
 import CheckboxWithTheme from '../../../theme/checkboxes/CheckboxWithTheme'
 import type { Recipe } from '../../../types/graphql-schema-types.generated'
 import { tooltipCss } from '../../../utils/styles'
@@ -35,11 +33,10 @@ const SummaryWidget = ({
   recipe,
   isPicked,
   isFavorite,
-  navigateToRecipe,toggleIsPickedWithSound,
+  navigateToRecipe,
+  toggleIsPickedWithSound,
   index
 }: SummaryWidgetProps) => {
-
-
   const { title, tags, ovenNeeded, language, photos } = recipe
   const mainPhotoUrl = (photos ?? []).find((photo) => photo.isMainPhoto)?.url
 

@@ -48,7 +48,7 @@ const SearchRecipesProvider = dynamic(
   }
 )
 
-const SoundProvider = dynamic(() => import('../app-ui/sounds/SoundProvider'), {
+const SoundProvider = dynamic(() => import('../app-ui/state/SoundProvider'), {
   ssr: false
 })
 

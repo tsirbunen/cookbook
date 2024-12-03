@@ -25,15 +25,13 @@ export type RecipeForPhotoCardProps = {
   toggleIsPickedWithSound: () => void
 }
 
-const PhotoCardWidget = ({
+const PhotoWidget = ({
   recipe,
   isPicked,
   navigateToRecipe,
   toggleIsPickedWithSound,
   index
 }: RecipeForPhotoCardProps) => {
-
-
   const mainPhotoUrl = (recipe.photos ?? []).find((photo) => photo.isMainPhoto)?.url
 
   return (
@@ -66,7 +64,7 @@ const PhotoCardWidget = ({
   )
 }
 
-export default PhotoCardWidget
+export default PhotoWidget
 
 const outerCss = (isPicked: boolean) => {
   return {

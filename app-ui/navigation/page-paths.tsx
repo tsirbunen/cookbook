@@ -7,7 +7,7 @@ import { TbBasket, TbChefHat, TbSearch, TbSettings, TbWand } from 'react-icons/t
 import AccountPage from '../app-pages/account/AccountPage'
 import CookPage from '../app-pages/cook/page/CookPage'
 import HomePage from '../app-pages/home/HomePage'
-import RecipesPage from '../app-pages/search/page/SearchRecipesPage'
+import RecipesPage from '../app-pages/search/page/SearchPage'
 import SettingsPage from '../app-pages/settings/SettingsPage'
 import ShoppingPage from '../app-pages/shopping/ShoppingPage'
 import WizardPage from '../app-pages/wizard/page/WizardPage'
