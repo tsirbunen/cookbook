@@ -2,8 +2,8 @@ import { Base } from './base'
 import { formButtonsSelectorDataTestId } from '../../app-ui/widgets/form-buttons-selector/FormButtonsSelector'
 import { formTextAreaSearchDataTestId } from '../../app-ui/widgets/form-textarea-search/FormTextAreaSearch'
 import { formSubmitButtonsDataTestId } from '../../app-ui/widgets/form-submit-buttons/FormSubmitButtons'
-import { photoRepresentationDataTestId } from '../../app-ui/app-pages/search/recipe-widgets/PhotoWidget'
-import { filteringManagementToolDataTestId } from '../../app-ui/app-pages/search/search-management/FilteringManagementTool'
+import { photoRepresentationDataTestId } from '../../app-ui/app-pages/search/widgets/PhotoWidget'
+import { filteringToolDataTestId } from '../../app-ui/app-pages/search/tools/FilteringTool'
 
 export class RecipesFilterForm extends Base {
   verifyFormContainsElement(element: string) {
@@ -26,7 +26,7 @@ export class RecipesFilterForm extends Base {
     this.verifyAreVisible(dataTestId)
 
     if (label) {
-      cy.getByDataTestId(filteringManagementToolDataTestId).should('contain', label)
+      cy.getByDataTestId(filteringToolDataTestId).should('contain', label)
     }
   }
 

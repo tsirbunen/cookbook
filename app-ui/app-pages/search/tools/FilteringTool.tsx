@@ -7,10 +7,10 @@ import FormButtonsSelector from '../../../widgets/form-buttons-selector/FormButt
 import FormSubmitButtons from '../../../widgets/form-submit-buttons/FormSubmitButtons'
 import FormTextAreaSearch from '../../../widgets/form-textarea-search/FormTextAreaSearch'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
-import { FiltersContext, type RecipesFilterValues, getEmptyFilterValues } from './FilteringProvider'
-import { RecipesViewingContext } from './SearchRecipesProvider'
+import { type RecipesFilterValues, SearchFiltersContext, getEmptyFilterValues } from '../state/SearchFilterProvider'
+import { SearchToolsContext } from '../state/SearchToolsProvider'
 
-export const filteringManagementToolDataTestId = 'filtering-management-tool'
+export const filteringToolDataTestId = 'filtering-tool'
 
 const filteringTitle = 'Filtering'
 export const applyFiltersLabel = 'Apply filters'
@@ -21,42 +21,42 @@ const tagsLabel = 'tags'
 const ingredientsLabel = 'ingredients to contain'
 const ingredientsPlaceholder = 'Type here ingredients...'
 
-const FilteringManagementTool = () => {
-  const { toggleShowFiltering, toggleHideRecipes } = useContext(RecipesViewingContext)
+// FIXME: Improve this tool
+const FilteringTool = () => {
+  const { toggleShowFiltering, toggleHideRecipes } = useContext(SearchToolsContext)
   const { isSplitView } = useContext(ViewSizeContext)
   const {
     applyFilters,
     clearFilters,
-    updateLocalFilters,
+    updateFormFilters,
     initialValues,
     filtersHaveValues,
-    filtersHaveChanges,
-    hasStoredFilters,
     languages,
-    tags
-  } = useContext(FiltersContext)
+    tags,
+    hasChanges
+  } = useContext(SearchFiltersContext)
 
-  const { handleSubmit, control, watch, reset, formState } = useForm<RecipesFilterValues>({
+  const {
+    handleSubmit,
+    control,
+    watch,
+    reset,
+    formState: { isSubmitting }
+  } = useForm<RecipesFilterValues>({
     defaultValues: initialValues
   })
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: Only change if the value of watch changes
   useEffect(() => {
-    const subscription = watch((value) => {
-      updateLocalFilters(value as RecipesFilterValues)
-    })
-
+    const subscription = watch((value) => updateFormFilters(value as RecipesFilterValues))
     return () => subscription.unsubscribe()
-  }, [watch])
-
-  const { isSubmitting } = formState
+  }, [watch, updateFormFilters])
 
   const onSubmit: SubmitHandler<RecipesFilterValues> = (_filterValues: RecipesFilterValues) => {
     applyFilters()
-    if (!isSplitView) {
-      toggleShowFiltering()
-      toggleHideRecipes()
-    }
+    if (isSplitView) return
+
+    toggleShowFiltering()
+    toggleHideRecipes()
   }
 
   const clearFormValues = () => {
@@ -64,14 +64,10 @@ const FilteringManagementTool = () => {
     clearFilters()
   }
 
-  const hasValuesToClear = filtersHaveValues()
-  const hasChanges = filtersHaveChanges()
-  const clearIsDisabled = (!hasValuesToClear && !hasChanges) || isSubmitting
-  const submitIsDisabled = !hasChanges || isSubmitting
-  const applyLabel = hasChanges ? (!hasStoredFilters ? applyFiltersLabel : applyChangesLabel) : applyFiltersLabel
+  const applyLabel = hasChanges ? applyChangesLabel : applyFiltersLabel
 
   return (
-    <Flex {...outerStyle} data-testid={filteringManagementToolDataTestId}>
+    <Flex {...outerStyle} data-testid={filteringToolDataTestId}>
       <Title title={filteringTitle.toUpperCase()} variant={TitleVariant.MediumRegular} />
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -89,15 +85,15 @@ const FilteringManagementTool = () => {
           labelCancel={clearFormLabel.toUpperCase()}
           labelSubmit={applyLabel.toUpperCase()}
           clearFormValues={clearFormValues}
-          clearIsDisabled={clearIsDisabled}
-          submitIsDisabled={submitIsDisabled}
+          clearIsDisabled={!filtersHaveValues() || isSubmitting}
+          submitIsDisabled={!hasChanges || isSubmitting}
         />
       </form>
     </Flex>
   )
 }
 
-export default FilteringManagementTool
+export default FilteringTool
 
 const outerStyle = {
   backgroundColor: Shades.VERY_PALE,

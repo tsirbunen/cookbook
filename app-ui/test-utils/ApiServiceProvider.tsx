@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState } from 'react'
-import { type RecipesFilterValues, getEmptyFilterValues } from '../app-pages/search/search-management/FilteringProvider'
+import { type RecipesFilterValues, getEmptyFilterValues } from '../app-pages/search/state/SearchFilterProvider'
 import { AppStateContext, type AppStateContextType } from '../state/StateContextProvider'
 import { Dispatch } from '../state/reducer'
 

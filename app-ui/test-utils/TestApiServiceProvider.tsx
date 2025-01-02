@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { ApiServiceContext } from '../api-service/ApiServiceProvider'
-import type { RecipesFilterValues } from '../app-pages/search/search-management/FilteringProvider'
+import type { RecipesFilterValues } from '../app-pages/search/state/SearchFilterProvider'
 import type { EmailAccountInput } from '../types/graphql-schema-types.generated'
 
 const TestApiServiceProvider = ({
@@ -40,6 +40,9 @@ const TestApiServiceProvider = ({
   const createRecipe = async () => {
     throw new Error('Not implemented')
   }
+  const patchRecipe = async () => {
+    throw new Error('Not implemented')
+  }
   const fetchAllPublicAndUsersOwnRecipes = async () => {
     throw new Error('Not implemented')
   }
@@ -53,6 +56,7 @@ const TestApiServiceProvider = ({
         createEmailAccount,
         createNonEmailAccount,
         createRecipe,
+        patchRecipe,
         deleteAccount,
         fetchAllPublicAndUsersOwnRecipes,
         fetchValidationSchemas,

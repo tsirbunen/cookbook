@@ -1,21 +1,19 @@
 import { useContext } from 'react'
 import { TbCheckbox, TbFilter, TbListDetails } from 'react-icons/tb'
+import { AppStateContext, type AppStateContextType } from '../../../state/StateContextProvider'
+import { ButtonVariant } from '../../../theme/buttons/buttons-theme'
 import Toggle, {
   filteringToggleProperty,
   pickedRecipesToggleProperty,
   selectModeToggleProperty
 } from '../../../widgets/toggles/Toggle'
-
-import { AppStateContext, type AppStateContextType } from '../../../state/StateContextProvider'
-import { ButtonVariant } from '../../../theme/buttons/buttons-theme'
 import Toggles from '../../../widgets/toggles/Toggles'
-import { FiltersContext } from './FilteringProvider'
-import { RecipesViewingContext } from './SearchRecipesProvider'
+import { SearchFiltersContext } from '../state/SearchFilterProvider'
+import { SearchToolsContext } from '../state/SearchToolsProvider'
 
-const SearchRecipesHeaderToggles = () => {
+const SearchPageHeaderToggles = () => {
   const { state } = useContext(AppStateContext) as AppStateContextType
-
-  const { appliedFiltersCount } = useContext(FiltersContext)
+  const { appliedFiltersCount } = useContext(SearchFiltersContext)
   const {
     toggleHideRecipes,
     showSelectMode,
@@ -24,8 +22,7 @@ const SearchRecipesHeaderToggles = () => {
     showFiltering,
     toggleShowPickedRecipes,
     toggleShowFiltering
-  } = useContext(RecipesViewingContext)
-  const { clearFilters } = useContext(FiltersContext)
+  } = useContext(SearchToolsContext)
 
   const pickedRecipesCount = state.pickedRecipeIds.length
   const toggleVariant = ButtonVariant.HeaderToggle
@@ -54,7 +51,6 @@ const SearchRecipesHeaderToggles = () => {
         toggle={() => {
           toggleHideRecipes()
           toggleShowFiltering()
-          clearFilters()
         }}
         Icon={TbFilter}
         count={appliedFiltersCount}
@@ -65,4 +61,4 @@ const SearchRecipesHeaderToggles = () => {
   )
 }
 
-export default SearchRecipesHeaderToggles
+export default SearchPageHeaderToggles

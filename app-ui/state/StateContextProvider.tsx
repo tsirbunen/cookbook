@@ -2,7 +2,7 @@
 
 import type React from 'react'
 import { createContext, useReducer } from 'react'
-import type { RecipesFilterValues } from '../app-pages/search/search-management/FilteringProvider'
+import type { RecipesFilterValues } from '../app-pages/search/state/SearchFilterProvider'
 import type { Language, Recipe, Tag, ValidationTarget } from '../types/graphql-schema-types.generated'
 import type { AccountInfo, JSONSchemaType, Settings } from '../types/types'
 import { type DispatchAction, reducer } from './reducer'

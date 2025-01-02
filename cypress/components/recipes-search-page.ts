@@ -3,28 +3,28 @@ import { togglesTestId } from '../../app-ui/widgets/toggles/Toggles'
 import {
   ViewRecipesMode,
   viewModeManagementToolDataTestId
-} from '../../app-ui/app-pages/search/search-management/ViewModeManagementTool'
-import { pickedRecipesManagementToolDataTestId } from '../../app-ui/app-pages/search/search-management/PickedRecipesManagementTool'
-import { filteringManagementToolDataTestId } from '../../app-ui/app-pages/search/search-management/FilteringManagementTool'
-import { photoRepresentationDataTestId } from '../../app-ui/app-pages/search/recipe-widgets/PhotoWidget'
-import { summaryRepresentationDataTestId } from '../../app-ui/app-pages/search/recipe-widgets/SummaryWidget'
-import { titleRepresentationDataTestId } from '../../app-ui/app-pages/search/recipe-widgets/TitleWidget'
+} from '../../app-ui/app-pages/search/tools/ViewModeTool'
+import { pickingToolDataTestId } from '../../app-ui/app-pages/search/tools/PickingTool'
+import { filteringToolDataTestId } from '../../app-ui/app-pages/search/tools/FilteringTool'
+import { photoRepresentationDataTestId } from '../../app-ui/app-pages/search/widgets/PhotoWidget'
+import { summaryRepresentationDataTestId } from '../../app-ui/app-pages/search/widgets/SummaryWidget'
+import { titleRepresentationDataTestId } from '../../app-ui/app-pages/search/widgets/TitleWidget'
 import { cardRadioButtonSelectorDataTestId } from '../../app-ui/widgets/card-radio-button-selector/CardRadioButtonSelector'
-import { recipesContentDataTestId } from '../../app-ui/app-pages/search/recipe-widgets/RecipesContent'
 import {
   selectModeToggleProperty,
   pickedRecipesToggleProperty,
   filteringToggleProperty,
   cookToggleProperty
 } from '../../app-ui/widgets/toggles/Toggle'
+import { recipesContentDataTestId } from '../../app-ui/app-pages/search/widgets/Widgets'
 
 const CLIENT = 'localhost'
 const CLIENT_BASE_URL = `http://${CLIENT}:3000`
 
 const toolDataTestIdsByTool = {
   'select mode': viewModeManagementToolDataTestId,
-  'picked recipes': pickedRecipesManagementToolDataTestId,
-  filtering: filteringManagementToolDataTestId
+  'picked recipes': pickingToolDataTestId,
+  filtering: filteringToolDataTestId
 }
 
 export const toggleDataTestIdsByTool = {
@@ -73,7 +73,7 @@ export class RecipesSearchPage extends Base {
   }
 
   pickedRecipesCountInToolComponent(count: number) {
-    const toolDataTestId = pickedRecipesManagementToolDataTestId
+    const toolDataTestId = pickingToolDataTestId
     const recipeElementDataTestId = titleRepresentationDataTestId
     cy.getByDataTestId(toolDataTestId).within(() => {
       if (count === 0) {
@@ -101,7 +101,7 @@ export class RecipesSearchPage extends Base {
   }
 
   clickRecipeElementInToolAtIndex(index: number) {
-    const toolDataTestId = pickedRecipesManagementToolDataTestId
+    const toolDataTestId = pickingToolDataTestId
     const recipeElementDataTestId = titleRepresentationDataTestId
     cy.getByDataTestId(toolDataTestId).within(() => {
       cy.getByDataTestId(recipeElementDataTestId)

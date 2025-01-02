@@ -3,11 +3,11 @@ import '@testing-library/jest-dom'
 import { expect } from '@jest/globals'
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import TestApiServiceProvider from '../../../../test-utils/TestApiServiceProvider'
-import { getEmptyFilterValues } from '../../search-management/FilteringProvider'
+import { getEmptyFilterValues } from '../SearchFilterProvider'
 
 import LocalStorageProvider, { LocalStorageKeys } from '../../../../state/LocalStorageProvider'
 import { LocalStorageMock } from '../../../../state/__tests__/local-storage-mock'
-import SearchRecipesProvider from '../SearchRecipesProvider'
+import SearchRecipesProvider from '../SearchToolsProvider'
 import SearchRecipesProviderTestUser, {
   MODE,
   SET_MODE_TO_TITLES,

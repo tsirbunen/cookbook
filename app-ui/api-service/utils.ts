@@ -1,4 +1,4 @@
-import type { RecipesFilterValues } from '../app-pages/search/search-management/FilteringProvider'
+import type { RecipesFilterValues } from '../app-pages/search/state/SearchFilterProvider'
 import type { Recipe } from '../types/graphql-schema-types.generated'
 import { SearchMode } from '../widgets/form-textarea-search/FormTextAreaSearch'
 

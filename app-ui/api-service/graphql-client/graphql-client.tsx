@@ -61,10 +61,7 @@ const getAuthenticatedClient = (token: string) => {
 export const GraphQLClientContext = createContext<GraphQLClient>({} as GraphQLClient)
 
 function GraphQLClientProvider({ children }: React.PropsWithChildren) {
-  // const [graphqlClient, setGraphqlClient] = useState(getClient())
-  const testToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjoyLCJ1c2VybmFtZSI6InRzaXJidW5lbiIsImlkZW50aXR5UHJvdmlkZXIiOiJFTUFJTCJ9LCJzdWIiOiI3NGFhOTQwYS0wNmNmLTQwMTAtOWY2MS02OTYwNGY5ZWQ3YTEiLCJpc3MiOiJjb29raW5nLWNvbXBhbmlvbi1zZXJ2ZXIiLCJhdWQiOiJjb29raW5nLWNvbXBhbmlvbi1hY2NvdW50IiwiZXhwIjoxNzMzNTQ4MjkwLCJpYXQiOjE3MzI5NDM0OTB9.v9_G0vFjGoTB5VRRRyi6D604qFBHo6Xj4O92TAanS9U'
-  const [graphqlClient, setGraphqlClient] = useState(getAuthenticatedClient(testToken))
+  const [graphqlClient, setGraphqlClient] = useState(getClient())
 
   const setAuthentication = (token: string | null) => {
     if (!token) {
@@ -72,7 +69,7 @@ function GraphQLClientProvider({ children }: React.PropsWithChildren) {
       return
     }
 
-    const authenticatedClient = getAuthenticatedClient(testToken)
+    const authenticatedClient = getAuthenticatedClient(token)
     setGraphqlClient(authenticatedClient)
   }
 

@@ -19,22 +19,23 @@ type RecipesFiltering = {
   applyFilters: () => void
   clearFilters: () => void
   filtersHaveValues: () => boolean
-  filtersHaveChanges: () => boolean
   appliedFiltersCount: number
-  updateLocalFilters: (newValues: RecipesFilterValues) => void
-  hasStoredFilters: boolean
+  updateFormFilters: (newValues: RecipesFilterValues) => void
+  hasChanges: boolean
 }
 
-export const FiltersContext = createContext<RecipesFiltering>({} as RecipesFiltering)
+export const SearchFiltersContext = createContext<RecipesFiltering>({} as RecipesFiltering)
 const defaultSearchMode = SearchMode.OR
 
-const FilteringProvider = ({ children }: { children: React.ReactNode }) => {
+const SearchFilterProvider = ({ children }: { children: React.ReactNode }) => {
   const { state } = useContext(AppStateContext) as AppStateContextType
   const { filterRecipes } = useContext(ApiServiceContext)
   const [filterValues, setFilterValues] = useState<RecipesFilterValues>(state.filters)
+  const [hasChanges, setHasChanges] = useState(false)
 
-  const updateLocalFilters = (newValues: RecipesFilterValues) => {
+  const updateFormFilters = (newValues: RecipesFilterValues) => {
     setFilterValues(newValues)
+    setHasChanges(someFilterHasChanged(state.filters, newValues))
   }
 
   const getAppliedFiltersCount = () => {
@@ -49,35 +50,20 @@ const FilteringProvider = ({ children }: { children: React.ReactNode }) => {
 
   const applyFilters = () => {
     filterRecipes(filterValues)
+    setFilterValues(filterValues)
+    setHasChanges(false)
   }
 
   const clearFilters = () => {
-    setFilterValues(getEmptyFilterValues())
-  }
-
-  const filtersHaveChanges = () => {
-    const appliedFilters = state.filters
-
-    const languagesHaveChanged = xor(appliedFilters.languages, filterValues.languages).length > 0
-    if (languagesHaveChanged) return true
-
-    const tagsHaveChanged = xor(appliedFilters.tags, filterValues.tags).length > 0
-    if (tagsHaveChanged) return true
-
-    const ingredientsHaveChanged =
-      appliedFilters.ingredients.searchTerm !== filterValues.ingredients.searchTerm ||
-      (appliedFilters.ingredients.searchTerm.length &&
-        appliedFilters.ingredients.searchMode !== filterValues.ingredients.searchMode)
-    if (ingredientsHaveChanged) return true
-
-    return false
+    const emptyValues = getEmptyFilterValues()
+    setHasChanges(someFilterHasChanged(state.filters, emptyValues))
   }
 
   const appliedFiltersCount = getAppliedFiltersCount()
   const initialValues = { ...state.filters }
 
   return (
-    <FiltersContext.Provider
+    <SearchFiltersContext.Provider
       value={{
         languages: state.languages.map((language) => language.language),
         tags: state.tags.map((tag) => tag.tag),
@@ -86,17 +72,16 @@ const FilteringProvider = ({ children }: { children: React.ReactNode }) => {
         appliedFiltersCount,
         clearFilters,
         filtersHaveValues: () => filtersHaveValues(filterValues),
-        filtersHaveChanges,
-        updateLocalFilters,
-        hasStoredFilters: filtersHaveValues(state.filters)
+        updateFormFilters,
+        hasChanges
       }}
     >
       {children}
-    </FiltersContext.Provider>
+    </SearchFiltersContext.Provider>
   )
 }
 
-export default FilteringProvider
+export default SearchFilterProvider
 
 export const getEmptyFilterValues = (): RecipesFilterValues => {
   return {
@@ -111,5 +96,21 @@ const filtersHaveValues = (filterValues: RecipesFilterValues) => {
   if (filterValues.tags.length) return true
   if (filterValues.ingredients.searchMode && filterValues.ingredients.searchMode !== defaultSearchMode) return true
   if (filterValues.ingredients.searchTerm.length) return true
+  return false
+}
+
+const someFilterHasChanged = (originalFilters: RecipesFilterValues, currentFilters: RecipesFilterValues) => {
+  const languagesHaveChanged = xor(originalFilters.languages, currentFilters.languages).length > 0
+  if (languagesHaveChanged) return true
+
+  const tagsHaveChanged = xor(originalFilters.tags, currentFilters.tags).length > 0
+  if (tagsHaveChanged) return true
+
+  const ingredientsHaveChanged =
+    originalFilters.ingredients.searchTerm !== currentFilters.ingredients.searchTerm ||
+    (originalFilters.ingredients.searchTerm.length &&
+      originalFilters.ingredients.searchMode !== currentFilters.ingredients.searchMode)
+  if (ingredientsHaveChanged) return true
+
   return false
 }

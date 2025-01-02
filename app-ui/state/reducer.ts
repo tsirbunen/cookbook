@@ -1,6 +1,6 @@
 import { produce } from 'immer'
 import type { ValidationTarget } from '../../app/api/graphql/graphql-server/modules/types.generated'
-import type { RecipesFilterValues } from '../app-pages/search/search-management/FilteringProvider'
+import type { RecipesFilterValues } from '../app-pages/search/state/SearchFilterProvider'
 import type { Language, Recipe, Tag } from '../types/graphql-schema-types.generated'
 import type { AccountInfo, JSONSchemaType } from '../types/types'
 import type { AppState } from './StateContextProvider'

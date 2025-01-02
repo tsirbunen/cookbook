@@ -4,7 +4,7 @@ import { Shades } from '../../../constants/shades'
 import { CardRadioButtonSelectorVariant } from '../../../widgets/card-radio-button-selector/CardRadioButton'
 import CardRadioButtonSelector from '../../../widgets/card-radio-button-selector/CardRadioButtonSelector'
 import Title, { TitleVariant } from '../../../widgets/titles/Title'
-import { RecipesViewingContext } from './SearchRecipesProvider'
+import { SearchToolsContext } from '../state/SearchToolsProvider'
 
 export const viewModeManagementToolDataTestId = 'view-mode-management-tool'
 export enum ViewRecipesMode {
@@ -21,8 +21,8 @@ const viewModeOptions = [
 
 const title = 'View mode'
 
-const ViewModeManagementTool = () => {
-  const { mode, setMode } = useContext(RecipesViewingContext)
+const ViewModeTool = () => {
+  const { mode, setMode } = useContext(SearchToolsContext)
 
   const selectMode = (newMode: ViewRecipesMode) => setMode(newMode)
 
@@ -40,7 +40,7 @@ const ViewModeManagementTool = () => {
   )
 }
 
-export default ViewModeManagementTool
+export default ViewModeTool
 
 const outerCss = {
   flexDirection: 'column' as ChakraProps['flexDirection'],

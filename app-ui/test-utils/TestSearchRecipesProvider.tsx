@@ -1,11 +1,10 @@
-import { RecipesViewingContext } from '../app-pages/search/page/SearchRecipesProvider'
-import { ViewRecipesMode } from '../app-pages/search/search-management/ViewModeManagementTool'
+import { SearchToolsContext } from '../app-pages/search/state/SearchToolsProvider'
+import { ViewRecipesMode } from '../app-pages/search/tools/ViewModeTool'
 
 const TestSearchRecipesProvider = ({ children }: { children: React.ReactNode }) => {
   return (
-    <RecipesViewingContext.Provider
+    <SearchToolsContext.Provider
       value={{
-        showRecipes: true,
         mode: ViewRecipesMode.PHOTOS,
         toggleHideRecipes: () => {},
         recipesAreHidden: false,
@@ -16,13 +15,11 @@ const TestSearchRecipesProvider = ({ children }: { children: React.ReactNode }) 
         toggleShowPickedRecipes: () => {},
         showFiltering: true,
         toggleShowFiltering: () => {},
-        someFeatureIsToggled: true,
-        favoriteRecipeIds: [],
-        toggleFavoriteRecipeId: () => {}
+        someFeatureIsToggled: true
       }}
     >
       {children}
-    </RecipesViewingContext.Provider>
+    </SearchToolsContext.Provider>
   )
 }
 

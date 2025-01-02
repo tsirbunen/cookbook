@@ -1,7 +1,8 @@
 import { useContext } from 'react'
+import { LocalStorageContext, LocalStorageKeys } from '../../../../state/LocalStorageProvider'
 import { LocalStorageMock } from '../../../../state/__tests__/local-storage-mock'
-import { ViewRecipesMode } from '../../search-management/ViewModeManagementTool'
-import { RecipesViewingContext } from '../SearchRecipesProvider'
+import { ViewRecipesMode } from '../../tools/ViewModeTool'
+import { SearchToolsContext } from '../SearchToolsProvider'
 
 global.localStorage = new LocalStorageMock()
 
@@ -22,25 +23,24 @@ export const TOGGLE_FAVORITE_RECIPE_ID = 'TOGGLE_FAVORITE_RECIPE_ID'
 
 const SearchRecipesProviderTestUser = () => {
   const {
-    showRecipes,
     mode,
     recipesAreHidden,
     showSelectMode,
     showPickedRecipes,
     showFiltering,
     someFeatureIsToggled,
-    favoriteRecipeIds,
     toggleHideRecipes,
     toggleShowSelectMode,
     setMode,
     toggleShowPickedRecipes,
-    toggleShowFiltering,
-    toggleFavoriteRecipeId
-  } = useContext(RecipesViewingContext)
+    toggleShowFiltering
+  } = useContext(SearchToolsContext)
+  const { favoriteRecipeIds, toggleValueForKey } = useContext(LocalStorageContext)
+  const toggleFavoriteRecipeId = (recipeId: number) => toggleValueForKey(LocalStorageKeys.FAVORITE_RECIPE_IDS, recipeId)
 
   return (
     <div>
-      <div>{`${SHOW_RECIPES}-${showRecipes ? 'true' : 'false'}`}</div>
+      {/* <div>{`${SHOW_RECIPES}-${showRecipes ? 'true' : 'false'}`}</div> */}
       <div>{`${MODE}-${mode}`}</div>
       <div>{`${RECIPES_ARE_HIDDEN}-${recipesAreHidden ? 'true' : 'false'}`}</div>
       <div>{`${SHOW_SELECT_MODE}-${showSelectMode ? 'true' : 'false'}`}</div>

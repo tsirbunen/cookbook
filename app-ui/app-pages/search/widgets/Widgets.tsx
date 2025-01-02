@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { useContext, useEffect, useState } from 'react'
 import { Shades } from '../../../constants/shades'
 import { Page } from '../../../navigation/page-paths'
+import { LocalStorageContext } from '../../../state/LocalStorageProvider'
 import { SoundServiceContext, SoundType } from '../../../state/SoundProvider'
 import { AppStateContext, type AppStateContextType } from '../../../state/StateContextProvider'
 import { Dispatch } from '../../../state/reducer'
@@ -11,7 +12,7 @@ import type { Recipe } from '../../../types/graphql-schema-types.generated'
 import DraggableItemsList from '../../../widgets/draggable-items-list/DraggableItemsList'
 import ScrollToTopButton from '../../../widgets/scroll-to-top-button/ScrollToTopButton'
 import ScrollToTopTargetAnchor from '../../../widgets/scroll-to-top-button/ScrollToTopTargetAnchor'
-import { ViewRecipesMode } from '../search-management/ViewModeManagementTool'
+import { ViewRecipesMode } from '../tools/ViewModeTool'
 import PhotoWidget from './PhotoWidget'
 import SummaryWidget from './SummaryWidget'
 import TitleWidget from './TitleWidget'
@@ -26,16 +27,16 @@ const recipesElementsByMode = {
   TITLES: TitleWidget
 }
 
-export type RecipeWidgetsProps = {
+export type WidgetsProps = {
   recipes: Recipe[]
   mode: ViewRecipesMode
   showBackground: boolean
-  favoriteRecipeIds: number[]
   canDragAndDrop: boolean
 }
 
-const RecipeWidgets = ({ recipes, mode, showBackground, favoriteRecipeIds, canDragAndDrop }: RecipeWidgetsProps) => {
+const Widgets = ({ recipes, mode, showBackground, canDragAndDrop }: WidgetsProps) => {
   const { state, dispatch } = useContext(AppStateContext) as AppStateContextType
+  const { favoriteRecipeIds } = useContext(LocalStorageContext)
   const { playSound } = useContext(SoundServiceContext)
   const [recipesInOrder, setRecipesInOrder] = useState(recipes)
   const router = useRouter()
@@ -67,7 +68,9 @@ const RecipeWidgets = ({ recipes, mode, showBackground, favoriteRecipeIds, canDr
     return Number.parseInt(parts[parts.length - 1])
   }
 
-  const pickedRecipeIds = state.pickedRecipeIds // state.pickedRecipes.map((recipe) => recipe.id)
+  if (!recipes?.length) return null
+
+  const pickedRecipeIds = state.pickedRecipeIds
   const RecipeElement = recipesElementsByMode[mode]
   const items = canDragAndDrop ? recipesInOrder : recipes
   const elements = items.map((recipe, index) => {
@@ -114,7 +117,7 @@ const RecipeWidgets = ({ recipes, mode, showBackground, favoriteRecipeIds, canDr
   )
 }
 
-export default RecipeWidgets
+export default Widgets
 
 const outerCss = {
   display: 'flex' as ChakraProps['display'],

@@ -16,8 +16,8 @@ import FilteringManagementTool, {
   applyChangesLabel,
   applyFiltersLabel,
   clearFormLabel
-} from '../../search-management/FilteringManagementTool'
-import FilteringProvider, { type RecipesFilterValues, getEmptyFilterValues } from '../../search-management/FilteringProvider'
+} from '../../tools/FilteringTool'
+import FilteringProvider, { type RecipesFilterValues, getEmptyFilterValues } from '../SearchFilterProvider'
 
 const language = 'ENGLISH'
 const tag = 'VEGETARIAN'

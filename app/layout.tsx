@@ -41,12 +41,9 @@ const CookingProvider = dynamic(() => import('../app-ui/app-pages/cook/page/Cook
   ssr: false
 })
 
-const SearchRecipesProvider = dynamic(
-  () => import('../app-ui/app-pages/search/search-management/SearchRecipesProvider'),
-  {
-    ssr: false
-  }
-)
+const SearchToolsProvider = dynamic(() => import('../app-ui/app-pages/search/state/SearchToolsProvider'), {
+  ssr: false
+})
 
 const SoundProvider = dynamic(() => import('../app-ui/state/SoundProvider'), {
   ssr: false
@@ -82,13 +79,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <ViewSizeContextProvider>
                   <GraphQLClientProvider>
                     <ApiServiceProvider>
-                      <SearchRecipesProvider>
+                      <SearchToolsProvider>
                         <CookingProvider>
                           <SoundProvider>
                             <MainAppLayout>{children}</MainAppLayout>
                           </SoundProvider>
                         </CookingProvider>
-                      </SearchRecipesProvider>
+                      </SearchToolsProvider>
                     </ApiServiceProvider>
                   </GraphQLClientProvider>
                 </ViewSizeContextProvider>

@@ -3,7 +3,7 @@ import '@testing-library/jest-dom'
 import { expect } from '@jest/globals'
 import { fireEvent, render, screen } from '@testing-library/react'
 
-import { applyFiltersLabel, clearFormLabel } from '../../../app-pages/search/search-management/FilteringManagementTool'
+import { applyFiltersLabel, clearFormLabel } from '../../../app-pages/search/tools/FilteringTool'
 import { withTestFormWrapper } from '../../../test-utils/with-test-form-wrapper'
 import FormSubmitButtons, { formSubmitButtonsDataTestId } from '../FormSubmitButtons'
 

@@ -1,14 +1,17 @@
 import { useContext, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { ApiServiceContext } from '../../../api-service/ApiServiceProvider'
 import { ViewSizeContext } from '../../../layout/view-size-service/ViewSizeProvider'
 import RegularTopShowOrHideView from '../../../layout/views/RegularTopShowOrHideView'
 import SplitView from '../../../layout/views/SplitView'
 import { Page } from '../../../navigation/page-paths'
 import { AppStateContext, type AppStateContextType } from '../../../state/StateContextProvider'
-import RecipeWidgets from '../recipe-widgets/RecipeWidgets'
-import FilteringProvider from '../search-management/FilteringProvider'
-import SearchManagement from '../search-management/SearchManagement'
-import { RecipesViewingContext } from '../search-management/SearchRecipesProvider'
+import { toolsElementId } from '../../../widgets/header-with-optional-toggles/HeaderWithToggles'
+import SearchFilterProvider from '../state/SearchFilterProvider'
+import { SearchToolsContext } from '../state/SearchToolsProvider'
+import SearchTools from '../tools/SearchTools'
+import Widgets from '../widgets/Widgets'
+import SearchPageHeaderToggles from './SearchPageHeaderToggles'
 
 /**
  * This page displays the actual recipes and viewing management "tools" with which the user
@@ -20,46 +23,53 @@ import { RecipesViewingContext } from '../search-management/SearchRecipesProvide
  */
 const SearchPage = () => {
   const { isSplitView } = useContext(ViewSizeContext)
-  const { someFeatureIsToggled, showFiltering, showRecipes, mode, favoriteRecipeIds } =
-    useContext(RecipesViewingContext)
+  const { showSelectMode, showPickedRecipes, someFeatureIsToggled, recipesAreHidden, showFiltering, mode } =
+    useContext(SearchToolsContext)
   const { fetchAllPublicAndUsersOwnRecipes } = useContext(ApiServiceContext)
   const { state } = useContext(AppStateContext) as AppStateContextType
+
+  const toolsPortalDomNode = document.getElementById(toolsElementId)
+  const showRecipes = isSplitView || !recipesAreHidden
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: We only want to run this effect once
   useEffect(() => {
     fetchAllPublicAndUsersOwnRecipes()
   }, [])
 
-  const searchPageTestId = `${Page.SEARCH}-page`
-  const viewingManagement = <SearchManagement />
-  const actualRecipes = showRecipes ? (
-    <RecipeWidgets
-      recipes={state.recipes}
-      mode={mode}
-      showBackground={true}
-      canDragAndDrop={false}
-      favoriteRecipeIds={favoriteRecipeIds}
+  const searchTools = (
+    <SearchTools
+      someFeatureIsToggled={someFeatureIsToggled}
+      showFiltering={showFiltering}
+      showSelectMode={showSelectMode}
+      showPickedRecipes={showPickedRecipes}
+      isSplitView={isSplitView}
     />
-  ) : null
+  )
+
+  const actualRecipes = (
+    <Widgets recipes={showRecipes ? state.recipes : []} mode={mode} showBackground={true} canDragAndDrop={false} />
+  )
 
   return (
-    <FilteringProvider>
+    <SearchFilterProvider>
+      {toolsPortalDomNode ? createPortal(<SearchPageHeaderToggles />, toolsPortalDomNode) : null}
+
       {isSplitView ? (
         <SplitView
-          splitContent={viewingManagement}
+          splitContent={searchTools}
           mainContent={actualRecipes}
           hideSplit={!someFeatureIsToggled}
-          testId={searchPageTestId}
+          testId={`${Page.SEARCH}-page`}
         />
       ) : (
         <RegularTopShowOrHideView
-          topShowOrHideContent={viewingManagement}
+          topShowOrHideContent={searchTools}
           mainContent={actualRecipes}
           showFullHeightTools={showFiltering}
-          testId={searchPageTestId}
+          testId={`${Page.SEARCH}-page`}
         />
       )}
-    </FilteringProvider>
+    </SearchFilterProvider>
   )
 }
 

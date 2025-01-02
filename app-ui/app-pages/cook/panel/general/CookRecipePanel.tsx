@@ -3,6 +3,7 @@ import { css } from '@emotion/react'
 import { useContext, useMemo } from 'react'
 import { Shades } from '../../../../constants/shades'
 import { useWidthChangedObserver } from '../../../../hooks/useWidthChangedObserver'
+import { LocalStorageContext } from '../../../../state/LocalStorageProvider'
 import type { Recipe } from '../../../../types/graphql-schema-types.generated'
 import RecipePropertyIcons from '../../../../widgets/property-icon/RecipePropertyIcons'
 import { CookingContext } from '../../page/CookingProvider'
@@ -13,7 +14,6 @@ import Description from './Description'
 import Photos, { IMAGE_CONTAINER_HEIGHT } from './Photos'
 import RecipeTags from './RecipeTags'
 import RecipeTitle from './RecipeTitle'
-import { RecipesViewingContext } from '../../../search/search-management/SearchRecipesProvider'
 
 type RecipePanelProps = {
   recipe?: Recipe
@@ -22,7 +22,7 @@ type RecipePanelProps = {
 const CookRecipePanel = ({ recipe }: RecipePanelProps) => {
   const { elementRef, canHaveTwoColumns, panelWidth } = useWidthChangedObserver()
   const { multiColumnRecipes } = useContext(CookingContext)
-  const { favoriteRecipeIds } = useContext(RecipesViewingContext)
+  const { favoriteRecipeIds } = useContext(LocalStorageContext)
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: This is on purpose
   const columnsCountToDisplay = useMemo(() => {

@@ -11,6 +11,7 @@ import { TbRulerMeasure } from 'react-icons/tb'
 import { TbWashDrycleanOff } from 'react-icons/tb'
 import { cookTogglesZIndex } from '../../../../constants/z-indexes'
 import { Page } from '../../../../navigation/page-paths'
+import { LocalStorageContext, LocalStorageKeys } from '../../../../state/LocalStorageProvider'
 import { ButtonVariant } from '../../../../theme/buttons/buttons-theme'
 import type { Recipe } from '../../../../types/graphql-schema-types.generated'
 import Toggle, {
@@ -27,7 +28,6 @@ import Toggles from '../../../../widgets/toggles/Toggles'
 import { CookingContext } from '../../page/CookingProvider'
 import CountDown from './CountDown'
 import Multiplier from './Multiplier'
-import { RecipesViewingContext } from '../../../search/search-management/SearchRecipesProvider'
 
 type RecipeTogglesProps = {
   recipe: Recipe
@@ -36,7 +36,8 @@ type RecipeTogglesProps = {
 
 const RecipeToggles = ({ recipe, canHaveTwoColumns }: RecipeTogglesProps) => {
   const router = useRouter()
-  const { favoriteRecipeIds, toggleFavoriteRecipeId } = useContext(RecipesViewingContext)
+  const { favoriteRecipeIds, toggleValueForKey } = useContext(LocalStorageContext)
+  const toggleFavoriteRecipeId = (recipeId: number) => toggleValueForKey(LocalStorageKeys.FAVORITE_RECIPE_IDS, recipeId)
 
   const {
     cookingRecipes,
