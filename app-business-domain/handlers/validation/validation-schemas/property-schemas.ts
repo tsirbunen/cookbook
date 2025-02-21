@@ -269,7 +269,7 @@ export const instructionGroupSchema = {
         maxLength: getMaxLengthMessage(instructionGroupTitleLengthRange[1], 'Instruction group title')
       }
     },
-    ingredients: {
+    instructions: {
       type: 'array',
       items: recipeInstructionSchema,
       minItems: 1,
@@ -280,7 +280,7 @@ export const instructionGroupSchema = {
   },
   errorMessage: {
     properties: {
-      ingredients: 'Instruction group must have instructions'
+      instructions: 'Instruction group must have instructions'
     }
   }
 }

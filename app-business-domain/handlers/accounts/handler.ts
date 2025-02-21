@@ -220,8 +220,9 @@ export class AccountHandler {
       if (!existingAccount) return getError(AuthError.ACCOUNT_NOT_FOUND)
 
       // FIXME: Implement deleting account and all related data
-      const username = existingAccount.username
-      return { successMessage: `Account with username ${username} (and all the related data) deleted successfully!` }
+      // const username = existingAccount.username
+      // return { successMessage: `Account with username ${username} (and all the related data) deleted successfully!` }
+  return {errorMessage: 'Deleting accounts is not yet implemented.'}
     }
 
     return await this.dataStore.withinTransaction(actions)
